@@ -94,3 +94,8 @@ log4j = {
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'extrails.User'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'extrails.UserRole'
 grails.plugins.springsecurity.authority.className = 'extrails.Role'
+
+grails.plugins.springsecurity.useSwitchUserFilter = true
+grails.plugins.springsecurity.controllerAnnotations.staticRules = [
+   '/j_spring_security_switch_user': ['ROLE_ADMIN']
+]

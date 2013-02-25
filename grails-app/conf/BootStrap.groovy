@@ -1,4 +1,6 @@
 import extrails.User
+import extrails.Role
+import extrails.UserRole
 
 class BootStrap {
 
