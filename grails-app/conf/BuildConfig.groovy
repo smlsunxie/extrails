@@ -65,5 +65,7 @@ grails.project.dependency.resolution = {
         compile ':mail:latest.release'
         compile ':jquery-ui:latest.release'
         compile ':famfamfam:latest.release'
+
+        compile ":twitter-bootstrap:2.3.0"
     }
 }

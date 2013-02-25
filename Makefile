@@ -27,6 +27,10 @@ clean-cache:
 war:
 	grails war
 
+submoduleInstall:
+	git submodule init
+	git submodule update
+
 # upload:
 # 	s3cmd put -P target/codecanaan.war s3://s3.lyhdev.com/apps/
 
