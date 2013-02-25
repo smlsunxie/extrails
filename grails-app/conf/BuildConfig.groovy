@@ -50,6 +50,7 @@ grails.project.dependency.resolution = {
         build ":tomcat:$grailsVersion"
         runtime ":database-migration:1.2.1"
         compile ':mail:latest.release'
+        compile ":webxml:1.4.1"
 
         //resources 優化管理相關
         runtime ":resources:1.2.RC3"
@@ -61,6 +62,7 @@ grails.project.dependency.resolution = {
         // runtime ":cached-resources:1.1"
         // compile ':cache:1.0.1'
         // compile ":cache-headers:1.1.5"
+
 
 
 
