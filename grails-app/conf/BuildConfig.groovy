@@ -47,34 +47,36 @@ grails.project.dependency.resolution = {
 
     plugins {
         runtime ":hibernate:$grailsVersion"
-        runtime ":jquery:1.9.1"
-        runtime ":resources:1.2.RC3"
+        build ":tomcat:$grailsVersion"
+        runtime ":database-migration:1.2.1"
+        compile ':mail:latest.release'
 
+        //resources 優化管理相關
+        runtime ":resources:1.2.RC3"
         // Uncomment these (or add new ones) to enable additional resources capabilities
         runtime ":zipped-resources:1.0.1"
         //runtime ":yui-minify-resources:0.1.4"
 
-        runtime ":cached-resources:1.1"
+        // 關閉 cache 相關 plugins 以利了解檔案配置
+        // runtime ":cached-resources:1.1"
         compile ':cache:1.0.1'
-        compile ":cache-headers:1.1.5"
-
-        build ":tomcat:$grailsVersion"
-
-        runtime ":database-migration:1.2.1"
+        // compile ":cache-headers:1.1.5"
 
 
 
+
+        // spring-security 相關
         compile ':spring-security-core:latest.release'
         compile ':spring-security-ui:latest.release'
-        compile ':mail:latest.release'
-        compile ':jquery-ui:latest.release'
         compile ':famfamfam:latest.release'
 
-        compile ":twitter-bootstrap:2.3.0"
 
+        // html 相關
         compile ":closure-compiler:0.9.1"
-
+        compile ':jquery-ui:latest.release'
+        compile ":twitter-bootstrap:2.3.0"
         compile ":browser-detection:0.4.3"
         runtime ":modernizr:2.6.2"
+        runtime ":jquery:1.9.1"
     }
 }

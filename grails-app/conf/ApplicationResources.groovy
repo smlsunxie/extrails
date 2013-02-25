@@ -89,29 +89,29 @@ modules = {
         resource url: 'js/application.js'
     }
 
-    webfont {
-		//defaultBundle __bundleName
-        //use built-in fonts first
-    	//resource url: 'js/webfont.js', disposition: 'head'
-    }
+  //   webfont {
+		// //defaultBundle __bundleName
+  //       //use built-in fonts first
+  //   	//resource url: 'js/webfont.js', disposition: 'head'
+  //   }
 
     ie6 {
         resource url: 'universal-ie6-css/ie6.1.0.css',
             wrapper: { s -> "<!--[if IE 6]>$s<![endif]-->" }
     }
 
-  //   pagedown {
-  //       //defaultBundle 'coding-tools'
-		// defaultBundle __bundleName
+    pagedown {
+        //defaultBundle 'coding-tools'
+		defaultBundle __bundleName
        
-  //       //css
-  //       resource url: 'pagedown/pagedown.css'
+        //css
+        resource url: 'pagedown/pagedown.css'
         
-  //       //js
-  //       resource url: 'pagedown/Markdown.Converter.js'
-  //       resource url: 'pagedown/Markdown.Sanitizer.js'
-  //       resource url: 'pagedown/Markdown.Editor.js'
-  //   }
+        //js
+        resource url: 'pagedown/Markdown.Converter.js'
+        resource url: 'pagedown/Markdown.Sanitizer.js'
+        resource url: 'pagedown/Markdown.Editor.js'
+    }
 
     codemirror {
         //defaultBundle 'coding-tools'
@@ -133,21 +133,21 @@ modules = {
         resource url: 'codemirror/addon/fold/foldcode.js'
     }
 
-    fancybox {
-        dependsOn 'jquery'
-        defaultBundle __bundleName
+    // fancybox {
+    //     dependsOn 'jquery'
+    //     defaultBundle __bundleName
 
-        resource url: 'fancybox/source/jquery.fancybox.pack.js'
-        resource url: 'fancybox/source/jquery.fancybox.css'
+    //     resource url: 'fancybox/source/jquery.fancybox.pack.js'
+    //     resource url: 'fancybox/source/jquery.fancybox.css'
+    // }
+
+    highlightjs {
+        //defaultBundle 'coding-tools'
+		defaultBundle __bundleName
+
+        resource url: 'highlightjs/styles/vs.css'
+        resource url: 'highlightjs/highlight.pack.js', disposition: 'head'
     }
-
-  //   highlightjs {
-  //       //defaultBundle 'coding-tools'
-		// defaultBundle __bundleName
-
-  //       resource url: 'highlightjs/styles/vs.css'
-  //       resource url: 'highlightjs/highlight.pack.js', disposition: 'head'
-  //   }
    
     bootswatch {
         dependsOn 'bootstrap-js'
@@ -214,10 +214,5 @@ modules = {
             wrapper: { s -> "<!--[if IE]>$s<![endif]-->" }
     }
     
-  //   biwascheme {
-		// // BiwaScheme contains it's own jQuery lib,
-		// // don't bundle other js file.
-  //       //resource url: 'biwascheme/biwascheme.js'
-  //       resource url: 'biwascheme/biwascheme.min.js', bundle: 'biwascheme'
-  //   }
+
 }

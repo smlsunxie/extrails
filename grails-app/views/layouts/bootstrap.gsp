@@ -3,13 +3,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title><g:layoutTitle default="CodeCanaan"/> - CodeCanaan</title>
+<title><g:layoutTitle default="extrails"/> - extrails</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon" />
 <link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}" />
 <link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}" />
 <style type="text/css">body {padding-top: 60px;/*padding-bottom: 40px;*/}</style>
-<r:require modules="jquery, jquery-ui, jquery-plugins, modernizr, common, bootswatch, bootstrap-ext, font-awesome, pagedown, webfont, compass, codemirror, highlightjs"/>
+
+<r:require modules="jquery, jquery-ui, jquery-plugins, modernizr, common, bootswatch, bootstrap-ext, font-awesome, compass, codemirror, highlightjs"/>
+
 <g:layoutHead/>
 <r:layoutResources />
 <g:justfont />
@@ -27,7 +29,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<g:link controller="home" action="index" class="brand logo-font">CodeCanaan</g:link>
+			<g:link controller="home" action="index" class="brand logo-font ct1">extrails</g:link>
 			<div class="nav-collapse collapse">
 				<g:applyLayout name="inc_sysmenu" />
 				<%--使用者選單--%>
@@ -42,8 +44,6 @@
         <%--GoogleChromeFrame--%>
         <g:render template="/layouts/alert_chromeframe" />
 
-        <%--ClientTools--%>
-        <g:render template="/layouts/alert_clienttools" />
         
         <%--快閃訊息--%>
         <g:if test="${flash.message}">
