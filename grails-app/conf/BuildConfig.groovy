@@ -4,6 +4,7 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.target.level = 1.6
 grails.project.source.level = 1.6
+grails.project.war.file = "target/${appName}.war"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 // uncomment (and adjust settings) to fork the JVM to isolate classpaths
@@ -41,24 +42,27 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
-        // runtime 'mysql:mysql-connector-java:5.1.20'
+        runtime 'mysql:mysql-connector-java:5.1.22'
     }
 
     plugins {
         runtime ":hibernate:$grailsVersion"
-        runtime ":jquery:1.8.3"
-        runtime ":resources:1.1.6"
+        runtime ":jquery:1.9.1"
+        runtime ":resources:1.2.RC3"
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
-        //runtime ":zipped-resources:1.0"
-        //runtime ":cached-resources:1.0"
+        runtime ":zipped-resources:1.0.1"
         //runtime ":yui-minify-resources:0.1.4"
+
+        runtime ":cached-resources:1.1"
+        compile ':cache:1.0.1'
+        compile ":cache-headers:1.1.5"
 
         build ":tomcat:$grailsVersion"
 
         runtime ":database-migration:1.2.1"
 
-        compile ':cache:1.0.1'
+
 
         compile ':spring-security-core:latest.release'
         compile ':spring-security-ui:latest.release'
@@ -67,5 +71,10 @@ grails.project.dependency.resolution = {
         compile ':famfamfam:latest.release'
 
         compile ":twitter-bootstrap:2.3.0"
+
+        compile ":closure-compiler:0.9.1"
+
+        compile ":browser-detection:0.4.3"
+        runtime ":modernizr:2.6.2"
     }
 }

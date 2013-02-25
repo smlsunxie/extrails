@@ -1,4 +1,4 @@
-def __bundleName = 'codecanaan'
+def __bundleName = 'extrails'
 
 modules = {
 
@@ -17,16 +17,16 @@ modules = {
 		}
 	}
 
-    'jquery-ui' {
-        //defaultBundle 'jquery'
-		defaultBundle __bundleName
+  //   'jquery-ui' {
+  //       //defaultBundle 'jquery'
+		// defaultBundle __bundleName
 
-        resource url: 'jquery-ui/css/smoothness/jquery-ui-1.9.1.custom.min.css'
-		resource url: 'jquery-ui/js/jquery-ui-1.9.1.custom.min.js'
-    }
+  //       resource url: 'jquery-ui/css/smoothness/jquery-ui-1.9.1.custom.min.css'
+		// resource url: 'jquery-ui/js/jquery-ui-1.9.1.custom.min.js'
+  //   }
 
     // Using jQuery File Upload Plug-in
-    'jquery-fileupload' {
+  'jquery-fileupload' {
         dependsOn 'jquery'
         //defaultBundle 'jquery'
 		defaultBundle __bundleName
@@ -39,17 +39,17 @@ modules = {
         resource url: 'jquery-fileupload/js/jquery.fileupload.js'
         resource url: 'jquery-fileupload/js/jquery.fileupload-fp.js'
         resource url: 'jquery-fileupload/js/jquery.fileupload-ui.js'
-    }
+  }
     
-    'jquery-cslider' {
-        dependsOn 'jquery'
-        //defaultBundle 'jquery'
-		defaultBundle __bundleName
+  //   'jquery-cslider' {
+  //       dependsOn 'jquery'
+  //       //defaultBundle 'jquery'
+		// defaultBundle __bundleName
         
-        resource url: 'jquery-cslider/parallax-slider.css'
-        resource url: 'jquery-cslider/jquery.cslider.js'
-        resource url: 'jquery-cslider/slider.js'
-    }
+  //       resource url: 'jquery-cslider/parallax-slider.css'
+  //       resource url: 'jquery-cslider/jquery.cslider.js'
+  //       resource url: 'jquery-cslider/slider.js'
+  //   }
     
     'jquery-plugins' {
         dependsOn 'jquery'
@@ -65,7 +65,7 @@ modules = {
     }
 
     common {
-        dependsOn 'jquery, jquery-ui, jquery-plugins, codemirror, pagedown, bootstrap-ext'
+        dependsOn 'jquery'
         //defaultBundle 'common'
 		defaultBundle __bundleName
 
@@ -73,13 +73,13 @@ modules = {
     }
 
 	//測驗專用功能
-    exercise {
-        dependsOn 'jquery, common'
+  //   exercise {
+  //       dependsOn 'jquery, common'
 
-		defaultBundle __bundleName
+		// defaultBundle __bundleName
         
-        resource url: 'js/exercise.js'
-    }
+  //       resource url: 'js/exercise.js'
+  //   }
     
     application {
         dependsOn 'common'
@@ -100,18 +100,18 @@ modules = {
             wrapper: { s -> "<!--[if IE 6]>$s<![endif]-->" }
     }
 
-    pagedown {
-        //defaultBundle 'coding-tools'
-		defaultBundle __bundleName
+  //   pagedown {
+  //       //defaultBundle 'coding-tools'
+		// defaultBundle __bundleName
        
-        //css
-        resource url: 'pagedown/pagedown.css'
+  //       //css
+  //       resource url: 'pagedown/pagedown.css'
         
-        //js
-        resource url: 'pagedown/Markdown.Converter.js'
-        resource url: 'pagedown/Markdown.Sanitizer.js'
-        resource url: 'pagedown/Markdown.Editor.js'
-    }
+  //       //js
+  //       resource url: 'pagedown/Markdown.Converter.js'
+  //       resource url: 'pagedown/Markdown.Sanitizer.js'
+  //       resource url: 'pagedown/Markdown.Editor.js'
+  //   }
 
     codemirror {
         //defaultBundle 'coding-tools'
@@ -141,13 +141,13 @@ modules = {
         resource url: 'fancybox/source/jquery.fancybox.css'
     }
 
-    highlightjs {
-        //defaultBundle 'coding-tools'
-		defaultBundle __bundleName
+  //   highlightjs {
+  //       //defaultBundle 'coding-tools'
+		// defaultBundle __bundleName
 
-        resource url: 'highlightjs/styles/vs.css'
-        resource url: 'highlightjs/highlight.pack.js', disposition: 'head'
-    }
+  //       resource url: 'highlightjs/styles/vs.css'
+  //       resource url: 'highlightjs/highlight.pack.js', disposition: 'head'
+  //   }
    
     bootswatch {
         dependsOn 'bootstrap-js'
@@ -214,10 +214,10 @@ modules = {
             wrapper: { s -> "<!--[if IE]>$s<![endif]-->" }
     }
     
-    biwascheme {
-		// BiwaScheme contains it's own jQuery lib,
-		// don't bundle other js file.
-        //resource url: 'biwascheme/biwascheme.js'
-        resource url: 'biwascheme/biwascheme.min.js', bundle: 'biwascheme'
-    }
+  //   biwascheme {
+		// // BiwaScheme contains it's own jQuery lib,
+		// // don't bundle other js file.
+  //       //resource url: 'biwascheme/biwascheme.js'
+  //       resource url: 'biwascheme/biwascheme.min.js', bundle: 'biwascheme'
+  //   }
 }

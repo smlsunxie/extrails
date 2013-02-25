@@ -11,3 +11,6 @@
 [submodule "web-app/fancybox"]
 	path = web-app/fancybox
 	url = git://github.com/fancyapps/fancyBox.git
+[submodule "web-app/codemirror"]
+	path = web-app/codemirror
+	url = git://github.com/marijnh/CodeMirror.git
