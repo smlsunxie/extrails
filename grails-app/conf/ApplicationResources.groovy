@@ -15,6 +15,10 @@ modules = {
 		modernizr {
 			defaultBundle __bundleName
 		}
+
+        "jquery-ui" {
+            defaultBundle __bundleName
+        }
 	}
 
   //   'jquery-ui' {
@@ -149,26 +153,26 @@ modules = {
         resource url: 'highlightjs/highlight.pack.js', disposition: 'head'
     }
    
-    bootswatch {
-        dependsOn 'bootstrap-js'
-        //defaultBundle 'bootstrap'
-		defaultBundle __bundleName
+  //   bootswatch {
+  //       dependsOn 'bootstrap-js'
+  //       //defaultBundle 'bootstrap'
+		// defaultBundle __bundleName
         
-        //resource url: [dir: 'swatchmaker', file: 'swatchmaker.less'],
-        //    attrs: [rel: 'stylesheet/less', type: 'css'],
-        //    bundle: _bundleName
+  //       //resource url: [dir: 'swatchmaker', file: 'swatchmaker.less'],
+  //       //    attrs: [rel: 'stylesheet/less', type: 'css'],
+  //       //    bundle: _bundleName
         
-        //resource url: [dir: 'swatchmaker', file: 'swatchmaker-responsive.less'],
-        //    attrs: [rel: 'stylesheet/less', type: 'css'],
-        //    bundle: _bundleName
+  //       //resource url: [dir: 'swatchmaker', file: 'swatchmaker-responsive.less'],
+  //       //    attrs: [rel: 'stylesheet/less', type: 'css'],
+  //       //    bundle: _bundleName
 
-        resource url: 'stylesheets/bootstrap.min.css'
-        resource url: 'stylesheets/bootstrap-responsive.min.css'
-        resource url: 'stylesheets/docs.css'
-    }
+  //       resource url: 'stylesheets/bootstrap.min.css'
+  //       resource url: 'stylesheets/bootstrap-responsive.min.css'
+  //       resource url: 'stylesheets/docs.css'
+  //   }
     
     'bootstrap-ext' {
-        dependsOn 'bootswatch'
+        dependsOn 'bootstrap'
         //defaultBundle 'bootstrap'
 		defaultBundle __bundleName
 
@@ -185,7 +189,7 @@ modules = {
     }
     
     'font-awesome' {
-        dependsOn 'bootswatch'
+        dependsOn 'bootstrap'
         //defaultBundle 'bootstrap'
 		defaultBundle __bundleName
         
@@ -202,11 +206,13 @@ modules = {
     }
     
     compass {
-        dependsOn 'bootswatch'
+        dependsOn 'bootstrap'
         //defaultBundle 'bootstrap'
 		defaultBundle __bundleName
 
+        resource url: 'stylesheets/docs.css'
         resource url: 'stylesheets/screen.css'
+
         resource url: 'stylesheets/print.css',
             attrs: [media: 'print'],
             bundle: "print"

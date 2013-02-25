@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}" />
 <style type="text/css">body {padding-top: 60px;/*padding-bottom: 40px;*/}</style>
 
-<r:require modules="jquery, jquery-ui, jquery-plugins, modernizr, common, bootswatch, bootstrap-ext, font-awesome, compass, codemirror, highlightjs"/>
+<r:require modules="jquery, jquery-ui, jquery-plugins, modernizr, common, bootstrap-ext, font-awesome, compass, codemirror, highlightjs"/>
 
 <g:layoutHead/>
 <r:layoutResources />

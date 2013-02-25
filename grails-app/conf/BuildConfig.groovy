@@ -59,7 +59,7 @@ grails.project.dependency.resolution = {
 
         // 關閉 cache 相關 plugins 以利了解檔案配置
         // runtime ":cached-resources:1.1"
-        compile ':cache:1.0.1'
+        // compile ':cache:1.0.1'
         // compile ":cache-headers:1.1.5"
 
 
