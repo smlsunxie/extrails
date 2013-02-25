@@ -11,3 +11,6 @@
 [submodule "web-app/codemirror"]
 	path = web-app/codemirror
 	url = git://github.com/marijnh/CodeMirror.git
+[submodule "web-app/bootswatch"]
+	path = web-app/bootswatch
+	url = git@github.com:smlsunxie/bootswatch.git
