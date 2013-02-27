@@ -12,13 +12,21 @@
 
     </li>
 
-    <li class="${controllerName=='content'?'active':''}">
+    <li class="${controllerName=='post' && actionName=='list' ?'active':''}">
+        <g:link controller="post" action="list">
+            <i class="icon icon-home"></i>
+            <g:message code="default.postLis.label" default="文章清單" />
+        </g:link>
+
+    </li>
+
+%{--     <li class="${controllerName=='content'?'active':''}">
         <g:link controller="content">
             <i class="icon"></i>
             <g:message code="default.content.label" default="content" />
         </g:link>
         
-    </li>
+    </li> --}%
 
     <%--已登入才顯示功能表--%>
     <sec:ifLoggedIn>

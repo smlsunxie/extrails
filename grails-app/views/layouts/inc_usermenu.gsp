@@ -11,6 +11,16 @@
     </sec:ifNotLoggedIn>
     <sec:ifLoggedIn>
         <%--已登入--%>
+        <sec:ifAllGranted roles="ROLE_ADMIN">
+            <li class="${controllerName=='post'?'active':''}">
+                <g:link controller="post" action="create">
+                    <i class="icon"></i>
+                    <g:message code="default.post.create.label" default="文章建立" />
+                </g:link>
+                
+            </li>
+        </sec:ifAllGranted>
+
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="icon icon-user"></i>

@@ -68,14 +68,14 @@ modules = {
         resource url: 'jquery-plugins/jquery.lazyload.min.js'
     }
 
+
     common {
-        dependsOn 'jquery'
+        dependsOn 'jquery, jquery-ui, jquery-plugins, pagedown, bootstrap-ext'
         //defaultBundle 'common'
-		defaultBundle __bundleName
+    defaultBundle __bundleName
 
         resource url: 'js/common.js'
     }
-
 	//測驗專用功能
   //   exercise {
   //       dependsOn 'jquery, common'

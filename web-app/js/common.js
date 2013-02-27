@@ -69,22 +69,47 @@ function winHeight() {
     
 (function () {
 
-    // //Markdown 顯示處理
-    // if (Markdown) {
-    //     var converter = new Markdown.Converter();
-    //     $('.markdown-source').each(function(index) {
-    //         var _this = $(this);
-    //         _this.html(converter.makeHtml(_this.text()));
-    //         _this.show();
-    //     });
+    //Markdown 顯示處理
+    if (Markdown) {
+        var converter = new Markdown.Converter();
+        $('.markdown-source').each(function(index) {
+            var _this = $(this);
+            _this.html(converter.makeHtml(_this.text()));
+            _this.show();
+        });
         
-    //     //Markdown 編輯處理
-    //     var converter = Markdown.getSanitizingConverter();
-    //     $('.wmd-editor').each(function(index) {
-    //         var editor = new Markdown.Editor(converter, $(this).data('suffix'));
-    //         editor.run();
-    //     });
-    // }
+        //Markdown 編輯處理
+        
+        converter = Markdown.getSanitizingConverter();
+
+        converter.hooks.chain("preConversion", function (text) {
+            return text.replace(/\b(a\w*)/gi, "*$1*");
+        });
+
+        converter.hooks.chain("plainLinkText", function (url) {
+            return "This is a link to " + url.replace(/^https?:\/\//, "");
+        });
+
+        var help = function () { alert("Do you need help?"); }
+
+
+        $('.wmd-editor').each(function(index) {
+            var editor = new Markdown.Editor(converter, $(this).data('suffix'));
+            editor.run();
+        });
+
+
+
+            
+        
+        
+        // var editor = new Markdown.Editor(converter, '.wmd-editor', { handler: help });
+        
+        // editor.run();
+
+
+
+    }
 
     var $window = $(window);
     
