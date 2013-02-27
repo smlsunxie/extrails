@@ -155,14 +155,26 @@ grails.plugins.springsecurity.userLookup.userDomainClassName = 'extrails.User'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'extrails.UserRole'
 grails.plugins.springsecurity.authority.className = 'extrails.Role'
 
+// 動態定義 securityConfig by map in db
+// grails.plugins.springsecurity.securityConfigType = "Requestmap"
+// grails.plugins.springsecurity.requestMap.className = 'extrails.SecurityMap'
+
+
 grails.plugins.springsecurity.useSwitchUserFilter = true
 grails.plugins.springsecurity.controllerAnnotations.staticRules = [
-	'/j_spring_security_switch_user': ['ROLE_ADMIN']
+	'/j_spring_security_switch_user': ['ROLE_ADMIN'],
+	'/securityInfo/*': ['ROLE_ADMIN'],
+	'/registrationCode/*': ['ROLE_ADMIN'],
+	'/persistentLogin/*': ['ROLE_ADMIN'],
+	'/role/*': ['ROLE_ADMIN'],
+	'/user/search': ['ROLE_ADMIN']
 ]
 
 grails.plugins.springsecurity.rememberMe.alwaysRemember = true
 grails.plugins.springsecurity.rememberMe.persistent = true
 grails.plugins.springsecurity.rememberMe.persistentToken.domainClassName = 'extrails.PersistentLogin'
+
+
 
 //SpringSecurity Facebook
 // grails.plugins.springsecurity.facebook.permissions='email,user_about_me'

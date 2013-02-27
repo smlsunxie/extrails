@@ -14,11 +14,7 @@ class UserTagLib {
         try {
             def user = springSecurityService.currentUser
             
-            def display = user?.fullName
-            
-            if (!display) {
-                display = user?.username
-            }
+            def display =  user?.username
             
             output = display
             

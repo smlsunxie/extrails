@@ -18,38 +18,24 @@
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-                <li>
-                    <g:link controller="home" action="client">
-                        <i class="icon icon-download"></i>
-                        <%--客戶端工具--%>
-                        <g:message code="default.client.tools.text" />
-                    </g:link>
-                </li>
-                <li>
+ 
+%{--                 <li>
                     <g:link controller="user" action="profile">
                         <i class="icon icon-user-md"></i>
                         <%--個人資料--%>
                         <g:message code="default.user.preferences.text" />
                     </g:link>
-                </li>
+                </li> --}%
                 <sec:ifAllGranted roles="ROLE_ADMIN">
                     <li>
-                        <g:link controller="admin">
+                        <g:link controller="user">
                             <i class="icon icon-wrench"></i>
                             <%--系統管理--%>
                             <g:message code="default.administration.text" />
                         </g:link>
                     </li>
                 </sec:ifAllGranted>
-                <sec:ifAnyGranted roles="ROLE_TEACHER,ROLE_AUTHOR,ROLE_ADMIN">
-                    <li>
-                        <g:link controller="user" action="file">
-                            <i class="icon icon-file"></i>
-                            <%--檔案管理--%>
-                            <g:message code="default.file.management.text" />
-                        </g:link>
-                    </li>
-                </sec:ifAnyGranted>
+
                 <sec:ifNotSwitched>
                     <li>
                         <g:link uri="/j_spring_security_logout">

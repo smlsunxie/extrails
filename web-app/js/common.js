@@ -69,22 +69,22 @@ function winHeight() {
     
 (function () {
 
-    //Markdown 顯示處理
-    if (Markdown) {
-        var converter = new Markdown.Converter();
-        $('.markdown-source').each(function(index) {
-            var _this = $(this);
-            _this.html(converter.makeHtml(_this.text()));
-            _this.show();
-        });
+    // //Markdown 顯示處理
+    // if (Markdown) {
+    //     var converter = new Markdown.Converter();
+    //     $('.markdown-source').each(function(index) {
+    //         var _this = $(this);
+    //         _this.html(converter.makeHtml(_this.text()));
+    //         _this.show();
+    //     });
         
-        //Markdown 編輯處理
-        var converter = Markdown.getSanitizingConverter();
-        $('.wmd-editor').each(function(index) {
-            var editor = new Markdown.Editor(converter, $(this).data('suffix'));
-            editor.run();
-        });
-    }
+    //     //Markdown 編輯處理
+    //     var converter = Markdown.getSanitizingConverter();
+    //     $('.wmd-editor').each(function(index) {
+    //         var editor = new Markdown.Editor(converter, $(this).data('suffix'));
+    //         editor.run();
+    //     });
+    // }
 
     var $window = $(window);
     

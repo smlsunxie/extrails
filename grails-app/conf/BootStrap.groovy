@@ -1,6 +1,7 @@
 import extrails.User
 import extrails.Role
 import extrails.UserRole
+import extrails.SecurityMap
 
 class BootStrap {
 
@@ -15,6 +16,10 @@ class BootStrap {
             
             //create administrator
             def user1 = User.findByUsername('admin')
+
+            // 動態定義 securityConfig by map in db 
+            // new SecurityMap(url: '/securityInfo/config',
+            //    configAttribute: 'ROLE_ADMIN').save(failOnError: true, flush: true)
 
 
             if (!user1) {

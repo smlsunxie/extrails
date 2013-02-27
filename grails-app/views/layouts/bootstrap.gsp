@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}" />
 <style type="text/css">body {padding-top: 60px;/*padding-bottom: 40px;*/}</style>
 
-<r:require modules="jquery, jquery-ui, jquery-plugins, modernizr, common, bootstrap-ext, font-awesome, compass, codemirror, highlightjs"/>
+<r:require modules="jquery, jquery-ui, jquery-plugins, modernizr, common, bootstrap-ext, font-awesome, pagedown, compass, codemirror, highlightjs"/>
 
 <g:layoutHead/>
 <r:layoutResources />
@@ -19,24 +19,12 @@
 </head>
 <body data-spy="scroll" data-target=".bs-docs-sidebar">
 
-<%--畫面可視區域：起點--%><div class="blur-after-modal-shown">
+<%--畫面可視區域：起點--%>
+
+<div class="blur-after-modal-shown">
 
 <header class="navbar navbar-inverse navbar-fixed-top hide">
-	<div class="navbar-inner">
-		<div class="container-fluid">
-			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</a>
-			<g:link controller="home" action="index" class="brand logo-font ct1">extrails</g:link>
-			<div class="nav-collapse collapse">
-				<g:applyLayout name="inc_sysmenu" />
-				<%--使用者選單--%>
-				<g:applyLayout name="inc_usermenu" />
-			</div><%--/.nav-collapse --%>
-		</div>
-	</div>
+	<g:applyLayout name="inc_header" />
 </header>
 
 <div role="main">
@@ -61,8 +49,11 @@
 <footer class="footer">
 	<g:applyLayout name="inc_footer" />
 </footer>
+</div>
 
-<%--畫面可視區域：終點--%></div>
+<%--畫面可視區域：終點--%>
+
+
 
 <r:script>
 $('header.navbar').show();

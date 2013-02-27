@@ -111,6 +111,7 @@ modules = {
         //css
         resource url: 'pagedown/pagedown.css'
         
+        
         //js
         resource url: 'pagedown/Markdown.Converter.js'
         resource url: 'pagedown/Markdown.Sanitizer.js'
@@ -210,8 +211,12 @@ modules = {
         //defaultBundle 'bootstrap'
 		defaultBundle __bundleName
 
-        resource url: 'stylesheets/docs.css'
-        resource url: 'stylesheets/screen.css'
+        resource url: 'stylesheets/bootstrap.css'
+
+        // resource url: 'stylesheets/docs.css'
+
+        // resource url: 'stylesheets/screen.css'
+
 
         resource url: 'stylesheets/print.css',
             attrs: [media: 'print'],

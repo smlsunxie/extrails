@@ -343,51 +343,51 @@ iframe#attachment-frame {
 
 /*-------------------- Source Code -------------------------------------------*/
 
-/* Markdown 文字區塊排版調校 */
+// /* Markdown 文字區塊排版調校 */
 
-.markdown-source {
-	display: none;
-}
+// .markdown-source {
+// 	display: none;
+// }
 
-.markdown-source {
-	p, li {
-		line-height: 200%;
-	}
-	pre, code {
-		line-height: 150%;
-		font-family: 'Droid Sans Mono', monospace;
-	}
-}
+// .markdown-source {
+// 	p, li {
+// 		line-height: 200%;
+// 	}
+// 	pre, code {
+// 		line-height: 150%;
+// 		font-family: 'Droid Sans Mono', monospace;
+// 	}
+// }
 
-.widget {
-	padding: 5px;
-	margin: 0;
-	border: 1px solid #7d2b58;
-	width: 240px;
+// .widget {
+// 	padding: 5px;
+// 	margin: 0;
+// 	border: 1px solid #7d2b58;
+// 	width: 240px;
 
-	header.top {
-		margin: 0;
-		padding: 0;
-		text-align: right;
-		font-style: italic;
-		color: #0000aa;
-	}
+// 	header.top {
+// 		margin: 0;
+// 		padding: 0;
+// 		text-align: right;
+// 		font-style: italic;
+// 		color: #0000aa;
+// 	}
 
-	figure {
-		margin: 0;
-		padding: 0;
-		height: 160px;
-		overflow: hidden;
-	}
+// 	figure {
+// 		margin: 0;
+// 		padding: 0;
+// 		height: 160px;
+// 		overflow: hidden;
+// 	}
 
-	section {
-		margin: 0;
-		padding: 0;
-		color: #888888;
-		font-size: 10pt;
-		line-height: 150%;
-	}
-}
+// 	section {
+// 		margin: 0;
+// 		padding: 0;
+// 		color: #888888;
+// 		font-size: 10pt;
+// 		line-height: 150%;
+// 	}
+// }
 
 /*----------------------- Footer --------------------*/
 
