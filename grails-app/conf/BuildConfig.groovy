@@ -75,10 +75,12 @@ grails.project.dependency.resolution = {
 
         // html 相關
         compile ":closure-compiler:0.9.1"
-        compile ':jquery-ui:latest.release'
-        compile ":twitter-bootstrap:2.3.0"
-        compile ":browser-detection:0.4.3"
+        runtime ':jquery-ui:latest.release'
+        runtime ":twitter-bootstrap:2.3.0"
+        runtime ":browser-detection:0.4.3"
         runtime ":modernizr:2.6.2"
         runtime ":jquery:1.8.3"
+
+        compile ":taggable:1.0.1"
     }
 }

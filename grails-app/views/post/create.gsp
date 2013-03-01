@@ -59,15 +59,15 @@
                     </div>
                 </div>
 
-%{--                <div class="control-group advanced-region">
-                  <label class="control-label" for="authors">
-                      <%--作者--%>
-                      <g:message code="content.authors.label" />
+               <div class="control-group advanced-region">
+                  <label class="control-label" for="tags">
+                      <%--tags--%>
+                      <g:message code="post.tags.label" />
                   </label>
                   <div class="controls">
-                      <g:textField name="authors" value="${content?.authors}" class="input input-medium" />
+                      <g:textField name="tags" value="${post?.tags}" class="input input-medium" />
                   </div>
-                </div> --}%
+                </div>
 
               </div>
 

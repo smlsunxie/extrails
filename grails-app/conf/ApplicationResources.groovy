@@ -206,17 +206,29 @@ modules = {
             wrapper: { s -> "<!--[if lte IE 7]>$s<![endif]-->" }
     }
     
+
+    tagit {
+        dependsOn 'jquery-ui'
+        defaultBundle __bundleName
+        resource url: 'tagit/css/jquery.tagit.css'
+        resource url: 'tagit/css/tagit.ui-zendesk.css'
+
+        resource url: 'tagit/js/tag-it.js'
+    }
+
     compass {
-        dependsOn 'bootstrap'
+        dependsOn 'bootstrap, tagit'
         //defaultBundle 'bootstrap'
-		defaultBundle __bundleName
+        defaultBundle "compass"
+
+
 
         resource url: 'stylesheets/bootstrap.css'
 
         // resource url: 'stylesheets/docs.css'
 
-        // resource url: 'stylesheets/screen.css'
-
+        
+        resource url: 'stylesheets/screen.css'
 
         resource url: 'stylesheets/print.css',
             attrs: [media: 'print'],
@@ -224,6 +236,5 @@ modules = {
         resource url: 'stylesheets/ie.css',
             wrapper: { s -> "<!--[if IE]>$s<![endif]-->" }
     }
-    
 
 }

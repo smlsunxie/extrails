@@ -66,8 +66,12 @@ function isFullScreen(cm) {
 function winHeight() {
     return window.innerHeight || (document.documentElement || document.body).clientHeight;
 }
-    
+
 (function () {
+
+    //tags 處理
+
+
 
     //Markdown 顯示處理
     if (Markdown) {

@@ -58,6 +58,22 @@
                     </div>
                 </div>
 
+               <div class="control-group advanced-region">
+                  <label class="control-label" for="tags">
+                      <%--tags--%>
+                      <g:message code="post.tags.label" />
+                  </label>
+
+
+                  <div class="controls">
+                    <ul name="tags" id='tag-field'>
+                      <g:each in="${post.tags}">
+                        <li>${it}</li>
+                      </g:each>
+                    </ul>
+                  </div>
+
+                </div>
 
               </div>
 
