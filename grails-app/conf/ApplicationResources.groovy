@@ -30,20 +30,20 @@ modules = {
   //   }
 
     // Using jQuery File Upload Plug-in
-  'jquery-fileupload' {
-        dependsOn 'jquery'
-        //defaultBundle 'jquery'
-		defaultBundle __bundleName
+  // 'jquery-fileupload' {
+  //       dependsOn 'jquery'
+  //       //defaultBundle 'jquery'
+		// defaultBundle __bundleName
         
-        resource url: 'jquery-fileupload/css/jquery.fileupload-ui.css'
-        resource url: 'jquery-fileupload/css/jquery.fileupload-ui-noscript.css',
-            wrapper: { s -> "<noscript>$s</noscript>" }
+  //       resource url: 'jquery-fileupload/css/jquery.fileupload-ui.css'
+  //       resource url: 'jquery-fileupload/css/jquery.fileupload-ui-noscript.css',
+  //           wrapper: { s -> "<noscript>$s</noscript>" }
     
-        resource url: 'jquery-fileupload/js/jquery.iframe-transport.js'
-        resource url: 'jquery-fileupload/js/jquery.fileupload.js'
-        resource url: 'jquery-fileupload/js/jquery.fileupload-fp.js'
-        resource url: 'jquery-fileupload/js/jquery.fileupload-ui.js'
-  }
+  //       resource url: 'jquery-fileupload/js/jquery.iframe-transport.js'
+  //       resource url: 'jquery-fileupload/js/jquery.fileupload.js'
+  //       resource url: 'jquery-fileupload/js/jquery.fileupload-fp.js'
+  //       resource url: 'jquery-fileupload/js/jquery.fileupload-ui.js'
+  // }
     
   //   'jquery-cslider' {
   //       dependsOn 'jquery'
@@ -118,25 +118,25 @@ modules = {
         resource url: 'pagedown/Markdown.Editor.js'
     }
 
-    codemirror {
-        //defaultBundle 'coding-tools'
-		defaultBundle __bundleName
+  //   codemirror {
+  //       //defaultBundle 'coding-tools'
+		// defaultBundle __bundleName
         
-        //css
-        resource url: 'codemirror/lib/codemirror.css'
-        resource url: 'stylesheets/codemirror.css'
-        //js
-        resource url: 'codemirror/lib/codemirror.js'
-        resource url: 'codemirror/mode/clike/clike.js'
-        resource url: 'codemirror/mode/scheme/scheme.js'
-        resource url: 'codemirror/mode/xml/xml.js'
-        resource url: 'codemirror/mode/css/css.js'
-        resource url: 'codemirror/mode/javascript/javascript.js'
-        resource url: 'codemirror/mode/htmlmixed/htmlmixed.js'
-        resource url: 'codemirror/addon/runmode/runmode.js'
-        //resource url: 'codemirror/addon/fold/collapserange.js'
-        resource url: 'codemirror/addon/fold/foldcode.js'
-    }
+  //       //css
+  //       resource url: 'codemirror/lib/codemirror.css'
+  //       resource url: 'stylesheets/codemirror.css'
+  //       //js
+  //       resource url: 'codemirror/lib/codemirror.js'
+  //       resource url: 'codemirror/mode/clike/clike.js'
+  //       resource url: 'codemirror/mode/scheme/scheme.js'
+  //       resource url: 'codemirror/mode/xml/xml.js'
+  //       resource url: 'codemirror/mode/css/css.js'
+  //       resource url: 'codemirror/mode/javascript/javascript.js'
+  //       resource url: 'codemirror/mode/htmlmixed/htmlmixed.js'
+  //       resource url: 'codemirror/addon/runmode/runmode.js'
+  //       //resource url: 'codemirror/addon/fold/collapserange.js'
+  //       resource url: 'codemirror/addon/fold/foldcode.js'
+  //   }
 
     // fancybox {
     //     dependsOn 'jquery'
@@ -146,13 +146,13 @@ modules = {
     //     resource url: 'fancybox/source/jquery.fancybox.css'
     // }
 
-    highlightjs {
-        //defaultBundle 'coding-tools'
-		defaultBundle __bundleName
+  //   highlightjs {
+  //       //defaultBundle 'coding-tools'
+		// defaultBundle __bundleName
 
-        resource url: 'highlightjs/styles/vs.css'
-        resource url: 'highlightjs/highlight.pack.js', disposition: 'head'
-    }
+  //       resource url: 'highlightjs/styles/vs.css'
+  //       resource url: 'highlightjs/highlight.pack.js', disposition: 'head'
+  //   }
    
   //   bootswatch {
   //       dependsOn 'bootstrap-js'
@@ -236,5 +236,7 @@ modules = {
         resource url: 'stylesheets/ie.css',
             wrapper: { s -> "<!--[if IE]>$s<![endif]-->" }
     }
+
+
 
 }

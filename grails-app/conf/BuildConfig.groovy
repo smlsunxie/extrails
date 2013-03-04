@@ -82,5 +82,6 @@ grails.project.dependency.resolution = {
         runtime ":jquery:1.8.3"
 
         compile ":taggable:1.0.1"
+        compile ":ajax-uploader:1.1"
     }
 }

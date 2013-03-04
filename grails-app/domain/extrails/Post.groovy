@@ -27,5 +27,6 @@ class Post implements Taggable {
 	    title blank: false
     	content nullable: true, empty: true, maxSize: 128*1024
         // tags nullable: true, empty: true
+
     }
 }

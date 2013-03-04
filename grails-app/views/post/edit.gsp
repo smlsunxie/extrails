@@ -35,36 +35,32 @@
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label required" for="name">
-
-                        <g:message code="post.name.label" />
-                        <span class="required-mark">*</span>
-                    </label>
-                    <div class="controls">
-                        <g:textField name="name" value="${post?.name}" class="input input-xlarge" />
-                    </div>
+                  <label class="control-label required" for="name">
+                    <g:message code="post.name.label" />
+                    <span class="required-mark">*</span>
+                  </label>
+                  <div class="controls">
+                    <g:textField name="name" value="${post?.name}" class="input input-xlarge" />
+                  </div>
                 </div>
 
                 <div class="control-group">
-
-                    <label class="control-label required" for="title">
-                        <%--內容標題--%>
-                        <g:message code="post.title.label" />
-                        <%--必填--%>
-                        <span class="required-mark">*</span>
-                    </label>
-                    <div class="controls">
-                        <g:textField name="title" value="${post?.title}" class="input input-xlarge" />
-                    </div>
+                  <label class="control-label required" for="title">
+                    <%--內容標題--%>
+                    <g:message code="post.title.label" />
+                    <%--必填--%>
+                    <span class="required-mark">*</span>
+                  </label>
+                  <div class="controls">
+                    <g:textField name="title" value="${post?.title}" class="input input-xlarge" />
+                  </div>
                 </div>
 
-               <div class="control-group advanced-region">
+                <div class="control-group advanced-region">
                   <label class="control-label" for="tags">
-                      <%--tags--%>
-                      <g:message code="post.tags.label" />
+                    <%--tags--%>
+                    <g:message code="post.tags.label" />
                   </label>
-
-
                   <div class="controls">
                     <ul name="tags" id='tag-field'>
                       <g:each in="${post.tags}">
@@ -72,8 +68,21 @@
                       </g:each>
                     </ul>
                   </div>
-
                 </div>
+
+                <div class="control-group advanced-region">
+                  <label class="control-label" for="tags">
+                    <%--fileupload--%>
+                    <g:message code="post.fileupload.label" />
+                  </label>
+                  <div class="controls">
+                    <uploader:uploader id="yourUploaderId">
+                    </uploader:uploader>
+                  </div>
+                </div>
+
+
+
 
               </div>
 

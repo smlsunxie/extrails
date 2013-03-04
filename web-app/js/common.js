@@ -202,13 +202,13 @@ function winHeight() {
     });
 
 	// Hightlight.js only support MSIE 9+ and other modern browsers
-	if (!$.browser.msie || ($.browser.msie && $.browser.version.slice(0,1)>8)) {
-		//Pretty Code with Highlight.js
-        if (hljs) {
-            hljs.tabReplace = '    '; //4 spaces
-            hljs.initHighlightingOnLoad();
-        }
-	}
+	// if (!$.browser.msie || ($.browser.msie && $.browser.version.slice(0,1)>8)) {
+	// 	//Pretty Code with Highlight.js
+ //        if (hljs) {
+ //            hljs.tabReplace = '    '; //4 spaces
+ //            hljs.initHighlightingOnLoad();
+ //        }
+	// }
 
     //Affix Sidebar
     $('.bs-docs-sidenav').affix({
@@ -227,87 +227,87 @@ function winHeight() {
     */
 
     //init codemirror
-    if (CodeMirror) $('.codemirror-auto').each(function() {
+    // if (CodeMirror) $('.codemirror-auto').each(function() {
    
-        // retrieve editor config from html5 data attributes
-        var id = $(this).prop('id');
-        var mode = $(this).data('mode');
-        var height = $(this).data('height');
+    //     // retrieve editor config from html5 data attributes
+    //     var id = $(this).prop('id');
+    //     var mode = $(this).data('mode');
+    //     var height = $(this).data('height');
         
-        // folding support
-        var foldFunc = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder);
-        var foldFunc_html = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder);
+    //     // folding support
+    //     var foldFunc = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder);
+    //     var foldFunc_html = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder);
 
-        var tabWidth = 4;
-        var tabString = "     ";
+    //     var tabWidth = 4;
+    //     var tabString = "     ";
 
-        var isHTML = false;
+    //     var isHTML = false;
 
-        if (mode == 'text/html') {
-            isHTML = true;
-            tabWidth = 2;
-            tabString = "   ";
-        }
+    //     if (mode == 'text/html') {
+    //         isHTML = true;
+    //         tabWidth = 2;
+    //         tabString = "   ";
+    //     }
 
-        var editor = editors[id] = CodeMirror.fromTextArea(this, {
-            lineNumbers: true,
-            matchBrackets: true,
-            mode: mode,
-            indentUnit: tabWidth,
-            smartIndent: true,
-            tabSize: tabWidth,
-            indentWithTabs: false,
-            extraKeys: {
-                "F11": function(cm) {
-                    //setFullScreen(cm, !isFullScreen(cm));
-                },
-                "Esc": function(cm) {
-                    //if (isFullScreen(cm)) setFullScreen(cm, false);
-                },
-                "Tab": function(cm) {
-                    cm.replaceSelection(tabString, "end");
-                },
-                "Ctrl-Q": function(cm) {
-                    foldFunc(cm, cm.getCursor().line);
-                    if (isHTML) {
-                        foldFunc_html(cm, cm.getCursor().line);
-                    }
-                }
-            }
-        });
-        editor.on("gutterClick", function(cm, line) {
-            foldFunc(cm, line);
-            if (isHTML) {
-                foldFunc_html(cm, line);
-            }
-        });
-        editor.setSize(null, height);
+    //     var editor = editors[id] = CodeMirror.fromTextArea(this, {
+    //         lineNumbers: true,
+    //         matchBrackets: true,
+    //         mode: mode,
+    //         indentUnit: tabWidth,
+    //         smartIndent: true,
+    //         tabSize: tabWidth,
+    //         indentWithTabs: false,
+    //         extraKeys: {
+    //             "F11": function(cm) {
+    //                 //setFullScreen(cm, !isFullScreen(cm));
+    //             },
+    //             "Esc": function(cm) {
+    //                 //if (isFullScreen(cm)) setFullScreen(cm, false);
+    //             },
+    //             "Tab": function(cm) {
+    //                 cm.replaceSelection(tabString, "end");
+    //             },
+    //             "Ctrl-Q": function(cm) {
+    //                 foldFunc(cm, cm.getCursor().line);
+    //                 if (isHTML) {
+    //                     foldFunc_html(cm, cm.getCursor().line);
+    //                 }
+    //             }
+    //         }
+    //     });
+    //     editor.on("gutterClick", function(cm, line) {
+    //         foldFunc(cm, line);
+    //         if (isHTML) {
+    //             foldFunc_html(cm, line);
+    //         }
+    //     });
+    //     editor.setSize(null, height);
 
-        $('.CodeMirror').resizable({
-            handles: 's',
-            grid: 50,
-            maxHeight: 1000,
-            minHeight: 300,
-            stop: function() {
-                editor.refresh();
-            },
-            resize: function() {
-                editor.setSize($(this).width(), $(this).height());
-                editor.refresh();
-            }
-        });
-    });
+    //     $('.CodeMirror').resizable({
+    //         handles: 's',
+    //         grid: 50,
+    //         maxHeight: 1000,
+    //         minHeight: 300,
+    //         stop: function() {
+    //             editor.refresh();
+    //         },
+    //         resize: function() {
+    //             editor.setSize($(this).width(), $(this).height());
+    //             editor.refresh();
+    //         }
+    //     });
+    // });
     
-    if (CodeMirror) $('.codemirror-auto-runmode').each(function() {
-        var _this = $(this);
+    // if (CodeMirror) $('.codemirror-auto-runmode').each(function() {
+    //     var _this = $(this);
 
-        // retrieve editor config from html5 data attributes
-        var mode = _this.data('mode');
+    //     // retrieve editor config from html5 data attributes
+    //     var mode = _this.data('mode');
 
-        // 模擬成 document.getElementById 的物件（為了通過 runmode 檢查）
-        var node = _this.get(0);
-        node.nodeType = 1;
+    //     // 模擬成 document.getElementById 的物件（為了通過 runmode 檢查）
+    //     var node = _this.get(0);
+    //     node.nodeType = 1;
 
-        CodeMirror.runMode(_this.text(), mode, node);
-    });
+    //     CodeMirror.runMode(_this.text(), mode, node);
+    // });
 })();

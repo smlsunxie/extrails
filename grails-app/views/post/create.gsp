@@ -42,7 +42,7 @@
                         <span class="required-mark">*</span>
                     </label>
                     <div class="controls">
-                        <g:textField name="name" value="${post?.name}" class="input input-xlarge" />
+                        <g:textField name="name" readonly value="${post?.name}" class="input input-xlarge" />
                     </div>
                 </div>
 
@@ -64,8 +64,31 @@
                       <%--tags--%>
                       <g:message code="post.tags.label" />
                   </label>
+
+
                   <div class="controls">
-                      <g:textField name="tags" value="${post?.tags}" class="input input-medium" />
+                    <ul name="tags" id='tag-field'>
+                      <g:each in="${post.tags}">
+                        <li>${it}</li>
+                      </g:each>
+                    </ul>
+                  </div>
+
+                </div>
+
+                <div class="control-group advanced-region">
+                  <label class="control-label" for="tags">
+                    <%--fileupload--%>
+                    <g:message code="post.fileupload.label" />
+                  </label>
+                  <div class="controls">
+                    <uploader:uploader id="fileupload" url="${[ action:'attachment', id:post.name]}" >
+                      <uploader:onComplete>
+                        console.log(id);
+                        console.log(fileName);
+                        console.log(responseJSON);
+                      </uploader:onComplete>
+                    </uploader:uploader>
                   </div>
                 </div>
 

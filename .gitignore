@@ -43,3 +43,4 @@
 *.iws
 
 web-app/.sass-cache/
+web-app/tmp
