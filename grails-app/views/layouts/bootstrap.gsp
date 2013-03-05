@@ -64,6 +64,7 @@ $(function() {
 
 
 </r:script>
+<g:javascript library="jquery"/>
 <r:layoutResources />
 </body>
 </html>

@@ -12,6 +12,7 @@ class Post implements Taggable {
 	String name
 	String title
 	String content
+    String description
 	// PostType type
 	// String tags
 	
@@ -21,12 +22,15 @@ class Post implements Taggable {
     Date lastUpdated    //修改日期
     
     int hits = 0        //點擊次數
+    String mainImage
 
     static constraints = {
     	name blank: false, unique: true
 	    title blank: false
     	content nullable: true, empty: true, maxSize: 128*1024
         // tags nullable: true, empty: true
+        description nullable: true, empty: true
+        mainImage nullable: true, empty: true
 
     }
 }

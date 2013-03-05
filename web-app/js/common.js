@@ -3,6 +3,10 @@ var trim  = function(s) { return typeof(s)=='string'?s.replace(/^\s+|\s+$/g,""):
 var ltrim = function(s) { return typeof(s)=='string'?s.replace(/^\s+/,""):s;       };
 var rtrim = function(s) { return typeof(s)=='string'?s.replace(/\s+$/,""):s;       };
 
+var showConfirm=function(){
+  return confirm("${message(code: 'default.button.delete.confirm.message')}");
+}
+
 // 全螢幕模式切換 Request FullScreen Mode
 var requestNativeFullScreen = function(element) {
 	if (!element) {

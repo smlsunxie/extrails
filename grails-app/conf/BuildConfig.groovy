@@ -83,5 +83,6 @@ grails.project.dependency.resolution = {
 
         compile ":taggable:1.0.1"
         compile ":ajax-uploader:1.1"
+
     }
 }

@@ -106,7 +106,15 @@ class PostController {
 
         def post = Post.get(id)
 
-        post.tags = params.tags
+        log.info params.tags instanceof String
+
+
+        if(params.tags instanceof String)
+            post.tags=[params.tags];
+        else post.tags = params.tags
+
+
+        if(!params.mainImage)params.mainImage="";
         
         if (!post) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
@@ -141,12 +149,13 @@ class PostController {
         render Tag.findAllByNameIlike("${params.term}%").name as JSON
     }
 
-    def attachment = {
+    def attachmentSave = {
         try {
 
             // 根據運行環境給定不同的檔案路徑
             String storagePath = ""
             if (GrailsUtil.environment == "production") {
+                //created a folder at /opt/assets and created a symbolic link in the $TOMCAT_ROOT/webapps/assets 
               storagePath = "/opt/uploadfiles"
             } else {
               def servletContext = ServletContextHolder.servletContext
@@ -184,5 +193,74 @@ class PostController {
 
     }
 
+
+    /**
+     * 附件上傳及清單（顯示在 iframe 頁框內）
+     */
+    def attachmentList(Long id) {
+        def post = Post.findByIdOrName(id,params.name)
+
+
+        
+        if (!post) {
+            post = new Post(params)
+        }
+        
+
+        File dir = new File(servletContext.getRealPath('tmp/uploadfiles')+"/${params.name}");
+
+        render (template:"attachmentList", model: [
+            post: post,
+            files: dir.listFiles()
+        ])
+
+        
+    }
+    /**
+     * 讀取附件
+     */
+    def attachment(Long id) {
+       def post = Post.findByIdOrName(id,params.name)
+        
+        if (!post) {
+            post = new Post(params)
+        }
+
+        def file = params.file
+
+        // 將已編碼 URL 還原
+        file = URLDecoder.decode(file)
+
+
+        def obj_path = servletContext.getRealPath('tmp/uploadfiles')+"/${post.name}/${file}"
+
+        
+        try {
+
+            File object = new File(obj_path)
+            response.outputStream << new FileInputStream(object)
+        }
+        catch (e) {
+            log.error "Could not read ${file}"
+            e.printStackTrace()
+            response.sendError 404
+        }
+    }
+
+    def attachmentDelete(Long id) {
+
+        def file = new File(params.file);
+        try {
+            file.delete();
+            return render(text: [success:true] as JSON, contentType:'text/json')
+        }
+        catch (e) {
+            log.error "Could not read ${file}"
+            e.printStackTrace()
+            return render(text: [success:false] as JSON, contentType:'text/json')
+        }
+        
+        
+    }
 
 }
