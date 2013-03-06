@@ -6,22 +6,24 @@
   </head>
   <body>
 
-    <header class="jumbotron subhead" id="overview">
-        <g:render template="inc_subhead" />
-    </header>
 
+    <div class="container">
 
-    <div class="container-fluid">
-        
-
-        <g:form action="save" class="form-horizontal">
-          
-          <div class="control-group">
-              <div class="controls">
-                  <g:submitButton name="create"  class="btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-                  <g:link action='list' class="btn">${message(code: 'default.button.cancel.label', default: 'Cancel')}</g:link>
+        <g:form action="save" class="form-horizontal">        
+          <div class="row show-frid">
+              <div class="span12">
+                  <div id="breadcrumb">
+                        <ul >
+                          <li class="home btn btn-mini btn-link">post</li>
+                          <li ><g:submitButton name="create"  class="btn btn-primary btn-mini" value="${message(code: 'default.button.create.label', default: 'Create')}" /></li>
+                          <li><g:link action='list' class="btn btn-mini">${message(code: 'default.button.cancel.label', default: 'Cancel')}</g:link></li>
+                            
+                        </ul>
+                  </div>
               </div>
           </div>
+
+
 
           <div class="bs-docs-example">
             <g:render template="tabs" />

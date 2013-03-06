@@ -62,10 +62,15 @@
 
       $(function() {
         displayList();
+        $("ul[name='tags']").tagit({select:true, tagSource: "${g.createLink(action: 'tags')}"});
+
       });
 
       var showConfirm=function(){
         return confirm("${message(code: 'default.button.delete.confirm.message')}");
       }
+
+
+
 
     </r:script>

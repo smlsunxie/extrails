@@ -7,27 +7,10 @@
 </head>
 <body>
 
-<header class="jumbotron subhead" id="overview">
-  <div class="row">
-    <div class="span6">
-      <h1>文章</h1>
-      <p class="lead">content</p>
-    </div>
-    <div class="span6 pull-right">
-
-      <g:each in="${post.tags}">
-        <li>${it}</li>
-      </g:each>
-
-    </div>
-  </div>
 
 
 
-</header>
-
-
-<div class="container-fluid">
+<div class="container">
           <sec:ifAllGranted roles="ROLE_ADMIN">
           <div class="control-group">
               <div class="controls">

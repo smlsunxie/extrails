@@ -4,7 +4,7 @@ import grails.plugins.springsecurity.Secured
 import org.grails.taggable.Tag
 import grails.converters.JSON
 
-
+import static org.codehaus.groovy.grails.commons.ConfigurationHolder.config as Config
 import org.springframework.http.HttpStatus
 import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
 import org.springframework.web.multipart.MultipartHttpServletRequest
@@ -102,9 +102,9 @@ class PostController {
 
     }
 
-    def update(Long id, Long version) {
+    def update(Long id) {
 
-        def post = Post.get(id)
+        def post = Post.findByIdOrName(id,params.name)
 
         log.info params.tags instanceof String
 
@@ -122,8 +122,8 @@ class PostController {
             return
         }
 
-        if (version != null) {  
-            if (post.version > version) {
+        if (params.version != null) {  
+            if (post.version > params.version) {
                 post.errors.rejectValue("version", "default.optimistic.locking.failure",
                           [message(code: 'post.label', default: 'Post')] as Object[],
                           "Another user has updated this User while you were editing")
@@ -153,14 +153,7 @@ class PostController {
         try {
 
             // 根據運行環境給定不同的檔案路徑
-            String storagePath = ""
-            if (GrailsUtil.environment == "production") {
-                //created a folder at /opt/assets and created a symbolic link in the $TOMCAT_ROOT/webapps/assets 
-              storagePath = "/opt/uploadfiles"
-            } else {
-              def servletContext = ServletContextHolder.servletContext
-              storagePath = servletContext.getRealPath('tmp/uploadfiles')
-            }
+            String storagePath = Config.upload.files.path
 
             storagePath+="/${params.id}"
 
@@ -205,9 +198,9 @@ class PostController {
         if (!post) {
             post = new Post(params)
         }
-        
 
-        File dir = new File(servletContext.getRealPath('tmp/uploadfiles')+"/${params.name}");
+
+        File dir = new File("${Config.upload.files.path}/${params.name}");
 
         render (template:"attachmentList", model: [
             post: post,
@@ -231,13 +224,11 @@ class PostController {
         // 將已編碼 URL 還原
         file = URLDecoder.decode(file)
 
-
-        def obj_path = servletContext.getRealPath('tmp/uploadfiles')+"/${post.name}/${file}"
-
+        log.info "${Config.upload.files.path}${post.name}/${file}"
         
         try {
 
-            File object = new File(obj_path)
+            File object = new File("${Config.upload.files.path}/${post.name}/${file}")
             response.outputStream << new FileInputStream(object)
         }
         catch (e) {

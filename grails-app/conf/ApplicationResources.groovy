@@ -3,15 +3,10 @@ def __bundleName = 'extrails'
 modules = {
 
 	overrides {
-		jquery {
-			// Overriding jquery bundle name
-			defaultBundle __bundleName
-		}
 
-		bootstrap {
-			defaultBundle __bundleName
-		}
-
+        bootstrap {
+            defaultBundle __bundleName
+        }
 		modernizr {
 			defaultBundle __bundleName
 		}
@@ -54,6 +49,8 @@ modules = {
   //       resource url: 'jquery-cslider/jquery.cslider.js'
   //       resource url: 'jquery-cslider/slider.js'
   //   }
+
+
     
     'jquery-plugins' {
         dependsOn 'jquery'
@@ -138,13 +135,13 @@ modules = {
   //       resource url: 'codemirror/addon/fold/foldcode.js'
   //   }
 
-    // fancybox {
-    //     dependsOn 'jquery'
-    //     defaultBundle __bundleName
+    fancybox {
+        dependsOn 'jquery'
+        defaultBundle __bundleName
 
-    //     resource url: 'fancybox/source/jquery.fancybox.pack.js'
-    //     resource url: 'fancybox/source/jquery.fancybox.css'
-    // }
+        resource url: 'bizstrap/css/jquery.fancybox.css?v=2.1.0', attrs: [media: 'screen']
+        resource url: 'bizstrap/js/jquery.fancybox.pack.js?v=2.1.0'
+    }
 
   //   highlightjs {
   //       //defaultBundle 'coding-tools'
@@ -208,7 +205,7 @@ modules = {
     
 
     tagit {
-        dependsOn 'jquery-ui'
+        dependsOn 'jquery, jquery-ui'
         defaultBundle __bundleName
         resource url: 'tagit/css/jquery.tagit.css'
         resource url: 'tagit/css/tagit.ui-zendesk.css'
@@ -223,7 +220,7 @@ modules = {
 
 
 
-        resource url: 'stylesheets/bootstrap.css'
+        // resource url: 'stylesheets/bootstrap.css'
 
         // resource url: 'stylesheets/docs.css'
 
@@ -236,6 +233,32 @@ modules = {
         resource url: 'stylesheets/ie.css',
             wrapper: { s -> "<!--[if IE]>$s<![endif]-->" }
     }
+
+    bizstrap {   
+        dependsOn 'jquery, fancybox, bootstrap'     
+        defaultBundle 'bizstrap'
+        
+        resource url: 'bizstrap/rs-plugin/css/settings.css', attrs: [media: 'screen']
+        resource url: 'bizstrap/css/rs-responsive.css', attrs: [media: 'screen']
+        // resource url: 'bizstrap/css/bootstrap.css'
+        resource url: 'bizstrap/css/custom.css'
+        resource url: 'bizstrap/css/isotope.css'
+        resource url: 'bizstrap/css/color_scheme.css'
+        resource url: 'bizstrap/css/flexslider.css'
+
+        resource url: 'bizstrap/js/jquery.flexslider-min.js'
+        resource url: 'bizstrap/js/jquery.isotope.js'
+
+        
+        // resource url: 'bizstrap/rs-plugin/js/jquery.themepunch.plugins.min.js'
+        // resource url: 'bizstrap/rs-plugin/js/jquery.themepunch.revolution.min.js'
+        // resource url: 'bizstrap/js/revolution.custom.js'
+
+        resource url: 'bizstrap/js/custom.js'
+
+    }
+
+
 
 
 

@@ -11,7 +11,7 @@
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
 
-// Externalized Configuration: Secure Passwords in private config file
+// Externalized Configuration: Secure Passwords in private config file or without reatart configuation
 grails.config.locations = [
 	"file:${userHome}/.grails/${appName}-config.groovy"
 ]
@@ -81,6 +81,7 @@ environments {
 		//grails.resources.mappers.
 		//grails.resources.mapper.hashandcache.excludes = ['**/*']
 		grails.resources.mapper.cached.excludes = ['**/*']
+		upload.files.path="${userHome}/appData/${appName}/uploadfiles"
 
 		//grails.resources.debug = true 
 	}
@@ -96,6 +97,7 @@ environments {
 
 		// Using baseurl feature to enable CDN deployment
 		grails.resources.mappers.baseurl.enabled = true
+		upload.files.path="${userHome}/appData/${appName}/uploadfiles"
 
 		//grails.resources.mappers.baseurl.enabled = false
 		//grails.resources.mappers.baseurl.default = "http://static.extrails.com/static"
@@ -135,7 +137,7 @@ log4j = {
 }
 
 //The default level is SIMPLE_OPTIMIZATIONS, options ADVANCED_OPTIMIZATIONS
-grails.resources.mappers.googleclosurecompiler.compilation_level='SIMPLE_OPTIMIZATIONS'
+// grails.resources.mappers.googleclosurecompiler.compilation_level='SIMPLE_OPTIMIZATIONS'
 
 // Twitter Bootstrap
 grails.plugins.twitterbootstrap.fixtaglib = true

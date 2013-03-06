@@ -10,35 +10,50 @@
 
 </head>
 <body>
-<div class="row">
 
-    <div class="span12">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th width="40">#</th>
-                    <th><g:message code="post.title.label" /></th>
-                    <th width="100"><g:message code="post.dateCreated.label" /></th>
-                    <th width="60"><g:message code="post.hits.label" /></th>
-                </tr>
-            </thead>
-            <tbody>
-            		<!-- 如果沒有文章，顯示空白 -->
-                <g:if test="${!posts}">
+<div class="container">
+    <div class="row show-frid">
+        <div class="span12">
+            <div id="breadcrumb">
+                  <ul >
+                    <li class="home btn btn-mini btn-link">post</li>
+                    <li class="btn btn-mini btn-link">list</li>
+                      
+                  </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="span12">
+            <table class="table">
+                <thead>
                     <tr>
-                        <td colspan="4"><div style="text-align:center"><g:message code="default.empty.description" /></div></td>
+                        <th width="40">#</th>
+                        <th><g:message code="post.title.label" /></th>
+                        <th width="100"><g:message code="post.dateCreated.label" /></th>
+                        <th width="60"><g:message code="post.hits.label" /></th>
                     </tr>
-                </g:if>
-                <g:each in="${posts}" var="post" status="i">
-                    <tr>
-                        <td>${i+1}</td>
-                        <td><g:link controller="post" action="show" params="[name: post?.name]">${post.title}</g:link></td>
-                        <td><g:formatDate date="${post.lastUpdated}" type="date" style="SHOROT" /></td>
-                        <td><span class="muted">${post.hits}</span></td>
-                    </tr>
-                </g:each>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                		<!-- 如果沒有文章，顯示空白 -->
+                    <g:if test="${!posts}">
+                        <tr>
+                            <td colspan="4"><div style="text-align:center"><g:message code="default.empty.description" /></div></td>
+                        </tr>
+                    </g:if>
+                    <g:each in="${posts}" var="post" status="i">
+                        <tr>
+                            <td>${i+1}</td>
+                            <td><g:link controller="post" action="show" params="[name: post?.name]">${post.title}</g:link></td>
+                            <td><g:formatDate date="${post.lastUpdated}" type="date" style="SHOROT" /></td>
+                            <td><span class="muted">${post.hits}</span></td>
+                        </tr>
+                    </g:each>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>

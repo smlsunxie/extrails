@@ -4,3 +4,9 @@ ul#tag-field {
   padding: 0;
   margin: 0 0 0px 0px;
 }
+
+/* line 520, ../sass/screen.scss */
+input.btn {
+  float: left;
+  margin-left: 0px;
+}

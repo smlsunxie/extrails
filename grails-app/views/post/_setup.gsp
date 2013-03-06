@@ -1,6 +1,4 @@
-                <div class="control-group">
 
-                </div>
 
                 <div class="control-group">
                     <label class="control-label required" for="name">
@@ -43,6 +41,17 @@
                   </div>
 
                 </div>
-
+                <p>
+                  屬於「新聞」請打上標籤：news
+                </p>
+                <p>
+                  屬於「維修實況」請打上標籤：demo
+                </p>
+                <p>
+                  屬於「拍賣」請打上標籤：sale
+                </p>
+                <p>
+                  假設我有一台 YAMAHA FZ150 要賣三萬元，100年份，三萬公里要賣，則可以標上 [sale,YAMAHA,三萬元,100年份,三萬公里]，如此就可透過標籤索引相關的商品
+                </p>
 
 

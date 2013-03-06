@@ -2,6 +2,7 @@ import extrails.User
 import extrails.Role
 import extrails.UserRole
 import extrails.SecurityMap
+import extrails.Post
 
 class BootStrap {
 
@@ -29,6 +30,12 @@ class BootStrap {
                 //UserRole.create(user1, role2)
                 UserRole.create(user1, role3)
             }
+
+            // def newsPost=new Post(name:'news', title:'新聞');
+            // newsPost.addTag("news");
+
+            // def abouts=new Post(name:'abouts', title:'關於我們');
+            // abouts.addTag("abouts");
 
             production {
                 //empty

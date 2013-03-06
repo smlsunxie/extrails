@@ -1,24 +1,51 @@
-<ul class="nav">
+    <li class="${controllerName=='home' && actionName=='index' ?'active':''} single">
+        <g:link controller="home">
+            <g:message code="default.home.label"/>
+            <i>HOME</i>
+        </g:link>
+    </li>
+
+    <li class="${controllerName=='post' && actionName=='list' ?'active':''} single">
+        <g:link controller="post" action="list" >
+            <g:message code="default.post.label"/>
+            <i>POST</i>
+        </g:link>
+    </li>
+
+    <li class="${controllerName=='home' && actionName=='news' ?'active':''} single">
+        <g:link controller="post" action="list">
+            <g:message code="default.news.label"/>
+            <i>NEWS</i>
+        </g:link>
+    </li>
+    <li class="${controllerName=='post' && actionName=='list' ?'active':''} single">
+        <g:link controller="post" action="list">
+            <g:message code="default.demo.label"/>
+            <i>demo</i>
+        </g:link>
+    </li>
+    <li class="${controllerName=='home' && actionName=='abouts' ?'active':''} single">
+        <g:link controller="post" action="list">
+            拍賣
+            <i>sale</i>
+        </g:link>
+    </li>
+    <li class="${controllerName=='home' && actionName=='aboutus' ?'active':''} single">
+        <g:link controller="post" action="list">
+            <g:message code="default.abouts.label"/>
+            <i>abouts</i>
+        </g:link>
+    </li>
+
+
+
 %{--     <li class="visible-desktop">
         <a href="#" class="document-request-fullscreen">
             <i class="icon icon-fullscreen"></i>
         </a>
     </li> --}%
-    <li class="${controllerName=='home'?'active':''}">
-        <g:link controller="home">
-            <i class="icon icon-home"></i>
-            <g:message code="default.home.label" default="Home" />
-        </g:link>
 
-    </li>
 
-    <li class="${controllerName=='post' && actionName=='list' ?'active':''}">
-        <g:link controller="post" action="list">
-            <i class="icon icon-home"></i>
-            <g:message code="default.postLis.label" default="文章清單" />
-        </g:link>
-
-    </li>
 
 %{--     <li class="${controllerName=='content'?'active':''}">
         <g:link controller="content">
@@ -45,4 +72,4 @@
             </g:link>
         </li> --}%
     </sec:ifLoggedIn>
-</ul>
+
