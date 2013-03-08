@@ -18,6 +18,8 @@ class PostController {
 	static layout="bootstrap"
 	def springSecurityService
     def ajaxUploaderService
+    def messageSource
+    def tagQueryService
 
 
     /**
@@ -50,7 +52,14 @@ class PostController {
             post: post
         ]
     }
+    def delete(Long id) {
+        def post = Post.findByIdOrName(id, params.name)
+        post.delete(flush: true)
 
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'post.label', default: 'post'), id])
+
+        redirect(action: "list", id: post.id)
+    }
     @Secured(['ROLE_USER'])
     def save() {
 
@@ -63,17 +72,23 @@ class PostController {
         //set current user as creator
         post.creator = user
 
-       
-        
-        if (!post.save(failOnError: true, flush: true)) {
+        if (!post.validate()) {
+            if(post.hasErrors())
+                post.errors?.allErrors?.each{ 
+                    flash.message=  messageSource.getMessage(it, null)
+                };
             render(view: "create", model: [post: post])
             return
         }
+        
+        post.save(flush: true)
 
-         post.tags = params.tags // new line to be inserted
+        if(params.tags instanceof String)
+            post.tags=[params.tags];
+        else post.tags = params.tags
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'post.label', default: 'Post'), post.id])
-        redirect(action: "show", params: [name: post.name])
+        redirect(action: "show", id: post.id)
     }
 
     def show(Long id) {
@@ -89,24 +104,71 @@ class PostController {
         if (!post) {
             post = new Post(params)
         }
+
+        def recentPosts  = Post.findAll(max: 4, sort: 'dateCreated', order: 'desc') {
+            // type == PostType.DEMO
+            id != post.id
+        }
+
         
-    	[post: post]
+    	[
+            post: post,
+            recentPosts:recentPosts
+        ]
+    }
+
+    def portfolio(){
+        def type = PostType.NEWS
+        def posts
+
+        switch (params.type) {
+            case 'DEMO':
+                type = PostType.DEMO
+            break
+            case 'NEWS':
+                type = PostType.NEWS
+            break
+            case 'SALE':
+                type = PostType.SALE
+            break
+        }
+
+
+        posts=Post.findAllByType(type)
+
+
+
+
+
+        def tags=[]
+        if(posts){
+            posts.tags.each{ //i ->
+                tags.addAll(it) 
+            }
+
+        }
+
+        log.info tags.unique()
+        log.info type
+
+        [
+            type: type,
+            posts: posts,
+            tags: tags.unique()
+        ]
+
     }
 
     def list(){
-
-
         [
             posts: Post.list()
         ]
-
     }
 
     def update(Long id) {
 
         def post = Post.findByIdOrName(id,params.name)
 
-        log.info params.tags instanceof String
 
 
         if(params.tags instanceof String)
@@ -114,7 +176,9 @@ class PostController {
         else post.tags = params.tags
 
 
+
         if(!params.mainImage)params.mainImage="";
+
         
         if (!post) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
@@ -123,7 +187,11 @@ class PostController {
         }
 
         if (params.version != null) {  
-            if (post.version > params.version) {
+            log.info post.version
+            log.info params.version
+
+
+            if (post.version > (params.version as Long)) {
                 post.errors.rejectValue("version", "default.optimistic.locking.failure",
                           [message(code: 'post.label', default: 'Post')] as Object[],
                           "Another user has updated this User while you were editing")
@@ -142,7 +210,7 @@ class PostController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'post.label', default: 'Post'), post.id])
-        redirect(action: "show", params: [name: post.name])
+        redirect(action: "show", id: post.id)
     }
 
     def tags = {
@@ -233,8 +301,13 @@ class PostController {
         }
         catch (e) {
             log.error "Could not read ${file}"
+            File object = new File(servletContext.getRealPath("images/notFind.jpg"))
+            response.outputStream << new FileInputStream(object)
+
+            log.info object
+
             e.printStackTrace()
-            response.sendError 404
+            // response.sendError 404
         }
     }
 

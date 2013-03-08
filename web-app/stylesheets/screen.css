@@ -5,8 +5,22 @@ ul#tag-field {
   margin: 0 0 0px 0px;
 }
 
+/*------------------- breadcrumb button ---------------------*/
 /* line 520, ../sass/screen.scss */
 input.btn {
   float: left;
   margin-left: 0px;
+}
+
+/* line 524, ../sass/screen.scss */
+.qq-upload-drop-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 50;
+  z-index: 2;
+  background: #FF9797;
+  text-align: center;
 }

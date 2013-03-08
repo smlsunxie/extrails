@@ -12,7 +12,7 @@
                     </div>
                 </div>
 
-                <div class="control-group">
+                <div class="control-group info">
 
                     <label class="control-label required" for="title">
                         <%--內容標題--%>
@@ -22,7 +22,21 @@
                     </label>
                     <div class="controls">
                         <g:textField name="title" value="${post?.title}" class="input input-xlarge" />
+                        <span class="help-inline">務必輸入欄位</span>
                     </div>
+                </div>
+
+               <div class="control-group advanced-region">
+                  <label class="control-label" for="type">
+                      <%--post.type--%>
+                      <g:message code="post.type.label" />
+                  </label>
+
+
+                  <div class="controls">
+                    <g:select name="type" from="${extrails.PostType?.values()}" keys="${extrails.PostType.values()*.name()}" required="" value="${post?.type?.name()}"  valueMessagePrefix="extrails.PostType" />
+                  </div>
+
                 </div>
 
                <div class="control-group advanced-region">
@@ -41,17 +55,23 @@
                   </div>
 
                 </div>
+
+                <div class="control-group">
+
+                    <label class="control-label required" for="description">
+                        <%--簡短敘述--%>
+                        <g:message code="post.description.label" />
+
+                    </label>
+                    <div class="controls">
+                        <g:textField name="description" value="${post?.description}" class="input input-xlarge" />
+                        <span class="help-inline">對文章內容的簡短敘述，將顯示在瀏覽所有文章頁面</span>
+                    </div>
+                </div>
+
                 <p>
-                  屬於「新聞」請打上標籤：news
-                </p>
-                <p>
-                  屬於「維修實況」請打上標籤：demo
-                </p>
-                <p>
-                  屬於「拍賣」請打上標籤：sale
-                </p>
-                <p>
-                  假設我有一台 YAMAHA FZ150 要賣三萬元，100年份，三萬公里要賣，則可以標上 [sale,YAMAHA,三萬元,100年份,三萬公里]，如此就可透過標籤索引相關的商品
+
+                  假設我有一台 YAMAHA FZ150 要賣三萬元，100年份，三萬公里要賣，則「文章類型」選擇拍賣，標籤標上 [sale,YAMAHA,三萬元,100年份,三萬公里]
                 </p>
 
 

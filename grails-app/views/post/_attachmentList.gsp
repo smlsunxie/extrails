@@ -2,10 +2,10 @@
         <table class="table">
           <thead>
             <tr>
-              <th width="10%"></th>
+              <th width="10%"><g:message code="post.mainImage.label" /></th>
               <th width="20%"><g:message code="post.file.name" /></th>
               <th ><g:message code="post.file.link" /></th>
-              <th ><g:message code="default.button.delete.label" /></th>
+              <th ></th>
             </tr>
           </thead>
           <tbody>
@@ -17,7 +17,7 @@
               <tr>
                   <td>
 
-                    <g:radio name="mainImage" value="${file.path}" checked="${post?.mainImage==file.path||(!post?.mainImage && i==0) ?'true':''}" /></td>
+                    <g:radio name="mainImage" value="${file.name}" checked="${post?.mainImage==file.name||(!post?.mainImage && i==0) ?'true':''}" /></td>
                   <td><g:link action="attachment" id="${post.id}" params="[file: file.name, name:post.name]" target="_blank">${file.name}</g:link></td>
 
                   <td><g:if test="${['.jpg','.jpeg','.JPG','.JPEG','.gif','.GIF','.png','.PNG'].any{file.name.endsWith(it)}}">

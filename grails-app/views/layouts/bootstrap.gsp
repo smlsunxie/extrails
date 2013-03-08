@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}" />
 <link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}" />
 
-<r:require modules="jquery, jquery-ui, modernizr, common, bootstrap-ext, font-awesome, pagedown, compass, tagit, fileuploader, bizstrap"/>
+<r:require modules="jquery, jquery-ui, modernizr, common, font-awesome, pagedown, compass, tagit, fileuploader"/>
 
 <g:layoutHead/>
 <r:layoutResources />
@@ -29,7 +29,7 @@
 
 
 <div role="main" class="main-content">
-    <div class="container">	
+
         <%--GoogleChromeFrame--%>
         <g:render template="/layouts/alert_chromeframe" />
 
@@ -41,7 +41,7 @@
                 <h2>${flash.message}<h2>
             </div>
         </g:if>
-    </div>
+
 
 	<%--主畫面內容--%>
 	<g:layoutBody/>

@@ -21,14 +21,18 @@ class HomeController {
             // }
         }
 
-        // // 取得首頁公告資料    
-        // def posts = Post.findAll(max: 10, sort: 'dateCreated', order: 'desc') {
-        //     type == PostType.ANNOUNCE
-        // }
 
-        // // 取得新書資料
-        // def books = Book.findAll(max: 10, sort: 'publishDate', order: 'desc') {
-        //     title != null
-        // }
+        def recentPosts = Post.findAll(max: 4, sort: 'dateCreated', order: 'desc') {
+
+        }
+
+        [
+            recentPosts:recentPosts
+        ]
+
+
+    }
+    def abouts(){
+        
     }
 }

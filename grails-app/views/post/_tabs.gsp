@@ -13,15 +13,34 @@
 
               %{-- 編輯區域 tab --}%
               <div class="tab-pane fade" id="content">
+
+                <div class="row">
+
+                  <div class="span4">
+                    <g:render template="md_help" />
+
+                  </div>
+                  <div class="span8">
                     <div class="wmd-panel wmd-editor">
                         <div id="wmd-button-bar"></div>
                         <g:textArea name="content" cols="40" rows="20" value="${post?.content}" class="wmd-input enable-tabkey" id="wmd-input" />
-                    </div>
+                    </div>                    
+                  </div>
+
+                </div>
+
+
+
+
+
+
               </div>
 
               %{-- preview tab --}%
               <div class="tab-pane fade" id="preview">
                 <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
+
+
               </div>
 
               %{-- 圖片 tab --}%
@@ -30,7 +49,7 @@
                 <div class="row-fluid">
                   <div class="span3 pull-right">
                     <h3>
-                        請選擇封面圖檔
+                        可使用拖拉的方式來上傳檔案，複製檔案連結在文章需要顯示的地方貼上
                     </h3>
                   </div>
                   <div class="span9">
@@ -40,8 +59,9 @@
                       </uploader:onComplete>
                     </uploader:uploader>
 
+                  </div>
                 </div>
-                </div>
+                <hr/>
 
 
 

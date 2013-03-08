@@ -3,8 +3,9 @@ package extrails
 import org.grails.taggable.Taggable
 
 public enum PostType {
-    STATIC,
-    ANNOUNCE;
+    SALE,
+    DEMO,
+    NEWS;
 }
 
 class Post implements Taggable {
@@ -13,8 +14,7 @@ class Post implements Taggable {
 	String title
 	String content
     String description
-	// PostType type
-	// String tags
+	PostType type
 	
 	User creator		//建立者
 
@@ -28,9 +28,9 @@ class Post implements Taggable {
     	name blank: false, unique: true
 	    title blank: false
     	content nullable: true, empty: true, maxSize: 128*1024
-        // tags nullable: true, empty: true
         description nullable: true, empty: true
         mainImage nullable: true, empty: true
+        creator nullable: true
 
     }
 }

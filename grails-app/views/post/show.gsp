@@ -11,38 +11,89 @@
 
 
 <div class="container">
-          <sec:ifAllGranted roles="ROLE_ADMIN">
-          <div class="control-group">
-              <div class="controls">
 
-                  <!--controls-->
-                  <g:if test="${!post?.id}">
-                      <g:link  class="btn btn-primary" controller="post" action="create" params="[name: post?.name]"><g:message code="default.button.create.label" /></g:link>
-                  </g:if>
-                  <g:else>
-                      <g:link  class="btn btn-primary" controller="post" action="edit" id="${post?.id}"><g:message code="default.button.edit.label" /></g:link>
-                  </g:else>
+      <div class="row show-grid">
+          <div class="span12">
+              <div id="breadcrumb">
+                    <ul >
+                      <li class="home btn btn-mini btn-link">post</li>
+                      <li class="btn btn-mini btn-link">${post.title}</li>
+                      <sec:ifAllGranted roles="ROLE_ADMIN">
+                        <li><g:link  class="btn btn-primary btn-mini" controller="post" action="edit" id="${post?.id}"><g:message code="default.button.edit.label" /></g:link></li>
+                        <li><g:link  class="btn btn-danger btn-mini" controller="post" action="delete" id="${post?.id}"><g:message code="default.button.delete.label" /></g:link></li>
+                      </sec:ifAllGranted>
+                    </ul>
+
 
               </div>
           </div>
-          </sec:ifAllGranted>
 
-    <div class="row-fluid">
-        <div class="span12 clearlook-wrapper">
+                    <div class="span12">                        
+                        <div class="row show-grid clear-both">
+
+                            <div class="span9 main-column two-columns-right ">
+                                <div class="markdown-source">${post?.content?.encodeAsHTML()}</div>
+                                
+                                <div class="post-item-panel">
+                                    <ul>
+                                        <li class="date">
+                                          <p><i class="icon-calendar"></i><g:formatDate date="${post?.lastUpdated}" type="datetime" style="MEDIUM" /></p></li>
+                                        <li><p><i class="icon-user"></i>by ${post.creator.username}</p></li>
+                                        <li><p><i class="icon-tags"></i>
+                                          <g:each var='tag' in='${post.tags}'>
+                                            <a href="">${tag}</a></p>
+                                          </g:each>
+                                        </li>
+                                    </ul>
+                                </div>
+
+
+
+                            </div>
+                            <div id="right-sidebar" class="span3 sidebar">
+                                <div class="sidebar-news-widget sidebar-block">
+                                    <h2>Recent Posts Widget</h2>
+                                    <ul>
+                                        <g:each var='recentPost' in='${recentPosts}' >
+                                          <li>
+                                              <a class="photo" href="#">
+                                                  <g:img alt="" uri="/post/attachment/${post.id}?file=${post.mainImage}" />
+                                              </a>
+                                              <p>
+                                              <a href="">${recentPost.title}</a>
+                                              </p>
+                                              <p class="date"><i class="icon-calendar"></i><g:formatDate date="${recentPost?.lastUpdated}" type="date" style="MEDIUM" /></p>
+                                          </li>
+                                        </g:each>
+
+                                    </ul>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                                        
+      </div>
+      <hr>
 
 
 
 
-          
-          <div class="markdown-source">${post?.content?.encodeAsHTML()}</div>
+
+
+
+
+
+
+%{--           <div class="markdown-source">${post?.content?.encodeAsHTML()}</div>
           
           <hr />
           
-          <small><g:message code="post.lastUpdated.label" default="Last Updated" />: <g:formatDate date="${post?.lastUpdated}" type="datetime" style="MEDIUM" /></small>
+          <small><g:message code="post.lastUpdated.label" default="Last Updated" />: <g:formatDate date="${post?.lastUpdated}" type="datetime" style="MEDIUM" /></small> --}%
           
 
-        </div>
-    </div>
 </div>
 </body>
 </html>

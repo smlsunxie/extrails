@@ -175,7 +175,7 @@ grails.plugins.springsecurity.controllerAnnotations.staticRules = [
 grails.plugins.springsecurity.rememberMe.alwaysRemember = true
 grails.plugins.springsecurity.rememberMe.persistent = true
 grails.plugins.springsecurity.rememberMe.persistentToken.domainClassName = 'extrails.PersistentLogin'
-
+grails.taggable.preserve.case = true
 
 
 //SpringSecurity Facebook

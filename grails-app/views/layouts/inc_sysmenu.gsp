@@ -4,36 +4,29 @@
             <i>HOME</i>
         </g:link>
     </li>
-
-    <li class="${controllerName=='post' && actionName=='list' ?'active':''} single">
-        <g:link controller="post" action="list" >
-            <g:message code="default.post.label"/>
-            <i>POST</i>
+    <li class="${controllerName=='post' && type==extrails.PostType.SALE ?'active':''} single">
+        <g:link controller="post" action="portfolio" params="[type:'SALE']">
+            拍賣
+            <i>SALE</i>
         </g:link>
     </li>
-
-    <li class="${controllerName=='home' && actionName=='news' ?'active':''} single">
-        <g:link controller="post" action="list">
+    <li class="${controllerName=='post' && type==extrails.PostType.NEWS ?'active':''} single">
+        <g:link controller="post" action="portfolio" params="[type:'NEWS']">
             <g:message code="default.news.label"/>
             <i>NEWS</i>
         </g:link>
     </li>
-    <li class="${controllerName=='post' && actionName=='list' ?'active':''} single">
-        <g:link controller="post" action="list">
+    <li class="${controllerName=='post' && type==extrails.PostType.DEMO ?'active':''} single">
+        <g:link controller="post" action="portfolio" params="[type:'DEMO']">
             <g:message code="default.demo.label"/>
-            <i>demo</i>
+            <i>DEMO</i>
         </g:link>
     </li>
+
     <li class="${controllerName=='home' && actionName=='abouts' ?'active':''} single">
-        <g:link controller="post" action="list">
-            拍賣
-            <i>sale</i>
-        </g:link>
-    </li>
-    <li class="${controllerName=='home' && actionName=='aboutus' ?'active':''} single">
-        <g:link controller="post" action="list">
+        <g:link controller="home" action="abouts">
             <g:message code="default.abouts.label"/>
-            <i>abouts</i>
+            <i>ABOUTS</i>
         </g:link>
     </li>
 

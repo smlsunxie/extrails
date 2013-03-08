@@ -14,6 +14,28 @@
 
     </sec:ifNotLoggedIn>
     <sec:ifLoggedIn>
+      <sec:ifAllGranted roles="ROLE_ADMIN">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
+                <g:message code="post.label"/>
+                <i>POST</i>
+            </a>
+   
+            <ul class="dropdown-menu">
+                <li>
+                    <g:link controller="post" action="create">
+                        <g:message code="post.create.label"/>
+                    </g:link>
+                </li>
+                <li>
+                    <g:link controller="post" action="list">
+                        <g:message code="post.list.label"/>
+                    </g:link>
+                </li>
+          </ul>
+      </li>
+      </sec:ifAllGranted>
+
         <%--已登入--%>
       <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#menu3">
@@ -31,32 +53,20 @@
                     </g:link>
                 </li> --}%
               <sec:ifAllGranted roles="ROLE_ADMIN">
-                  <li>
-                      <g:link controller="post" action="create">
-                          <g:message code="default.post.create.label"/>
-                      </g:link>
-                  </li>
+
                   <li>
                       <g:link controller="user">
                           <%--系統管理--%>
                           <g:message code="default.administration.text" />
                       </g:link>
                   </li>
-              </sec:ifAllGranted>
-
-              <sec:ifAllGranted roles="ROLE_ADMIN">
                   <li>
                       <g:link controller="post" action="create">
                           <g:message code="default.fix.logs.label"/>
                       </g:link>
                   </li>
-                  <li>
-                      <g:link controller="user">
-                          <%--系統管理--%>
-                          <g:message code="default.administration.text" />
-                      </g:link>
-                  </li>
               </sec:ifAllGranted>
+
 
               <sec:ifNotSwitched>
                   <li>

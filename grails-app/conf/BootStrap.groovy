@@ -3,6 +3,7 @@ import extrails.Role
 import extrails.UserRole
 import extrails.SecurityMap
 import extrails.Post
+import org.grails.taggable.Tag
 
 class BootStrap {
 
@@ -30,6 +31,19 @@ class BootStrap {
                 //UserRole.create(user1, role2)
                 UserRole.create(user1, role3)
             }
+
+
+            def defTags=['YAMAHA','KYMCO','SYM','SUZUKI']
+
+            defTags.each{ tagName ->
+
+                if(!Tag.findByName(tagName)){
+                    new Tag(name:tagName).save(failOnError: true, flush: true)
+                }
+            }
+
+
+
 
             // def newsPost=new Post(name:'news', title:'新聞');
             // newsPost.addTag("news");

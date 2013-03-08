@@ -37,14 +37,10 @@
                                 <div class="span4 footer-right">
                                     <h4 class="center-title">Navigate</h4>
                                     <ul class="footer-navigate">
-                                        <li>
-                                            <a href="">Home</a>
-                                        </li>
-                                        <li>
-                                            <a href="">POST</a>
-                                        </li>
-
+                                        <g:applyLayout name="inc_sysmenu" />
                                     </ul> 
+
+                                    <h4 class="center-title">Language</h4>
                                     <ul class="footer-navigate">
                                         <li><g:link url="/?lang=zh_TW">中文版</g:link></li>
                                         <li><g:link url="/?lang=en">English</g:link></li>

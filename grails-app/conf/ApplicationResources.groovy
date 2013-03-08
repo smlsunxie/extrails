@@ -4,9 +4,9 @@ modules = {
 
 	overrides {
 
-        bootstrap {
-            defaultBundle __bundleName
-        }
+        // bootstrap {
+        //     defaultBundle __bundleName
+        // }
 		modernizr {
 			defaultBundle __bundleName
 		}
@@ -67,7 +67,7 @@ modules = {
 
 
     common {
-        dependsOn 'jquery, jquery-ui, jquery-plugins, pagedown, bootstrap-ext'
+        dependsOn 'jquery, jquery-ui, jquery-plugins, pagedown'
         //defaultBundle 'common'
     defaultBundle __bundleName
 
@@ -135,13 +135,7 @@ modules = {
   //       resource url: 'codemirror/addon/fold/foldcode.js'
   //   }
 
-    fancybox {
-        dependsOn 'jquery'
-        defaultBundle __bundleName
 
-        resource url: 'bizstrap/css/jquery.fancybox.css?v=2.1.0', attrs: [media: 'screen']
-        resource url: 'bizstrap/js/jquery.fancybox.pack.js?v=2.1.0'
-    }
 
   //   highlightjs {
   //       //defaultBundle 'coding-tools'
@@ -169,25 +163,25 @@ modules = {
   //       resource url: 'stylesheets/docs.css'
   //   }
     
-    'bootstrap-ext' {
-        dependsOn 'bootstrap'
-        //defaultBundle 'bootstrap'
-		defaultBundle __bundleName
+  //   'bootstrap-ext' {
+  //       dependsOn 'bootstrap'
+  //       //defaultBundle 'bootstrap'
+		// defaultBundle __bundleName
 
-        resource url: 'bootstrap-ext/bootbox/bootbox.min.js'
+  //       resource url: 'bootstrap-ext/bootbox/bootbox.min.js'
 
-        resource url: 'bootstrap-ext/datepicker/css/datepicker.css'
-        resource url: 'bootstrap-ext/datepicker/js/bootstrap-datepicker.js'
+  //       resource url: 'bootstrap-ext/datepicker/css/datepicker.css'
+  //       resource url: 'bootstrap-ext/datepicker/js/bootstrap-datepicker.js'
 
-        resource url: 'bootstrap-ext/timepicker/compiled/timepicker.css'
-        resource url: 'bootstrap-ext/timepicker/js/bootstrap-timepicker.js'
+  //       resource url: 'bootstrap-ext/timepicker/compiled/timepicker.css'
+  //       resource url: 'bootstrap-ext/timepicker/js/bootstrap-timepicker.js'
 
-        resource url: 'bootstrap-ext/bootstrap-lightbox.css'
-        resource url: 'bootstrap-ext/bootstrap-lightbox.js'
-    }
+  //       resource url: 'bootstrap-ext/bootstrap-lightbox.css'
+  //       resource url: 'bootstrap-ext/bootstrap-lightbox.js'
+  //   }
     
     'font-awesome' {
-        dependsOn 'bootstrap'
+        dependsOn 'bizstrap'
         //defaultBundle 'bootstrap'
 		defaultBundle __bundleName
         
@@ -214,7 +208,7 @@ modules = {
     }
 
     compass {
-        dependsOn 'bootstrap, tagit'
+        dependsOn 'bizstrap, tagit, fileuploader'
         //defaultBundle 'bootstrap'
         defaultBundle "compass"
 
@@ -235,21 +229,24 @@ modules = {
     }
 
     bizstrap {   
-        dependsOn 'jquery, fancybox, bootstrap'     
+        dependsOn 'jquery'     
         defaultBundle 'bizstrap'
-        
+        resource url: 'bizstrap/css/bootstrap.css'        
         resource url: 'bizstrap/rs-plugin/css/settings.css', attrs: [media: 'screen']
         resource url: 'bizstrap/css/rs-responsive.css', attrs: [media: 'screen']
-        // resource url: 'bizstrap/css/bootstrap.css'
+
         resource url: 'bizstrap/css/custom.css'
         resource url: 'bizstrap/css/isotope.css'
         resource url: 'bizstrap/css/color_scheme.css'
         resource url: 'bizstrap/css/flexslider.css'
+        resource url: 'bizstrap/css/jquery.fancybox.css?v=2.1.0', attrs: [media: 'screen']
 
+
+        resource url: 'bizstrap/js/bootstrap.js'  
+        resource url: 'bizstrap/js/jquery.flexslider-min.js'
         resource url: 'bizstrap/js/jquery.flexslider-min.js'
         resource url: 'bizstrap/js/jquery.isotope.js'
-
-        
+        resource url: 'bizstrap/js/jquery.fancybox.pack.js?v=2.1.0'        
         // resource url: 'bizstrap/rs-plugin/js/jquery.themepunch.plugins.min.js'
         // resource url: 'bizstrap/rs-plugin/js/jquery.themepunch.revolution.min.js'
         // resource url: 'bizstrap/js/revolution.custom.js'
