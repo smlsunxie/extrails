@@ -31,8 +31,12 @@ submoduleInstall:
 	git submodule init
 	git submodule update
 
-# upload:
-# 	s3cmd put -P target/codecanaan.war s3://s3.lyhdev.com/apps/
+update:
+	git pull
+
+upload:
+	scp target/extrails.war spooky@106.187.54.84:~/extrails/target 
+	scp ~/.grails/extrails-config.groovy spooky@106.187.54.84:~/.grails
 
 # upload-secret:
 # 	s3cmd put ~/.grails/codecanaan-config.groovy s3://s3.lyhdev.com/apps/
@@ -47,17 +51,17 @@ submoduleInstall:
 # done:
 # 	make clean war upload && make remote-deploy
 
-# remote-deploy:
-# 	ssh -t kyle@codecanaan.com 'cd codecanaan && make update && make download && sudo make deploy'
+remote-deploy:
+	ssh -t spooky@106.187.54.84 'cd extrails && make update && sudo make deploy'
 
 # remote-log:
 # 	ssh -t kyle@codecanaan.com 'cd codecanaan && make log'
 
 deploy:
-	rm -rf /var/lib/tomcat6/webapps/ROOT.war
-	rm -rf /var/lib/tomcat6/webapps/ROOT
-	cp target/codecanaan.war /var/lib/tomcat6/webapps/ROOT.war
-	service tomcat6 restart
+	rm -rf /var/lib/tomcat7/webapps/ROOT.war
+	rm -rf /var/lib/tomcat7/webapps/ROOT
+	cp target/extrails.war /var/lib/tomcat7/webapps/ROOT.war
+	service tomcat7 restart
 
 log:
 	tail -f /var/lib/tomcat6/logs/catalina.out
@@ -68,3 +72,7 @@ log:
 # services:
 # 	mysqld_safe5 &
 # 	rabbitmq-server &
+
+
+done:
+	make clean war upload && make remote-deploy

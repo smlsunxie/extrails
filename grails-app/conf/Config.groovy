@@ -68,7 +68,7 @@ grails.hibernate.cache.queries = false
 environments {
 	development {
 		grails.logging.jul.usebridge = true
-		// grails.serverURL = "http://dev.extrails:8080"
+		grails.serverURL = "http://dev.extrails.com:8080"
 		
 		//disable resource path hash ?_debugResources=y
 		grails.resource.debug = true
@@ -92,7 +92,7 @@ environments {
 	production {
 	
 		grails.logging.jul.usebridge = false
-		grails.serverURL = "http://extrails.com"
+		grails.serverURL = "http://106.187.54.84:8080/"
 		//grails.serverURL = "http://dev.codecanaan.com:8080"
 
 		// Using baseurl feature to enable CDN deployment
