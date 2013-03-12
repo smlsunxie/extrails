@@ -48,8 +48,7 @@ upload:
 # download-secret:
 # 	s3cmd get s3://s3.lyhdev.com/apps/codecanaan-config.groovy ~/.grails/codecanaan-config.groovy
 
-# done:
-# 	make clean war upload && make remote-deploy
+
 
 remote-deploy:
 	ssh -t spooky@106.187.54.84 'cd extrails && make update && sudo make deploy'
@@ -64,7 +63,7 @@ deploy:
 	service tomcat7 restart
 
 log:
-	tail -f /var/lib/tomcat6/logs/catalina.out
+	tail -f /var/lib/tomcat7/logs/catalina.out
 
 # syncdb:
 # 	mysqldump -h codecanaan.com -usynconly -p contpub | mysql -h localhost -ucontpub -pcontpub contpub

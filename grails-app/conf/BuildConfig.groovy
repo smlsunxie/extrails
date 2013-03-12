@@ -55,13 +55,13 @@ grails.project.dependency.resolution = {
         //resources 優化管理相關
         runtime ":resources:1.2.RC3"
         // Uncomment these (or add new ones) to enable additional resources capabilities
-        // runtime ":zipped-resources:1.0.1"
-        //runtime ":yui-minify-resources:0.1.4"
+        runtime ":zipped-resources:1.0.1"
+        runtime ":yui-minify-resources:0.1.5"
 
         // 關閉 cache 相關 plugins 以利了解檔案配置
-        // runtime ":cached-resources:1.1"
-        // compile ':cache:1.0.1'
-        // compile ":cache-headers:1.1.5"
+        runtime ":cached-resources:1.1"
+        compile ':cache:1.0.1'
+        compile ":cache-headers:1.1.5"
 
 
 
@@ -74,7 +74,7 @@ grails.project.dependency.resolution = {
 
 
         // html 相關
-        // compile ":closure-compiler:0.9.1"
+        compile ":closure-compiler:0.9.1"
         runtime ':jquery-ui:latest.release'
         // runtime ":twitter-bootstrap:2.3.0"
         runtime ":browser-detection:0.4.3"

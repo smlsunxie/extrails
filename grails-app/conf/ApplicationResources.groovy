@@ -14,6 +14,10 @@ modules = {
         "jquery-ui" {
             defaultBundle __bundleName
         }
+
+        "fileuploader" {
+            defaultBundle __bundleName
+        }
 	}
 
   //   'jquery-ui' {
@@ -210,7 +214,7 @@ modules = {
     compass {
         dependsOn 'bizstrap, tagit, fileuploader'
         //defaultBundle 'bootstrap'
-        defaultBundle "compass"
+        defaultBundle __bundleName
 
 
 
@@ -221,16 +225,16 @@ modules = {
         
         resource url: 'stylesheets/screen.css'
 
-        resource url: 'stylesheets/print.css',
-            attrs: [media: 'print'],
-            bundle: "print"
-        resource url: 'stylesheets/ie.css',
-            wrapper: { s -> "<!--[if IE]>$s<![endif]-->" }
+        // resource url: 'stylesheets/print.css',
+        //     attrs: [media: 'print'],
+        //     bundle: "print"
+        // resource url: 'stylesheets/ie.css',
+        //     wrapper: { s -> "<!--[if IE]>$s<![endif]-->" }
     }
 
     bizstrap {   
         dependsOn 'jquery'     
-        defaultBundle 'bizstrap'
+        defaultBundle __bundleName
         resource url: 'bizstrap/css/bootstrap.css'        
         resource url: 'bizstrap/rs-plugin/css/settings.css', attrs: [media: 'screen']
         resource url: 'bizstrap/css/rs-responsive.css', attrs: [media: 'screen']
@@ -239,14 +243,13 @@ modules = {
         resource url: 'bizstrap/css/isotope.css'
         resource url: 'bizstrap/css/color_scheme.css'
         resource url: 'bizstrap/css/flexslider.css'
-        resource url: 'bizstrap/css/jquery.fancybox.css?v=2.1.0', attrs: [media: 'screen']
+        // resource url: 'bizstrap/css/jquery.fancybox.css?v=2.1.0', attrs: [media: 'screen']
 
 
         resource url: 'bizstrap/js/bootstrap.js'  
         resource url: 'bizstrap/js/jquery.flexslider-min.js'
-        resource url: 'bizstrap/js/jquery.flexslider-min.js'
         resource url: 'bizstrap/js/jquery.isotope.js'
-        resource url: 'bizstrap/js/jquery.fancybox.pack.js?v=2.1.0'        
+        // resource url: 'bizstrap/js/jquery.fancybox.pack.js?v=2.1.0'        
         // resource url: 'bizstrap/rs-plugin/js/jquery.themepunch.plugins.min.js'
         // resource url: 'bizstrap/rs-plugin/js/jquery.themepunch.revolution.min.js'
         // resource url: 'bizstrap/js/revolution.custom.js'

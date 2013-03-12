@@ -13,7 +13,7 @@
 
 <g:layoutHead/>
 <r:layoutResources />
-<g:justfont />
+%{-- <g:justfont /> --}%
 <google:analytics />
 </head>
 <body data-spy="scroll" data-target=".bs-docs-sidebar">

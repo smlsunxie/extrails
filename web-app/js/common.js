@@ -195,15 +195,15 @@ function winHeight() {
     $('[rel=tooltip]').tooltip();
  
     // 字型調整按鈕，允許變更 justfont 區域的字型大小
-    $('#jfontsize-m').click(function() {
-        $('.justfont').addClass('smaller-font').removeClass('larger-font');
-    });
-    $('#jfontsize-d').click(function() {
-        $('.justfont').removeClass('smaller-font').removeClass('larger-font');
-    });
-    $('#jfontsize-p').click(function() {
-        $('.justfont').removeClass('smaller-font').addClass('larger-font');
-    });
+    // $('#jfontsize-m').click(function() {
+    //     $('.justfont').addClass('smaller-font').removeClass('larger-font');
+    // });
+    // $('#jfontsize-d').click(function() {
+    //     $('.justfont').removeClass('smaller-font').removeClass('larger-font');
+    // });
+    // $('#jfontsize-p').click(function() {
+    //     $('.justfont').removeClass('smaller-font').addClass('larger-font');
+    // });
 
 	// Hightlight.js only support MSIE 9+ and other modern browsers
 	// if (!$.browser.msie || ($.browser.msie && $.browser.version.slice(0,1)>8)) {
