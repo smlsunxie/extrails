@@ -68,7 +68,7 @@ grails.hibernate.cache.queries = false
 environments {
 	development {
 		grails.logging.jul.usebridge = true
-		grails.serverURL = "http://dev.extrails.com:8080"
+		grails.serverURL = "http://localhost:8080/extrails"
 		
 		//disable resource path hash ?_debugResources=y
 		grails.resource.debug = true
@@ -83,6 +83,7 @@ environments {
 		grails.resources.mapper.cached.excludes = ['**/*']
 		upload.files.path="${userHome}/appData/${appName}/uploadfiles"
 
+
 		//grails.resources.debug = true 
 	}
 	test {
@@ -92,12 +93,13 @@ environments {
 	production {
 	
 		grails.logging.jul.usebridge = false
-		grails.serverURL = "http://106.187.54.84:8080/"
+		grails.serverURL = "http://106.187.54.84:8080"
 		//grails.serverURL = "http://dev.codecanaan.com:8080"
 
 		// Using baseurl feature to enable CDN deployment
 		grails.resources.mappers.baseurl.enabled = true
-		upload.files.path="${userHome}/appData/${appName}/uploadfiles"
+		upload.files.path="/var/lib/tomcat7/webapps/appData/${appName}/uploadfiles"
+
 
 		//grails.resources.mappers.baseurl.enabled = false
 		//grails.resources.mappers.baseurl.default = "http://static.extrails.com/static"
@@ -176,6 +178,7 @@ grails.plugins.springsecurity.rememberMe.alwaysRemember = true
 grails.plugins.springsecurity.rememberMe.persistent = true
 grails.plugins.springsecurity.rememberMe.persistentToken.domainClassName = 'extrails.PersistentLogin'
 grails.taggable.preserve.case = true
+
 
 
 //SpringSecurity Facebook

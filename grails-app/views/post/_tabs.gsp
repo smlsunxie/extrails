@@ -53,7 +53,7 @@
                     </h3>
                   </div>
                   <div class="span9">
-                    <uploader:uploader  id="fileupload" url="${[ action:'attachmentSave', id:post.name]}" >
+                    <uploader:uploader  id="fileupload" url="${[ action:'attachmentSave']}" params='[name:post.name]' >
                       <uploader:onComplete>
                         displayList();
                       </uploader:onComplete>

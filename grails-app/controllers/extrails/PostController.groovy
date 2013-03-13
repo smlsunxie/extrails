@@ -4,7 +4,6 @@ import grails.plugins.springsecurity.Secured
 import org.grails.taggable.Tag
 import grails.converters.JSON
 
-import static org.codehaus.groovy.grails.commons.ConfigurationHolder.config as Config
 import org.springframework.http.HttpStatus
 import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
 import org.springframework.web.multipart.MultipartHttpServletRequest
@@ -13,6 +12,10 @@ import javax.servlet.http.HttpServletRequest
 import grails.util.GrailsUtil
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 
+import org.imgscalr.Scalr
+import java.awt.image.BufferedImage 
+import javax.imageio.ImageIO
+
 class PostController {
 
 	static layout="bootstrap"
@@ -20,6 +23,7 @@ class PostController {
     def ajaxUploaderService
     def messageSource
     def tagQueryService
+
 
 
     /**
@@ -58,7 +62,7 @@ class PostController {
 
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'post.label', default: 'post'), id])
 
-        redirect(action: "list", id: post.id)
+        redirect(action: "list")
     }
     @Secured(['ROLE_USER'])
     def save() {
@@ -219,16 +223,13 @@ class PostController {
 
     def attachmentSave = {
         try {
+            def fileLocation=grailsApplication.config.upload.files.path;
 
-            // 根據運行環境給定不同的檔案路徑
-            String storagePath = Config.upload.files.path
-
-            storagePath+="/${params.id}"
 
             //檢查路徑是否存在，若不存在則產生資料夾
-            def storagePathDirectory = new File(storagePath)
+            def storagePathDirectory = new File("${fileLocation}/${params.name}")
             if (!storagePathDirectory.exists()) {
-              print "CREATING DIRECTORY ${storagePath}: "
+              print "CREATING DIRECTORY ${fileLocation}/${params.name}: "
               if (storagePathDirectory.mkdirs()) {
                 println "SUCCESS"
               } else {
@@ -237,10 +238,15 @@ class PostController {
             }
 
             // 定義上傳的檔案名稱
-            File uploaded = new File("${storagePathDirectory}/${params.qqfile}")
+            File uploaded = new File("${fileLocation}/${params.name}/${params.qqfile}")
 
             // 將使用者上傳檔案的 inputStream 指定給 uploaded 完成檔案儲存
             ajaxUploaderService.upload(request.inputStream, uploaded)
+
+            BufferedImage originalImage = ImageIO.read( uploaded )
+            BufferedImage thumbnail = Scalr.resize(originalImage, 800);
+
+            ImageIO.write( thumbnail, "png", uploaded)
 
 
             return render(text: [success:true] as JSON, contentType:'text/json')
@@ -260,15 +266,14 @@ class PostController {
      */
     def attachmentList(Long id) {
         def post = Post.findByIdOrName(id,params.name)
-
+        def fileLocation=grailsApplication.config.upload.files.path;
 
         
         if (!post) {
             post = new Post(params)
         }
 
-
-        File dir = new File("${Config.upload.files.path}/${params.name}");
+        File dir = new File("${fileLocation}/${params.name}");
 
         render (template:"attachmentList", model: [
             post: post,
@@ -281,7 +286,8 @@ class PostController {
      * 讀取附件
      */
     def attachment(Long id) {
-       def post = Post.findByIdOrName(id,params.name)
+        def post = Post.findByIdOrName(id,params.name)
+        def fileLocation=grailsApplication.config.upload.files.path;
         
         if (!post) {
             post = new Post(params)
@@ -292,11 +298,13 @@ class PostController {
         // 將已編碼 URL 還原
         file = URLDecoder.decode(file)
 
-        log.info "${Config.upload.files.path}${post.name}/${file}"
+
+
+        log.info "${fileLocation}${post.name}/${file}"
         
         try {
 
-            File object = new File("${Config.upload.files.path}/${post.name}/${file}")
+            File object = new File("${fileLocation}/${post.name}/${file}")
             response.outputStream << new FileInputStream(object)
         }
         catch (e) {

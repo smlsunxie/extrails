@@ -43,6 +43,7 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
         runtime 'mysql:mysql-connector-java:5.1.22'
+        compile 'org.imgscalr:imgscalr-lib:4.1' 
     }
 
     plugins {
@@ -83,6 +84,8 @@ grails.project.dependency.resolution = {
 
         compile ":taggable:1.0.1"
         compile ":ajax-uploader:1.1"
+
+
 
     }
 }

@@ -48,10 +48,8 @@
                             <a href="#" style="width: 460px; height: 340px;" class="top-link"><g:img alt="" uri="/post/attachment/${post.id}?file=${post.mainImage}" /></a>
                             <div class="top-block">
                                 <g:link controller="post" action="show" id="${post.id}">${post.title}</g:link>
-                                <p><i class="icon-tags"></i>
-                                    <g:each var='tag' in='${post.tags}'>
-                                    <a >${tag}</a></p>
-                                    </g:each>
+                                <p>
+                                    <g:render template="tagsLinks" model="['tags':post.tags]" />
                                 </p>
 
                             </div>  

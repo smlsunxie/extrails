@@ -39,10 +39,15 @@
                                         <li class="date">
                                           <p><i class="icon-calendar"></i><g:formatDate date="${post?.lastUpdated}" type="datetime" style="MEDIUM" /></p></li>
                                         <li><p><i class="icon-user"></i>by ${post.creator.username}</p></li>
-                                        <li><p><i class="icon-tags"></i>
-                                          <g:each var='tag' in='${post.tags}'>
-                                            <a href="">${tag}</a></p>
-                                          </g:each>
+                                        <li><p>
+
+                                          
+
+
+
+                                            <g:render template="tagsLinks" model="['tags':post.tags]" />
+                                          </p>
+
                                         </li>
                                     </ul>
                                 </div>
