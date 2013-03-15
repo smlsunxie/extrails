@@ -16,6 +16,8 @@ grails.config.locations = [
 	"file:${userHome}/.grails/${appName}-config.groovy"
 ]
 
+grails.app.context = '/'
+
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
@@ -68,7 +70,7 @@ grails.hibernate.cache.queries = false
 environments {
 	development {
 		grails.logging.jul.usebridge = true
-		grails.serverURL = "http://localhost:8080/extrails"
+		grails.serverURL = "http://dev.motoranger.net:8080"
 		
 		//disable resource path hash ?_debugResources=y
 		grails.resource.debug = true
@@ -81,7 +83,12 @@ environments {
 		//grails.resources.mappers.
 		//grails.resources.mapper.hashandcache.excludes = ['**/*']
 		grails.resources.mapper.cached.excludes = ['**/*']
-		upload.files.path="${userHome}/appData/${appName}/uploadfiles"
+		// upload.files.path="${userHome}/appData/${appName}/uploadfiles"
+
+		grails.resources.mappers.baseurl.enabled = true
+		grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
+
+		grails.aws.root = 'temp'
 
 
 		//grails.resources.debug = true 
@@ -93,19 +100,16 @@ environments {
 	production {
 	
 		grails.logging.jul.usebridge = false
-		grails.serverURL = "http://106.187.54.84:8080"
+		grails.serverURL = "http://motoranger.net"
 		//grails.serverURL = "http://dev.codecanaan.com:8080"
 
 		// Using baseurl feature to enable CDN deployment
-		grails.resources.mappers.baseurl.enabled = true
-		upload.files.path="/var/lib/tomcat7/webapps/appData/${appName}/uploadfiles"
-
-
-		//grails.resources.mappers.baseurl.enabled = false
-		//grails.resources.mappers.baseurl.default = "http://static.extrails.com/static"
+		// grails.resources.mappers.baseurl.enabled = true
+		// grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
 
 		//This not works
 		//grails.resources.mappers.baseurl.excludes = ['biwascheme/*']
+		grails.aws.root = 'attachment'
 	}
 }
 
@@ -192,13 +196,11 @@ grails.taggable.preserve.case = true
 //     adsense.adClient = 'ca-pub-0839975967683137'
 // }
 
-// aws {
-//     //domain="s3.amazonaws.com"
-//     domain="s3.amazonaws.com"
-//     accessKey="-accessKey-"
-//     secretKey="-secretKey-"
-//     bucketName="secure.codecanaan.com"
-// }
+aws.domain = 'upload.motoranger.net'
+aws.accessKey = 'AKIAJ3XFN3WWYAXULB7Q'
+aws.secretKey = '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'
+aws.bucketName = 'upload.motoranger.net'
+
 
 // grails {
 //     mail {
@@ -214,5 +216,6 @@ grails.taggable.preserve.case = true
 //         ]
 //     }
 // }
+
 
 

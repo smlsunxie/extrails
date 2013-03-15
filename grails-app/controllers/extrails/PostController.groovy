@@ -1,7 +1,7 @@
 package extrails
 
 import grails.plugins.springsecurity.Secured
-import org.grails.taggable.Tag
+
 import grails.converters.JSON
 
 import org.springframework.http.HttpStatus
@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletRequest
 import grails.util.GrailsUtil
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 
-import org.imgscalr.Scalr
-import java.awt.image.BufferedImage 
-import javax.imageio.ImageIO
+
 
 class PostController {
 
@@ -22,24 +20,27 @@ class PostController {
 	def springSecurityService
     def ajaxUploaderService
     def messageSource
-    def tagQueryService
+    def imageModiService
+    def fileHandleService
+    def s3Service
+
 
 
 
     /**
      * 直接建立內容後回到瀏覽頁面
      */
-    @Secured(['ROLE_USER'])
+    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
     def create() {
         def post = new Post(params)
-        post.name = "news-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
+        post.name = "post-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
 
 
         [ post: post ]
     }
 
-    @Secured(['ROLE_USER'])
+    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
     def edit(Long id) {
         def post = Post.findByIdOrName(id, params.name)
 
@@ -56,6 +57,7 @@ class PostController {
             post: post
         ]
     }
+    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
     def delete(Long id) {
         def post = Post.findByIdOrName(id, params.name)
         post.delete(flush: true)
@@ -64,7 +66,7 @@ class PostController {
 
         redirect(action: "list")
     }
-    @Secured(['ROLE_USER'])
+    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
     def save() {
 
         def user = springSecurityService.currentUser
@@ -169,6 +171,7 @@ class PostController {
         ]
     }
 
+    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
     def update(Long id) {
 
         def post = Post.findByIdOrName(id,params.name)
@@ -217,36 +220,34 @@ class PostController {
         redirect(action: "show", id: post.id)
     }
 
-    def tags = {
-        render Tag.findAllByNameIlike("${params.term}%").name as JSON
-    }
 
-    def attachmentSave = {
+
+    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    def attachmentSave(){
         try {
-            def fileLocation=grailsApplication.config.upload.files.path;
-
+            // def fileLocation=grailsApplication.config.upload.files.path;
+            // log.info fileLocation
 
             //檢查路徑是否存在，若不存在則產生資料夾
-            def storagePathDirectory = new File("${fileLocation}/${params.name}")
-            if (!storagePathDirectory.exists()) {
-              print "CREATING DIRECTORY ${fileLocation}/${params.name}: "
-              if (storagePathDirectory.mkdirs()) {
-                println "SUCCESS"
-              } else {
-                println "FAILED"
-              }
-            }
+            // fileHandleService.checkAndCreate(new File("${fileLocation}/${params.name}"));
 
             // 定義上傳的檔案名稱
-            File uploaded = new File("${fileLocation}/${params.name}/${params.qqfile}")
+            // File uploaded = new File("${fileLocation}/${params.name}/${params.qqfile}")
+            // File compressed = new File("${fileLocation}/${params.name}/${params.qqfile}_compressed")
 
             // 將使用者上傳檔案的 inputStream 指定給 uploaded 完成檔案儲存
-            ajaxUploaderService.upload(request.inputStream, uploaded)
+            // ajaxUploaderService.upload(request.inputStream, uploaded)
 
-            BufferedImage originalImage = ImageIO.read( uploaded )
-            BufferedImage thumbnail = Scalr.resize(originalImage, 800);
+            //改變檔案大小
 
-            ImageIO.write( thumbnail, "png", uploaded)
+            def ri = (InputStream)request.inputStream
+
+            def oi=imageModiService.sizeMiddle(ri)
+
+            log.info "${grailsApplication.config.grails.aws.root}/${params.name}/${params.qqfile}"
+            
+            s3Service.saveObject "${grailsApplication.config.grails.aws.root}/${params.name}/${params.qqfile}", new ByteArrayInputStream(oi.toByteArray())
+
 
 
             return render(text: [success:true] as JSON, contentType:'text/json')
@@ -264,22 +265,28 @@ class PostController {
     /**
      * 附件上傳及清單（顯示在 iframe 頁框內）
      */
+    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
     def attachmentList(Long id) {
         def post = Post.findByIdOrName(id,params.name)
-        def fileLocation=grailsApplication.config.upload.files.path;
+        // def fileLocation=grailsApplication.config.upload.files.path;
 
         
         if (!post) {
             post = new Post(params)
         }
 
-        File dir = new File("${fileLocation}/${params.name}");
+        // File dir = new File("${fileLocation}/${params.name}");
 
         render (template:"attachmentList", model: [
             post: post,
-            files: dir.listFiles()
+            // files: dir.listFiles()
+            files: s3Service.getObjectList("${grailsApplication.config.grails.aws.root}/${params.name}")
         ])
 
+        // [
+        //     content: content,
+        //     files: s3Service.getObjectList("attachment/${content.lesson?.course?.id}/${content.lesson?.id}/${content.id}")
+        // ]
         
     }
     /**
@@ -287,7 +294,7 @@ class PostController {
      */
     def attachment(Long id) {
         def post = Post.findByIdOrName(id,params.name)
-        def fileLocation=grailsApplication.config.upload.files.path;
+        //  def fileLocation=grailsApplication.config.upload.files.path;
         
         if (!post) {
             post = new Post(params)
@@ -299,31 +306,36 @@ class PostController {
         file = URLDecoder.decode(file)
 
 
-
-        log.info "${fileLocation}${post.name}/${file}"
         
         try {
 
-            File object = new File("${fileLocation}/${post.name}/${file}")
-            response.outputStream << new FileInputStream(object)
+            // File object = new File("${fileLocation}/${post.name}/${file}")
+
+            log.info "${grailsApplication.config.grails.aws.root}/${params.name}/${file}"
+            def object = s3Service.getObject("${grailsApplication.config.grails.aws.root}/${params.name}/${file}")
+            response.outputStream << object.dataInputStream
         }
         catch (e) {
+            e.printStackTrace()
             log.error "Could not read ${file}"
             File object = new File(servletContext.getRealPath("images/notFind.jpg"))
             response.outputStream << new FileInputStream(object)
 
-            log.info object
-
-            e.printStackTrace()
             // response.sendError 404
         }
     }
 
-    def attachmentDelete(Long id) {
+    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    def attachmentDelete() {
 
-        def file = new File(params.file);
+        // def file = new File(params.file);
         try {
-            file.delete();
+            // file.delete();
+
+            log.info "${params.file}"
+
+            s3Service.deleteObject "${params.file}"
+
             return render(text: [success:true] as JSON, contentType:'text/json')
         }
         catch (e) {

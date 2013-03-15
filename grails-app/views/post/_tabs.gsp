@@ -58,7 +58,7 @@
                         displayList();
                       </uploader:onComplete>
                     </uploader:uploader>
-
+                    
                   </div>
                 </div>
                 <hr/>
@@ -82,7 +82,7 @@
 
       $(function() {
         displayList();
-        $("ul[name='tags']").tagit({select:true, tagSource: "${g.createLink(action: 'tags')}"});
+        $("ul[name='tags']").tagit({select:true, tagSource: "${g.createLink(controller:'tag',action: 'listAsJson')}"});
 
       });
 

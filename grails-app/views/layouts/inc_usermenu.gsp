@@ -14,7 +14,54 @@
 
     </sec:ifNotLoggedIn>
     <sec:ifLoggedIn>
-      <sec:ifAllGranted roles="ROLE_ADMIN">
+      <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_MANERGER">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
+                顧客
+                <i>customer</i>
+            </a>
+   
+            <ul class="dropdown-menu">
+                <li>
+                    <g:link controller="post" action="create">
+                        維護
+                    </g:link>
+                </li>
+                <li>
+                    <g:link controller="post" action="create">
+                        維修
+                    </g:link>
+                </li>
+          </ul>
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
+                店家
+                <i>store</i>
+            </a>
+   
+            <ul class="dropdown-menu">
+%{--                 <li>
+                    <g:link controller="post" action="create">
+                        主要產品
+                    </g:link>
+                </li> --}%
+
+                <li>
+                    <g:link controller="part" action="create">
+                        零件新增
+                    </g:link>
+                </li>
+
+%{--                 <li>
+                    <g:link controller="post" action="create">
+                        叫貨
+                    </g:link>
+                </li> --}%
+
+
+            </ul>
+        </li>
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
                 <g:message code="post.label"/>
@@ -34,7 +81,7 @@
                 </li>
           </ul>
       </li>
-      </sec:ifAllGranted>
+      </sec:ifAnyGranted>
 
         <%--已登入--%>
       <li class="dropdown">
@@ -50,9 +97,9 @@
                         <i class="icon icon-user-md"></i>
                         <%--個人資料--%>
                         <g:message code="default.user.preferences.text" />
-                    </g:link>
                 </li> --}%
-              <sec:ifAllGranted roles="ROLE_ADMIN">
+
+              <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_MANERGER">
 
                   <li>
                       <g:link controller="user">
@@ -65,7 +112,7 @@
                           <g:message code="default.fix.logs.label"/>
                       </g:link>
                   </li>
-              </sec:ifAllGranted>
+              </sec:ifAnyGranted>
 
 
               <sec:ifNotSwitched>

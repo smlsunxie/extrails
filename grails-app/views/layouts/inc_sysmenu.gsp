@@ -23,6 +23,13 @@
         </g:link>
     </li>
 
+    <li class="${controllerName=='parts' && actionName=='list' ?'active':''} single">
+        <g:link controller="post" action="portfolio" params="[type:'DEMO']">
+            <g:message code="default.parts.label" default="parts"/>
+            <i>PARTS</i>
+        </g:link>
+    </li>
+
     <li class="${controllerName=='home' && actionName=='abouts' ?'active':''} single">
         <g:link controller="home" action="abouts">
             <g:message code="default.abouts.label"/>

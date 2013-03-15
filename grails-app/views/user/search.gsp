@@ -78,6 +78,9 @@ def queryParams = [username: username, enabled: enabled, accountExpired: account
 			<g:sortableColumn property="accountExpired" title="${message(code: 'user.accountExpired.label', default: 'Account Expired')}" params="${queryParams}"/>
 			<g:sortableColumn property="accountLocked" title="${message(code: 'user.accountLocked.label', default: 'Account Locked')}" params="${queryParams}"/>
 			<g:sortableColumn property="passwordExpired" title="${message(code: 'user.passwordExpired.label', default: 'Password Expired')}" params="${queryParams}"/>
+			<td>
+				switch
+			</td>
 		</tr>
 		</thead>
 
@@ -89,6 +92,9 @@ def queryParams = [username: username, enabled: enabled, accountExpired: account
 			<td><g:formatBoolean boolean="${user.accountExpired}"/></td>
 			<td><g:formatBoolean boolean="${user.accountLocked}"/></td>
 			<td><g:formatBoolean boolean="${user.passwordExpired}"/></td>
+			<td>
+					<g:link url="${request.contextPath}/j_spring_security_switch_user?j_username=${user.username}">change user</g:link>
+			</td>	
 		</tr>
 		</g:each>
 		</tbody>

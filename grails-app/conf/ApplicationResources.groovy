@@ -15,9 +15,7 @@ modules = {
             defaultBundle __bundleName
         }
 
-        "fileuploader" {
-            defaultBundle __bundleName
-        }
+
 	}
 
   //   'jquery-ui' {
@@ -257,8 +255,6 @@ modules = {
         resource url: 'bizstrap/js/custom.js'
 
     }
-
-
 
 
 

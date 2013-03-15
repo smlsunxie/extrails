@@ -12,6 +12,17 @@ grails.project.war.file = "target/${appName}.war"
 //   run: [maxMemory:1024, minMemory:64, debug:false, maxPerm:256]
 //]
 
+// Exclude files from a generated war
+// grails.war.resources = { stagingDir, args ->
+//     //delete (file: "${stagingDir}/WEB-INF/lib/hibernate-core-3.3.1.GA.jar")
+//     delete { fileset(dir: "${stagingDir}/bootswatch", includes: '*') }
+//     delete { fileset(dir: "${stagingDir}/swatchmaker", includes: '*') }
+//     delete { fileset(dir: "${stagingDir}/font-awesome", includes: '*') }
+//     delete { fileset(dir: "${stagingDir}/images", includes: '*.psd') }
+//     delete { fileset(dir: "${stagingDir}/sass", includes: '*') }
+//     delete { fileset(dir: "${stagingDir}/fancybox", includes: '*') }
+// };
+
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
     inherits("global") {
@@ -44,6 +55,8 @@ grails.project.dependency.resolution = {
 
         runtime 'mysql:mysql-connector-java:5.1.22'
         compile 'org.imgscalr:imgscalr-lib:4.1' 
+        runtime 'net.java.dev.jets3t:jets3t:0.9.0'
+        // compile 'net.coobird:thumbnailator:0.4.2' 
     }
 
     plugins {
@@ -84,6 +97,8 @@ grails.project.dependency.resolution = {
 
         compile ":taggable:1.0.1"
         compile ":ajax-uploader:1.1"
+
+        runtime ":cors:1.0.3"
 
 
 
