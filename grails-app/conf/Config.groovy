@@ -122,6 +122,12 @@ log4j = {
 		console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
 	}
 
+	appenders {
+      rollingFile name: "stacktrace", maxFileSize: 1024,
+                  file: "/var/lib/tomcat7/logs/motoranger.net-stacktrace.log"
+  }
+
+
 	info "grails.app"
 
 	debug 'extrails'

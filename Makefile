@@ -39,6 +39,7 @@ update:
 	git pull
 
 upload:
+
 	scp target/extrails.war ${remote_user}@${remote_addr}:~/extrails/target/ 
 	scp ~/.grails/extrails-config.groovy ${remote_user}@${remote_addr}:~/.grails/
 
@@ -54,6 +55,9 @@ upload:
 
 remote-init:
 	ssh -t ${remote_user}@${remote_addr} 'git clone git@github.com:smlsunxie/extrails.git'
+	ssh -t ${remote_user}@${remote_addr} 'mkdir ~/extrails/target && mkdir ~/.grails'
+	ssh -t ${remote_user}@${remote_addr} 'sudo mkdir /usr/share/tomcat7/.grails'
+
 
 remote-dbinit:
 
@@ -69,7 +73,6 @@ remote-deploy:
 # 	ssh -t kyle@codecanaan.com 'cd codecanaan && make log'
 
 deploy:
-	- mkdir /usr/share/tomcat7/.grails/
 	cp ~/.grails/extrails-config.groovy /usr/share/tomcat7/.grails/
 	rm -rf /var/lib/tomcat7/webapps/ROOT.war
 	rm -rf /var/lib/tomcat7/webapps/ROOT
