@@ -69,6 +69,7 @@ remote-deploy:
 # 	ssh -t kyle@codecanaan.com 'cd codecanaan && make log'
 
 deploy:
+	- mkdir /usr/share/tomcat7/.grails/
 	cp ~/.grails/extrails-config.groovy /usr/share/tomcat7/.grails/
 	rm -rf /var/lib/tomcat7/webapps/ROOT.war
 	rm -rf /var/lib/tomcat7/webapps/ROOT
