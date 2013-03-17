@@ -1,3 +1,7 @@
+#remote_addr=192.168.1.103
+remote_addr=motoranger.net
+remote_user=spooky
+
 server:
 #	export GRAILS_OPTS="-XX:MaxPermSize=1024m -Xmx1024M -server"
 	grails run-app
@@ -35,8 +39,9 @@ update:
 	git pull
 
 upload:
-	scp target/extrails.war spooky@106.187.54.84:~/extrails/target 
-	scp ~/.grails/extrails-config.groovy spooky@106.187.54.84:~/.grails
+	scp target/extrails.war ${remote_user}@${remote_addr}:~/extrails/target/ 
+	scp ~/.grails/extrails-config.groovy ${remote_user}@${remote_addr}:~/.grails/
+	scp ~/.grails/extrails-config.groovy root@${remote_addr}:/usr/share/tomcat7/.grails/
 
 # upload-secret:
 # 	s3cmd put ~/.grails/codecanaan-config.groovy s3://s3.lyhdev.com/apps/
@@ -48,10 +53,18 @@ upload:
 # download-secret:
 # 	s3cmd get s3://s3.lyhdev.com/apps/codecanaan-config.groovy ~/.grails/codecanaan-config.groovy
 
+remote-init:
+	ssh -t ${remote_user}@${remote_addr} 'git clone git@github.com:smlsunxie/extrails.git'
 
+remote-dbinit:
+
+	CREATE DATABASE extrails DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+	create user 'extrails'@'localhost' identified by 'mvagusta';
+	grant all on *.* to 'extrails'@'localhost';
+	
 
 remote-deploy:
-	ssh -t spooky@106.187.54.84 'cd extrails && make update && sudo make deploy'
+	ssh -t ${remote_user}@${remote_addr} 'cd extrails && make update && sudo make deploy'
 
 # remote-log:
 # 	ssh -t kyle@codecanaan.com 'cd codecanaan && make log'

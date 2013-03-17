@@ -125,7 +125,7 @@
                         <g:each var='recentPost' in='${recentPosts}' >
                           <div class="span3">
                             <a class="block-post-img" href="#">
-                              <g:img uri="/post/attachment/${recentPost.id}?file=${recentPost.mainImage}" alt="" src="img/block_post_img1.jpg" class="img-rounded" />
+                              <g:img uri="/post/attachment/${recentPost.id}?file=${recentPost.mainImage}"  class="img-rounded" />
                             </a>
                             <a class="block-post-title" href="#">${recentPost.title}</a>
                             <p class="block-post-date"><g:formatDate date='${recentPost.lastUpdated}' type='date' style='MEDIUM' /></p>

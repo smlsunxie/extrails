@@ -85,8 +85,8 @@ environments {
 		grails.resources.mapper.cached.excludes = ['**/*']
 		// upload.files.path="${userHome}/appData/${appName}/uploadfiles"
 
-		grails.resources.mappers.baseurl.enabled = true
-		grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
+		// grails.resources.mappers.baseurl.enabled = true
+		// grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
 
 		grails.aws.root = 'temp'
 
@@ -104,8 +104,8 @@ environments {
 		//grails.serverURL = "http://dev.codecanaan.com:8080"
 
 		// Using baseurl feature to enable CDN deployment
-		// grails.resources.mappers.baseurl.enabled = true
-		// grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
+		grails.resources.mappers.baseurl.enabled = true
+		grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
 
 		//This not works
 		//grails.resources.mappers.baseurl.excludes = ['biwascheme/*']
@@ -196,10 +196,10 @@ grails.taggable.preserve.case = true
 //     adsense.adClient = 'ca-pub-0839975967683137'
 // }
 
-aws.domain = 'upload.motoranger.net'
-aws.accessKey = 'AKIAJ3XFN3WWYAXULB7Q'
-aws.secretKey = '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'
-aws.bucketName = 'upload.motoranger.net'
+aws.domain = ''
+aws.accessKey = ''
+aws.secretKey = ''
+aws.bucketName = ''
 
 
 // grails {

@@ -293,6 +293,7 @@ class PostController {
      * 讀取附件
      */
     def attachment(Long id) {
+
         def post = Post.findByIdOrName(id,params.name)
         //  def fileLocation=grailsApplication.config.upload.files.path;
         
@@ -311,8 +312,8 @@ class PostController {
 
             // File object = new File("${fileLocation}/${post.name}/${file}")
 
-            log.info "${grailsApplication.config.grails.aws.root}/${params.name}/${file}"
-            def object = s3Service.getObject("${grailsApplication.config.grails.aws.root}/${params.name}/${file}")
+            log.info "${grailsApplication.config.grails.aws.root}/${post.name}/${file}"
+            def object = s3Service.getObject("${grailsApplication.config.grails.aws.root}/${post.name}/${file}")
             response.outputStream << object.dataInputStream
         }
         catch (e) {
