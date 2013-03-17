@@ -1,5 +1,5 @@
-#remote_addr=192.168.1.103
-remote_addr=motoranger.net
+remote_addr=192.168.1.102
+#remote_addr=motoranger.net
 remote_user=spooky
 
 server:
@@ -41,7 +41,6 @@ update:
 upload:
 	scp target/extrails.war ${remote_user}@${remote_addr}:~/extrails/target/ 
 	scp ~/.grails/extrails-config.groovy ${remote_user}@${remote_addr}:~/.grails/
-	scp ~/.grails/extrails-config.groovy root@${remote_addr}:/usr/share/tomcat7/.grails/
 
 # upload-secret:
 # 	s3cmd put ~/.grails/codecanaan-config.groovy s3://s3.lyhdev.com/apps/
@@ -70,6 +69,7 @@ remote-deploy:
 # 	ssh -t kyle@codecanaan.com 'cd codecanaan && make log'
 
 deploy:
+	cp ~/.grails/extrails-config.groovy /usr/share/tomcat7/.grails/
 	rm -rf /var/lib/tomcat7/webapps/ROOT.war
 	rm -rf /var/lib/tomcat7/webapps/ROOT
 	cp target/extrails.war /var/lib/tomcat7/webapps/ROOT.war
