@@ -56,7 +56,7 @@
                <div class="control-group advanced-region">
                   <label class="control-label" for="tags">
                       <%--tags--%>
-                      <g:message code="post.tags.label" />
+                      <g:message code="default.tags.label" />
                   </label>
 
 
@@ -74,7 +74,7 @@
 
                     <label class="control-label required" for="description">
                         <%--簡短敘述--%>
-                        <g:message code="post.description.label" />
+                        <g:message code="default.description.label" />
 
                     </label>
                     <div class="controls">

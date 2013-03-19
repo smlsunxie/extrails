@@ -29,7 +29,7 @@
                <div class="control-group advanced-region">
                   <label class="control-label" for="tags">
                       <%--tags--%>
-                      <g:message code="part.tags.label" />
+                      <g:message code="default.tags.label" />
                   </label>
 
 
@@ -47,7 +47,7 @@
 
                     <label class="control-label required" for="description">
                         <%--簡短敘述--%>
-                        <g:message code="part.description.label" />
+                        <g:message code="default.description.label" />
 
                     </label>
                     <div class="controls">
@@ -59,7 +59,7 @@
 
                     <label class="control-label required" for="description">
 
-                        <g:message code="part.cost.label" />
+                        <g:message code="default.cost.label" />
 
                     </label>
                     <div class="controls">
@@ -73,7 +73,7 @@
 
                     <label class="control-label required" for="description">
 
-                        <g:message code="part.price.label" />
+                        <g:message code="default.price.label" />
 
                     </label>
                     <div class="controls">
@@ -100,7 +100,7 @@
 
                     <label class="control-label required" for="description">
 
-                        <g:message code="part.imageUpload.label" />
+                        <g:message code="default.imageUpload.label" />
 
                     </label>
                     <div class="controls">

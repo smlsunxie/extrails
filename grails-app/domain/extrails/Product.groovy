@@ -18,7 +18,7 @@ class Product implements Taggable {
 		Long cost=0
 		Long price=0
 		Long mileage=0
-		String mainImage
+		String mainImage=""
 		String creator
 		String description
 
