@@ -83,7 +83,7 @@ class PostController {
 
         def user = springSecurityService.currentUser
 
-        if(!params?.product)params.product=Product.findById(params?.product)
+        if(params?.product)params.product=Product.findById(params?.product)
         
         def post = new Post(params)
 
