@@ -15,6 +15,7 @@ class Post implements Taggable {
 	String content
     String description
 	PostType type
+    Product product
 	
 	User creator		//建立者
 
@@ -22,7 +23,7 @@ class Post implements Taggable {
     Date lastUpdated    //修改日期
     
     int hits = 0        //點擊次數
-    String mainImage
+    String mainImage=''
 
     static constraints = {
     	name blank: false, unique: true
@@ -31,6 +32,7 @@ class Post implements Taggable {
         description nullable: true, empty: true
         mainImage nullable: true, empty: true
         creator nullable: true
+        product nullable: true
 
     }
 }

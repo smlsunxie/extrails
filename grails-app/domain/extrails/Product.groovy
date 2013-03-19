@@ -1,25 +1,35 @@
 package extrails
+
 import org.grails.taggable.Taggable
 
+public enum ProductOwner {
+    STORE,
+    CUSTOMER;
+}
 
-class Part implements Taggable {
+class Product implements Taggable {
+
+
 		String name
 		String title
+		// User owner
+		ProductOwner owner
+		Date years
 		Long cost=0
 		Long price=0
+		Long mileage=0
+		String mainImage
+		String creator
 		String description
-		Integer stockCount=0
-		String mainImage=''
 
-		User creator		//建立者
     Date dateCreated    //建立日期
     Date lastUpdated    //修改日期
 
     static constraints = {
+
     	name blank: false, unique: true
     	title blank: false
-      description nullable: true, empty: true
-      creator nullable: true
-      mainImage nullable: true, empty: true
+      mainImage nullable: true, empty: true   
+      description nullable: true, empty: true 	
     }
 }

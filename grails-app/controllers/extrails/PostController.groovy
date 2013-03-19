@@ -18,11 +18,8 @@ class PostController {
 
 	static layout="bootstrap"
 	def springSecurityService
-    def ajaxUploaderService
     def messageSource
-    def imageModiService
-    def fileHandleService
-    def s3Service
+
 
 
 
@@ -35,14 +32,12 @@ class PostController {
         def post = new Post(params)
         post.name = "post-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
+        def products=Product.list()
+        // def products=Product.executeQuery(
+        //    'from Product p where p not in ' +
+        //        '(:products)',
+        //    [products: Post.list()*.product])
 
-
-        [ post: post ]
-    }
-
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def edit(Long id) {
-        def post = Post.findByIdOrName(id, params.name)
 
         // def tagStr=""
 
@@ -52,8 +47,25 @@ class PostController {
         //     tagStr+= it
 
         // };
+        log.info products.size()
 
         [ 
+            products:products,
+            post: post
+        ]
+    }
+
+    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    def edit(Long id) {
+        def post = Post.findByIdOrName(id, params.name)
+
+
+        def products=Product.list()
+
+        log.info products.size()
+
+        [ 
+            products:products,
             post: post
         ]
     }
@@ -70,8 +82,13 @@ class PostController {
     def save() {
 
         def user = springSecurityService.currentUser
+
+        if(!params?.product)params.product=Product.findById(params?.product)
         
         def post = new Post(params)
+
+
+        log.info "params.product="+post.product
         
 
 
@@ -116,8 +133,11 @@ class PostController {
             id != post.id
         }
 
+        ProductController productController = new ProductController()
+
         
     	[
+            productShow:(post?.product?.id ? productController.show(post.product.id):null),
             post: post,
             recentPosts:recentPosts
         ]
@@ -174,6 +194,10 @@ class PostController {
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
     def update(Long id) {
 
+        log.info "params.product="+ params.product
+
+
+
         def post = Post.findByIdOrName(id,params.name)
 
 
@@ -209,7 +233,15 @@ class PostController {
             }
         }
 
+        if(params.product!='null')params.product=Product.findById(params?.product)
+        else params.product=null;
+
+        log.info "params.product="+params.product
+
         post.properties = params
+
+
+
 
         if (!post.save(failOnError: true, flush: true)) {
             render(view: "edit", model: [post: post])
@@ -222,130 +254,6 @@ class PostController {
 
 
 
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def attachmentSave(){
-        try {
-            // def fileLocation=grailsApplication.config.upload.files.path;
-            // log.info fileLocation
 
-            //檢查路徑是否存在，若不存在則產生資料夾
-            // fileHandleService.checkAndCreate(new File("${fileLocation}/${params.name}"));
-
-            // 定義上傳的檔案名稱
-            // File uploaded = new File("${fileLocation}/${params.name}/${params.qqfile}")
-            // File compressed = new File("${fileLocation}/${params.name}/${params.qqfile}_compressed")
-
-            // 將使用者上傳檔案的 inputStream 指定給 uploaded 完成檔案儲存
-            // ajaxUploaderService.upload(request.inputStream, uploaded)
-
-            //改變檔案大小
-
-            def ri = (InputStream)request.inputStream
-
-            def oi=imageModiService.sizeMiddle(ri)
-
-            log.info "${grailsApplication.config.grails.aws.root}/${params.name}/${params.qqfile}"
-            
-            s3Service.saveObject "${grailsApplication.config.grails.aws.root}/${params.name}/${params.qqfile}", new ByteArrayInputStream(oi.toByteArray())
-
-
-
-            return render(text: [success:true] as JSON, contentType:'text/json')
-
-        } catch (FileUploadException e) {
-
-            log.error("Failed to upload file.", e)
-            return render(text: [success:false] as JSON, contentType:'text/json')
-
-        }
-
-    }
-
-
-    /**
-     * 附件上傳及清單（顯示在 iframe 頁框內）
-     */
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def attachmentList(Long id) {
-        def post = Post.findByIdOrName(id,params.name)
-        // def fileLocation=grailsApplication.config.upload.files.path;
-
-        
-        if (!post) {
-            post = new Post(params)
-        }
-
-        // File dir = new File("${fileLocation}/${params.name}");
-
-        render (template:"attachmentList", model: [
-            post: post,
-            // files: dir.listFiles()
-            files: s3Service.getObjectList("${grailsApplication.config.grails.aws.root}/${params.name}")
-        ])
-
-        // [
-        //     content: content,
-        //     files: s3Service.getObjectList("attachment/${content.lesson?.course?.id}/${content.lesson?.id}/${content.id}")
-        // ]
-        
-    }
-    /**
-     * 讀取附件
-     */
-    def attachment(Long id) {
-
-        def post = Post.findByIdOrName(id,params.name)
-        //  def fileLocation=grailsApplication.config.upload.files.path;
-        
-        if (!post) {
-            post = new Post(params)
-        }
-
-        def file = params.file
-
-        // 將已編碼 URL 還原
-        file = URLDecoder.decode(file)
-
-
-        
-        try {
-
-            // File object = new File("${fileLocation}/${post.name}/${file}")
-
-            log.info "${grailsApplication.config.grails.aws.root}/${post.name}/${file}"
-            def object = s3Service.getObject("${grailsApplication.config.grails.aws.root}/${post.name}/${file}")
-            response.outputStream << object.dataInputStream
-        }
-        catch (e) {
-            e.printStackTrace()
-            log.error "Could not read ${file}"
-            File object = new File(servletContext.getRealPath("images/notFind.jpg"))
-            response.outputStream << new FileInputStream(object)
-
-            // response.sendError 404
-        }
-    }
-
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def attachmentDelete() {
-
-        // def file = new File(params.file);
-        try {
-            // file.delete();
-
-            log.info "${params.file}"
-
-            s3Service.deleteObject "${params.file}"
-
-            return render(text: [success:true] as JSON, contentType:'text/json')
-        }
-        catch (e) {
-            log.error "Could not read ${file}"
-            e.printStackTrace()
-            return render(text: [success:false] as JSON, contentType:'text/json')
-        }
-        
-        
-    }
 
 }

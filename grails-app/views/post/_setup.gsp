@@ -27,6 +27,20 @@
                 </div>
 
                <div class="control-group advanced-region">
+                  <label class="control-label" for="product">
+                      <%--post.type--%>
+                      <g:message code="post.product.label" />
+                  </label>
+
+
+                  <div class="controls">
+                    <g:select name="product" from="${products}" optionValue="name" 
+                    noSelection="${['null':'Select One...']}" optionKey="id" value="${post?.product?.id}" />
+                  </div>
+
+                </div>
+
+               <div class="control-group advanced-region">
                   <label class="control-label" for="type">
                       <%--post.type--%>
                       <g:message code="post.type.label" />
@@ -71,7 +85,7 @@
 
                 <p>
 
-                  假設我有一台 YAMAHA FZ150 要賣三萬元，100年份，三萬公里要賣，則「文章類型」選擇拍賣，標籤標上 [sale,YAMAHA,三萬元,100年份,三萬公里]
+                  假設我有一台 YAMAHA FZ150 要賣三萬元，100年份，三萬公里要賣，則「文章類型」選擇拍賣，標籤標上 [YAMAHA,三萬元,100年份,三萬公里]
                 </p>
 
 

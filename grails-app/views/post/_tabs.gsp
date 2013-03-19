@@ -53,7 +53,7 @@
                     </h3>
                   </div>
                   <div class="span9">
-                    <uploader:uploader  id="fileupload" url="${[ action:'attachmentSave']}" params='[name:post.name]' >
+                    <uploader:uploader  id="fileupload" url="${[ controller:'attachment', action:'save']}" params='[name:post.name]' >
                       <uploader:onComplete>
                         displayList();
                       </uploader:onComplete>
@@ -77,7 +77,7 @@
 
     <r:script>
       var displayList=function(){
-        <g:remoteFunction action="attachmentList" params="[name:post.name]" update="images" />
+        <g:remoteFunction controller='attachment'  action="list" params="[name:post.name, mainImage: post.mainImage]" update="images" />
       }
 
       $(function() {

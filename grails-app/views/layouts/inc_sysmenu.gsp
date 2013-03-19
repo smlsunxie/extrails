@@ -4,6 +4,17 @@
             <i>HOME</i>
         </g:link>
     </li>
+      
+    <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_MANERGER">
+
+        <li class="${controllerName=='home' && actionName=='dashboard' ?'active':''} single">
+            <g:link controller="home" action="dashboard">
+                主控台
+                <i>dashboard</i>
+            </g:link>
+        </li>
+    </sec:ifAnyGranted>
+
     <li class="${controllerName=='post' && type==extrails.PostType.SALE ?'active':''} single">
         <g:link controller="post" action="portfolio" params="[type:'SALE']">
             拍賣
@@ -23,8 +34,8 @@
         </g:link>
     </li>
 
-    <li class="${controllerName=='parts' && actionName=='list' ?'active':''} single">
-        <g:link controller="post" action="portfolio" params="[type:'DEMO']">
+    <li class="${controllerName=='part' && actionName=='portfolio' ?'active':''} single">
+        <g:link controller="part" action="portfolio">
             <g:message code="default.parts.label" default="parts"/>
             <i>PARTS</i>
         </g:link>

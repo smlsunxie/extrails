@@ -165,22 +165,22 @@ modules = {
   //       resource url: 'stylesheets/docs.css'
   //   }
     
-  //   'bootstrap-ext' {
-  //       dependsOn 'bootstrap'
-  //       //defaultBundle 'bootstrap'
-		// defaultBundle __bundleName
+    'bootstrap-ext' {
+        dependsOn 'bizstrap'
+        //defaultBundle 'bootstrap'
+		defaultBundle __bundleName
 
-  //       resource url: 'bootstrap-ext/bootbox/bootbox.min.js'
+        resource url: 'bootstrap-ext/bootbox/bootbox.min.js'
 
-  //       resource url: 'bootstrap-ext/datepicker/css/datepicker.css'
-  //       resource url: 'bootstrap-ext/datepicker/js/bootstrap-datepicker.js'
+        // resource url: 'bootstrap-ext/datepicker/css/datepicker.css'
+        // resource url: 'bootstrap-ext/datepicker/js/bootstrap-datepicker.js'
 
-  //       resource url: 'bootstrap-ext/timepicker/compiled/timepicker.css'
-  //       resource url: 'bootstrap-ext/timepicker/js/bootstrap-timepicker.js'
+        // resource url: 'bootstrap-ext/timepicker/compiled/timepicker.css'
+        // resource url: 'bootstrap-ext/timepicker/js/bootstrap-timepicker.js'
 
-  //       resource url: 'bootstrap-ext/bootstrap-lightbox.css'
-  //       resource url: 'bootstrap-ext/bootstrap-lightbox.js'
-  //   }
+        // resource url: 'bootstrap-ext/bootstrap-lightbox.css'
+        // resource url: 'bootstrap-ext/bootstrap-lightbox.js'
+    }
     
     'font-awesome' {
         dependsOn 'bizstrap'

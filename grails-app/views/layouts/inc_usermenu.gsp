@@ -17,25 +17,6 @@
       <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_MANERGER">
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
-                顧客
-                <i>customer</i>
-            </a>
-   
-            <ul class="dropdown-menu">
-                <li>
-                    <g:link controller="post" action="create">
-                        維護
-                    </g:link>
-                </li>
-                <li>
-                    <g:link controller="post" action="create">
-                        維修
-                    </g:link>
-                </li>
-          </ul>
-        </li>
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
                 店家
                 <i>store</i>
             </a>
@@ -49,7 +30,22 @@
 
                 <li>
                     <g:link controller="part" action="create">
-                        零件新增
+                        建立材料
+                    </g:link>
+                </li>
+                <li>
+                    <g:link controller="part" action="list">
+                        材料清單
+                    </g:link>
+                </li>
+                <li>
+                    <a id='productCreateLink' >
+                        建立機車
+                    </a>
+                </li>
+                <li>
+                    <g:link controller="product" action="list">
+                        機車清單
                     </g:link>
                 </li>
 
@@ -135,3 +131,39 @@
       </li>
   </sec:ifLoggedIn>
 
+<r:script>
+
+  $(function() {
+    var prompt=function(msg){
+      if(!msg)msg="";
+
+      var remoteCheck=function(inputData){
+
+        var resultCheck=function(data){
+          if(!data.success)prompt('車牌已存在請再次輸入');
+          else location.replace('/product/create?name='+inputData); 
+        }
+
+        <g:remoteFunction controller='product'  action="checkNameIsNew" params= "'name=' + inputData" onSuccess="resultCheck(data);" />
+      } 
+
+      bootbox.prompt("請輸入車牌號碼 "+msg, function(result) {                
+        if (result !== null) {      
+
+          remoteCheck(result);  
+
+     
+        }
+      })
+    };
+
+    $('#productCreateLink').on("click",function(){
+      prompt()
+    });
+
+  })
+
+
+
+
+</r:script>

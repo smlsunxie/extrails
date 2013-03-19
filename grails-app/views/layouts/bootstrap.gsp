@@ -22,7 +22,17 @@
 <!-- HEADER AREA -->
         <header>
             <g:applyLayout name="inc_header" />
+
+            <g:if test="${flash.message}">
+                <div class="alert alert-info" role="status">
+                    <button data-dismiss="alert" class="close" type="button">×</button>
+                    <h2>${flash.message}<h2>
+                </div>
+            </g:if>
+
         </header>
+                <%--快閃訊息--%>
+
 <%--畫面可視區域：起點--%>
 
 <div class="blur-after-modal-shown">
@@ -34,13 +44,7 @@
         <g:render template="/layouts/alert_chromeframe" />
 
         
-        <%--快閃訊息--%>
-        <g:if test="${flash.message}">
-            <div class="alert alert-note" role="status">
-                <button data-dismiss="alert" class="close" type="button">×</button>
-                <h2>${flash.message}<h2>
-            </div>
-        </g:if>
+
 
 
 	<%--主畫面內容--%>
@@ -56,12 +60,6 @@
 
 
 
-<r:script>
-
-
-
-
-</r:script>
 
 <r:layoutResources />
 </body>

@@ -37,29 +37,34 @@
 
         <!-- START PORTFOLIO GRID -->                
             <div class="portfolio-grid-1 main-block">
-                <div id="portfolio" class="row">                        
+                <ul id="portfolio" class="row thumbnails">                  
 
-                    <g:each var="post" in="${posts}">
-                        <div class="span6 large hp-wrapper element ${post.tags.join(' ')}">        
+                    <g:each var="part" in="${parts}">
+                        <li class="span4 large hp-wrapper element ${part.tags.join(' ')}">        
      
 
-                            <g:link controller="post" action="show" id="${post.id}"><g:img alt="" dir='img' file="460_arrow_2_hover.png" class="hover-shade" />
-                            </g:link>
-                            <a href="#" style="width: 460px; height: 340px;" class="top-link"><g:img alt="" uri="/attachment/show?name=${post.name}&file=${post.mainImage}" /></a>
-                            <div class="top-block">
-                                <g:link controller="post" action="show" id="${post.id}">${post.title}</g:link>
-                                <p>
-                                    <g:render template="/tag/links" model="['tags':post.tags]" />
-                                </p>
 
-                            </div>  
-                            <div class="bottom-block">
-                                <p>${post.description}</p>
-                            </div>        
-          
-                        </div>
-                    </g:each>
+                <div class="thumbnail">
+                  <g:img alt="" uri="/attachment/show?name=${part.name}&file=${part.mainImage}" style='height:200px' /></a>
+                  <div class="caption">
+                    <h3><g:link controller="part" action="show" id="${part.id}">${part.title}</g:link></h3>
+                    <p>${part.description}</p>
+                    <p>售價：${part.price}</p>
+                    <p>
+                        <a href="#" class="btn btn-primary">加入維修</a> 
+                        <a href="#" class="btn">售出</a>
+                    </p>
+                  </div>
                 </div>
+
+
+
+
+      
+          
+                        </li>
+                    </g:each>
+                </ul>
             </div>
         </div>                
     </div> 

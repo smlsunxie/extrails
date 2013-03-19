@@ -1,5 +1,5 @@
-#remote_addr=192.168.1.102
-remote_addr=motoranger.net
+remote_addr=192.168.1.102
+#remote_addr=motoranger.net
 remote_user=spooky
 
 server:
@@ -35,13 +35,21 @@ submoduleInstall:
 	git submodule init
 	git submodule update
 
-update:
-	git pull
-
 upload:
 
 	scp target/extrails.war ${remote_user}@${remote_addr}:~/extrails/target/ 
 	scp ~/.grails/extrails-config.groovy ${remote_user}@${remote_addr}:~/.grails/
+
+
+deploy:
+	cp ~/.grails/extrails-config.groovy /usr/share/tomcat7/.grails/
+	rm -rf /var/lib/tomcat7/webapps/ROOT.war
+	rm -rf /var/lib/tomcat7/webapps/ROOT
+	cp target/extrails.war /var/lib/tomcat7/webapps/ROOT.war
+	service tomcat7 restart
+
+log:
+	tail -f /var/lib/tomcat7/logs/catalina.out
 
 # upload-secret:
 # 	s3cmd put ~/.grails/codecanaan-config.groovy s3://s3.lyhdev.com/apps/
@@ -69,18 +77,12 @@ remote-dbinit:
 remote-deploy:
 	ssh -t ${remote_user}@${remote_addr} 'cd extrails && make update && sudo make deploy'
 
-# remote-log:
-# 	ssh -t kyle@codecanaan.com 'cd codecanaan && make log'
 
-deploy:
-	cp ~/.grails/extrails-config.groovy /usr/share/tomcat7/.grails/
-	rm -rf /var/lib/tomcat7/webapps/ROOT.war
-	rm -rf /var/lib/tomcat7/webapps/ROOT
-	cp target/extrails.war /var/lib/tomcat7/webapps/ROOT.war
-	service tomcat7 restart
+remote-log:
+	ssh -t ${remote_user}@${remote_addr} 'cd extrails && sudo make log'
 
-log:
-	tail -f /var/lib/tomcat7/logs/catalina.out
+
+
 
 # syncdb:
 # 	mysqldump -h codecanaan.com -usynconly -p contpub | mysql -h localhost -ucontpub -pcontpub contpub

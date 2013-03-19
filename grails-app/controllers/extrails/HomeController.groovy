@@ -1,5 +1,6 @@
 package extrails
 
+import grails.plugins.springsecurity.Secured
 
 
 class HomeController {
@@ -33,6 +34,11 @@ class HomeController {
 
     }
     def abouts(){
+        
+    }
+    
+    @Secured(['ROLE_MANERGER','ROLE_ADMIN','ROLE_CLERK'])
+    def dashboard(){
         
     }
 }
