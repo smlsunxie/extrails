@@ -98,52 +98,24 @@
                 </div>
                 <div class="control-group">
 
-                    <label class="control-label required" for="description">
+                    <label class="control-label required" for="fileupload">
 
                         <g:message code="default.imageUpload.label" />
 
                     </label>
-                    <div class="controls">
-                    <uploader:uploader  id="fileupload" url="${[controller:'attachment', action:'save']}" params='[name:part.name]' >
-                      <uploader:onComplete>
-                        displayList();
-                      </uploader:onComplete>
-                    </uploader:uploader>
-                    </div>
-                    
-                    <hr/>
 
+                    <g:render template="/attachment/uploadBtn" model="[name:part.name ,mainImage: part?.mainImage]" />                   
 
-
-
-                    <div  class="row-fluid">
-                      <div id="images" class="span12">
-                      </div>
-                    </div>
-                  <div class="control-group">
-                    <div  class="row-fluid">
-                      <div id="images">
-                      </div>
-                    </div>
-                  </div>
 
 
     <r:script>
-      var displayList=function(){
-        <g:remoteFunction controller='attachment' action="list" params="[name:part.name, mainImage: part?.mainImage]" update="images" />
-      }
+
 
       $(function() {
-        displayList();
+
         $("ul[name='tags']").tagit({select:true, tagSource: "${g.createLink(controller:'tag',action: 'listAsJson')}"});
 
       });
-
-      var showConfirm=function(){
-        return confirm("${message(code: 'default.button.delete.confirm.message')}");
-      }
-
-
 
 
     </r:script>

@@ -47,28 +47,8 @@
               <div class="tab-pane fade" id="imagesTab">
 
                 <div class="row-fluid">
-                  <div class="span3 pull-right">
-                    <h3>
-                        可使用拖拉的方式來上傳檔案，複製檔案連結在文章需要顯示的地方貼上
-                    </h3>
-                  </div>
-                  <div class="span9">
-                    <uploader:uploader  id="fileupload" url="${[ controller:'attachment', action:'save']}" params='[name:post.name]' >
-                      <uploader:onComplete>
-                        displayList();
-                      </uploader:onComplete>
-                    </uploader:uploader>
-                    
-                  </div>
-                </div>
-                <hr/>
 
-
-
-
-                <div  class="row-fluid">
-                  <div id="images" class="span12">
-                  </div>
+                    <g:render template="/attachment/uploadBtn" model="[name:post.name ,mainImage: post?.mainImage]" />  
                 </div>
 
               </div>
@@ -76,21 +56,12 @@
             </div>
 
     <r:script>
-      var displayList=function(){
-        <g:remoteFunction controller='attachment'  action="list" params="[name:post.name, mainImage: post.mainImage]" update="images" />
-      }
+
 
       $(function() {
-        displayList();
         $("ul[name='tags']").tagit({select:true, tagSource: "${g.createLink(controller:'tag',action: 'listAsJson')}"});
 
       });
-
-      var showConfirm=function(){
-        return confirm("${message(code: 'default.button.delete.confirm.message')}");
-      }
-
-
 
 
     </r:script>

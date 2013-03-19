@@ -24,12 +24,12 @@
                       <tbody>
                             <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_MANERGER">
                                <tr>
-                                    <td><g:message code="product.cost.label" /></td>
+                                    <td><g:message code="default.cost.label" /></td>
                                     <td>${product.cost}</td>
                                 </tr>   
                               </sec:ifAnyGranted>     
                              <tr>
-                                  <td><g:message code="product.price.label" /></td>
+                                  <td><g:message code="default.price.label" /></td>
                                   <td>${product.price}</td>
                               </tr> 
 
