@@ -47,8 +47,8 @@
 
                         </label>
                           <div class="controls">
-                            <g:select name="user" from="${users}" optionValue="username" 
-                            noSelection="${['null':'Select One...']}" optionKey="id" value="${serviceEvent?.user?.id}" />
+                            <g:select name="userId" from="${extrails.UserRole.findAllByRole(extrails.Role.findByAuthority('ROLE_CLERK'))*.user}" optionValue="username" 
+                            noSelection="${[null:'Select One...']}" optionKey="id" value="${session?.userId}" />
                           </div>                    
                     </div>
 
@@ -58,8 +58,8 @@
                             <g:message code="product.name.label" />
                         </label>
                           <div class="controls">
-                            <g:select name="product" from="${products}" optionValue="name" 
-                            noSelection="${['null':'Select One...']}" optionKey="id" value="${product?.id}" />
+                            <g:select name="productId" from="${extrails.Product.list()}" optionValue="name" 
+                            noSelection="${[null:'Select One...']}" optionKey="id" value="${session?.productId}" />
                           </div>
                     </div>
 
@@ -70,8 +70,8 @@
                             <%--必填--%>
                         </label>
                           <div class="controls">
-                            <g:select name="part" from="${parts}" optionValue="name" 
-                            noSelection="${['null':'Select One...']}" optionKey="id" value="${serviceEvent?.part?.id}" />
+                            <g:select name="partId" from="${extrails.Part.list()}" optionValue="name" 
+                            noSelection="${[null:'Select One...']}" optionKey="id" value="${session?.partId}" />
                           </div>
                     </div>
 
@@ -123,9 +123,9 @@
 
 
       $(function() {
-        $("#user").select2();
-        $("#product").select2();
-        $("#part").select2();
+        $("#userId").select2();
+        $("#productId").select2();
+        $("#partId").select2();
 
         $('li:not(:has(>ul))', 'ul#menu').live('click', function () {             
             alert($(this).text());

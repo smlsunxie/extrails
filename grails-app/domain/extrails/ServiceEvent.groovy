@@ -22,5 +22,6 @@ class ServiceEvent {
 	static constraints = {
     name blank: false, unique: true
     description nullable: true, empty: true
+    part nullable: true
   }
 }

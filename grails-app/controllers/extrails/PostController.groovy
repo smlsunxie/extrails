@@ -20,7 +20,6 @@ class PostController {
         def post = new Post(params)
         post.name = "post-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
-        def products=Product.list()
         // def products=Product.executeQuery(
         //    'from Product p where p not in ' +
         //        '(:products)',
@@ -35,10 +34,8 @@ class PostController {
         //     tagStr+= it
 
         // };
-        log.info products.size()
 
         [ 
-            products:products,
             post: post
         ]
     }
@@ -47,13 +44,9 @@ class PostController {
     def edit={Long id ->
         def post = Post.findByIdOrName(id, params.name)
 
-
-        def products=Product.list()
-
-        log.info products.size()
+        log.info post?.product?.id
 
         [ 
-            products:products,
             post: post
         ]
     }
@@ -68,26 +61,23 @@ class PostController {
     }
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
     def save={
-        def user = springSecurityService.currentUser
-
-        if(params?.product)params.product=Product.findById(params?.product)
-        def products=Product.list()
         def post = new Post(params)
 
+        if(params?.productId && params?.productId!='null')
+            params.product=Product.findById(params?.productId)
 
-        log.info "params.product="+post.product
-        
+        session.productId=params?.productId
 
 
         //set current user as creator
-        post.creator = user
+        post.creator = springSecurityService.currentUser
 
         if (!post.validate()) {
             if(post.hasErrors())
                 post.errors?.allErrors?.each{ 
                     flash.message=  messageSource.getMessage(it, null)
                 };
-            render(view: "create", model: [post: post,products:products])
+            render(view: "create", model: [post: post])
             return
         }
         
@@ -98,6 +88,7 @@ class PostController {
         else post.tags = params.tags
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'post.label', default: 'Post'), post.id])
+        session.productId=null
         redirect(action: "show", id: post.id)
     }
 
@@ -181,9 +172,6 @@ class PostController {
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
     def update={ Long id ->
 
-        log.info "params.product="+ params.product
-
-
 
         def post = Post.findByIdOrName(id,params.name)
 
@@ -220,17 +208,19 @@ class PostController {
             }
         }
 
-        if(params.product!='null')params.product=Product.findById(params?.product)
+        if(params.productId!='null')params.product=Product.findById(params?.productId)
         else params.product=null;
 
-        log.info "params.product="+params.product
 
         post.properties = params
 
 
 
 
-        if (!post.save(failOnError: true, flush: true)) {
+        if (!post.save(flush: true)) {
+            post.errors?.allErrors?.each{ 
+                flash.message=  messageSource.getMessage(it, null)
+            };
             render(view: "edit", model: [post: post])
             return
         }
