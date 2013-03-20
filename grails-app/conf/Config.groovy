@@ -121,7 +121,7 @@ log4j = {
 	appenders {
 		console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
 		rollingFile name: "stacktrace", maxFileSize: 1024,
-                  file: "~/logs/motoranger.net-stacktrace.log"
+                  file: "logs/motoranger.net-stacktrace.log"
 	}
 
 	
