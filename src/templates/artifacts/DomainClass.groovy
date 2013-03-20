@@ -1,20 +1,11 @@
-package extrails
-
-
+@artifact.package@
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
 @ToString(includeNames = true, includeFields = true, excludes = 'dateCreated,lastUpdated,metaClass')
 @EqualsAndHashCode
-class Role {
+class @artifact.name@ {
 
-	String authority
-
-	static mapping = {
-		cache true
-	}
-
-	static constraints = {
-		authority blank: false, unique: true
-	}
+    Date dateCreated
+    Date lastUpdated
 }

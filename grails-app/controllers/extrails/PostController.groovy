@@ -2,18 +2,6 @@ package extrails
 
 import grails.plugins.springsecurity.Secured
 
-import grails.converters.JSON
-
-import org.springframework.http.HttpStatus
-import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
-import org.springframework.web.multipart.MultipartHttpServletRequest
-import org.springframework.web.multipart.MultipartFile
-import javax.servlet.http.HttpServletRequest
-import grails.util.GrailsUtil
-import org.codehaus.groovy.grails.web.context.ServletContextHolder
-
-
-
 class PostController {
 
 	static layout="bootstrap"
@@ -28,7 +16,7 @@ class PostController {
      * 直接建立內容後回到瀏覽頁面
      */
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def create() {
+    def create={
         def post = new Post(params)
         post.name = "post-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
@@ -56,7 +44,7 @@ class PostController {
     }
 
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def edit(Long id) {
+    def edit={Long id ->
         def post = Post.findByIdOrName(id, params.name)
 
 
@@ -70,7 +58,7 @@ class PostController {
         ]
     }
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def delete(Long id) {
+    def delete={ Long id ->
         def post = Post.findByIdOrName(id, params.name)
         post.delete(flush: true)
 
@@ -79,7 +67,7 @@ class PostController {
         redirect(action: "list")
     }
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def save() {
+    def save={
 
         def user = springSecurityService.currentUser
 
@@ -114,7 +102,7 @@ class PostController {
         redirect(action: "show", id: post.id)
     }
 
-    def show(Long id) {
+    def show={ Long id ->
         def post = Post.findByIdOrName(id, params.name)
         
 
@@ -143,7 +131,7 @@ class PostController {
         ]
     }
 
-    def portfolio(){
+    def portfolio={
         def type = PostType.NEWS
         def posts
 
@@ -185,14 +173,14 @@ class PostController {
 
     }
 
-    def list(){
+    def list={
         [
             posts: Post.list()
         ]
     }
 
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def update(Long id) {
+    def update={ Long id ->
 
         log.info "params.product="+ params.product
 

@@ -1,5 +1,4 @@
 package extrails
-import org.imgscalr.Scalr
 import java.awt.image.BufferedImage 
 import javax.imageio.*
 import javax.imageio.stream.ImageOutputStream;
@@ -16,8 +15,6 @@ class ImageModiService {
 
 
         BufferedImage originalImage = ImageIO.read( uploaded )
-        BufferedImage thumbnail =
-  		Scalr.resize(originalImage, 600);
 
         return compress(originalImage)
 

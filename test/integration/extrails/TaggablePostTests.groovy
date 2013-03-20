@@ -6,15 +6,7 @@ import org.grails.taggable.Tag
 
 class TaggablePostTests {
 
-    @Before
-    void setUp() {
-        // Setup logic here
-    }
 
-    @After
-    void tearDown() {
-        // Tear down logic here
-    }
 
     @Test
     void 'test post with tag and get unique Tags'() {

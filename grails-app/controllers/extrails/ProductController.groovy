@@ -1,9 +1,8 @@
 package extrails
 
-import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
-
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+
 
 class ProductController {
 	static layout="bootstrap"
@@ -13,7 +12,7 @@ class ProductController {
     def messageSource
 
 	@Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def create() { 
+    def create= { 
 
     	def product = new Product(params)
 
@@ -25,7 +24,7 @@ class ProductController {
         [ product: product ]
 
     }
-    def query() { 
+    def query= { 
 
         def product = Product.findByName(params.name)
         if(product){
@@ -37,7 +36,7 @@ class ProductController {
 
     }
 
-    def checkNameIsNew(){
+    def checkNameIsNew={
         log.info params.name
         def product = Product.findByName(params.name)
         if(product){
@@ -47,7 +46,7 @@ class ProductController {
     }
 
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def save() {
+    def save={
 
         def user = springSecurityService.currentUser
         
@@ -87,7 +86,7 @@ class ProductController {
     }
 
 
-    def portfolio(){
+    def portfolio={
 
 
         def products=Product.list()
@@ -107,12 +106,12 @@ class ProductController {
 
     }
 
-    def list(){
+    def list={
         [
             products: Product.list()
         ]
     } 
-    def show(Long id) {
+    def show={ Long id ->
         def product = Product.findByIdOrName(id, params.name)
         
         log.info "${grailsApplication.config.grails.aws.root}/${product.name}"
@@ -124,7 +123,7 @@ class ProductController {
     }
 
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def edit(Long id) {
+    def edit={ Long id ->
         def product = Product.findByIdOrName(id, params.name)
 
         [ 
@@ -132,7 +131,7 @@ class ProductController {
         ]
     }
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def update(Long id) {
+    def update={ Long id ->
 
         def product = Product.findByIdOrName(id,params.name)
 

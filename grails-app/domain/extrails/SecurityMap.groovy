@@ -1,6 +1,11 @@
 package extrails
-import org.apache.commons.lang.builder.HashCodeBuilder
 
+import groovy.transform.EqualsAndHashCode
+
+import groovy.transform.ToString
+
+@ToString(includeNames = true, includeFields = true, excludes = 'dateCreated,lastUpdated,metaClass')
+@EqualsAndHashCode
 class SecurityMap {
 
    String url
@@ -14,4 +19,5 @@ class SecurityMap {
       url blank: false, unique: true
       configAttribute blank: false
    }
+
 }

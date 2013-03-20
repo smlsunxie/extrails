@@ -99,6 +99,7 @@ grails.project.dependency.resolution = {
         compile ":ajax-uploader:1.1"
 
         runtime ":cors:1.0.3"
+        compile ":codenarc:0.18.1"
 
 
 

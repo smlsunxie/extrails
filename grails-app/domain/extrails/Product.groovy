@@ -1,12 +1,14 @@
 package extrails
 
 import org.grails.taggable.Taggable
+import groovy.transform.EqualsAndHashCode
 
 public enum ProductOwner {
     STORE,
     CUSTOMER;
 }
 
+@EqualsAndHashCode
 class Product implements Taggable {
 
 
@@ -32,4 +34,9 @@ class Product implements Taggable {
       mainImage nullable: true, empty: true   
       description nullable: true, empty: true 	
     }
+    String toString(){
+      "${name}"
+		}
+
+
 }

@@ -11,7 +11,15 @@ import org.junit.*
 @TestFor(Product)
 class ProductTests {
 
-    void testSomething() {
-       fail "Implement me"
+    void testEqualsAndHashCode() {
+			def product=new Product( name:'a',
+			title:'a',
+			owner:extrails.ProductOwner.STORE,
+			years:new Date())
+
+
+      product.save()
+
+      println product
     }
 }

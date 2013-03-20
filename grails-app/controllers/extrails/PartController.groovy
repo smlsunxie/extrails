@@ -1,10 +1,7 @@
 package extrails
 
-import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
-
-import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
-import org.grails.taggable.Tag
+
 class PartController {
 	static layout="bootstrap"
     def s3Service
@@ -13,7 +10,7 @@ class PartController {
     def messageSource
 
 	@Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def create() { 
+    def create= { 
 
     	def part = new Part(params)
 
@@ -25,7 +22,7 @@ class PartController {
         [ part: part ]
 
     }
-    def query() { 
+    def query= { 
 
         def part = Part.findByName(params.name)
         if(part){
@@ -38,7 +35,7 @@ class PartController {
     }
 
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def save() {
+    def save= {
 
         def user = springSecurityService.currentUser
         
@@ -72,7 +69,7 @@ class PartController {
     }
 
 
-    def portfolio(){
+    def portfolio={
 
 
         def parts=Part.list()
@@ -92,12 +89,12 @@ class PartController {
 
     }
 
-    def list(){
+    def list={
         [
             parts: Part.list()
         ]
     } 
-    def show(Long id) {
+    def show={ Long id ->
         def part = Part.findByIdOrName(id, params.name)
         
         log.info "${grailsApplication.config.grails.aws.root}/${part.name}"
@@ -109,7 +106,7 @@ class PartController {
     }
 
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def edit(Long id) {
+    def edit={ Long id ->
         def part = Part.findByIdOrName(id, params.name)
 
         [ 
@@ -117,7 +114,7 @@ class PartController {
         ]
     }
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def update(Long id) {
+    def update={Long id ->
 
         def part = Part.findByIdOrName(id,params.name)
 

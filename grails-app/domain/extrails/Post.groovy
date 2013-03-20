@@ -1,6 +1,7 @@
 package extrails
 
 import org.grails.taggable.Taggable
+import groovy.transform.EqualsAndHashCode
 
 public enum PostType {
     SALE,
@@ -8,6 +9,7 @@ public enum PostType {
     NEWS;
 }
 
+@EqualsAndHashCode
 class Post implements Taggable {
 
 	String name
@@ -34,5 +36,8 @@ class Post implements Taggable {
         creator nullable: true
         product nullable: true
 
+    }
+    String toString(){
+      "${title}"
     }
 }

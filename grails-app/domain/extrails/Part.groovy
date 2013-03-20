@@ -1,7 +1,9 @@
 package extrails
 import org.grails.taggable.Taggable
 
+import groovy.transform.EqualsAndHashCode
 
+@EqualsAndHashCode
 class Part implements Taggable {
 		String name
 		String title
@@ -21,5 +23,9 @@ class Part implements Taggable {
       description nullable: true, empty: true
       creator nullable: true
       mainImage nullable: true, empty: true
+    }
+
+    String toString(){
+      "${name}-${title}"
     }
 }

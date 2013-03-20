@@ -4,7 +4,6 @@ package extrails
 import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
-import org.grails.taggable.Tag
 
 class AttachmentController {
 
@@ -12,7 +11,7 @@ class AttachmentController {
     def imageModiService
 
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def save(){
+    def save={
         try {
             // def fileLocation=grailsApplication.config.upload.files.path;
             // log.info fileLocation
@@ -55,7 +54,7 @@ class AttachmentController {
      * 附件上傳及清單（顯示在 iframe 頁框內）
      */
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def list() {
+    def list= {
         // File dir = new File("${fileLocation}/${params.name}");
 
         render (template:"list", model: [
@@ -75,7 +74,7 @@ class AttachmentController {
     /**
      * 讀取附件
      */
-    def show() {
+    def show= {
 
         def file = params.file
 
@@ -83,26 +82,29 @@ class AttachmentController {
         file = URLDecoder.decode(file)
 
 
-        
+        log.info resource(dir: 'images', file: 'notFind.jpg', absolute: true);
+        log.info resource(dir: 'images', file: 'notFind.jpg');
+
+
         try {
 
             // File object = new File("${fileLocation}/${post.name}/${file}")
 
             def object = s3Service.getObject("${grailsApplication.config.grails.aws.root}/${params.name}/${file}")
-            response.outputStream << object.dataInputStream
+            response.outputStream << object
         }
         catch (e) {
             e.printStackTrace()
             log.error "Could not read ${file}"
-            File object = new File(servletContext.getRealPath("images/notFind.jpg"))
-            response.outputStream << new FileInputStream(object)
+            File notFindImg  = grailsAttributes.getApplicationContext().getResource("/images/notFind.jpg").getFile()
+            response.outputStream << new FileInputStream(notFindImg)
 
             // response.sendError 404
         }
     }
 
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
-    def delete() {
+    def delete= {
 
         // def file = new File(params.file);
         try {
