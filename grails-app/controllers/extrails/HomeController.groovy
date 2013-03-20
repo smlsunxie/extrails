@@ -37,8 +37,4 @@ class HomeController {
         
     }
     
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN','ROLE_CLERK'])
-    def dashboard={
-        
-    }
 }

@@ -11,3 +11,4 @@
 [submodule "web-app/codemirror"]
 	path = web-app/codemirror
 	url = git://github.com/marijnh/CodeMirror.git
+

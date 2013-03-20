@@ -55,8 +55,20 @@
                             </div>  
                             <div class="bottom-block">
                                 <p>${post.description}</p>
-                            </div>        
-          
+                            </div>
+
+                            <div class="control-group">
+
+                              <label class="control-label required" for="description">
+
+                                  <g:message code="default.imageUpload.label" />
+
+                              </label>
+
+
+                              <g:render template="/attachment/uploadBtn" model="[name:product.name,mainImage: product?.mainImage]" />
+
+                            </div>
                         </div>
                     </g:each>
                 </div>

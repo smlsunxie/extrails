@@ -7,10 +7,10 @@
       
     <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_MANERGER">
 
-        <li class="${controllerName=='home' && actionName=='dashboard' ?'active':''} single">
-            <g:link controller="home" action="dashboard">
-                主控台
-                <i>dashboard</i>
+        <li class="${controllerName=='serviceEvent' && actionName=='index' ?'active':''} single">
+            <g:link controller="serviceEvent" action="index">
+                服務記錄
+                <i>ServiceEvent</i>
             </g:link>
         </li>
     </sec:ifAnyGranted>
