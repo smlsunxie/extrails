@@ -88,4 +88,13 @@
                   假設我有一台 YAMAHA FZ150 要賣三萬元，100年份，三萬公里要賣，則「文章類型」選擇拍賣，標籤標上 [YAMAHA,三萬元,100年份,三萬公里]
                 </p>
 
+    <r:script>
 
+
+      $(function() {
+        $("#product").select2();
+      });
+
+
+
+    </r:script>

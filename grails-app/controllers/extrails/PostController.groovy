@@ -68,11 +68,10 @@ class PostController {
     }
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
     def save={
-
         def user = springSecurityService.currentUser
 
         if(params?.product)params.product=Product.findById(params?.product)
-        
+        def products=Product.list()
         def post = new Post(params)
 
 
@@ -88,7 +87,7 @@ class PostController {
                 post.errors?.allErrors?.each{ 
                     flash.message=  messageSource.getMessage(it, null)
                 };
-            render(view: "create", model: [post: post])
+            render(view: "create", model: [post: post,products:products])
             return
         }
         

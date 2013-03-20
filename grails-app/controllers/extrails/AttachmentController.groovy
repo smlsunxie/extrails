@@ -91,7 +91,7 @@ class AttachmentController {
             // File object = new File("${fileLocation}/${post.name}/${file}")
 
             def object = s3Service.getObject("${grailsApplication.config.grails.aws.root}/${params.name}/${file}")
-            response.outputStream << object
+            response.outputStream << object.dataInputStream
         }
         catch (e) {
             e.printStackTrace()

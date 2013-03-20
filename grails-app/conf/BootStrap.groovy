@@ -3,6 +3,7 @@ import extrails.Role
 import extrails.UserRole
 import extrails.SecurityMap
 import extrails.Post
+import extrails.Product
 import org.grails.taggable.Tag
 
 class BootStrap {
@@ -76,7 +77,11 @@ class BootStrap {
                 if (!user4) {
                     user4 = new User(username: 'customer', password: 'customer', enabled: true, works: true).save(failOnError: true, flush: true)
                     UserRole.create(user4, role4)
-                }   
+                }  
+
+
+                new Product(name:'p1',title:'p1', years:new Date()).save(failOnError: true, flush: true)
+                new Product(name:'p2',title:'p2', years:new Date()).save(failOnError: true, flush: true)
             }
         }
     }

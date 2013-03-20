@@ -32,7 +32,9 @@
                     <tr>
                         <th width="40">#</th>
                         <th><g:message code="product.title.label" /></th>
-                        <th width="100"><g:message code="product.dateCreated.label" /></th>
+                        <th><g:message code="serviceEvent.label" /></th>
+                        <th><g:message code="product.dateCreated.label" /></th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +48,7 @@
                         <tr>
                             <td>${i+1}</td>
                             <td><g:link controller="product" action="show" id="${product?.id}">${product.title}</g:link></td>
+                            <td><g:link controller="serviceEvent" action="list" params="[productId:product?.id]">查看維修記錄</g:link></td>
                             <td><g:formatDate date="${product.lastUpdated}" type="date" style="SHOROT" /></td>
                         </tr>
                     </g:each>

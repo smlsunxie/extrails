@@ -33,6 +33,18 @@ class PartController {
 
 
     }
+    
+    def addServiceEvent= { 
+
+        def part = Part.findByName(params.name)
+        if(part){
+            redirect(controller:'serviceEvent', action:'create', params:[partId:part.id])
+        }else {
+            redirect(action:'create', params:params)
+        }
+
+
+    }
 
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
     def save= {

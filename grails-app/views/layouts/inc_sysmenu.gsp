@@ -7,8 +7,8 @@
       
     <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_MANERGER">
 
-        <li class="${controllerName=='serviceEvent' && actionName=='index' ?'active':''} single">
-            <g:link controller="serviceEvent" action="index">
+        <li class="${controllerName=='serviceEvent' && actionName=='create' ?'active':''} single">
+            <g:link controller="serviceEvent" action="create">
                 服務記錄
                 <i>ServiceEvent</i>
             </g:link>

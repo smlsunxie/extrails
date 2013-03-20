@@ -13,19 +13,20 @@ public enum ProductOwner {
 }
 
 @EqualsAndHashCode
+@ToString(includeNames = true, includeFields = true, excludes = 'dateCreated,lastUpdated,metaClass')
 class Product implements Taggable {
 
 
 		String name
 		String title
 		// User owner
-		ProductOwner owner
+		ProductOwner owner=extrails.ProductOwner.STORE
 		Date years
 		Long cost=0
 		Long price=0
 		Long mileage=0
 		String mainImage=""
-		String creator
+		String creator=""
 		String description
 
     Date dateCreated    //建立日期
@@ -40,9 +41,9 @@ class Product implements Taggable {
       mainImage nullable: true, empty: true   
       description nullable: true, empty: true 	
     }
-    String toString(){
-      "${name}"
-		}
+  //   String toString(){
+  //     "${name}"
+		// }
 
 
 }

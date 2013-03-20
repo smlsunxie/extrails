@@ -171,6 +171,9 @@ modules = {
 		defaultBundle __bundleName
 
         resource url: 'bootstrap-ext/bootbox/bootbox.min.js'
+        resource url: 'select2/select2.js'
+        resource url: 'select2/select2_locale_eu.js'
+        resource url: 'select2/select2.css'
 
         // resource url: 'bootstrap-ext/datepicker/css/datepicker.css'
         // resource url: 'bootstrap-ext/datepicker/js/bootstrap-datepicker.js'

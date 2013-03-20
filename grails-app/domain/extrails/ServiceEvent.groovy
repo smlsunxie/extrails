@@ -8,10 +8,19 @@ import groovy.transform.ToString
 @EqualsAndHashCode
 class ServiceEvent {
 
+	String name
+	String description
+	Product product
+	Part part
 
-
-	static belongsTo = [user:User, product:Product]
-	static hasMany = [serviceEventDetails:ServiceEventDetail]
+	User user
+ 
 	Date dateCreated
 	Date lastUpdated
+
+
+	static constraints = {
+    name blank: false, unique: true
+    description nullable: true, empty: true
+  }
 }
