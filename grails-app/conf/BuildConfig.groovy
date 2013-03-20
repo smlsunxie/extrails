@@ -88,7 +88,11 @@ grails.project.dependency.resolution = {
 
 
         // html 相關
-        compile ":closure-compiler:0.9.1"
+        // compile ":closure-compiler:0.9.1"
+        // runtime ":cors:1.0.3"
+        // 上面兩個套件 test-app 造成: Error creating bean with name 'instanceTagLibraryApi': Injection of autowired dependencies failed
+        
+
         runtime ':jquery-ui:latest.release'
         // runtime ":twitter-bootstrap:2.3.0"
         runtime ":browser-detection:0.4.3"
@@ -98,7 +102,7 @@ grails.project.dependency.resolution = {
         compile ":taggable:1.0.1"
         compile ":ajax-uploader:1.1"
 
-        runtime ":cors:1.0.3"
+        
         compile ":codenarc:0.18.1"
 
 

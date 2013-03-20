@@ -17,6 +17,8 @@ class User {
 	boolean accountLocked
 	boolean passwordExpired
 
+	static hasMany = [serviceEvents:ServiceEvent]
+
 	static constraints = {
 		username blank: false, unique: true
 		password blank: false

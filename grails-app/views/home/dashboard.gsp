@@ -37,11 +37,9 @@
                 <div class="accordion-inner">
                   <div class="btn-toolbar" style="margin-bottom: 10px;">
                     <button class="btn">開始</button>
-                    <button class="btn">使用零件</button>
                     <button class="btn">記錄</button>
 
                     <button class="btn">暫停</button>
-                    <button class="btn">明天繼續</button>
                     <button class="btn">完成</button>
 
                   </div>

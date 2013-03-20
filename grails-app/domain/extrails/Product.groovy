@@ -2,7 +2,11 @@ package extrails
 
 import org.grails.taggable.Taggable
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 
+
+
+@ToString
 public enum ProductOwner {
     STORE,
     CUSTOMER;
@@ -26,6 +30,8 @@ class Product implements Taggable {
 
     Date dateCreated    //建立日期
     Date lastUpdated    //修改日期
+
+    static hasMany = [serviceEvents:ServiceEvent]
 
     static constraints = {
 

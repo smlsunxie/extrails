@@ -3,6 +3,11 @@ package extrails
 import org.grails.taggable.Taggable
 import groovy.transform.EqualsAndHashCode
 
+import groovy.transform.ToString
+
+
+
+@ToString
 public enum PostType {
     SALE,
     DEMO,

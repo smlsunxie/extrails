@@ -1,0 +1,4 @@
+2013-03-20 11:58:11,551 [main] ERROR StackTrace  - Full Stack Trace:
+junit.framework.AssertionFailedError: junit.framework.AssertionFailedError: Implement me
+	at junit.framework.Assert.fail(Assert.java:50)
+	at extrails.TagControllerTests.testSomething(TagControllerTests.groovy:15)
