@@ -14,10 +14,7 @@ class ServiceEventController {
 
         def serviceEvent = new ServiceEvent(params);
 
-        if(!params?.user)serviceEvent.user= springSecurityService.currentUser
-        if(!params?.name)serviceEvent.name = "serviceEvent-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
-        if(params?.partId)serviceEvent.part=Part.findById(params?.partId)
-
+        serviceEvent.name = "serviceEvent-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
     	[
             serviceEvent:serviceEvent
@@ -26,20 +23,15 @@ class ServiceEventController {
     }
 
     def save={
-        def serviceEvent = new ServiceEvent(params);
-
+        
+       
         // if(params?.partId==)
 
-        if(params?.partId && params?.partId!='null')serviceEvent.part=Part.findById(params?.partId)
-        if(params?.userId && params?.userId!='null')serviceEvent.user=User.findById(params?.userId)
-        if(params?.productId && params?.productId!='null')serviceEvent.product=Product.findById(params?.productId)
+        if(params?.product && params?.product!='null')
+            params.product=Product.findById(params?.product)
 
-        session.partId=params?.partId
-        session.userId=params?.userId
-        session.productId=params?.productId
-
-
-
+        def serviceEvent = new ServiceEvent(params);
+        serviceEvent.creator=springSecurityService.currentUser
 
         if (!serviceEvent.validate()) {
             if(serviceEvent.hasErrors())
@@ -57,15 +49,14 @@ class ServiceEventController {
         flash.message = message(code: 'default.created.message', 
             args: [message(code: 'serviceEvent.label', default: 'serviceEvent'), serviceEvent.id])
 
-        session.partId=null
-        session.userId=null
-        session.productId=null
-        redirect(action: "list")
+
+        redirect(action: "create", controller:"ServiceEventDetail", params:[serviceEvent:serviceEvent.id])
 
 
     }
 
     def list={
+
         [
             serviceEvents: ServiceEvent.list()
         ]

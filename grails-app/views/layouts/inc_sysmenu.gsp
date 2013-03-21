@@ -5,15 +5,6 @@
         </g:link>
     </li>
       
-    <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_MANERGER">
-
-        <li class="${controllerName=='serviceEvent' && actionName=='create' ?'active':''} single">
-            <g:link controller="serviceEvent" action="create">
-                服務記錄
-                <i>ServiceEvent</i>
-            </g:link>
-        </li>
-    </sec:ifAnyGranted>
 
     <li class="${controllerName=='post' && type==extrails.PostType.SALE ?'active':''} single">
         <g:link controller="post" action="portfolio" params="[type:'SALE']">

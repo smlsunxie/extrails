@@ -10,22 +10,7 @@
 
 </head>
 <body>
-
-<div class="container">
-    <div class="row show-frid">
-        <div class="span12">
-            <div id="breadcrumb">
-                  <ul >
-                    <li class="home btn btn-mini btn-link">product</li>
-                    <li class="btn btn-mini btn-link">list</li>
-                      
-                  </ul>
-            </div>
-        </div>
-    </div>
-
     <div class="row">
-
         <div class="span12">
             <table class="table">
                 <thead>
@@ -56,6 +41,5 @@
             </table>
         </div>
     </div>
-</div>
 </body>
 </html>

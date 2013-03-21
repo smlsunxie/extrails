@@ -4,17 +4,27 @@ package extrails
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
-@ToString(includeNames = true, includeFields = true, excludes = 'dateCreated,lastUpdated,metaClass')
+
+@ToString
+public enum EventStatus {
+    UNFIN,
+    END;
+}
+
+
 @EqualsAndHashCode
 class ServiceEvent {
 
 	String name
 	String description
 	Product product
-	Part part
 
-	User user
+	static hasMany = [details:ServiceEventDetail]
+
+
+	EventStatus status=extrails.EventStatus.UNFIN
  
+ 	User creator
 	Date dateCreated
 	Date lastUpdated
 
@@ -22,6 +32,11 @@ class ServiceEvent {
 	static constraints = {
     name blank: false, unique: true
     description nullable: true, empty: true
-    part nullable: true
+
   }
+
+  public String toString(){
+  	"${product.name}"
+  }
+
 }

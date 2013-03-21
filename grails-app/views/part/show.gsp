@@ -7,33 +7,17 @@
 </head>
 <body>
 
-
-
-
-<div class="container">
-
   <div class="row show-grid">
-      <div class="span12">
-          <div id="breadcrumb">
-                <ul >
-                  <li class="home btn btn-mini btn-link">part</li>
-                  <li class="btn btn-mini btn-link">${part.title}</li>
-                  <sec:ifAllGranted roles="ROLE_ADMIN">
-                    <li><g:link  class="btn btn-primary btn-mini" controller="part" action="edit" id="${part?.id}"><g:message code="default.button.edit.label" /></g:link></li>
-                    <li><g:link  class="btn btn-danger btn-mini" controller="part" action="delete" id="${part?.id}"><g:message code="default.button.delete.label" /></g:link></li>
-                  </sec:ifAllGranted>
-                </ul>
-
-
-          </div>
-      </div>
-
       <div class="span12">                        
           <div class="row show-grid clear-both">
 
               <div class="span9 main-column two-columns-right ">
-        
+                  <sec:ifAllGranted roles="ROLE_ADMIN">
+                    <g:link  class="btn btn-primary btn-mini"  action="edit" id="${part?.id}"><g:message code="default.button.edit.label" /></g:link>
+                    <g:link  class="btn btn-danger btn-mini" action="delete" id="${part?.id}"><g:message code="default.button.delete.label" /></g:link>
+                  </sec:ifAllGranted>        
                   <h1>${part.title}</h1>
+
                   <div class="flexslider slider1">
                     <ul class="slides">
                       <g:each in="${files}" var="file" status="i">
@@ -121,7 +105,5 @@
           </div>
       </div>                                        
   </div>
-  <hr>
-</div>
 </body>
 </html>

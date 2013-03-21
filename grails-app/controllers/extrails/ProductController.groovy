@@ -47,8 +47,6 @@ class ProductController {
 
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
     def save={
-
-        def user = springSecurityService.currentUser
         
         // if(!params?.owner){
         // 	params.owner=user
@@ -61,7 +59,7 @@ class ProductController {
 
 
         //set current user as creator
-        product.creator = user
+        product.creator = springSecurityService.currentUser
 
         if (!product.validate()) {
             if(product.hasErrors())
@@ -178,5 +176,15 @@ class ProductController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'product.label', default: 'Product'), product.id])
         redirect(action: "show", id: product.id)
     }
+    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    def delete={ Long id ->
+        def product = Product.findByIdOrName(id, params.name)
+        product.delete(flush: true)
+
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), id])
+
+        redirect(action: "list")
+    }
+
 
 }

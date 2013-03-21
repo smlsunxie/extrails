@@ -61,12 +61,12 @@ class PostController {
     }
     @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
     def save={
+ 
+
+        if(params?.product && params?.product!='null')
+            params.product=Product.findById(params?.product)
+       
         def post = new Post(params)
-
-        if(params?.productId && params?.productId!='null')
-            params.product=Product.findById(params?.productId)
-
-        session.productId=params?.productId
 
 
         //set current user as creator
@@ -88,7 +88,8 @@ class PostController {
         else post.tags = params.tags
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'post.label', default: 'Post'), post.id])
-        session.productId=null
+
+
         redirect(action: "show", id: post.id)
     }
 
@@ -113,9 +114,14 @@ class PostController {
 
         ProductController productController = new ProductController()
 
+        log.info post?.product?.id
+
+        def productShow=(post?.product?.id ? productController.show(post.product.id):null)
+
+        log.info productShow
         
     	[
-            productShow:(post?.product?.id ? productController.show(post.product.id):null),
+            productShow:productShow,
             post: post,
             recentPosts:recentPosts
         ]
@@ -208,7 +214,7 @@ class PostController {
             }
         }
 
-        if(params.productId!='null')params.product=Product.findById(params?.productId)
+        if(params.product!='null')params.product=Product.findById(params?.product)
         else params.product=null;
 
 

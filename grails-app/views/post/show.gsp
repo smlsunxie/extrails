@@ -10,29 +10,20 @@
 
 
 
-<div class="container">
 
   <div class="row show-grid">
-      <div class="span12">
-          <div id="breadcrumb">
-              <ul >
-                <li class="home btn btn-mini btn-link">post</li>
-                <li class="btn btn-mini btn-link">${post.title}</li>
-                <sec:ifAllGranted roles="ROLE_ADMIN">
-                  <li><g:link  class="btn btn-primary btn-mini" controller="post" action="edit" id="${post?.id}"><g:message code="default.button.edit.label" /></g:link></li>
-                  <li><g:link  class="btn btn-danger btn-mini" controller="post" action="delete" id="${post?.id}"><g:message code="default.button.delete.label" /></g:link></li>
-                </sec:ifAllGranted>
-              </ul>
 
-
-          </div>
-      </div>
 
       <div class="span12">                        
           <div class="row show-grid clear-both">
 
               <div class="span9 main-column two-columns-right ">
-                  
+
+                <sec:ifAllGranted roles="ROLE_ADMIN">
+                  <g:link  class="btn btn-primary btn-mini" action="edit" id="${post?.id}"><g:message code="default.button.edit.label" /></g:link>
+                  <g:link  class="btn btn-danger btn-mini" action="delete" id="${post?.id}"><g:message code="default.button.delete.label" /></g:link>
+                </sec:ifAllGranted>
+
                   <g:if test="${productShow}">
                     <g:render template="/product/content"  model="['product':productShow.product,'files':productShow.files]" />
                   </g:if>
@@ -85,23 +76,6 @@
                                         
   </div>
   <hr>
-
-
-
-
-
-
-
-
-
-
-%{--           <div class="markdown-source">${post?.content?.encodeAsHTML()}</div>
-          
-          <hr />
-          
-          <small><g:message code="post.lastUpdated.label" default="Last Updated" />: <g:formatDate date="${post?.lastUpdated}" type="datetime" style="MEDIUM" /></small> --}%
-          
-
-</div>
+        
 </body>
 </html>

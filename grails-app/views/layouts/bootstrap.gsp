@@ -45,13 +45,18 @@
 
         
 
-
+    
 
 	<%--主畫面內容--%>
+    <div class="container">
+    <g:render template="/layouts/toolbar" />
 	<g:layoutBody/>
+    </div>
+
 </div>
 
 <footer id="footer">
+
 	<g:applyLayout name="inc_footer" />
 </footer>
 </div>

@@ -34,9 +34,9 @@
 
 
                   <div class="controls">
-                    <g:select name="productId" from="${extrails.Product.list()}" optionValue="name" 
+                    <g:select name="product" from="${extrails.Product.list()}" optionValue="name" 
                     noSelection="${['null':'Select One...']}" optionKey="id"
-                     value="${post?.product?.id ?: session?.productId }" />
+                     value="${post?.product?.id}" />
                   </div>
 
                 </div>
@@ -93,7 +93,7 @@
 
 
       $(function() {
-        $("#productId").select2();
+        $("#product").select2();
       });
 
 

@@ -6,10 +6,8 @@
 	</head>
 	<body>
 
-		<div class="container">
 			<hr>
 			<h1>關於我們</h1>
-		</div>
 
 	</body>
 </html>

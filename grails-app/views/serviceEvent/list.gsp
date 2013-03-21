@@ -11,21 +11,9 @@
 </head>
 <body>
 
-<div class="container">
-    <div class="row show-frid">
-        <div class="span12">
-            <div id="breadcrumb">
-                  <ul >
-                    <li class="home btn btn-mini btn-link">ServiceEvent</li>
-                    <li class="btn btn-mini btn-link">list</li>
-                      
-                  </ul>
-            </div>
-        </div>
-    </div>
+
 
     <div class="row">
-
         <div class="span12">
             <table class="table">
                 <thead>
@@ -45,7 +33,7 @@
                     <g:each in="${serviceEvents}" var="serviceEvent" status="i">
                         <tr>
                             <td>${i+1}</td>
-                            <td><g:link controller="serviceEvent" action="show" id="${part?.id}">${serviceEvent.name}</g:link></td>
+                            <td><g:link controller="serviceEventDetail" action="list" params="[serviceEvent:serviceEvent.id]">${serviceEvent.name}</g:link></td>
                             <td><g:formatDate date="${serviceEvent.lastUpdated}" type="date" style="SHOROT" /></td>
                         </tr>
                     </g:each>
@@ -53,6 +41,5 @@
             </table>
         </div>
     </div>
-</div>
 </body>
 </html>

@@ -26,7 +26,7 @@ class Product implements Taggable {
 		Long price=0
 		Long mileage=0
 		String mainImage=""
-		String creator=""
+		User creator
 		String description
 
     Date dateCreated    //建立日期
@@ -35,7 +35,7 @@ class Product implements Taggable {
     static hasMany = [serviceEvents:ServiceEvent]
 
     static constraints = {
-
+      creator nullable: true
     	name blank: false, unique: true
     	title blank: false
       mainImage nullable: true, empty: true   

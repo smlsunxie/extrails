@@ -6,32 +6,17 @@
 <title>${product?.title}</title>
 </head>
 <body>
-
-
-
-
-<div class="container">
-
   <div class="row show-grid">
-      <div class="span12">
-          <div id="breadcrumb">
-                <ul >
-                  <li class="home btn btn-mini btn-link">product</li>
-                  <li class="btn btn-mini btn-link">${product.title}</li>
-                  <sec:ifAllGranted roles="ROLE_ADMIN">
-                    <li><g:link  class="btn btn-primary btn-mini" controller="product" action="edit" id="${product?.id}"><g:message code="default.button.edit.label" /></g:link></li>
-                    <li><g:link  class="btn btn-danger btn-mini" controller="product" action="delete" id="${product?.id}"><g:message code="default.button.delete.label" /></g:link></li>
-                  </sec:ifAllGranted>
-                </ul>
-
-
-          </div>
-      </div>
 
       <div class="span12">                        
           <div class="row show-grid clear-both">
 
               <div class="span9 main-column two-columns-right ">
+
+                <sec:ifAllGranted roles="ROLE_ADMIN">
+                  <g:link  class="btn btn-primary btn-mini" action="edit" id="${product?.id}"><g:message code="default.button.edit.label" /></g:link>
+                  <g:link  class="btn btn-danger btn-mini" action="delete" id="${product?.id}"><g:message code="default.button.delete.label" /></g:link>
+                </sec:ifAllGranted>
         
                   <g:render template="content" />
 
@@ -78,7 +63,6 @@
           </div>
       </div>                                        
   </div>
-  <hr>
-</div>
+
 </body>
 </html>

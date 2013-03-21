@@ -5,8 +5,7 @@
 
 	</head>
 	<body>
-		<div class="container">
-			<hr>
+
 			<div class="bannercontainer" >
 
                 <div class="flexslider slider1">
@@ -171,6 +170,5 @@
                 </div>
             </div>
 
-        </div>
 	</body>
 </html>

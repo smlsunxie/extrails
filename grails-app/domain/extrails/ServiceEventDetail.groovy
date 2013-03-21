@@ -6,29 +6,26 @@ import groovy.transform.ToString
 
 
 
-@ToString
-public enum EventStatus {
-    START,
-    STOP,
-    LOG,
-    END;
-}
-
 @ToString(includeNames = true, includeFields = true, excludes = 'dateCreated,lastUpdated,metaClass')
 @EqualsAndHashCode
 class ServiceEventDetail {
 
-		static belongsTo = [serviceEvent:ServiceEvent]
+		static belongsTo = [head:ServiceEvent]
 
 		String mainImage=""
+		String name
+		
 		Part part
-		EventStatus status
+		User user
 
+		User creator
+		String description
 
 		Date dateCreated
 		Date lastUpdated
 
 		static constraints={
 			part nullable:true
+			
 		}
 }

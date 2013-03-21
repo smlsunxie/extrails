@@ -173,5 +173,14 @@ class PartController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'part.label', default: 'Part'), part.id])
         redirect(action: "show", id: part.id)
     }
+    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    def delete={ Long id ->
+        def part = Part.findByIdOrName(id, params.name)
+        part.delete(flush: true)
+
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), id])
+
+        redirect(action: "list")
+    }
 
 }

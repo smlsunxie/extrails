@@ -17,6 +17,33 @@
       <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_MANERGER">
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
+                服務
+                <i>ServiceEvent</i>
+            </a>
+   
+            <ul class="dropdown-menu">
+
+                <li >
+                    <g:link controller="serviceEvent" action="create">
+                        建立新的服務
+                    </g:link>
+                </li>
+                <li >
+                    <g:link controller="serviceEventDetail" action="create">
+                        新增服務記錄
+                    </g:link>
+                </li>
+                <li >
+                    <g:link controller="serviceEvent" action="list">
+                        服務清單
+                    </g:link>
+                </li>
+            </ul>
+        </li>
+
+
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
                 店家
                 <i>store</i>
             </a>

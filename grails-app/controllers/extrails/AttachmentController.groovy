@@ -29,13 +29,14 @@ class AttachmentController {
             //改變檔案大小
 
             def ri = (InputStream)request.inputStream
+            def s3Location="${grailsApplication.config.grails.aws.root}/${params.name}/${params.qqfile}";
 
-            def oi=imageModiService.sizeMiddle(ri)
-
-            log.info "${grailsApplication.config.grails.aws.root}/${params.name}/${params.qqfile}"
-            
-            s3Service.saveObject "${grailsApplication.config.grails.aws.root}/${params.name}/${params.qqfile}", new ByteArrayInputStream(oi.toByteArray())
-
+            if(params.qqfile.toLowerCase().endsWith(".jpg") || params.qqfile.toLowerCase().endsWith(".jpeg")){
+                def oi=imageModiService.sizeMiddle(ri)                
+                s3Service.saveObject s3Location, new ByteArrayInputStream(oi.toByteArray())
+            }else {
+                s3Service.saveObject s3Location, ri
+            }
 
 
             return render(text: [success:true] as JSON, contentType:'text/json')
