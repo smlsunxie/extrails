@@ -9,7 +9,6 @@ class Part implements Taggable {
 		String title
 		Long cost=0
 		Long price=0
-    Long wage=0
 
 		String description
 		Integer stockCount=0

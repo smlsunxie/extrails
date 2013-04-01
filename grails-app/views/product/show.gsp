@@ -14,8 +14,7 @@
               <div class="span9 main-column two-columns-right ">
 
                 <sec:ifAllGranted roles="ROLE_ADMIN">
-                  <g:link  class="btn btn-primary btn-mini" action="edit" id="${product?.id}"><g:message code="default.button.edit.label" /></g:link>
-                  <g:link  class="btn btn-danger btn-mini" action="delete" id="${product?.id}"><g:message code="default.button.delete.label" /></g:link>
+                  <g:btnbar actionName="${actionName}" domain="${product}" />
                 </sec:ifAllGranted>
         
                   <g:render template="content" />

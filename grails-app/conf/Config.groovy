@@ -70,7 +70,7 @@ grails.hibernate.cache.queries = false
 environments {
 	development {
 		grails.logging.jul.usebridge = true
-		grails.serverURL = "http://192.168.1.100:8080"
+		grails.serverURL = "http://localhost:8080"
 		
 		//disable resource path hash ?_debugResources=y
 		grails.resource.debug = true

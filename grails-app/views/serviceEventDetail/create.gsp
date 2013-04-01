@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><g:message code="default.home.label"/></title>
-
+    <title><g:message code="${controllerName}.${actionName}.title"/></title>
 	</head>
 	<body>
 
       <g:form action="save" class="form-horizontal"> 
-        <g:submitButton name="save"  class="btn btn-primary btn-mini" value="${message(code: 'default.button.save.label', default: "save")}" />
+          <g:btnbar actionName="${actionName}" domain="${serviceEventDetail}" />
 
-        <g:link action='list' class="btn btn-mini">${message(code: 'default.button.cancel.label', default: 'Cancel')}</g:link>
 
 
           <div class="bs-docs-example">
@@ -35,16 +33,7 @@
                   </div>
               </div>
 
-              <div class="control-group">
-                  <label class="control-label required" for="name">
-                      <g:message code="user.username.label" />
 
-                  </label>
-                    <div class="controls">
-                      <g:select name="user" from="${extrails.UserRole.findAllByRole(extrails.Role.findByAuthority('ROLE_CLERK'))*.user}" optionValue="username" 
-                      noSelection="${[null:'Select One...']}" optionKey="id" value="${serviceEventDetail?.user?.id}" />
-                    </div>                    
-              </div>
 
 
 
@@ -72,7 +61,7 @@
               </div>
 
 
-             <div class="control-group advanced-region">
+%{--              <div class="control-group advanced-region">
                 <label class="control-label" for="type">
                     <%--post.type--%>
                     <g:message code="serviceEvent.type.label" />
@@ -83,7 +72,7 @@
                   <g:select name="type" from="${extrails.EventStatus?.values()}" keys="${extrails.EventStatus.values()*.name()}" required="" value="${serviceEventDetail?.head?.status?.name()}"  valueMessagePrefix="extrails.EventStatus" />
                 </div>
 
-              </div>
+              </div> --}%
 
 
               <div class="control-group">

@@ -18,9 +18,11 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th width="40">#</th>
                         <th><g:message code="serviceEvent.name.label" /></th>
-                        <th width="100"><g:message code="default.dateCreated.label" /></th>
+                        <th><g:message code="serviceEvent.status.label" /></th>
+                        <th><g:message code="serviceEvent.mileage.label" /></th>
+                        <th><g:message code="default.dateCreated.label" /></th>
+                        <th><g:message code="default.action.label" /></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,11 +33,10 @@
                         </tr>
                     </g:if>
                     <g:each in="${serviceEvents}" var="serviceEvent" status="i">
-                        <tr>
-                            <td>${i+1}</td>
-                            <td><g:link controller="serviceEventDetail" action="list" params="[serviceEvent:serviceEvent.id]">${serviceEvent.name}</g:link></td>
-                            <td><g:formatDate date="${serviceEvent.lastUpdated}" type="date" style="SHOROT" /></td>
-                        </tr>
+                      <g:render template='headList' model="[serviceEvent:serviceEvent]" />
+
+
+
                     </g:each>
                 </tbody>
             </table>

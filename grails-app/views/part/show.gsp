@@ -13,8 +13,7 @@
 
               <div class="span9 main-column two-columns-right ">
                   <sec:ifAllGranted roles="ROLE_ADMIN">
-                    <g:link  class="btn btn-primary btn-mini"  action="edit" id="${part?.id}"><g:message code="default.button.edit.label" /></g:link>
-                    <g:link  class="btn btn-danger btn-mini" action="delete" id="${part?.id}"><g:message code="default.button.delete.label" /></g:link>
+                    <g:btnbar actionName="${actionName}" domain="${part}" />
                   </sec:ifAllGranted>        
                   <h1>${part.title}</h1>
 
@@ -67,7 +66,7 @@
                             <p><i class="icon-calendar"></i><g:formatDate date="${part?.lastUpdated}" type="datetime" style="MEDIUM" /></p>
                           </li>
                           <li>
-                            <p><i class="icon-user"></i>by ${part.creator.username}</p>
+                            <p><i class="icon-user"></i>by ${part?.creator?.username}</p>
                           </li>
                           <li>
                             <p>

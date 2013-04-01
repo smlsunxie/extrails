@@ -38,6 +38,7 @@ class ServiceEventDetailController {
 
     def save={
 
+
     	if(params?.head && params?.head!='null')
     		params.head=ServiceEvent.findById(params.head)
 
@@ -69,13 +70,14 @@ class ServiceEventDetailController {
             args: [message(code: 'serviceEvent.label', default: 'serviceEvent'), serviceEventDetail.id])
 
 
-        redirect(action: "list", controller:"ServiceEvent")
+        redirect(action: "list", controller:"ServiceEventDetail", params:[serviceEvent:serviceEventDetail.head.id])
 
 
 
     }
 
     def list={
+
 
         def serviceEvent=ServiceEvent.findById(params.serviceEvent)
 

@@ -56,6 +56,7 @@ grails.project.dependency.resolution = {
         runtime 'mysql:mysql-connector-java:5.1.22'
         compile 'org.imgscalr:imgscalr-lib:4.1' 
         runtime 'net.java.dev.jets3t:jets3t:0.9.0'
+        runtime 'org.jsoup:jsoup:0.2.2'
         // compile 'net.coobird:thumbnailator:0.4.2' 
     }
 
@@ -104,6 +105,10 @@ grails.project.dependency.resolution = {
 
         
         compile ":codenarc:0.18.1"
+
+
+        compile ":create-domain-uml:0.5"
+        compile ":csv:0.3.1"
 
 
 

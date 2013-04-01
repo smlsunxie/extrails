@@ -12,51 +12,65 @@
 <body>
 
 
-    <div class="row">
+	<div class="row">
 
-        <div class="span12">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th><g:message code="serviceEvent.name.label" /></th>
-                        <th width="100"><g:message code="default.dateCreated.label" /></th>
-                    </tr>
-                </thead>
-                <tbody>
+		<div class="span12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th><g:message code="serviceEvent.name.label" /></th>
+						<th><g:message code="serviceEvent.status.label" /></th>
+						<th><g:message code="serviceEvent.mileage.label" /></th>
+						<th><g:message code="default.dateCreated.label" /></th>
+						<th><g:message code="default.action.label" /></th>
+					</tr>
+				</thead>
+				<tbody>
 
-                    <tr>
+					<g:render template='/serviceEvent/headList' model="[serviceEvent:serviceEvent]" />
 
-                        <td><g:link controller="serviceEvent" action="show" id="${part?.id}">${serviceEvent.name}</g:link></td>
-                        <td><g:formatDate date="${serviceEvent.lastUpdated}" type="date" style="SHOROT" /></td>
-                    </tr>
+					<g:if test="${serviceEvent?.details}">
+						<tr>
+							<td colspan="5">
+								<table class="table-bordered" width="100%">
 
-                    <g:if test="${serviceEvent?.details}">
-                        <tr>
-                            <td colspan="3">
-                                <table class="table-bordered" width="100%">
-                                    <tbody>
-                                        <g:each in="${serviceEvent?.details}" var="detail">
-                                            <tr>
-                                                <td>${detail.name}</td>
-                                                <td><g:formatDate date="${detail.lastUpdated}" type="date" style="SHOROT" /></td>
-                                            </tr>
-                                        </g:each>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th><g:message code="serviceEvent.name.label" /></th>
-                                            <th><g:message code="default.dateCreated.label" /></th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </td>
-                        </tr>
-                    </g:if> 
+									<thead>
+										<tr>
+											<th><g:message code="default.dateCreated.label" /></th>
+											<th><g:message code="part.title.label" /></th>
+											
+											<th><g:message code="default.description.label" /></th>
+											<th><g:message code="default.mainImage.label" /></th>
+											<th><g:message code="part.price.label" /></th>
+											<th><g:message code="part.cost.label" /></th>
+										</tr>
+									</thead>									
+									<tbody>
+										<g:each in="${serviceEvent?.details}" var="detail">
+											<tr>
+												<td><g:formatDate date="${detail.lastUpdated}" type="date" style="SHOROT" /></td>
+												<td>${detail?.part?.title}</td>
 
-                </tbody>
-            </table>
-        </div>
-    </div>
+												<td>${detail?.description}</td>
+												<td><g:if test="${detail.mainImage!=''}"><g:link action="show" controller="attachment" params="[name:detail.name ,file:detail.mainImage]"><g:img style="height:50px" alt="" uri="attachment/show?name=${detail.name}&file=${detail.mainImage}" /></g:link></g:if></td>
+												<td>${detail?.part?.price}</td>
+												<td>${detail?.part?.cost}</td>
+
+											</tr>
+										</g:each>
+									</tbody>
+									<tfoot>
+
+									</tfoot>
+								</table>
+							</td>
+						</tr>
+					</g:if> 
+
+				</tbody>
+			</table>
+		</div>
+	</div>
 
 </body>
 </html>

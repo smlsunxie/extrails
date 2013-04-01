@@ -22,7 +22,24 @@ class UserTagLib {
         catch (e) {
             log.error e.message
         }
-        
+            
         out << body() << output
+    }
+
+    def btnbar= {attrs, body ->
+
+        def nextActionName
+
+        if(attrs.actionName=="create")
+            nextActionName="save";
+        else if(attrs.actionName=="edit")
+            nextActionName="update"
+        else if(attrs.actionName=="show")
+            nextActionName="edit"
+
+
+
+        out << body() << render(template:'/layouts/actionbar'
+            , model:[actionName:actionName, nextActionName:nextActionName ,domain:attrs?.domain])
     }
 }

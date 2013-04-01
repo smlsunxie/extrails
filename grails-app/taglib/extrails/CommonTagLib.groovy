@@ -10,22 +10,6 @@ class CommonTagLib {
         }
     }
     
-    /**
-     * CodeMirror Syntax Mode
-     */
-    def cmmode = { attr, body ->
-        if (attr && attr.type) {
-            if (attr.type.toString().toLowerCase()=='scheme') {
-                out << 'text/x-scheme'
-            }
-            else if (attr.type.toString().toLowerCase()=='html') {
-                out << 'text/html'
-            }
-            else {
-                out << 'text/x-csrc'
-            }
-        }
-    }
 
 	def compact = { attr, body ->
 		def c = body()?.trim()

@@ -40,23 +40,18 @@
 
 <div role="main" class="main-content">
 
-        <%--GoogleChromeFrame--%>
-        <g:render template="/layouts/alert_chromeframe" />
-
-        
-
-    
+    <%--GoogleChromeFrame--%>
+    <g:render template="/layouts/alert_chromeframe" />
 
 	<%--主畫面內容--%>
     <div class="container">
-    <g:render template="/layouts/toolbar" />
+    <g:render template="/layouts/navbar" />
 	<g:layoutBody/>
     </div>
 
 </div>
 
 <footer id="footer">
-
 	<g:applyLayout name="inc_footer" />
 </footer>
 </div>

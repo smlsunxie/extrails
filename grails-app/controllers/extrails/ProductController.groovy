@@ -185,6 +185,27 @@ class ProductController {
 
         redirect(action: "list")
     }
+    def csvImport={
 
+
+        def reader = grailsAttributes.getApplicationContext().getResource("/data/product.csv").getFile().toCsvMapReader([batchSize:50])
+        reader.each{ batchList ->
+            batchList.each{ map ->
+
+                map.user=User.findByUsername(map?.user)
+
+                if(map?.years=="")map.years=null
+                else map.years=new Date().parse("yyyy/M/d",map.years)
+
+                if(map.title=="")map.title=map.name
+
+                if(!Product.findByName(map?.name))
+                    new Product(map).save(failOnError: true, flush: true)
+            }
+        }              
+
+
+      
+    }
 
 }

@@ -38,16 +38,18 @@ class BootStrap {
 
             }
 
+
+
          
 
-            def defTags=['YAMAHA','KYMCO','SYM','SUZUKI','UNIVERSAL']
+            // def defTags=['YAMAHA','KYMCO','SYM','SUZUKI','UNIVERSAL']
 
-            defTags.each{ tagName ->
+            // defTags.each{ tagName ->
 
-                if(!Tag.findByName(tagName)){
-                    new Tag(name:tagName).save(failOnError: true, flush: true)
-                }
-            }
+            //     if(!Tag.findByName(tagName)){
+            //         new Tag(name:tagName).save(failOnError: true, flush: true)
+            //     }
+            // }
 
 
 
@@ -82,6 +84,12 @@ class BootStrap {
 
                 new Product(name:'p1',title:'p1', years:new Date()).save(failOnError: true, flush: true)
                 new Product(name:'p2',title:'p2', years:new Date()).save(failOnError: true, flush: true)
+
+                new User(username: 'fat', password: 'fat', title: "小胖", enabled: true, works: true).save(failOnError: true, flush: true)
+                new User(username: 'bro', password: 'bro', title: "小弟", enabled: true, works: true).save(failOnError: true, flush: true)
+                new User(username: 'tin', password: 'tin', title: "宗庭", enabled: true, works: true).save(failOnError: true, flush: true)
+
+
             }
         }
     }

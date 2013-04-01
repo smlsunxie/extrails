@@ -1,6 +1,9 @@
 package extrails
 
 import grails.plugins.springsecurity.Secured
+import org.jsoup.Jsoup
+import org.jsoup.nodes.*
+import org.jsoup.select.*
 
 class PartController {
 	static layout="bootstrap"
@@ -107,9 +110,12 @@ class PartController {
         ]
     } 
     def show={ Long id ->
+
+
         def part = Part.findByIdOrName(id, params.name)
+
+        log.info part
         
-        log.info "${grailsApplication.config.grails.aws.root}/${part.name}"
 
         [
             part: part,
@@ -181,6 +187,40 @@ class PartController {
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), id])
 
         redirect(action: "list")
+    }
+
+    def htmImport={
+
+        def tags=["通用維修","定期保養","鋼索剎車"
+        ,"輪胎","機油","週邊用品"
+        ,"電器部品","引擎維修","外裝"
+        ,"精品","排氣設備","標準維修"]
+
+        tags.eachWithIndex(){ tag,i->
+
+            File input = grailsAttributes.getApplicationContext().getResource("/data/part/${i+1}.htm").getFile()
+
+            Document doc = Jsoup.parse(input, "UTF-8", "http://motoranger.net/");
+
+            Elements elements = doc.select("#dlRepairItem > tr > td > input[type=Button]");
+            if(elements.size()==0)elements = doc.select("#dlRepairItem > tr > td > input[type=submit]");
+            log.info elements.size()
+
+            elements.eachWithIndex(){ element,j ->
+
+                def map=[:]
+
+                map.price=element.attr("value").split("\n")[1].replace("\$","").toLong()
+                map.post=map.price
+                map.title=element.attr("value").split("\n")[0]
+                map.name="part-default-$i-$j"
+                
+                def part=new Part(map).save(flush:true,failOnError:true)
+                part.addTag(tag)
+                   
+            }
+        }
+
     }
 
 }

@@ -33,7 +33,7 @@
                         <tr>
                             <td>${i+1}</td>
                             <td><g:link controller="product" action="show" id="${product?.id}">${product.title}</g:link></td>
-                            <td><g:link controller="serviceEvent" action="list" params="[productId:product?.id]">查看維修記錄</g:link></td>
+                            <td><g:link controller="serviceEvent" action="list" params="[product:product?.id]">查看維修記錄</g:link></td>
                             <td><g:formatDate date="${product.lastUpdated}" type="date" style="SHOROT" /></td>
                         </tr>
                     </g:each>

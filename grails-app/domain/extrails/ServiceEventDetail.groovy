@@ -16,10 +16,12 @@ class ServiceEventDetail {
 		String name
 		
 		Part part
-		User user
+
+		Integer qty=0
 
 		User creator
-		String description
+		String description=""
+
 
 		Date dateCreated
 		Date lastUpdated

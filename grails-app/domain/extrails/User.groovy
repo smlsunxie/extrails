@@ -4,6 +4,13 @@ package extrails
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
+
+public enum UserType{
+	GENERAL,
+	NEIGHBOR,
+	FREQUENT;
+}
+
 @ToString(includeNames = true, includeFields = true, excludes = 'dateCreated,lastUpdated,metaClass')
 @EqualsAndHashCode
 class User {
@@ -12,6 +19,15 @@ class User {
 
 	String username
 	String password
+
+	String title=""
+
+	String telphone=""
+	String mobile=""
+	Date birthday
+	String address=""
+	String email=""
+	UserType type=extrails.UserType.GENERAL
 	boolean enabled
 	boolean accountExpired
 	boolean accountLocked
@@ -22,6 +38,8 @@ class User {
 	static constraints = {
 		username blank: false, unique: true
 		password blank: false
+		birthday nullable:true
+
 	}
 
 	static mapping = {

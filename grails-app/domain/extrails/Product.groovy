@@ -12,23 +12,41 @@ public enum ProductOwner {
     CUSTOMER;
 }
 
+public enum ProductBrand {
+    HORTFORD,
+    KAWASAKI,
+    KYMCO,
+    OTHERS,
+    PGO,
+    SUZUKI,
+    SYM,
+    YAMAHA,
+    VESPA;
+}
+
+
 @EqualsAndHashCode
-@ToString(includeNames = true, includeFields = true, excludes = 'dateCreated,lastUpdated,metaClass')
 class Product implements Taggable {
 
 
 		String name
 		String title
-		// User owner
 		ProductOwner owner=extrails.ProductOwner.STORE
 		Date years
 		Long cost=0
 		Long price=0
 		Long mileage=0
 		String mainImage=""
-		User creator
+
+    ProductBrand brand=extrails.ProductBrand.OTHERS
+    String engineId=""
 		String description
 
+    User user
+    String color=""
+    Integer cc=0
+
+    User creator
     Date dateCreated    //建立日期
     Date lastUpdated    //修改日期
 
@@ -39,7 +57,10 @@ class Product implements Taggable {
     	name blank: false, unique: true
     	title blank: false
       mainImage nullable: true, empty: true   
-      description nullable: true, empty: true 	
+      description nullable: true, empty: true
+      user nullable: true
+      years nullable: true
+
     }
   //   String toString(){
   //     "${name}"

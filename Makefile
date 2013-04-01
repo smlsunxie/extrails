@@ -1,4 +1,4 @@
-#remote_addr=192.168.1.102
+#remote_addr=192.168.1.12
 remote_addr=motoranger.net
 remote_user=spooky
 
