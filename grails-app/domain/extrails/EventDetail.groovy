@@ -8,21 +8,15 @@ import groovy.transform.ToString
 
 @ToString(includeNames = true, includeFields = true, excludes = 'dateCreated,lastUpdated,metaClass')
 @EqualsAndHashCode
-class ServiceEventDetail {
-
-		static belongsTo = [head:ServiceEvent]
-
+class EventDetail {
+		static searchable = true
+		Event head
 		String mainImage=""
 		String name
-		
 		Part part
-
 		Integer qty=0
-
-		User creator
 		String description=""
-
-
+		String creator
 		Date dateCreated
 		Date lastUpdated
 

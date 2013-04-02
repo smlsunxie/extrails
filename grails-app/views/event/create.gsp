@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
-	<head>
+  <head>
         <title><g:message code="${controllerName}.${actionName}.title"/></title>
-	</head>
-	<body>
+  </head>
+  <body>
 
 
 
       <g:form action="save" class="form-horizontal"> 
 
-            <g:btnbar actionName="${actionName}" domain="${serviceEvent}" />
+            <g:actionbar actionName="${actionName}" domain="${event}" />
 
 
           <div class="bs-docs-example">
 
            <div class="control-group">
                 <label class="control-label required" for="name">
-                    <g:message code="serviceEvent.name.label" />
+                    <g:message code="event.name.label" />
 
                 </label>
                 <div class="controls">
-                    <g:textField name="name" value="${serviceEvent?.name}" readonly class="input input-xlarge" />
+                    <g:textField name="name" value="${event?.name}" readonly class="input input-xlarge" />
                 </div>                 
             </div>
 
@@ -30,8 +30,8 @@
 
               </label>
                 <div class="controls">
-                  <g:select name="user" from="${extrails.UserRole.findAllByRole(extrails.Role.findByAuthority('ROLE_CLERK'))*.user}" optionValue="username" 
-                  noSelection="${[null:'Select One...']}" optionKey="id" value="${serviceEventDetail?.user?.id}" />
+                  <g:select name="user" from="${extrails.UserRole.findAllByRole(extrails.Role.findByAuthority('ROLE_OPERATOR'))*.user}" optionValue="username" 
+                  noSelection="${[null:'Select One...']}" optionKey="id" value="${event?.user?.id}" />
                 </div>                    
             </div>
 
@@ -42,7 +42,7 @@
                 </label>
                   <div class="controls">
                     <g:select name="product" from="${extrails.Product.list()}" optionValue="name" 
-                    noSelection="${[null:'Select One...']}" optionKey="id" value="${serviceEvent?.product?.id}" />
+                    noSelection="${[null:'Select One...']}" optionKey="id" value="${event?.product?.id}" />
                   </div>
             </div>
 
@@ -64,7 +64,7 @@
 
                 </label>
                 <div class="controls">
-                    <g:textField  name="description" value="${serviceEvent?.description}" class="input input-xlarge" />
+                    <g:textField  name="description" value="${event?.description}" class="input input-xlarge" />
                 </div>
             </div>
 
@@ -75,9 +75,10 @@
 
     <r:script>
       $(function() {
+        $("#user").select2();
         $("#product").select2();
 
       });
     </r:script>
-	</body>
+  </body>
 </html>

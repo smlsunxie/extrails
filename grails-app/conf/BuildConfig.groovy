@@ -57,6 +57,8 @@ grails.project.dependency.resolution = {
         compile 'org.imgscalr:imgscalr-lib:4.1' 
         runtime 'net.java.dev.jets3t:jets3t:0.9.0'
         runtime 'org.jsoup:jsoup:0.2.2'
+        compile 'org.compass-project:compass:2.2.0' 
+
         // compile 'net.coobird:thumbnailator:0.4.2' 
     }
 
@@ -109,6 +111,8 @@ grails.project.dependency.resolution = {
 
         compile ":create-domain-uml:0.5"
         compile ":csv:0.3.1"
+
+        compile ":searchable:0.6.4"
 
 
 

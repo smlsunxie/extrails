@@ -2,6 +2,7 @@
 remote_addr=motoranger.net
 remote_user=spooky
 
+
 server:
 #	export GRAILS_OPTS="-XX:MaxPermSize=1024m -Xmx1024M -server"
 	grails run-app
@@ -64,7 +65,7 @@ log:
 remote-init:
 	ssh -t ${remote_user}@${remote_addr} 'git clone git@github.com:smlsunxie/extrails.git'
 	ssh -t ${remote_user}@${remote_addr} 'mkdir ~/extrails/target && mkdir ~/.grails'
-	ssh -t ${remote_user}@${remote_addr} 'sudo mkdir /usr/share/tomcat7/.grails'
+	ssh -t ${remote_user}@${remote_addr} 'sudo mkdir -p /usr/share/tomcat7/.grails/projects/extrails/searchable-index/production/index/product && sudo chgrp -R tomcat7 /usr/share/tomcat7 && sudo chmod -R 770 /usr/share/tomcat7'
 
 
 remote-dbinit:
@@ -93,4 +94,4 @@ remote-log:
 
 
 done:
-	make clean war upload && make remote-deploy
+	make war upload && make remote-deploy

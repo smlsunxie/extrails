@@ -8,7 +8,7 @@
 
 
     <g:form action="save" class="form-horizontal">        
-      <g:btnbar actionName="${actionName}" domain="${product}" />
+      <g:actionbar actionName="${actionName}" domain="${product}" />
 
 
       <div class="bs-docs-example">

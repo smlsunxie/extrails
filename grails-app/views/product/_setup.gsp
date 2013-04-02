@@ -91,7 +91,7 @@
                     </label>
                     <div class="controls">
                         <g:datePicker name="years" value="${product.years}"
-              noSelection="['':'-Choose-']" precision="year" />
+              noSelection="['':'-Choose-']" precision="day" years="${1980..(new Date().getAt(Calendar.YEAR))}" />
                         <span class="help-inline"></span>
                     </div>
                 </div>

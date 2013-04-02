@@ -14,7 +14,7 @@ public enum UserType{
 @ToString(includeNames = true, includeFields = true, excludes = 'dateCreated,lastUpdated,metaClass')
 @EqualsAndHashCode
 class User {
-
+	static searchable = true
 	transient springSecurityService
 
 	String username
@@ -32,8 +32,6 @@ class User {
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
-
-	static hasMany = [serviceEvents:ServiceEvent]
 
 	static constraints = {
 		username blank: false, unique: true

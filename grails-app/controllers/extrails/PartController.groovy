@@ -12,7 +12,7 @@ class PartController {
     def springSecurityService
     def messageSource
 
-	@Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+	@Secured(['ROLE_OPERATOR'])
     def create= { 
 
     	def part = new Part(params)
@@ -37,11 +37,11 @@ class PartController {
 
     }
     
-    def addServiceEvent= { 
+    def addEvent= { 
 
         def part = Part.findByName(params.name)
         if(part){
-            redirect(controller:'serviceEvent', action:'create', params:[partId:part.id])
+            redirect(controller:'event', action:'create', params:[partId:part.id])
         }else {
             redirect(action:'create', params:params)
         }
@@ -49,17 +49,13 @@ class PartController {
 
     }
 
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    @Secured(['ROLE_OPERATOR'])
     def save= {
 
-        def user = springSecurityService.currentUser
-        
+
         def part = new Part(params)
-        
-
-
         //set current user as creator
-        part.creator = user
+        part.creator = springSecurityService.currentUser
 
         if (!part.validate()) {
             if(part.hasErrors())
@@ -123,7 +119,7 @@ class PartController {
         ]
     }
 
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    @Secured(['ROLE_OPERATOR'])
     def edit={ Long id ->
         def part = Part.findByIdOrName(id, params.name)
 
@@ -131,7 +127,7 @@ class PartController {
             part: part
         ]
     }
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    @Secured(['ROLE_OPERATOR'])
     def update={Long id ->
 
         def part = Part.findByIdOrName(id,params.name)
@@ -179,7 +175,7 @@ class PartController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'part.label', default: 'Part'), part.id])
         redirect(action: "show", id: part.id)
     }
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    @Secured(['ROLE_OPERATOR'])
     def delete={ Long id ->
         def part = Part.findByIdOrName(id, params.name)
         part.delete(flush: true)

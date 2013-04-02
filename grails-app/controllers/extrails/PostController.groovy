@@ -15,7 +15,7 @@ class PostController {
     /**
      * 直接建立內容後回到瀏覽頁面
      */
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    @Secured(['ROLE_OPERATOR'])
     def create={
         def post = new Post(params)
         post.name = "post-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
@@ -40,7 +40,7 @@ class PostController {
         ]
     }
 
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    @Secured(['ROLE_OPERATOR'])
     def edit={Long id ->
         def post = Post.findByIdOrName(id, params.name)
 
@@ -50,7 +50,7 @@ class PostController {
             post: post
         ]
     }
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    @Secured(['ROLE_OPERATOR'])
     def delete={ Long id ->
         def post = Post.findByIdOrName(id, params.name)
         post.delete(flush: true)
@@ -59,7 +59,7 @@ class PostController {
 
         redirect(action: "list")
     }
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    @Secured(['ROLE_OPERATOR'])
     def save={
  
 
@@ -70,7 +70,7 @@ class PostController {
 
 
         //set current user as creator
-        post.creator = springSecurityService.currentUser
+        post.creator = springSecurityService.currentUser.username
 
         if (!post.validate()) {
             if(post.hasErrors())
@@ -175,7 +175,7 @@ class PostController {
         ]
     }
 
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    @Secured(['ROLE_OPERATOR'])
     def update={ Long id ->
 
 

@@ -5,79 +5,89 @@ import org.jsoup.nodes.*
 import org.jsoup.select.*
 import grails.plugins.springsecurity.Secured
 
-class ServiceEventController {
+class EventController {
 
 	static layout="bootstrap"
     def springSecurityService
     def messageSource
 
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN','ROLE_CLERK'])
+    @Secured(['ROLE_OPERATOR'])
     def create= { 
 
-        def serviceEvent = new ServiceEvent(params);
+        if(params?.product){
+            params.product=Product.findById(params.product)
+        }
+        def event = new Event(params);
 
-        serviceEvent.name = "serviceEvent-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
+
+
+        event.name = "event-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
     	[
-            serviceEvent:serviceEvent
+            event:event
     	]
 
     }
-
+    @Secured(['ROLE_OPERATOR'])
     def save={
         
        
-        // if(params?.partId==)
+        log.info params.user
 
         if(params?.product && params?.product!='null')
-            params.product=Product.findById(params?.product)
+            params.product=Product.findById(params.product)
 
-        def serviceEvent = new ServiceEvent(params);
-        serviceEvent.creator=springSecurityService.currentUser
+        if(params?.user)
+            params.user=User.findById(params.user)
 
-        if (!serviceEvent.validate()) {
-            if(serviceEvent.hasErrors())
-                serviceEvent.errors?.allErrors?.each{ 
+
+        def event = new Event(params);
+        event.creator=springSecurityService.currentUser.username
+        event.date=new Date()
+
+        if (!event.validate()) {
+            if(event.hasErrors())
+                event.errors?.allErrors?.each{ 
                     flash.message=  messageSource.getMessage(it, null)
                 };
-            render(view: "create", model: [serviceEvent: serviceEvent])
+            render(view: "create", model: [event: event])
             return
         }
 
+        event.merge(flush: true)
+        event=Event.findByName(params.name)
 
-
-        serviceEvent.save(flush: true)
         
         flash.message = message(code: 'default.created.message', 
-            args: [message(code: 'serviceEvent.label', default: 'serviceEvent'), serviceEvent.id])
+            args: [message(code: 'event.label', default: 'event'), event.id])
 
 
-        redirect(action: "create", controller:"ServiceEventDetail", params:[serviceEvent:serviceEvent.id])
+        redirect(action: "create", controller:"EventDetail", params:[event:event.id])
 
 
     }
 
     def list={
 
-        def serviceEvents
+        def events
 
         if(params?.product)
-            serviceEvents=ServiceEvent.findAllByProduct(Product.findById(params.product))
-        else serviceEvents=ServiceEvent.list()
+            events=Event.findAllByProduct(Product.findById(params.product))
+        else events=Event.list()
 
         [
-            serviceEvents: serviceEvents
+            events: events
         ]
     }
 
     def changeStatus={ Long id ->
 
         log.info params.status
-        def serviceEvent=ServiceEvent.findById(id)
-        serviceEvent.status=params.status
-        serviceEvent.save(flush: true)
+        def event=Event.findById(id)
+        event.status=params.status
+        event.save(flush: true)
 
-        redirect(action:"list", controller:params.controllerName, params:[serviceEvent:id])
+        redirect(action:"list", controller:params.controllerName, params:[event:id])
 
     }
     def htmImport={
@@ -85,12 +95,12 @@ class ServiceEventController {
 
         for ( i in 1..8 ){
 
-            File input = grailsAttributes.getApplicationContext().getResource("/data/serviceEvent/${i}.htm").getFile()
+            File input = grailsAttributes.getApplicationContext().getResource("/data/event/${i}.htm").getFile()
 
             Document doc = Jsoup.parse(input, "UTF-8", "http://motoranger.net/");
 
 
-            // serviceEvent
+            // event
             Elements elements = doc.select("td[width=65%] > table[cellspacing=3]");
             Elements elements2 = doc.select("td[width=35%] > table[cellspacing=3]");
 
@@ -101,11 +111,11 @@ class ServiceEventController {
                 Element userAndProductHtml = element.getElementsByTag("tr").get(3) 
                 Elements userAndProductCols=userAndProductHtml.getElementsByTag("td")
 
-                Element serviceEventHtml = element.getElementsByTag("tr").get(1) 
-                Elements serviceEventCols=serviceEventHtml.getElementsByTag("td")
+                Element eventHtml = element.getElementsByTag("tr").get(1) 
+                Elements eventCols=eventHtml.getElementsByTag("td")
 
-                def productName=serviceEventCols[3].getElementsByTag("a")[0].html()
-                def mileage=serviceEventCols[5].html().decodeHTML().replace("  KM","")
+                def productName=eventCols[3].getElementsByTag("a")[0].html()
+                def mileage=eventCols[5].html().decodeHTML().replace("  KM","")
 
 
                 //---------
@@ -153,7 +163,7 @@ class ServiceEventController {
 
                     productMap.brand=brand
                     productMap.title=productMap.name
-                    productMap.creator=User.findByUsername("admin")
+                    productMap.creator="admin"
                     
                     product=new Product(productMap)
                     product.save(flush:true,failOnError:true)
@@ -166,26 +176,26 @@ class ServiceEventController {
 
 
                 //---------
-                def serviceEventMap=[:]
-                def serviceDateString=serviceEventCols[4].html()
-                serviceEventMap.product=product
-                serviceEventMap.creator=admin
-                serviceEventMap.name="serviceEvent-${productName}-${serviceDateString}-${i}-${j}"
+                def eventMap=[:]
+                def dateString=eventCols[4].html()
+                eventMap.product=product
+                eventMap.creator="admin"
+                eventMap.name="event-${productName}-${dateString}-${i}-${j}"
 
 
-                serviceEventMap.user=recordUser
-                serviceEventMap.mileage=mileage
-                serviceEventMap.status=extrails.EventStatus.END
-                serviceEventMap.serviceDate=new Date().parse("yyyy/M/d",serviceDateString)
+                eventMap.user=recordUser
+                eventMap.mileage=mileage
+                eventMap.status=extrails.EventStatus.END
+                eventMap.date=new Date().parse("yyyy/M/d",dateString)
 
-                serviceEventMap.description=serviceEventCols[6].html().decodeHTML()
+                eventMap.description=eventCols[6].html().decodeHTML()
 
-                def serviceEvent=new ServiceEvent(serviceEventMap).save(flush:true,failOnError:true)
+                def event=new Event(eventMap).save(flush:true,failOnError:true)
 
 
-                Elements serviceEventDetailsHtml=elements2.get(j).getElementsByTag("tr")
+                Elements eventDetailsHtml=elements2.get(j).getElementsByTag("tr")
 
-                serviceEventDetailsHtml.eachWithIndex(){ detailHtml,k ->
+                eventDetailsHtml.eachWithIndex(){ detailHtml,k ->
                     if(k>0){
                         Elements detailCols=detailHtml.getElementsByTag("td")
                         def partMap=[:]
@@ -203,14 +213,14 @@ class ServiceEventController {
                         }
 
 
-                        def serviceEventDetailMap=[:]
-                        serviceEventDetailMap.head=serviceEvent
-                        serviceEventDetailMap.name="serviceEventDetail-${i}-${j}-${k}"
-                        serviceEventDetailMap.qty=detailCols[2].html().decodeHTML().toInteger()
-                        serviceEventDetailMap.creator=admin
-                        serviceEventDetailMap.part=part
+                        def eventDetailMap=[:]
+                        eventDetailMap.head=event
+                        eventDetailMap.name="eventDetail-${i}-${j}-${k}"
+                        eventDetailMap.qty=detailCols[2].html().decodeHTML().toInteger()
+                        eventDetailMap.creator="admin"
+                        eventDetailMap.part=part
 
-                        new ServiceEventDetail(serviceEventDetailMap).save(flush:true,failOnError:true)
+                        new EventDetail(eventDetailMap).save(flush:true,failOnError:true)
 
 
                     }

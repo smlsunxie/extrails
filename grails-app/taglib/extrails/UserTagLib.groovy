@@ -26,11 +26,11 @@ class UserTagLib {
         out << body() << output
     }
 
-    def btnbar= {attrs, body ->
+    def actionbar= {attrs, body ->
 
         def nextActionName
 
-        if(attrs.actionName=="create")
+        if(attrs.actionName=="create" || attrs.actionName=="save")
             nextActionName="save";
         else if(attrs.actionName=="edit")
             nextActionName="update"
@@ -39,7 +39,7 @@ class UserTagLib {
 
 
 
-        out << body() << render(template:'/layouts/actionbar'
+        out << body() << render(template:'/component/actionbar'
             , model:[actionName:actionName, nextActionName:nextActionName ,domain:attrs?.domain])
     }
 }

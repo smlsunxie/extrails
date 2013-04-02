@@ -5,7 +5,7 @@
   <body>
 
     <g:form action="save" class="form-horizontal">  
-      <g:btnbar actionName="${actionName}" domain="${part}" />
+      <g:actionbar actionName="${actionName}" domain="${part}" />
 
       <div class="bs-docs-example">
         <g:render template="setup" />

@@ -27,7 +27,7 @@ public enum ProductBrand {
 
 @EqualsAndHashCode
 class Product implements Taggable {
-
+    static searchable = true
 
 		String name
 		String title
@@ -49,8 +49,6 @@ class Product implements Taggable {
     User creator
     Date dateCreated    //建立日期
     Date lastUpdated    //修改日期
-
-    static hasMany = [serviceEvents:ServiceEvent]
 
     static constraints = {
       creator nullable: true

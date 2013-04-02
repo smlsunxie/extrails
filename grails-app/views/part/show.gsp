@@ -13,7 +13,7 @@
 
               <div class="span9 main-column two-columns-right ">
                   <sec:ifAllGranted roles="ROLE_ADMIN">
-                    <g:btnbar actionName="${actionName}" domain="${part}" />
+                    <g:actionbar actionName="${actionName}" domain="${part}" />
                   </sec:ifAllGranted>        
                   <h1>${part.title}</h1>
 
@@ -40,7 +40,7 @@
                   <table class="table">
 
                       <tbody>
-                            <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_MANERGER">
+                            <sec:ifAnyGranted roles="ROLE_MANERGER">
                                <tr>
                                     <td><g:message code="default.cost.label" /></td>
                                     <td>${part.cost}</td>

@@ -16,7 +16,7 @@ class BootStrap {
             //def role2 = Role.findOrSaveByAuthority('ROLE_FACEBOOK')
             def role1 = Role.findOrSaveByAuthority('ROLE_ADMIN')
             def role2 = Role.findOrSaveByAuthority('ROLE_MANERGER')
-            def role3 = Role.findOrSaveByAuthority('ROLE_CLERK')
+            def role3 = Role.findOrSaveByAuthority('ROLE_OPERATOR')
             def role4 = Role.findOrSaveByAuthority('ROLE_CUSTOMER')
 
             //create administrator

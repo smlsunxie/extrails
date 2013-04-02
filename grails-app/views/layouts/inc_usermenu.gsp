@@ -14,27 +14,27 @@
 
     </sec:ifNotLoggedIn>
     <sec:ifLoggedIn>
-      <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_MANERGER">
+      <sec:ifAnyGranted roles="ROLE_MANERGER,OPERATOR">
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
-                服務
-                <i>ServiceEvent</i>
+                事件
+                <i>Event</i>
             </a>
    
             <ul class="dropdown-menu">
 
                 <li >
-                    <g:link controller="serviceEvent" action="create">
+                    <g:link controller="event" action="create">
                         建立新的服務
                     </g:link>
                 </li>
                 <li >
-                    <g:link controller="serviceEventDetail" action="create">
+                    <g:link controller="eventDetail" action="create">
                         新增服務記錄
                     </g:link>
                 </li>
                 <li >
-                    <g:link controller="serviceEvent" action="list">
+                    <g:link controller="event" action="list" params="[offset:0,max:10]">
                         服務清單
                     </g:link>
                 </li>
@@ -61,7 +61,7 @@
                     </g:link>
                 </li>
                 <li>
-                    <g:link controller="part" action="list">
+                    <g:link controller="part" action="list" params="[offset:0,max:10]">
                         材料清單
                     </g:link>
                 </li>
@@ -71,7 +71,7 @@
                     </a>
                 </li>
                 <li>
-                    <g:link controller="product" action="list">
+                    <g:link controller="product" action="list" params="[offset:0,max:10]">
                         機車清單
                     </g:link>
                 </li>
@@ -122,7 +122,7 @@
                         <g:message code="default.user.preferences.text" />
                 </li> --}%
 
-              <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_MANERGER">
+              <sec:ifAnyGranted roles="ROLE_ADMIN">
 
                   <li>
                       <g:link controller="user">

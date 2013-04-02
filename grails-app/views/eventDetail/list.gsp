@@ -18,18 +18,18 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th><g:message code="serviceEvent.name.label" /></th>
-						<th><g:message code="serviceEvent.status.label" /></th>
-						<th><g:message code="serviceEvent.mileage.label" /></th>
+						<th><g:message code="event.name.label" /></th>
+						<th><g:message code="event.status.label" /></th>
+						<th><g:message code="event.mileage.label" /></th>
 						<th><g:message code="default.dateCreated.label" /></th>
 						<th><g:message code="default.action.label" /></th>
 					</tr>
 				</thead>
 				<tbody>
 
-					<g:render template='/serviceEvent/headList' model="[serviceEvent:serviceEvent]" />
+					<g:render template='/event/headList' model="[event:event]" />
 
-					<g:if test="${serviceEvent?.details}">
+					<g:if test="${event?.details}">
 						<tr>
 							<td colspan="5">
 								<table class="table-bordered" width="100%">
@@ -46,7 +46,7 @@
 										</tr>
 									</thead>									
 									<tbody>
-										<g:each in="${serviceEvent?.details}" var="detail">
+										<g:each in="${event?.details}" var="detail">
 											<tr>
 												<td><g:formatDate date="${detail.lastUpdated}" type="date" style="SHOROT" /></td>
 												<td>${detail?.part?.title}</td>

@@ -6,7 +6,7 @@
 	<body>
 
       <g:form action="save" class="form-horizontal"> 
-          <g:btnbar actionName="${actionName}" domain="${serviceEventDetail}" />
+          <g:actionbar actionName="${actionName}" domain="${eventDetail}" />
 
 
 
@@ -18,18 +18,18 @@
 
                   </label>
                   <div class="controls">
-                      <g:textField  name="name" value="${serviceEventDetail?.name}" class="input input-xlarge" />
+                      <g:textField  name="name" value="${eventDetail?.name}" class="input input-xlarge" />
                   </div>
               </div>
 
               <div class="control-group">
                   <label class="control-label required" for="description">
-                      <g:message code="serviceEventDetail.head.label" />
+                      <g:message code="eventDetail.head.label" />
 
                   </label>
                   <div class="controls">
-                    <g:select name="head" from="${extrails.ServiceEvent.list()}" 
-                    noSelection="${[null:'Select One...']}" optionKey="id" value="${serviceEventDetail?.head?.id}" />
+                    <g:select name="head" from="${extrails.Event.list()}" 
+                    noSelection="${[null:'Select One...']}" optionKey="id" value="${eventDetail?.head?.id}" />
                   </div>
               </div>
 
@@ -45,7 +45,7 @@
                   </label>
                     <div class="controls">
                       <g:select name="part" from="${extrails.Part.list()}" optionValue="name" 
-                      noSelection="${[null:'Select One...']}" optionKey="id" value="${serviceEventDetail?.part?.id}" />
+                      noSelection="${[null:'Select One...']}" optionKey="id" value="${eventDetail?.part?.id}" />
                     </div>
               </div>
 
@@ -56,7 +56,7 @@
 
                   </label>
                   <div class="controls">
-                      <g:textField  name="description" value="${serviceEventDetail?.description}" class="input input-xlarge" />
+                      <g:textField  name="description" value="${eventDetail?.description}" class="input input-xlarge" />
                   </div>
               </div>
 
@@ -64,12 +64,12 @@
 %{--              <div class="control-group advanced-region">
                 <label class="control-label" for="type">
                     <%--post.type--%>
-                    <g:message code="serviceEvent.type.label" />
+                    <g:message code="event.type.label" />
                 </label>
 
 
                 <div class="controls">
-                  <g:select name="type" from="${extrails.EventStatus?.values()}" keys="${extrails.EventStatus.values()*.name()}" required="" value="${serviceEventDetail?.head?.status?.name()}"  valueMessagePrefix="extrails.EventStatus" />
+                  <g:select name="type" from="${extrails.EventStatus?.values()}" keys="${extrails.EventStatus.values()*.name()}" required="" value="${eventDetail?.head?.status?.name()}"  valueMessagePrefix="extrails.EventStatus" />
                 </div>
 
               </div> --}%
@@ -84,7 +84,7 @@
                 </label>
 
 
-                <g:render template="/attachment/uploadBtn" model="[name:serviceEventDetail?.name,mainImage:serviceEventDetail?.mainImage]" />
+                <g:render template="/attachment/uploadBtn" model="[name:eventDetail?.name,mainImage:eventDetail?.mainImage]" />
 
               </div>
 
@@ -100,7 +100,7 @@
 
 
       $(function() {
-        $("#user").select2();
+
         $("#part").select2();
       });
 

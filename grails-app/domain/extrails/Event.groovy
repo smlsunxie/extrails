@@ -23,22 +23,23 @@ public enum EventStatus {
 
 
 @EqualsAndHashCode
-class ServiceEvent {
-
+class Event {
+	static searchable = true
 	String name
 	String description
 	Product product
 	Long mileage
 
-	static hasMany = [details:ServiceEventDetail]
+	static hasMany = [details:EventDetail]
 
 
 	EventStatus status=extrails.EventStatus.UNFIN
 
 	User user
  	
- 	Date serviceDate
- 	User creator
+ 	Date date
+ 	
+ 	String creator
 	Date dateCreated
 	Date lastUpdated
 
@@ -46,6 +47,7 @@ class ServiceEvent {
 	static constraints = {
     name blank: false, unique: true
     description nullable: true, empty: true
+    user nullable: true, empty: true
 
   }
 

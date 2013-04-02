@@ -5,6 +5,7 @@ import groovy.transform.EqualsAndHashCode
 
 @EqualsAndHashCode
 class Part implements Taggable {
+    static searchable = true
 		String name
 		String title
 		Long cost=0
@@ -14,7 +15,7 @@ class Part implements Taggable {
 		Integer stockCount=0
 		String mainImage=''
 
-		User creator		//建立者
+		String creator		//建立者
     Date dateCreated    //建立日期
     Date lastUpdated    //修改日期
 

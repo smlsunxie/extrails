@@ -14,7 +14,7 @@
               <div class="span9 main-column two-columns-right ">
 
                 <sec:ifAllGranted roles="ROLE_ADMIN">
-                  <g:btnbar actionName="${actionName}" domain="${product}" />
+                  <g:actionbar actionName="${actionName}" domain="${product}" />
                 </sec:ifAllGranted>
         
                   <g:render template="content" />

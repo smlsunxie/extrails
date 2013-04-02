@@ -8,7 +8,7 @@
     <g:form action="save" class="form-horizontal">        
 
 
-      <g:btnbar actionName="${actionName}" domain="${post}" />
+      <g:actionbar actionName="${actionName}" domain="${post}" />
 
       <div class="bs-docs-example">
         <g:render template="tabs" />

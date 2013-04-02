@@ -11,7 +11,7 @@ class ProductController {
     def springSecurityService
     def messageSource
 
-	@Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+	@Secured(['ROLE_OPERATOR'])
     def create= { 
 
     	def product = new Product(params)
@@ -45,7 +45,7 @@ class ProductController {
 
     }
 
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    @Secured(['ROLE_OPERATOR'])
     def save={
         
         // if(!params?.owner){
@@ -105,8 +105,26 @@ class ProductController {
     }
 
     def list={
+
+        def products
+        def productCount
+
+        params.sort= 'dateCreated'
+        params.order= 'asc'
+        params.max=5
+
+
+        if(params.q && params.q != ''){
+            products= Product.search(params.q+"*").results
+            productCount= products.size()
+        }else {
+            products= Product.list(params)
+            productCount= Product.count()
+        }
+
         [
-            products: Product.list()
+            products: products,
+            count: productCount
         ]
     } 
     def show={ Long id ->
@@ -119,8 +137,7 @@ class ProductController {
             files: s3Service.getObjectList("${grailsApplication.config.grails.aws.root}/${product.name}")
         ]
     }
-
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    @Secured(['ROLE_OPERATOR'])
     def edit={ Long id ->
         def product = Product.findByIdOrName(id, params.name)
 
@@ -128,7 +145,7 @@ class ProductController {
             product: product
         ]
     }
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    @Secured(['ROLE_OPERATOR'])
     def update={ Long id ->
 
         def product = Product.findByIdOrName(id,params.name)
@@ -176,7 +193,7 @@ class ProductController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'product.label', default: 'Product'), product.id])
         redirect(action: "show", id: product.id)
     }
-    @Secured(['ROLE_MANERGER','ROLE_ADMIN'])
+    @Secured(['ROLE_OPERATOR'])
     def delete={ Long id ->
         def product = Product.findByIdOrName(id, params.name)
         product.delete(flush: true)

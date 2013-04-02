@@ -24,7 +24,7 @@ class Post implements Taggable {
 	PostType type
     Product product
 	
-	User creator		//建立者
+	String creator		//建立者
 
     Date dateCreated    //建立日期
     Date lastUpdated    //修改日期

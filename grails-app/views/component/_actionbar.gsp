@@ -1,5 +1,5 @@
 
-<g:if test="${actionName=='create' ||actionName=='edit' }" >
+<g:if test="${actionName=='create' ||actionName=='save' ||actionName=='edit' }" >
 	<g:submitButton name="${nextActionName}"  class="btn btn-primary btn-mini" value="${message(code: 'default.button.${nextActionName}.label', default: nextActionName)}" />
 
 	<g:link action='list' class="btn btn-mini">${message(code: 'default.button.cancel.label', default: 'Cancel')}</g:link>

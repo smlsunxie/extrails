@@ -6,7 +6,7 @@
   <body>
 
     <g:form action="update" class="form-horizontal">        
-      <g:btnbar actionName="${actionName}" domain="${product}" />
+      <g:actionbar actionName="${actionName}" domain="${product}" />
 
       <div class="bs-docs-example">
         <g:render template="setup" />
