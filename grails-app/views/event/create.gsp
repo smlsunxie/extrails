@@ -38,7 +38,7 @@
             <div class="control-group">
                 <label class="control-label required" for="name">
 
-                    <g:message code="product.name.label" />
+                    <g:message code="event.name.label" />
                 </label>
                   <div class="controls">
                     <g:select name="product" from="${extrails.Product.list()}" optionValue="name" 
@@ -50,11 +50,11 @@
 
             <div class="control-group">
                 <label class="control-label required" for="name">
-                    <g:message code="product.mileage.label" />
+                    <g:message code="event.mileage.label" />
 
                 </label>
                 <div class="controls">
-                    <g:field type='number' name="mileage" value="0" class="input input-xlarge" />
+                    <g:field type='number' name="mileage" value="${event.mileage}" class="input input-xlarge" />
                 </div>
             </div>
 

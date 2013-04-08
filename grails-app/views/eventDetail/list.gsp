@@ -11,66 +11,10 @@
 </head>
 <body>
 
+<g:render template='/event/headList' model="[event:event]" />
 
-	<div class="row">
 
-		<div class="span12">
-			<table class="table">
-				<thead>
-					<tr>
-						<th><g:message code="event.name.label" /></th>
-						<th><g:message code="event.status.label" /></th>
-						<th><g:message code="event.mileage.label" /></th>
-						<th><g:message code="default.dateCreated.label" /></th>
-						<th><g:message code="default.action.label" /></th>
-					</tr>
-				</thead>
-				<tbody>
 
-					<g:render template='/event/headList' model="[event:event]" />
-
-					<g:if test="${event?.details}">
-						<tr>
-							<td colspan="5">
-								<table class="table-bordered" width="100%">
-
-									<thead>
-										<tr>
-											<th><g:message code="default.dateCreated.label" /></th>
-											<th><g:message code="part.title.label" /></th>
-											
-											<th><g:message code="default.description.label" /></th>
-											<th><g:message code="default.mainImage.label" /></th>
-											<th><g:message code="part.price.label" /></th>
-											<th><g:message code="part.cost.label" /></th>
-										</tr>
-									</thead>									
-									<tbody>
-										<g:each in="${event?.details}" var="detail">
-											<tr>
-												<td><g:formatDate date="${detail.lastUpdated}" type="date" style="SHOROT" /></td>
-												<td>${detail?.part?.title}</td>
-
-												<td>${detail?.description}</td>
-												<td><g:if test="${detail.mainImage!=''}"><g:link action="show" controller="attachment" params="[name:detail.name ,file:detail.mainImage]"><g:img style="height:50px" alt="" uri="attachment/show?name=${detail.name}&file=${detail.mainImage}" /></g:link></g:if></td>
-												<td>${detail?.part?.price}</td>
-												<td>${detail?.part?.cost}</td>
-
-											</tr>
-										</g:each>
-									</tbody>
-									<tfoot>
-
-									</tfoot>
-								</table>
-							</td>
-						</tr>
-					</g:if> 
-
-				</tbody>
-			</table>
-		</div>
-	</div>
 
 </body>
 </html>

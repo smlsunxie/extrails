@@ -1,4 +1,4 @@
-#remote_addr=192.168.1.12
+#remote_addr=192.168.0.107
 remote_addr=motoranger.net
 remote_user=spooky
 
@@ -94,4 +94,4 @@ remote-log:
 
 
 done:
-	make war upload && make remote-deploy
+	make clean war upload && make remote-deploy

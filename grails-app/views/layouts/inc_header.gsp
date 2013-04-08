@@ -8,16 +8,22 @@
                     <g:img alt="logo" dir="images" file="logo.jpeg" />
                 </a>
             </div>
-            <div class="span4 offset4">
+            <div class="span4">
+                <ul class="socials unstyled">
+
+                    <li><a class="twitter" href="#"></a></li>
+                    <li><a class="facebook" href="#"></a></li>
+
+                </ul>
+            </div>
+            <div class="span4">
     <!-- HEADER: PHONE NUMBER -->
                 <p class="head_phone"><a href="tel:02-2303-3926">(02) 2303-3926</a></p>
+                <p class="head_phone"><a href="tel:0932343454">0932343454</a></p>
+
             </div>
     <!-- HEADER: SOCIAL ICONS -->
-            <ul class="socials unstyled">
-                <li><a class="twitter" href="#"></a></li>
-                <li><a class="facebook" href="#"></a></li>
 
-            </ul>
 
         </div>
     </div>

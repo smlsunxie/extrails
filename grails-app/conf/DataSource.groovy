@@ -31,6 +31,7 @@ environments {
             driverClassName = "com.mysql.jdbc.Driver"
             //dialect = org.hibernate.dialect.MySQL5InnoDBDialect
             //dialect = org.hibernate.dialect.MySQLMyISAMDialect
+            // logSql = true
             username = "extrails"
             password = "mvagusta"
             url = "jdbc:mysql://localhost/extrails?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull"

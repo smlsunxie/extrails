@@ -15,23 +15,15 @@ class EventDetailController {
         eventDetail.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
 
-    	if(params?.event)
-    		eventDetail.head=Event.findById(params.event)
+    	if(params?.head)
+    		eventDetail.head=Event.findById(params.head)
 
-		if(params?.partId && params?.partId!='null')
-			eventDetail.part=Part.findById(params?.partId)
-
-
-
-
-            params.qty=1
+		if(params?.part && params?.part!='null'){
+			eventDetail.part=Part.findById(params?.part)
+            eventDetail.price=eventDetail.part.price
+        }
         
-
-
-
-
-
-
+        params.qty=1
         [
         	eventDetail:eventDetail
         ]
@@ -40,7 +32,6 @@ class EventDetailController {
 
     def save={
 
-        log.info params.head
 
     	if(params?.head && params?.head!='null')
     		params.head=Event.findById(params.head)
@@ -48,6 +39,12 @@ class EventDetailController {
 		if(params?.part && params?.part!='null')
 			params.part=Part.findById(params?.part)
         else params.part=null
+
+        if(!params?.name)
+            params.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
+        
+        if(!params?.qty)
+            params?.qty=1
 
 
         def eventDetail=new EventDetail(params)
@@ -59,7 +56,8 @@ class EventDetailController {
                 eventDetail.errors?.allErrors?.each{ 
                     flash.message=  messageSource.getMessage(it, null)
                 };
-            render(view: "create", model: [eventDetail: eventDetail])
+            redirect(action: "portfolio", controller:"part"
+                , params:[event:params?.head])
             return
         }
 
@@ -73,9 +71,63 @@ class EventDetailController {
             args: [message(code: 'event.label', default: 'event'), eventDetail.id])
 
 
-        redirect(action: "list", controller:"EventDetail", params:[event:eventDetail.head.id])
+        redirect(action: "portfolio", controller:"part"
+            , params:[event:eventDetail.head.id])
 
 
+
+    }
+    @Secured(['ROLE_OPERATOR'])
+    def edit={ Long id ->
+        def eventDetail = EventDetail.findByIdOrName(id, params.name)
+
+        [ 
+            eventDetail: eventDetail
+        ]
+    }
+    @Secured(['ROLE_OPERATOR'])
+    def update={Long id ->
+
+        def eventDetail = EventDetail.findByIdOrName(id, params.name)
+
+        if(params?.head && params?.head!='null')
+            params.head=Event.findById(params.head)
+
+        if(params?.part && params?.part!='null')
+            params.part=Part.findById(params?.part)
+        else params.part=null
+
+
+        if(!params.mainImage)params.mainImage="";
+
+        
+        if (!eventDetail) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
+            redirect(action: "list", controller:"product")
+            return
+        }
+
+
+        eventDetail.properties = params
+
+        if (!eventDetail.save(failOnError: true, flush: true)) {
+            render(view: "edit", model: [eventDetail: eventDetail])
+            return
+        }
+
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'eventDetail.label', default: 'EventDetail'), eventDetail.id])
+        redirect(action: "list", params:[event: eventDetail.head.id])
+    }
+    def delete={ Long id ->
+
+        def eventDetail = EventDetail.findById(id)
+        def headId=eventDetail.head.id
+
+
+        eventDetail.delete(flush:true)
+
+        redirect(action: "list", controller:"eventDetail"
+            , params:[event:headId])
 
     }
 

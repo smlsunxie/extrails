@@ -11,7 +11,7 @@
 
 
               </ul>
-              <g:if test="${actionName=='list'}">
+              <g:if test="${actionName=='list' && controllerName=='product'}">
                 <g:form action="list" class="navbar-search"> 
   							  <input type="text" name="q" value="${params.q}" class="search-query" placeholder="Search">
   							</g:form>

@@ -21,7 +21,7 @@ class Post implements Taggable {
 	String title
 	String content
     String description
-	PostType type
+	PostType type = extrails.PostType.SALE
     Product product
 	
 	String creator		//建立者

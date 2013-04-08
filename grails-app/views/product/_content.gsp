@@ -5,4 +5,4 @@
                   
                   <hr>
 
-                  <g:render template="record" model="[product:product]"/>
+                  <g:render template="/product/record" model="[product:product]"/>

@@ -7,28 +7,22 @@
 </head>
 <body>
 
-
-
-
-
   <div class="row show-grid">
-
-
       <div class="span12">                        
           <div class="row show-grid clear-both">
-
               <div class="span9 main-column two-columns-right ">
 
-                <sec:ifAllGranted roles="ROLE_ADMIN">
-                  <g:link  class="btn btn-primary btn-mini" action="edit" id="${post?.id}"><g:message code="default.button.edit.label" /></g:link>
-                  <g:link  class="btn btn-danger btn-mini" action="delete" id="${post?.id}"><g:message code="default.button.delete.label" /></g:link>
-                </sec:ifAllGranted>
+                  <sec:ifAllGranted roles="ROLE_MANERGER">
+                    <g:actionbar actionName="${actionName}" domain="${post}" />
+                  </sec:ifAllGranted> 
 
                   <g:if test="${productShow}">
                     <g:render template="/product/content"  model="['product':productShow.product,'files':productShow.files]" />
                   </g:if>
 
                   <div class="markdown-source">${post?.content?.encodeAsHTML()}</div>
+
+                  <disqus:comments bean="${post}" />
                   
                   <div class="post-item-panel">
                       <ul>
@@ -36,7 +30,7 @@
                             <p><i class="icon-calendar"></i><g:formatDate date="${post?.lastUpdated}" type="datetime" style="MEDIUM" /></p>
                           </li>
                           <li>
-                            <p><i class="icon-user"></i>by ${post.creator.username}</p>
+                            <p><i class="icon-user"></i>by ${post.creator}</p>
                           </li>
                           <li>
                             <p>
@@ -51,12 +45,19 @@
               </div>
               <div id="right-sidebar" class="span3 sidebar">
                   <div class="sidebar-news-widget sidebar-block">
-                      <h2>Recent Posts Widget</h2>
+                      <h2>最近的文章</h2>
                       <ul>
                           <g:each var='recentPost' in='${recentPosts}' >
                             <li>
                                 <a class="photo" href="#">
-                                    <g:img alt="" uri="attachment/show?name=${recentPost.name}&file=${recentPost.mainImage}" />
+
+                                  <g:if test="${post.mainImage}">
+                                    <g:img uri="attachment/show?name=${post.name}&file=${post.mainImage}" class="img-rounded" style="width:100px;" />
+                                  </g:if>
+                                  <g:elseif test="${post?.product?.mainImage}">
+                                    <g:img uri="attachment/show?name=${post.product.name}&file=${post.product.mainImage}" class="img-rounded" style="width:100px;" />
+                                  </g:elseif>
+
                                 </a>
                                 <p>
                                 <a href="">${recentPost.title}</a>

@@ -27,13 +27,16 @@ class HomeController {
 
         }
 
+        def unfinEvents= Event.findByStatus(extrails.ProductStatus.UNFIN)
+
         [
-            recentPosts:recentPosts
+            recentPosts:recentPosts,
+            unfinEvents:unfinEvents
         ]
 
 
     }
-    def abouts={
+    def question={
         
     }
 

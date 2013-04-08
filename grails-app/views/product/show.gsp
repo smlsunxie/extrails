@@ -13,14 +13,14 @@
 
               <div class="span9 main-column two-columns-right ">
 
-                <sec:ifAllGranted roles="ROLE_ADMIN">
+                <sec:ifAllGranted roles="ROLE_MANERGER">
                   <g:actionbar actionName="${actionName}" domain="${product}" />
                 </sec:ifAllGranted>
         
                   <g:render template="content" />
 
 
-                  <div class="post-item-panel">
+ %{--                  <div class="post-item-panel">
                       <ul>
                           <li class="date">
                             <p><i class="icon-calendar"></i><g:formatDate date="${product?.lastUpdated}" type="datetime" style="MEDIUM" /></p>
@@ -32,7 +32,7 @@
                             </p>
                           </li>
                       </ul>
-                  </div>
+                  </div> --}%
 
 
 

@@ -12,7 +12,7 @@
           <div class="row show-grid clear-both">
 
               <div class="span9 main-column two-columns-right ">
-                  <sec:ifAllGranted roles="ROLE_ADMIN">
+                  <sec:ifAllGranted roles="ROLE_MANERGER">
                     <g:actionbar actionName="${actionName}" domain="${part}" />
                   </sec:ifAllGranted>        
                   <h1>${part.title}</h1>
@@ -42,12 +42,12 @@
                       <tbody>
                             <sec:ifAnyGranted roles="ROLE_MANERGER">
                                <tr>
-                                    <td><g:message code="default.cost.label" /></td>
+                                    <td><g:message code="part.cost.label" /></td>
                                     <td>${part.cost}</td>
                                 </tr>   
                               </sec:ifAnyGranted>     
                              <tr>
-                                  <td><g:message code="default.price.label" /></td>
+                                  <td><g:message code="part.price.label" /></td>
                                   <td>${part.price}</td>
                               </tr> 
 
@@ -66,7 +66,7 @@
                             <p><i class="icon-calendar"></i><g:formatDate date="${part?.lastUpdated}" type="datetime" style="MEDIUM" /></p>
                           </li>
                           <li>
-                            <p><i class="icon-user"></i>by ${part?.creator?.username}</p>
+                            <p><i class="icon-user"></i>by ${part?.creator}</p>
                           </li>
                           <li>
                             <p>

@@ -33,9 +33,9 @@ if (isOpenId) {
 }
 %>
 
-<s2ui:tabs elementId='tabs' height='375' data="${tabData}">
+<s2ui:tabs elementId='tabs' height='550' data="${tabData}">
 
-	<s2ui:tab name='userinfo' height='275'>
+	<s2ui:tab name='userinfo' height='420'>
 		<table>
 		<tbody>
 
@@ -44,6 +44,18 @@ if (isOpenId) {
 
 			<s2ui:passwordFieldRow name='password' labelCode='user.password.label' bean="${user}"
                                 labelCodeDefault='Password' value="${user?.password}"/>
+			
+			<s2ui:textFieldRow name='title' labelCode='user.title.label' bean="${user}"
+                            labelCodeDefault='title' value="${user?.title}"/>
+			<s2ui:textFieldRow name='telphone' labelCode='user.telphone.label' bean="${user}"
+                            labelCodeDefault='telphone' value="${user?.telphone}"/>
+			<s2ui:textFieldRow name='mobile' labelCode='user.mobile.label' bean="${user}"
+                            labelCodeDefault='mobile' value="${user?.mobile}"/>
+			<s2ui:textFieldRow name='address' labelCode='user.address.label' bean="${user}"
+                            labelCodeDefault='address' value="${user?.address}"/>
+			<s2ui:textFieldRow name='email' labelCode='user.address.label' bean="${user}"
+                            labelCodeDefault='email' value="${user?.email}"/>
+
 
 			<s2ui:checkboxRow name='enabled' labelCode='user.enabled.label' bean="${user}"
                            labelCodeDefault='Enabled' value="${user?.enabled}"/>

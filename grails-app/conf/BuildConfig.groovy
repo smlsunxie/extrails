@@ -115,6 +115,11 @@ grails.project.dependency.resolution = {
         compile ":searchable:0.6.4"
 
 
+        compile ":google-analytics:2.0"
+
+        compile ":disqus:0.1"
+
+
 
     }
 }

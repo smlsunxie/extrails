@@ -32,12 +32,12 @@
         </g:link>
     </li> --}%
 
-    <li class="${controllerName=='home' && actionName=='abouts' ?'active':''} single">
+%{--     <li class="${controllerName=='home' && actionName=='abouts' ?'active':''} single">
         <g:link controller="home" action="abouts">
             <g:message code="default.abouts.label"/>
             <i>ABOUTS</i>
         </g:link>
-    </li>
+    </li> --}%
 
 
 

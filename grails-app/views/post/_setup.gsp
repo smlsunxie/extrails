@@ -49,7 +49,7 @@
 
 
                   <div class="controls">
-                    <g:select name="type" from="${extrails.PostType?.values()}" keys="${extrails.PostType.values()*.name()}" required="" value="${post?.type?.name()}"  valueMessagePrefix="extrails.PostType" />
+                    <g:select name="type" from="${extrails.PostType?.values()}" keys="${extrails.PostType.values()*.name()}" required="" value="${post?.type?.name()}"  valueMessagePrefix="PostType" />
                   </div>
 
                 </div>
@@ -84,10 +84,6 @@
                     </div>
                 </div>
 
-                <p>
-
-                  假設我有一台 YAMAHA FZ150 要賣三萬元，100年份，三萬公里要賣，則「文章類型」選擇拍賣，標籤標上 [YAMAHA,三萬元,100年份,三萬公里]
-                </p>
 
     <r:script>
 

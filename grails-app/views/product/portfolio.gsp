@@ -45,7 +45,9 @@
 
 
                 <div class="thumbnail">
-                  <g:img alt="" uri="/attachment/show?name=${part.name}&file=${part.mainImage}" style='height:200px' /></a>
+                    
+                  <g:img uri="/attachment/show?name=${part.name}&file=${part.mainImage}" style='height:200px' /></a>
+
                   <div class="caption">
                     <h3><g:link controller="part" action="show" id="${part.id}">${part.title}</g:link></h3>
                     <p>${part.description}</p>

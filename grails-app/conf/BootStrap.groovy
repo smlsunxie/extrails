@@ -4,6 +4,7 @@ import extrails.UserRole
 import extrails.SecurityMap
 import extrails.Post
 import extrails.Product
+import extrails.Part
 import org.grails.taggable.Tag
 
 class BootStrap {
@@ -82,12 +83,19 @@ class BootStrap {
                 }  
 
 
-                new Product(name:'p1',title:'p1', years:new Date()).save(failOnError: true, flush: true)
-                new Product(name:'p2',title:'p2', years:new Date()).save(failOnError: true, flush: true)
+                def p1 = new Product(name:'p1',title:'p1', years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p2 = new Product(name:'p2',title:'p2', years:new Date()).save(failOnError: true, flush: true)
+
+                def part = new Part(name:'part1', title:'part1', price:100L).save(failOnError: true, flush: true)
+                part.addTag("標準維修")
+
+                def post = new Post(name:'post1', title:'post1', product:p1).save(failOnError: true, flush: true)
+
 
                 new User(username: 'fat', password: 'fat', title: "小胖", enabled: true, works: true).save(failOnError: true, flush: true)
                 new User(username: 'bro', password: 'bro', title: "小弟", enabled: true, works: true).save(failOnError: true, flush: true)
                 new User(username: 'tin', password: 'tin', title: "宗庭", enabled: true, works: true).save(failOnError: true, flush: true)
+                new User(username: 'paul', password: 'paul', title: "保羅", enabled: true, works: true).save(failOnError: true, flush: true)
 
 
             }

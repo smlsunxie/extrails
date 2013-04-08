@@ -26,7 +26,7 @@
 
 
 
-               <div class="control-group advanced-region">
+%{--                <div class="control-group advanced-region">
                   <label class="control-label" for="tags">
                       <%--tags--%>
                       <g:message code="default.tags.label" />
@@ -35,13 +35,13 @@
 
                   <div class="controls">
                     <ul name="tags" id='tag-field'>
-                      <g:each in="${product.tags}">
+                      <g:each in="${product?.tags}">
                         <li>${it}</li>
                       </g:each>
                     </ul>
                   </div>
 
-                </div>
+                </div> --}%
 
                 <div class="control-group">
 
@@ -77,11 +77,34 @@
 
 
                   <div class="controls">
-                    <g:select name="owner" from="${extrails.ProductOwner?.values()}" keys="${extrails.ProductOwner.values()*.name()}" required="" value="${product?.owner?.name()}"  valueMessagePrefix="extrails.ProductOwner" />
+                    <g:select name="owner" from="${extrails.ProductOwner?.values()}" keys="${extrails.ProductOwner.values()*.name()}" required="" value="${product?.owner?.name()}"  valueMessagePrefix="ProductOwner" />
                   </div>
 
                 </div>
 
+                <div class="control-group">
+                  <label class="control-label required" for="name">
+                      <g:message code="user.username.label" />
+
+                  </label>
+                    <div class="controls">
+                      <g:select name="user" from="${extrails.User.list()}" optionValue="username" 
+                      noSelection="${[null:'Select One...']}" optionKey="id" value="${product?.user?.id}" />
+                    </div>                    
+                </div>
+
+               <div class="control-group advanced-region">
+                  <label class="control-label" for="owner">
+                      <%--post.type--%>
+                      <g:message code="product.brand.label" />
+                  </label>
+
+
+                  <div class="controls">
+                    <g:select name="brand" from="${extrails.ProductBrand?.values()}" keys="${extrails.ProductBrand.values()*.name()}" required="" value="${product?.brand?.name()}"  valueMessagePrefix="ProductBrand" />
+                  </div>
+
+                </div>
 
                 <div class="control-group">
 
@@ -91,19 +114,31 @@
                     </label>
                     <div class="controls">
                         <g:datePicker name="years" value="${product.years}"
-              noSelection="['':'-Choose-']" precision="day" years="${1980..(new Date().getAt(Calendar.YEAR))}" />
+              noSelection="['':'-Choose-']" precision="month" years="${1980..(new Date().getAt(Calendar.YEAR))}" />
                         <span class="help-inline"></span>
                     </div>
                 </div>
 
+                <div class="control-group">
 
+                    <label class="control-label required" for="description">
+
+                        <g:message code="product.cc.label" />
+
+                    </label>
+                    <div class="controls">
+                        <g:field  type="number" name="cc" value="${product?.cc}" class="input input-xlarge" />
+                        <span class="help-inline"></span>
+                    </div>
+
+                </div>
 
 
                 <div class="control-group">
 
                     <label class="control-label required" for="description">
 
-                        <g:message code="default.cost.label" />
+                        <g:message code="product.cost.label" />
 
                     </label>
                     <div class="controls">
@@ -117,7 +152,7 @@
 
                     <label class="control-label required" for="description">
 
-                        <g:message code="default.price.label" />
+                        <g:message code="product.price.label" />
 
                     </label>
                     <div class="controls">

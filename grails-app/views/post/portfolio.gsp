@@ -34,7 +34,12 @@
 
                         <g:link controller="post" action="show" id="${post.id}"><g:img alt="" dir='img' file="460_arrow_2_hover.png" class="hover-shade" />
                         </g:link>
-                        <a href="#" style="width: 460px; height: 340px;" class="top-link"><g:img alt="" uri="/attachment/show?name=${post.name}&file=${post.mainImage}" /></a>
+                        <a href="#" style="width: 460px; height: 340px;" class="top-link">
+                            
+                            <g:render template="mainImg" model="[post:post]" />
+
+
+                        </a>
                         <div class="top-block">
                             <g:link controller="post" action="show" id="${post.id}">${post.title}</g:link>
                             <p>

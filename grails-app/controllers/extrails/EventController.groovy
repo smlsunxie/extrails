@@ -10,15 +10,25 @@ class EventController {
 	static layout="bootstrap"
     def springSecurityService
     def messageSource
+    def eventTransationService
 
     @Secured(['ROLE_OPERATOR'])
     def create= { 
 
         if(params?.product){
             params.product=Product.findById(params.product)
+
+            log.info params.product.mileage
+            params.mileage=params.product.mileage
+
+            def unfinEvent=Event.findByProductAndStatus(params.product,extrails.ProductStatus.UNFIN)
+
+            if(unfinEvent){
+                redirect(controller:"part", action:"portfolio", params:[event:unfinEvent.id])
+            }
         }
         def event = new Event(params);
-
+        event.user=springSecurityService.currentUser
 
 
         event.name = "event-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
@@ -37,13 +47,16 @@ class EventController {
         if(params?.product && params?.product!='null')
             params.product=Product.findById(params.product)
 
-        if(params?.user)
+        if(params?.user && params?.user!='null')
             params.user=User.findById(params.user)
 
 
         def event = new Event(params);
         event.creator=springSecurityService.currentUser.username
         event.date=new Date()
+
+
+
 
         if (!event.validate()) {
             if(event.hasErrors())
@@ -54,6 +67,12 @@ class EventController {
             return
         }
 
+
+        if(event.product.mileage.toLong() < params.mileage.toLong()){
+            event.product.mileage=params.mileage.toLong()
+        }
+
+        event.product.status=extrails.ProductStatus.UNFIN
         event.merge(flush: true)
         event=Event.findByName(params.name)
 
@@ -62,7 +81,30 @@ class EventController {
             args: [message(code: 'event.label', default: 'event'), event.id])
 
 
-        redirect(action: "create", controller:"EventDetail", params:[event:event.id])
+        redirect(action: "portfolio", controller:"part", params:[event:event.id])
+
+
+    }
+
+    def delete={ Long id ->
+        def event=Event.findById(id)
+
+        if(event.status==extrails.ProductStatus.UNFIN){
+            event.product.status=extrails.ProductStatus.END
+            event.save(flush:true)
+        }
+
+        def details=EventDetail.findByHead(event)
+
+        if(details)
+            details.delete(flush:true)
+
+        event.delete(flush:true)
+
+        flash.message = message(code: 'default.delete.message', 
+            args: [message(code: 'event.label', default: 'event'), event.id])
+
+        redirect(action: "list", controller:"product")
 
 
     }
@@ -70,13 +112,30 @@ class EventController {
     def list={
 
         def events
+        def count=1
+
+        params.sort= 'dateCreated'
+        params.order= 'asc'
+        params.max=5
 
         if(params?.product)
             events=Event.findAllByProduct(Product.findById(params.product))
-        else events=Event.list()
+        else{
 
+            if(params.q && params.q != ''){
+                events= Event.search(params.q+"*").results
+                count=events.size()
+            }else {
+                events= Event.list(params)
+                count=Event.count()
+            }
+        }
+        
+
+        log.info count
         [
-            events: events
+            events: events,
+            count:count
         ]
     }
 
@@ -85,12 +144,13 @@ class EventController {
         log.info params.status
         def event=Event.findById(id)
         event.status=params.status
+        event.product.status=params.status
         event.save(flush: true)
 
         redirect(action:"list", controller:params.controllerName, params:[event:id])
 
     }
-    def htmImport={
+    def htmImport={ 
 
 
         for ( i in 1..8 ){
@@ -104,8 +164,11 @@ class EventController {
             Elements elements = doc.select("td[width=65%] > table[cellspacing=3]");
             Elements elements2 = doc.select("td[width=35%] > table[cellspacing=3]");
 
+
+
             elements.eachWithIndex(){ element,j ->
 
+                
                 
 
                 Element userAndProductHtml = element.getElementsByTag("tr").get(3) 
@@ -185,7 +248,7 @@ class EventController {
 
                 eventMap.user=recordUser
                 eventMap.mileage=mileage
-                eventMap.status=extrails.EventStatus.END
+                eventMap.status=extrails.ProductStatus.END
                 eventMap.date=new Date().parse("yyyy/M/d",dateString)
 
                 eventMap.description=eventCols[6].html().decodeHTML()
@@ -209,7 +272,7 @@ class EventController {
                             partMap.cost=partMap.price
                             part=new Part(partMap)
                             part.save(flush:true,failOnError:true)
-                            part.addTags("未分類")
+                            part.addTag("未分類")
                         }
 
 
@@ -225,6 +288,7 @@ class EventController {
 
                     }
                 }
+                log.info "${i}:${elements.size()}/${j} end"
                    
             }
         }

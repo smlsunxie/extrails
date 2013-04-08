@@ -5,11 +5,6 @@ import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
 
-@ToString
-public enum EventStatus {
-    UNFIN,
-    END;
-}
 
 	// <option value="A">定期保養</option>
 	// <option value="B">一般維修</option>
@@ -24,7 +19,7 @@ public enum EventStatus {
 
 @EqualsAndHashCode
 class Event {
-	static searchable = true
+	// static searchable = true
 	String name
 	String description
 	Product product
@@ -33,7 +28,7 @@ class Event {
 	static hasMany = [details:EventDetail]
 
 
-	EventStatus status=extrails.EventStatus.UNFIN
+	ProductStatus status=extrails.ProductStatus.UNFIN
 
 	User user
  	
@@ -43,6 +38,7 @@ class Event {
 	Date dateCreated
 	Date lastUpdated
 
+	
 
 	static constraints = {
     name blank: false, unique: true

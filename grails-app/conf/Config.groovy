@@ -89,6 +89,7 @@ environments {
 		// grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
 
 		grails.aws.root = 'temp'
+		google.analytics.enabled = false
 
 
 		//grails.resources.debug = true 
@@ -110,6 +111,7 @@ environments {
 		//This not works
 		//grails.resources.mappers.baseurl.excludes = ['biwascheme/*']
 		grails.aws.root = 'attachment'
+		google.analytics.enabled = true
 	}
 }
 
@@ -163,8 +165,7 @@ grails.plugins.twitterbootstrap.defaultBundle = 'extrails'
 // grails.justfont.appId = '04a33145MnLiu8AI4KNCkfQQX18d_e3RX0f8GVpfG1diW5LYhaoiIuChsq61MXXmmv1-DTv5O0x8Q-M6wDVACDJxtEeI-_zEH2erPVBnvn_O0rNYUxTAysJ7bMYsPVRNRtxxKcR7LU_kpdARwG4Q_xXHkyzrSTEhAPHewUyTug7fj48gBxY='
 
 // Analytics
-// grails.analytics.account = 'UA-298440-14'
-// grails.analytics.domainName = 'codecanaan.com'
+google.analytics.webPropertyID = "UA-39903264-1"
 
 // Added by the Spring Security Core plugin:
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'extrails.User'
@@ -174,6 +175,9 @@ grails.plugins.springsecurity.authority.className = 'extrails.Role'
 // 動態定義 securityConfig by map in db
 // grails.plugins.springsecurity.securityConfigType = "Requestmap"
 // grails.plugins.springsecurity.requestMap.className = 'extrails.SecurityMap'
+
+// disqus
+grails.plugins.disqus.shortname = "motoranger"
 
 
 grails.plugins.springsecurity.useSwitchUserFilter = true
@@ -191,6 +195,8 @@ grails.plugins.springsecurity.rememberMe.persistent = true
 grails.plugins.springsecurity.rememberMe.persistentToken.domainClassName = 'extrails.PersistentLogin'
 grails.taggable.preserve.case = true
 
+grails.taggable.tag.autoImport=true
+grails.taggable.tagLink.autoImport=true
 
 
 //SpringSecurity Facebook

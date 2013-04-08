@@ -11,6 +11,7 @@ class PartController {
     def imageModiService
     def springSecurityService
     def messageSource
+    def tagQueryService
 
 	@Secured(['ROLE_OPERATOR'])
     def create= { 
@@ -25,6 +26,7 @@ class PartController {
         [ part: part ]
 
     }
+    @Secured(['ROLE_OPERATOR'])
     def query= { 
 
         def part = Part.findByName(params.name)
@@ -37,6 +39,7 @@ class PartController {
 
     }
     
+    @Secured(['ROLE_OPERATOR'])
     def addEvent= { 
 
         def part = Part.findByName(params.name)
@@ -55,7 +58,7 @@ class PartController {
 
         def part = new Part(params)
         //set current user as creator
-        part.creator = springSecurityService.currentUser
+        part.creator = springSecurityService.currentUser.username
 
         if (!part.validate()) {
             if(part.hasErrors())
@@ -79,27 +82,37 @@ class PartController {
         redirect(action: "list")
     }
 
-
+    @Secured(['ROLE_OPERATOR'])
     def portfolio={
 
 
-        def parts=Part.list()
-
-
-        def tags=[]
-        if(parts){
-            parts.tags.each{ //i ->
-                tags.addAll(it) 
-            }
+        def parts
+        def event
+        if(params?.event){
+            event=Event.findById(params?.event)
         }
+
+        if(params?.tag){
+            parts=Part.findAllByTag(params.tag)
+        }else {
+            parts=Part.findAllByTag("標準維修")
+        }
+
+        // String listAllHQL = """
+        //    SELECT tag
+        //    FROM Tag tag
+        //    ORDER BY tag.name
+        // """
+        // def allTags = Part.executeQuery(listAllHQL)
 
         [
             parts: parts,
-            tags: tags.unique()
+            tags: tagQueryService.getUniTag("part"),
+            event:event
         ]
 
     }
-
+    @Secured(['ROLE_OPERATOR'])
     def list={
         [
             parts: Part.list()
@@ -110,8 +123,6 @@ class PartController {
 
         def part = Part.findByIdOrName(id, params.name)
 
-        log.info part
-        
 
         [
             part: part,
@@ -150,9 +161,6 @@ class PartController {
         }
 
         if (params.version != null) {  
-            log.info part.version
-            log.info params.version
-
 
             if (part.version > (params.version as Long)) {
                 part.errors.rejectValue("version", "default.optimistic.locking.failure",

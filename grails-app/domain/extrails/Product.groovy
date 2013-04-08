@@ -13,20 +13,25 @@ public enum ProductOwner {
 }
 
 public enum ProductBrand {
+    OTHERS,
     HORTFORD,
     KAWASAKI,
     KYMCO,
-    OTHERS,
     PGO,
     SUZUKI,
     SYM,
     YAMAHA,
-    VESPA;
+    VESPA,
+    AEON;
+}
+@ToString
+public enum ProductStatus {
+    UNFIN,
+    END;
 }
 
-
 @EqualsAndHashCode
-class Product implements Taggable {
+class Product {
     static searchable = true
 
 		String name
@@ -37,16 +42,15 @@ class Product implements Taggable {
 		Long price=0
 		Long mileage=0
 		String mainImage=""
-
+    ProductStatus status=extrails.ProductStatus.END
     ProductBrand brand=extrails.ProductBrand.OTHERS
-    String engineId=""
-		String description
 
+    String description
     User user
-    String color=""
     Integer cc=0
 
-    User creator
+
+    String creator
     Date dateCreated    //建立日期
     Date lastUpdated    //修改日期
 

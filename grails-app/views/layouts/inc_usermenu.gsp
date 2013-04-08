@@ -14,8 +14,8 @@
 
     </sec:ifNotLoggedIn>
     <sec:ifLoggedIn>
-      <sec:ifAnyGranted roles="ROLE_MANERGER,OPERATOR">
-        <li class="dropdown">
+      <sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
+%{--         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
                 事件
                 <i>Event</i>
@@ -25,44 +25,69 @@
 
                 <li >
                     <g:link controller="event" action="create">
-                        建立新的服務
+                        建立新的事件
                     </g:link>
                 </li>
                 <li >
                     <g:link controller="eventDetail" action="create">
-                        新增服務記錄
+                        新增事件記錄
                     </g:link>
                 </li>
                 <li >
                     <g:link controller="event" action="list" params="[offset:0,max:10]">
-                        服務清單
+                        事件清單
                     </g:link>
                 </li>
             </ul>
+        </li> --}%
+        <li class="${controllerName=='home' && actionName=='question' ?'active':''} single">
+            <g:link controller="home" action="question">
+               有問題留言板
+               <i>QUESTION</i>
+            </g:link>
+        </li>
+
+        <li class="${controllerName=='part' && actionName=='create' ? 'active':''} single">
+            <g:link controller="part" action="create">
+                建立維修項目
+                <i>PART</i>
+            </g:link>
+        </li>
+
+        <li class="${controllerName=='product' && actionName=='create' ? 'active':''} single">
+            <a id='productCreateLink' >
+                建立機車
+                <i>PRODUCT</i>
+            </a>
         </li>
 
 
-        <li class="dropdown">
+        <li class="${controllerName=='product' && actionName=='list' ? 'active':''} single">
+            <g:link controller="product" action="list">
+                建立事件
+                <i>EVENT</i>
+            </g:link>
+        </li>
+
+        <li class="${controllerName=='post' && actionName=='create' ? 'active':''} single">
+            <g:link controller="post" action="create">
+                建立文章
+                <i>POST</i>
+            </g:link>
+        </li>
+
+
+%{--         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
-                店家
-                <i>store</i>
+                資料建立
+                <i>DATA</i>
             </a>
    
             <ul class="dropdown-menu">
-%{--                 <li>
-                    <g:link controller="post" action="create">
-                        主要產品
-                    </g:link>
-                </li> --}%
 
                 <li>
-                    <g:link controller="part" action="create">
-                        建立材料
-                    </g:link>
-                </li>
-                <li>
                     <g:link controller="part" action="list" params="[offset:0,max:10]">
-                        材料清單
+                        維修項目清單
                     </g:link>
                 </li>
                 <li>
@@ -70,22 +95,18 @@
                         建立機車
                     </a>
                 </li>
-                <li>
-                    <g:link controller="product" action="list" params="[offset:0,max:10]">
-                        機車清單
-                    </g:link>
-                </li>
 
-%{--                 <li>
+
+                <li>
                     <g:link controller="post" action="create">
                         叫貨
                     </g:link>
-                </li> --}%
+                </li>
 
 
             </ul>
-        </li>
-        <li class="dropdown">
+        </li> --}%
+%{--         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
                 <g:message code="post.label"/>
                 <i>POST</i>
@@ -102,8 +123,8 @@
                         <g:message code="post.list.label"/>
                     </g:link>
                 </li>
-          </ul>
-      </li>
+            </ul>
+        </li> --}%
       </sec:ifAnyGranted>
 
         <%--已登入--%>
@@ -114,7 +135,33 @@
           </a>
  
           <ul class="dropdown-menu">
- 
+                <li>
+                    <g:link controller="part" action="list" params="[offset:0,max:10]">
+                        維修項目清單
+                    </g:link>
+                </li>
+
+                <li >
+                    <g:link controller="event" action="create">
+                        建立新的事件
+                    </g:link>
+                </li>
+
+                <li>
+                    <g:link controller="part" action="create">
+                        建立維修項目
+                    </g:link>
+                </li>
+                <li >
+                    <g:link controller="event" action="list" params="[offset:0,max:10]">
+                        事件清單
+                    </g:link>
+                </li>
+                <li>
+                    <g:link controller="post" action="list">
+                        <g:message code="post.list.label"/>
+                    </g:link>
+                </li>
 %{--                 <li>
                     <g:link controller="user" action="profile">
                         <i class="icon icon-user-md"></i>
@@ -128,11 +175,6 @@
                       <g:link controller="user">
                           <%--系統管理--%>
                           <g:message code="default.administration.text" />
-                      </g:link>
-                  </li>
-                  <li>
-                      <g:link controller="post" action="create">
-                          <g:message code="default.fix.logs.label"/>
                       </g:link>
                   </li>
               </sec:ifAnyGranted>
@@ -165,6 +207,7 @@
       if(!msg)msg="";
 
       var remoteCheck=function(inputData){
+        inputData=inputData.toUpperCase()
 
         var resultCheck=function(data){
           if(!data.success)prompt('車牌已存在請再次輸入');

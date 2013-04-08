@@ -59,7 +59,7 @@
 
                     <label class="control-label required" for="description">
 
-                        <g:message code="default.cost.label" />
+                        <g:message code="part.cost.label" />
 
                     </label>
                     <div class="controls">
@@ -73,7 +73,7 @@
 
                     <label class="control-label required" for="description">
 
-                        <g:message code="default.price.label" />
+                        <g:message code="part.price.label" />
 
                     </label>
                     <div class="controls">
@@ -91,7 +91,7 @@
 
                     </label>
                     <div class="controls">
-                        <g:field  type="number" name="price" value="${part?.stockCount}" class="input input-xlarge" />
+                        <g:field  type="number" name="stockCount" value="${part?.stockCount}" class="input input-xlarge" />
                         <span class="help-inline"></span>
                     </div>
 

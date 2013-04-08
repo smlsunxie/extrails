@@ -48,9 +48,9 @@ class ProductController {
     @Secured(['ROLE_OPERATOR'])
     def save={
         
-        // if(!params?.owner){
-        // 	params.owner=user
-        // }
+        if(params?.user && params?.user!='null')
+            params.user=User.findById(params.user)
+        else params.user=null
 
         def product = new Product(params)
 
@@ -59,7 +59,7 @@ class ProductController {
 
 
         //set current user as creator
-        product.creator = springSecurityService.currentUser
+        product.creator = springSecurityService.currentUser.username
 
         if (!product.validate()) {
             if(product.hasErrors())
@@ -75,39 +75,40 @@ class ProductController {
         
         product.save(flush: true)
 
-        if(params.tags instanceof String)
-            product.tags=[params.tags];
-        else product.tags = params.tags
+        // if(params.tags instanceof String)
+        //     product.tags=[params.tags];
+        // else product.tags = params.tags
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'product.label', default: 'product'), product.id])
-        redirect(action: "list")
+        redirect(action: "show", id:product.id)
     }
 
 
-    def portfolio={
+    // def portfolio={
 
 
-        def products=Product.list()
+    //     def products=Product.list()
 
 
-        def tags=[]
-        if(products){
-            products.tags.each{ //i ->
-                tags.addAll(it) 
-            }
-        }
+    //     def tags=[]
+    //     if(products){
+    //         products.tags.each{ //i ->
+    //             tags.addAll(it) 
+    //         }
+    //     }
 
-        [
-            products: products,
-            tags: tags.unique()
-        ]
+    //     [
+    //         products: products,
+    //         tags: tags.unique()
+    //     ]
 
-    }
-
+    // }
+    @Secured(['ROLE_OPERATOR'])
     def list={
 
         def products
         def productCount
+        def unfinEvents
 
         params.sort= 'dateCreated'
         params.order= 'asc'
@@ -115,16 +116,19 @@ class ProductController {
 
 
         if(params.q && params.q != ''){
-            products= Product.search(params.q+"*").results
+            products= Product.search("*"+params.q+"*").results
             productCount= products.size()
         }else {
             products= Product.list(params)
             productCount= Product.count()
         }
 
+        unfinEvents= Event.findByStatus(extrails.ProductStatus.UNFIN)
+
         [
             products: products,
-            count: productCount
+            count: productCount,
+            unfinEvents:unfinEvents
         ]
     } 
     def show={ Long id ->
@@ -139,6 +143,9 @@ class ProductController {
     }
     @Secured(['ROLE_OPERATOR'])
     def edit={ Long id ->
+        
+
+
         def product = Product.findByIdOrName(id, params.name)
 
         [ 
@@ -148,13 +155,17 @@ class ProductController {
     @Secured(['ROLE_OPERATOR'])
     def update={ Long id ->
 
+        if(params?.user && params?.user!='null')
+            params.user=User.findById(params.user)
+        else params.user=null
+
         def product = Product.findByIdOrName(id,params.name)
 
 
 
-        if(params.tags instanceof String)
-            product.tags=[params.tags];
-        else product.tags = params.tags
+        // if(params.tags instanceof String)
+        //     product.tags=[params.tags];
+        // else product.tags = params.tags
 
 
 
@@ -202,6 +213,22 @@ class ProductController {
 
         redirect(action: "list")
     }
+
+    @Secured(['ROLE_OPERATOR'])
+    def changeStatusEnd={ Long id ->
+
+        def product=Product.findById(id)
+        def lastEvent=Event.findByProductAndStatus(product,extrails.ProductStatus.UNFIN)
+        
+        lastEvent.status=params.status
+        lastEvent.product.status=params.status
+
+        lastEvent.save(flush: true)
+
+        redirect(action:"list")
+
+    }
+
     def csvImport={
 
 

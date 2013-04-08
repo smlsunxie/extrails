@@ -13,8 +13,9 @@
 
 <g:layoutHead/>
 <r:layoutResources />
+<ga:trackPageview />
 %{-- <g:justfont /> --}%
-<google:analytics />
+%{-- <google:analytics /> --}%
 </head>
 <body data-spy="scroll" data-target=".bs-docs-sidebar">
 <!-- THE LINE AT THE VERY TOP OF THE PAGE -->

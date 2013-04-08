@@ -20,11 +20,11 @@
                                         <p><i>&nbsp;</i>No.354, Sec. 1, Tingzhou Rd.</p>
                                         <p><i>&nbsp;</i>Zhongzheng Dist.</p>
                                         <p><i>&nbsp;</i>Taipei City 100, Taiwan</p>
-                                        <p><i class="icon-phone icon-large"></i>Phone: (02) 2303-3926</p>
-                                        <p><i class="icon-print icon-large"></i>Fax: (02) 2305-6527</p>
-                                        <p>
-
-                                        </p>
+                                        <p><i class="icon-phone"></i>Phone: (02) 2303-3926</p>
+                                        <p><i class="icon-mobile-phone icon-large"></i>mobile: 0932343454</p>
+                                        <p><i class="icon-print"></i>Fax: (02) 2305-6527</p>
+                                        <p><i class="icon-envelope"></i>
+                                            Mail:<a class="btn btn-inverse btn-mini" href="mailto:613tin@gmail.com">613tin@gmail.com</a></p>
                                     </address>
 
 

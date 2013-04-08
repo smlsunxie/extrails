@@ -7,7 +7,7 @@ class PostController {
 	static layout="bootstrap"
 	def springSecurityService
     def messageSource
-
+    def tagQueryService
 
 
 
@@ -39,32 +39,13 @@ class PostController {
             post: post
         ]
     }
-
-    @Secured(['ROLE_OPERATOR'])
-    def edit={Long id ->
-        def post = Post.findByIdOrName(id, params.name)
-
-        log.info post?.product?.id
-
-        [ 
-            post: post
-        ]
-    }
-    @Secured(['ROLE_OPERATOR'])
-    def delete={ Long id ->
-        def post = Post.findByIdOrName(id, params.name)
-        post.delete(flush: true)
-
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'post.label', default: 'post'), id])
-
-        redirect(action: "list")
-    }
     @Secured(['ROLE_OPERATOR'])
     def save={
  
 
         if(params?.product && params?.product!='null')
             params.product=Product.findById(params?.product)
+        else params.product=null
        
         def post = new Post(params)
 
@@ -91,6 +72,28 @@ class PostController {
 
 
         redirect(action: "show", id: post.id)
+    }
+
+
+
+    @Secured(['ROLE_OPERATOR'])
+    def edit={Long id ->
+        def post = Post.findByIdOrName(id, params.name)
+
+        log.info post?.product?.id
+
+        [ 
+            post: post
+        ]
+    }
+    @Secured(['ROLE_OPERATOR'])
+    def delete={ Long id ->
+        def post = Post.findByIdOrName(id, params.name)
+        post.delete(flush: true)
+
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'post.label', default: 'post'), id])
+
+        redirect(action: "list")
     }
 
     def show={ Long id ->
@@ -146,25 +149,18 @@ class PostController {
 
         posts=Post.findAllByType(type)
 
+        // def tags=[]
+        // if(posts){
+        //     posts.tags.each{ //i ->
+        //         tags.addAll(it) 
+        //     }
 
-
-
-
-        def tags=[]
-        if(posts){
-            posts.tags.each{ //i ->
-                tags.addAll(it) 
-            }
-
-        }
-
-        log.info tags.unique()
-        log.info type
+        // }
 
         [
             type: type,
             posts: posts,
-            tags: tags.unique()
+            tags: tagQueryService.getUniTagByList(posts)
         ]
 
     }
