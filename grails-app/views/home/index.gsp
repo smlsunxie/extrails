@@ -22,8 +22,136 @@
                   </ul>
                 </div>
 
-    	   </div>
+  	   </div>
 
+
+
+            <div class="main-block block-posts">
+                <div class="title-wrapper">
+                    <h1>維修中</h1>
+                </div>
+                <div class="row show-grid clear-both">
+                    <div class="span12">
+                      <div class="row show-grid">
+                        <g:each var='event' in='${unfinEvents}' >
+                          <div class="span3">
+
+                            <g:if test="${event?.product?.mainImage}">
+                              <a class="block-post-img">
+                                <g:img uri="attachment/show?name=${event.product.name}&file=${event.product.mainImage}"  class="img-rounded" />
+                              </a>
+                            </g:if>  
+
+                            <p>產品編號：${event.product.name}</p>
+                            <p>產品名稱：${event.product.title}</p>
+                            <p>里程數：${event.mileage}</p>
+                            <p><i class="icon-user"></i>${event.user.title}</p>
+                            <p class="date"><i class="icon-calendar"></i><g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
+
+                            
+                              <p>
+                                <g:link class="btn btn-primary btn-mini" controller="event" action="list" params="[product:event?.product?.id]">維修記錄</g:link>
+
+                                <sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
+                                  <g:link class="btn btn-primary btn-mini" controller="event" action="create" params="[product:event?.product?.id]">新增維修</g:link>
+                                </sec:ifAnyGranted>
+
+                              
+                              </p>
+                            
+
+                          </div>
+                        </g:each>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            
+            <hr>
+            <div class="main-block block-posts">
+                <div class="title-wrapper">
+                    <h1>維修完成</h1>
+                </div>
+                <div class="row show-grid clear-both">
+                    <div class="span12">
+                      <div class="row show-grid">
+                        <g:each var='event' in='${endEvents}' >
+                          <div class="span3">
+
+                            <g:if test="${event?.product?.mainImage}">
+                              <a class="block-post-img">
+                                <g:img uri="attachment/show?name=${event.product.name}&file=${event.product.mainImage}"  class="img-rounded" />
+                              </a>
+                            </g:if>  
+
+                            <p>產品編號：${event.product.name}</p>
+                            <p>產品名稱：${event.product.title}</p>
+                            <p>里程數：${event.mileage}</p>
+                            <p><i class="icon-user"></i>${event.user.title}</p>
+                            <p class="date"><i class="icon-calendar"></i><g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
+
+                            
+                              <p>
+                                <g:link class="btn btn-primary btn-mini" controller="event" action="list" params="[product:event?.product?.id]">維修記錄</g:link>
+
+                                <sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
+                                  <g:link class="btn btn-primary btn-mini" controller="event" action="create" params="[product:event?.product?.id]">新增維修</g:link>
+                                </sec:ifAnyGranted>
+
+                              
+                              </p>
+                            
+
+                          </div>
+                        </g:each>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <hr>
+            <div class="main-block block-posts">
+                <div class="title-wrapper">
+                    <h1>最近建立產品</h1>
+                </div>
+                <div class="row show-grid clear-both">
+                    <div class="span12">
+                      <div class="row show-grid">
+                        <g:each var='product' in='${createProducts}' >
+                          <div class="span3">
+
+                            <g:if test="${product?.mainImage}">
+                              <a class="block-post-img">
+                                <g:img uri="attachment/show?name=${product.name}&file=${product.mainImage}"  class="img-rounded" />
+                              </a>
+                            </g:if>  
+
+                            <p>產品編號：${product.name}</p>
+                            <p>產品名稱：${product.title}</p>
+                            <p>里程數：${mileage}</p>
+                            <p class="date"><i class="icon-calendar"></i><g:formatDate date="${product.lastUpdated}" type="date" style="MEDIUM" /></p>
+
+                            
+                              <p>
+                                <g:link class="btn btn-primary btn-mini" controller="event" action="list" params="[product:product?.id]">維修記錄</g:link>
+
+                                <sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
+                                  <g:link class="btn btn-primary btn-mini" controller="event" action="create" params="[product:product?.id]">新增維修</g:link>
+                                </sec:ifAnyGranted>
+
+                              
+                              </p>
+                            
+
+                          </div>
+                        </g:each>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            
+            <hr>
             <div class="row main-block">
                 <div class="span12">
                     <div class="row">
@@ -141,50 +269,7 @@
             </div>
             <hr>
 
-            <div class="main-block block-posts">
-                <div class="title-wrapper">
-                    <h2>維修中</h2><a href="#" class="all"></a>
-                </div>
-                <div class="row show-grid clear-both">
-                    <div class="span12">
-                      <div class="row show-grid">
-                        <g:each var='event' in='${unfinEvents}' >
-                          <div class="span3">
 
-                            <g:if test="${event?.product?.mainImage}">
-                              <a class="block-post-img">
-                                <g:img uri="attachment/show?name=${event.product.name}&file=${event.product.mainImage}"  class="img-rounded" />
-                              </a>
-                            </g:if>  
-
-                            <p>產品編號：${event.product.name}</p>
-                            <p>產品名稱：${event.product.title}</p>
-                            <p>里程數：${event.mileage}</p>
-                            <p><i class="icon-user"></i>${event.user.title}</p>
-                            <p class="date"><i class="icon-calendar"></i><g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
-
-                            <p>
-                              <g:link controller="event" action="create" params="[product:event?.product?.id]">新增維修</g:link>
-                              <g:link  
-                                  class="btn btn-primary btn-mini"
-                                  action="changeStatus" controller="event" id="${event.id}" 
-                                  params="[status:extrails.ProductStatus.END.name(), controllerName:controllerName]" >
-                                <g:message code="ProductStatus.END" />
-                              </g:link>
-                            </p>
-
-                          </div>
-                        </g:each>
-                      </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-            <hr>
             <div class="main-block clients">
                 <div class="title-wrapper">
                     <h2>服務廠牌</h2>

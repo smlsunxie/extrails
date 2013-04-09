@@ -7,7 +7,7 @@
 						維修<g:message code="ProductStatus.${product?.status.name()}" />:<g:message code="ProductBrand.${product?.brand}" />：${product.name}：${product.title}
 					
 					<g:link controller="product" action="show" id="${product?.id}" class="btn btn-primary btn-mini">
-						產品詳細資料
+						產品資料
 					</g:link>
 					<g:link class="btn btn-primary btn-mini" controller="event" action="list" params="[product:product?.id]">維修記錄</g:link>
 					<g:link class="btn btn-primary btn-mini" controller="event" action="create" params="[product:product?.id]">新增維修</g:link>

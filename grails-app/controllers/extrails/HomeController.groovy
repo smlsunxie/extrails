@@ -27,11 +27,17 @@ class HomeController {
 
         }
 
-        def unfinEvents= Event.findByStatus(extrails.ProductStatus.UNFIN)
+        def createProducts=Product.list(max:4,order:"desc", sort: 'dateCreated' )
+
+        def unfinEvents= Event.findAllByStatus(extrails.ProductStatus.UNFIN)
+        def endEvents= Event.findAllByStatus(extrails.ProductStatus.END
+            ,[max:8,order:"dasc",sort:"lastUpdated"])
 
         [
             recentPosts:recentPosts,
-            unfinEvents:unfinEvents
+            unfinEvents:unfinEvents,
+            endEvents:endEvents,
+            createProducts:createProducts
         ]
 
 

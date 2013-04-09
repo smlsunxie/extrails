@@ -10,7 +10,6 @@ class EventController {
 	static layout="bootstrap"
     def springSecurityService
     def messageSource
-    def eventTransationService
 
     @Secured(['ROLE_OPERATOR'])
     def create= { 
@@ -115,12 +114,16 @@ class EventController {
         def count=1
 
         params.sort= 'dateCreated'
-        params.order= 'asc'
+        params.order= 'desc'
         params.max=5
 
-        if(params?.product)
-            events=Event.findAllByProduct(Product.findById(params.product))
-        else{
+        if(params?.product){
+            def currentUser=springSecurityService.currentUser
+
+            if(!currentUser)params.max=1
+
+            events=Event.findAllByProduct(Product.findById(params.product),params)
+        }else{
 
             if(params.q && params.q != ''){
                 events= Event.search(params.q+"*").results

@@ -72,6 +72,13 @@
             </div>
           </div>
 
+          <div class="span2 well well-small">
+            <g:message code="event.totalPrice.label" />
+            <div class="row-fluid">
+              <event:totalPrice event="${event}" />
+            </div>
+          </div>
+
           <div class="row-fluid">
 
 

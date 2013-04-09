@@ -108,10 +108,9 @@ class ProductController {
 
         def products
         def productCount
-        def unfinEvents
 
-        params.sort= 'dateCreated'
-        params.order= 'asc'
+        params.sort= 'lastUpdated'
+        params.order= 'desc'
         params.max=5
 
 
@@ -123,12 +122,14 @@ class ProductController {
             productCount= Product.count()
         }
 
-        unfinEvents= Event.findByStatus(extrails.ProductStatus.UNFIN)
-
+        def unfinEvents= Event.findAllByStatus(extrails.ProductStatus.UNFIN)
+        def endEvents= Event.findAllByStatus(extrails.ProductStatus.END
+            ,[max:8,order:"dasc",sort:"lastUpdated"])
         [
             products: products,
             count: productCount,
-            unfinEvents:unfinEvents
+            unfinEvents:unfinEvents,
+            endEvents:endEvents
         ]
     } 
     def show={ Long id ->

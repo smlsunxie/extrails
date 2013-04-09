@@ -36,7 +36,7 @@
 	      </div>
 
 	      <div class="span2 well well-small">
-	        <g:message code="event.price.label" />
+	        <g:message code="eventDetail.price.label" />
 	        <div class="row-fluid">
 						${detail?.price}
 	        </div>
