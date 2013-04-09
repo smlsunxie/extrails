@@ -31,7 +31,7 @@ class HomeController {
 
         def unfinEvents= Event.findAllByStatus(extrails.ProductStatus.UNFIN)
         def endEvents= Event.findAllByStatus(extrails.ProductStatus.END
-            ,[max:8,order:"dasc",sort:"lastUpdated"])
+            ,[max:4,order:"dasc",sort:"lastUpdated"])
 
         [
             recentPosts:recentPosts,

@@ -34,18 +34,20 @@
                                 <p>里程數：${event.mileage}</p>
                                 <p><i class="icon-user"></i>${event.user.title}</p>
                                 <p class="date"><i class="icon-calendar"></i><g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
-																
+																<hr>
 																<sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
 																	<p>
 																		<g:link controller="product" action="show" id="${event?.product?.id}" class="btn btn-primary btn-mini">
 																			產品資料
 																		</g:link>
+
 																		<g:link class="btn btn-primary btn-mini" controller="event" action="list" params="[product:event?.product?.id]">維修記錄</g:link>
+
 																		<g:link class="btn btn-primary btn-mini" controller="event" action="create" params="[product:event?.product?.id]">新增維修</g:link>
+
 																		<g:if test="${event?.product?.status.name() == "UNFIN"}"> 
 																			<g:link class="btn btn-primary btn-mini" action="changeStatusEnd" id="${event?.product.id}" params="[status:extrails.ProductStatus.END.name()]">維修結束</g:link>
 																		</g:if>
-																	
 																	</p>
 																</sec:ifAnyGranted>
 
@@ -72,7 +74,7 @@
                                 <p>里程數：${event.mileage}</p>
                                 <p><i class="icon-user"></i>${event.user.title}</p>
                                 <p class="date"><i class="icon-calendar"></i><g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
-																
+																<hr>	
 																<sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
 																	<p>
 																		<g:link controller="product" action="show" id="${event?.product?.id}" class="btn btn-primary btn-mini">
@@ -99,7 +101,7 @@
 						  </div>
 
 
-          	
+
               <div class="span9 main-column two-columns-left ">
 
 
