@@ -5,60 +5,97 @@
 
 	</head>
 	<body>
+            <sec:ifNotLoggedIn>
+            			<div class="bannercontainer" >
 
-			<div class="bannercontainer" >
+                            <div class="flexslider slider1">
+                              <ul class="slides">
+                                  <li class="slide4">
+                                      <img alt="" src="http://4.bp.blogspot.com/-qkBOxhKvsu4/UGqp2TSiLSI/AAAAAAAAAC8/EWBp1UoXzaw/s1600/P1000578.jpg" />
+                                      <div class="carousel-caption">
+                                          <h2><a href="#">勝祥機車行</a></h2>
+                                          <h3>機車維修與二手機車拍賣
+                                          <br>Taiwan Motorcycle Maintenance and used motorbike trading</h3>
+                                      </div>
+                                  </li>
 
-                <div class="flexslider slider1">
-                  <ul class="slides">
-                      <li class="slide4">
-                          <img alt="" src="http://4.bp.blogspot.com/-qkBOxhKvsu4/UGqp2TSiLSI/AAAAAAAAAC8/EWBp1UoXzaw/s1600/P1000578.jpg" />
-                          <div class="carousel-caption">
-                              <h2><a href="#">勝祥機車行</a></h2>
-                              <h3>機車維修與二手機車拍賣
-                              <br>Taiwan Motorcycle Maintenance and used motorbike trading</h3>
-                          </div>
-                      </li>
+                              </ul>
+                            </div>
 
-                  </ul>
-                </div>
+              	   </div>
+            </sec:ifNotLoggedIn>
 
-  	   </div>
+
+
+
+            <sec:ifAnyGranted roles="ROLE_MANERGER">
+
+              <div class="main-block block-posts">
+
+                  <div class="row show-grid clear-both">
+                      <div class="span12">
+
+                        <div class="row show-grid">
+
+                          <g:each var='operator' in='${operators}' >
+                            <div class="span3">
+                              <p>
+                                <g:link class="btn btn-primary" url="${request.contextPath}/j_spring_security_switch_user?j_username=${operator.username}">${operator.title}</g:link>                              
+                              </p>
+                            </div>
+                          </g:each>
+                        </div>
+
+                      </div>
+                  </div>
+              </div>
+              <hr>
+            </sec:ifAnyGranted>
 
 
 
             <div class="main-block block-posts">
-                <div class="title-wrapper">
-                    <h1>維修中</h1>
-                </div>
+              <div class="title-wrapper">
+                  <h1><i class="icon-signin"></i> 維修中</h1>
+              </div>
                 <div class="row show-grid clear-both">
                     <div class="span12">
                       <div class="row show-grid">
                         <g:each var='event' in='${unfinEvents}' >
                           <div class="span3">
 
-                            <g:if test="${event?.product?.mainImage}">
-                              <a class="block-post-img">
-                                <g:img uri="attachment/show?name=${event.product.name}&file=${event.product.mainImage}"  class="img-rounded" />
-                              </a>
-                            </g:if>  
+                            <a class="block-stick-img">
+                              <g:if test="${event?.product?.mainImage}">
+                                <g:img uri="attachment/show?name=${event.product.name}&file=${event.product.mainImage}"  class="bordered-img" />
+                              </g:if> 
+                              <g:else>
+                                <g:img dir="images" file="notFind.jpg" class="bordered-img" />
+                              </g:else>
+                            </a>
 
-                            <p>產品編號：${event.product.name}</p>
-                            <p>產品名稱：${event.product.title}</p>
-                            <p>里程數：${event.mileage}</p>
-                            <p><i class="icon-user"></i>${event.user.title}</p>
-                            <p class="date"><i class="icon-calendar"></i><g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
+                            <div class="alert-stick stick event">
+
+                              <p><i class="icon-screenshot"></i> 產品編號：${event.product.name.replace(event.product.name.substring(2,4),"**")}</p>
+                              <p><i class="icon-road"></i>使用里程：${event.mileage}</p>
+                              <p><i class="icon-user"></i> 維修人員：${event.user.title}</p>
+                              <p class="date"><i class="icon-calendar"></i>維修日期： <g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
 
                             
-                              <p>
-                                <g:link class="btn btn-primary btn-mini" controller="event" action="list" params="[product:event?.product?.id]">維修記錄</g:link>
+                              <g:link class="btn btn-primary" controller="event" action="list" params="[event:event?.id]">維修記錄</g:link>
 
-                                <sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
-                                  <g:link class="btn btn-primary btn-mini" controller="event" action="create" params="[product:event?.product?.id]">新增維修</g:link>
-                                </sec:ifAnyGranted>
+                              <sec:ifAnyGranted roles="ROLE_OPERATOR">
+                                <g:link class="btn btn-primary" controller="event" action="create" params="[event:event?.id]">新增維修</g:link>
 
-                              
-                              </p>
-                            
+                                <g:if test="${event?.product?.status.name() == "UNFIN"}"> 
+                                  <g:link class="btn btn-primary" action="changeStatus" id="${event?.id}" controller="event" params="[status:extrails.ProductStatus.END.name(),controllerName:controllerName]">維修結束</g:link>
+                                </g:if>
+
+                                <g:link controller="product" action="show" id="${event?.product?.id}" class="btn btn-primary">
+                                  產品資料
+                                </g:link>
+                              </sec:ifAnyGranted>
+
+                            </div>
 
                           </div>
                         </g:each>
@@ -69,49 +106,55 @@
             
             <hr>
             <div class="main-block block-posts">
-                <div class="title-wrapper">
-                    <h1>維修完成</h1>
-                </div>
-                <div class="row show-grid clear-both">
-                    <div class="span12">
-                      <div class="row show-grid">
-                        <g:each var='event' in='${endEvents}' >
-                          <div class="span3">
+              <div class="title-wrapper">
+                  <h1><i class="icon-ok "></i> 維修完成</h1>
+              </div>
+              <div class="row show-grid clear-both">
+                <div class="span12">
+                  <div class="row show-grid">
+                    <g:each var='event' in='${endEvents}' >
+                      <div class="span3">
 
-                            <g:if test="${event?.product?.mainImage}">
-                              <a class="block-post-img">
-                                <g:img uri="attachment/show?name=${event.product.name}&file=${event.product.mainImage}"  class="img-rounded" />
-                              </a>
-                            </g:if>  
 
-                            <p>產品編號：${event.product.name}</p>
-                            <p>產品名稱：${event.product.title}</p>
-                            <p>里程數：${event.mileage}</p>
-                            <p><i class="icon-user"></i>${event.user.title}</p>
-                            <p class="date"><i class="icon-calendar"></i><g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
+                        <a class="block-stick-img">
+                          <g:if test="${event?.product?.mainImage}">
+                            <g:img uri="attachment/show?name=${event.product.name}&file=${event.product.mainImage}"  class="bordered-img" />
+                          </g:if> 
+                          <g:else>
+                            <g:img dir="images" file="notFind.jpg" class="bordered-img" />
+                          </g:else>
+                        </a>
 
+                        <div class="success-stick stick event">
+
+
+                          <p><i class="icon-screenshot"></i> 產品編號：${event.product.name.replace(event.product.name.substring(2,4),"**")}</p>
+                          <p><i class="icon-road"></i>使用里程：${event.mileage}</p>
+                          <p><i class="icon-user"></i> 維修人員：${event.user.title}</p>
+                          <p class="date"><i class="icon-calendar"></i>維修日期： <g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
+
+
+                          <g:link class="btn btn-primary" controller="event" action="list" params="[event:event?.id]">維修記錄</g:link>
+
+                          <sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
+                            <g:link class="btn btn-primary" controller="event" action="create" params="[event:event.id]">新增維修</g:link>
                             
-                              <p>
-                                <g:link class="btn btn-primary btn-mini" controller="event" action="list" params="[product:event?.product?.id]">維修記錄</g:link>
+                            <g:link controller="product" action="show" id="${event?.product?.id}" class="btn btn-primary">
+                              產品資料
+                            </g:link>
+                          </sec:ifAnyGranted>  
 
-                                <sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
-                                  <g:link class="btn btn-primary btn-mini" controller="event" action="create" params="[product:event?.product?.id]">新增維修</g:link>
-                                </sec:ifAnyGranted>
-
-                              
-                              </p>
-                            
-
-                          </div>
-                        </g:each>
+                        </div>
                       </div>
-                    </div>
+                    </g:each>
+                  </div>
                 </div>
+              </div>
             </div>
 
 
             <hr>
-            <div class="main-block block-posts">
+ %{--            <div class="main-block block-posts">
                 <div class="title-wrapper">
                     <h1>最近建立產品</h1>
                 </div>
@@ -129,19 +172,23 @@
 
                             <p>產品編號：${product.name}</p>
                             <p>產品名稱：${product.title}</p>
-                            <p>里程數：${mileage}</p>
+                            <p>里程數：${product.mileage}</p>
                             <p class="date"><i class="icon-calendar"></i><g:formatDate date="${product.lastUpdated}" type="date" style="MEDIUM" /></p>
 
                             
                               <p>
-                                <g:link class="btn btn-primary btn-mini" controller="event" action="list" params="[product:product?.id]">維修記錄</g:link>
+                                <g:link class="btn btn-primary btn-large" controller="event" action="list" params="[product:product?.id]">維修記錄</g:link>
 
                                 <sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
-                                  <g:link class="btn btn-primary btn-mini" controller="event" action="create" params="[product:product?.id]">新增維修</g:link>
+                                  <g:link class="btn btn-primary btn-large" controller="event" action="create" params="[product:product?.id]">新增維修</g:link>
+                                  <g:link controller="product" action="show" id="${product?.id}" class="btn btn-primary btn-large">
+                                    產品資料
+                                  </g:link>
                                 </sec:ifAnyGranted>
 
                               
                               </p>
+
                             
 
                           </div>
@@ -151,7 +198,7 @@
                 </div>
             </div>
             
-            <hr>
+            <hr> --}%
             <div class="row main-block">
                 <div class="span12">
                     <div class="row">

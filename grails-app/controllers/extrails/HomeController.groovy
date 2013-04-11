@@ -27,17 +27,22 @@ class HomeController {
 
         }
 
-        def createProducts=Product.list(max:4,order:"desc", sort: 'dateCreated' )
+        def createProducts=Product.findAllByOwner(extrails.ProductOwner.CUSTOMER
+            ,[max:4,order:"desc", sort: 'dateCreated'])
 
-        def unfinEvents= Event.findAllByStatus(extrails.ProductStatus.UNFIN)
+        def unfinEvents= Event.findAllByStatus(extrails.ProductStatus.UNFIN
+            ,[order:"desc",sort:"lastUpdated"])
         def endEvents= Event.findAllByStatus(extrails.ProductStatus.END
-            ,[max:4,order:"dasc",sort:"lastUpdated"])
+            ,[max:8,order:"desc",sort:"lastUpdated"])
+
+        def operators=UserRole.findAllByRole(extrails.Role.findByAuthority('ROLE_OPERATOR'))*.user
 
         [
             recentPosts:recentPosts,
             unfinEvents:unfinEvents,
             endEvents:endEvents,
-            createProducts:createProducts
+            createProducts:createProducts,
+            operators:operators
         ]
 
 

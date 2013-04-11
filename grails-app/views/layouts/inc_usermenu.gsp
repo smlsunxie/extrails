@@ -42,32 +42,32 @@
         </li> --}%
         <li class="${controllerName=='home' && actionName=='question' ?'active':''} single">
             <g:link controller="home" action="question">
-               有問題留言板
+               有問題
                <i>QUESTION</i>
             </g:link>
         </li>
-
-        <li class="${controllerName=='part' && actionName=='create' ? 'active':''} single">
-            <g:link controller="part" action="create">
-                建立維修項目
+        <li class="${controllerName=='part' && actionName=='portfolio' ? 'active':''} single">
+            <g:link controller="part" action="portfolio">
+                檢視維修項目
                 <i>PART</i>
             </g:link>
         </li>
 
-        <li class="${controllerName=='product' && actionName=='create' ? 'active':''} single">
+
+%{--         <li class="${controllerName=='product' && actionName=='create' ? 'active':''} single">
             <a id='productCreateLink' >
-                建立機車
-                <i>PRODUCT</i>
+                建立事件/機車
+                <i>EVENT/PRODUCT</i>
             </a>
-        </li>
+        </li> --}%
 
 
-        <li class="${controllerName=='product' && actionName=='list' ? 'active':''} single">
+%{--         <li class="${controllerName=='product' && actionName=='list' ? 'active':''} single">
             <g:link controller="product" action="list">
-                建立事件
-                <i>EVENT</i>
+                機車查詢
+                <i>PRODUCT</i>
             </g:link>
-        </li>
+        </li> --}%
 
         <li class="${controllerName=='post' && actionName=='create' ? 'active':''} single">
             <g:link controller="post" action="create">
@@ -76,6 +76,15 @@
             </g:link>
         </li>
 
+        <sec:ifSwitched>
+            <li  class="single">
+                <a href='${request.contextPath}/j_spring_security_exit_user'>
+                    <%--回復身分--%>
+                    切換使用者
+                    <i>SWITCH</i>
+                </a>
+            </li>
+        </sec:ifSwitched>
 
 %{--         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
@@ -162,6 +171,12 @@
                         <g:message code="post.list.label"/>
                     </g:link>
                 </li>
+                <li >
+                    <g:link controller="product" action="list" params="[offset:0,max:10]">
+                        產品清單
+                    </g:link>
+                </li>
+
 %{--                 <li>
                     <g:link controller="user" action="profile">
                         <i class="icon icon-user-md"></i>
@@ -188,19 +203,12 @@
                       </g:link>
                   </li>
               </sec:ifNotSwitched>
-              <sec:ifSwitched>
-                  <li>
-                      <a href='${request.contextPath}/j_spring_security_exit_user'>
-                          <%--回復身分--%>
-                          Resume as <sec:switchedUserOriginalUsername/>
-                      </a>
-                  </li>
-              </sec:ifSwitched>
+
           </ul>
       </li>
   </sec:ifLoggedIn>
 
-<r:script>
+%{-- <r:script>
 
   $(function() {
     var prompt=function(msg){
@@ -210,7 +218,7 @@
         inputData=inputData.toUpperCase()
 
         var resultCheck=function(data){
-          if(!data.success)prompt('車牌已存在請再次輸入');
+          if(!data.success)location.replace('/product/show?name='+inputData); 
           else location.replace('/product/create?name='+inputData); 
         }
 
@@ -230,10 +238,9 @@
     $('#productCreateLink').on("click",function(){
       prompt()
     });
-
   })
 
 
 
 
-</r:script>
+</r:script> --}%

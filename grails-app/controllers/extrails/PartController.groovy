@@ -55,6 +55,8 @@ class PartController {
     @Secured(['ROLE_OPERATOR'])
     def save= {
 
+        if(!params?.price)params.price=0
+        if(!params?.cost)params.cost=0
 
         def part = new Part(params)
         //set current user as creator
@@ -88,14 +90,13 @@ class PartController {
 
         def parts
         def event
+        def tags
         if(params?.event){
-            event=Event.findById(params?.event)
+            event=Event.findById(params?.event,[sort: 'dateCreated', order: 'desc'])
         }
 
         if(params?.tag){
-            parts=Part.findAllByTag(params.tag)
-        }else {
-            parts=Part.findAllByTag("標準維修")
+            parts=Part.findAllByTag(params.tag,[sort: 'title', order: 'asc'])
         }
 
         // String listAllHQL = """
@@ -143,6 +144,8 @@ class PartController {
 
         def part = Part.findByIdOrName(id,params.name)
 
+        if(!params?.price)params.price=0
+        if(!params?.cost)params.cost=0
 
 
         if(params.tags instanceof String)
@@ -175,7 +178,9 @@ class PartController {
 
         part.properties = params
 
-        if (!part.save(failOnError: true, flush: true)) {
+
+
+        if (!part.save(flush: true)) {
             render(view: "edit", model: [part: part])
             return
         }
@@ -186,11 +191,20 @@ class PartController {
     @Secured(['ROLE_OPERATOR'])
     def delete={ Long id ->
         def part = Part.findByIdOrName(id, params.name)
-        part.delete(flush: true)
+
+        
+        try{
+            !part.delete(flush: true)
+        }catch(Exception e){
+            flash.message = "維修記錄使用到該維修項目：${part.title}，無法刪除。請修正標籤，例如：不使用"
+            redirect(action: "show" ,id:part.id)
+            return
+        }
+
 
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), id])
 
-        redirect(action: "list")
+        redirect(action: "portfolio")
     }
 
     def htmImport={

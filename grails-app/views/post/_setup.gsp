@@ -85,7 +85,7 @@
                 </div>
 
 
-    <r:script>
+%{--     <r:script>
 
 
       $(function() {
@@ -94,4 +94,4 @@
 
 
 
-    </r:script>
+    </r:script> --}%

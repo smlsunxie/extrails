@@ -182,7 +182,7 @@ grails.plugins.disqus.shortname = "motoranger"
 
 grails.plugins.springsecurity.useSwitchUserFilter = true
 grails.plugins.springsecurity.controllerAnnotations.staticRules = [
-	'/j_spring_security_switch_user': ['ROLE_ADMIN'],
+	'/j_spring_security_switch_user': ['ROLE_MANERGER'],
 	'/securityInfo/*': ['ROLE_ADMIN'],
 	'/registrationCode/*': ['ROLE_ADMIN'],
 	'/persistentLogin/*': ['ROLE_ADMIN'],

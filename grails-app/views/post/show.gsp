@@ -14,7 +14,9 @@
 
                   <sec:ifAllGranted roles="ROLE_MANERGER">
                     <g:actionbar actionName="${actionName}" domain="${post}" />
-                  </sec:ifAllGranted> 
+                  </sec:ifAllGranted>
+
+                  <h1>${post?.title}</h1>
 
                   <g:if test="${productShow}">
                     <g:render template="/product/content"  model="['product':productShow.product,'files':productShow.files]" />
@@ -51,16 +53,16 @@
                             <li>
                                 <a class="photo" href="#">
 
-                                  <g:if test="${post.mainImage}">
-                                    <g:img uri="attachment/show?name=${post.name}&file=${post.mainImage}" class="img-rounded" style="width:100px;" />
+                                  <g:if test="${recentPost.mainImage}">
+                                    <g:img uri="attachment/show?name=${recentPost.name}&file=${recentPost.mainImage}" class="img-rounded" style="width:100px;" />
                                   </g:if>
-                                  <g:elseif test="${post?.product?.mainImage}">
-                                    <g:img uri="attachment/show?name=${post.product.name}&file=${post.product.mainImage}" class="img-rounded" style="width:100px;" />
+                                  <g:elseif test="${recentPost?.product?.mainImage}">
+                                    <g:img uri="attachment/show?name=${recentPost.product.name}&file=${recentPost.product.mainImage}" class="img-rounded" style="width:100px;" />
                                   </g:elseif>
 
                                 </a>
                                 <p>
-                                <a href="">${recentPost.title}</a>
+                                <g:link controller='post' action='show' id='${recentPost.id}' class="block-post-more">${recentPost.title}</g:link>
                                 </p>
                                 <p class="date"><i class="icon-calendar"></i><g:formatDate date="${recentPost?.lastUpdated}" type="date" style="MEDIUM" /></p>
                             </li>

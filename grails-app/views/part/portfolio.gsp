@@ -7,19 +7,31 @@
   <body>
 
 
-    <g:set var="nowTag" value="${!params?.tag ? '標準維修' : params.tag}" />
+    <g:set var="nowTag" value="${params.tag}" />
     <div class="col-wrapper">
-        <div class="portfolio-nav">
-<!-- SET PORTFOLIO NAV FILTERS HERE -->                     
-            <ul id="filters" data-option-key="filter" class="nav nav-pills nav-pills-portfolio">
-                <li class="active">
-                    <g:link controller="eventDetail" action='list' params="[event:params.event]">修改 ${event?.product.name} 維修記錄</g:link>
-                </li>
-                <g:each var="detail" in="${event.details}">
-                    <li><a href="#" >${detail.part.title}</a></li>
-                </g:each>
-            </ul>
-        </div>
+
+        <g:if test="${params.event}"> 
+            <div class="portfolio-nav">
+    <!-- SET PORTFOLIO NAV FILTERS HERE -->                     
+                <ul id="filters" data-option-key="filter" class="nav nav-pills nav-pills-portfolio">
+
+
+                  <g:if test="${event?.product?.status.name() == "UNFIN"}"> 
+                    <li class="active">
+                        <g:link action="changeStatus" id="${event?.id}" controller="event" params="[status:extrails.ProductStatus.END.name(),controllerName:'home']">維修結束</g:link>
+                    </li>
+                  </g:if>
+                    
+
+                    <li class="active">
+                        <g:link controller="eventDetail" action='list' params="[event:params.event]">修改 ${event?.product.name} 維修記錄</g:link>
+                    </li>
+                    <g:each var="detail" in="${event.details}">
+                        <li><a href="#" >${detail.part.title}</a></li>
+                    </g:each>
+                </ul>
+            </div>
+        </g:if>
 <!-- START PORTFOLIO NAV -->                    
         <div class="portfolio-nav">
 <!-- SET PORTFOLIO NAV FILTERS HERE -->                     
@@ -45,11 +57,16 @@
                             <h3><g:link controller="part" action="show" id="${part.id}">${part.title}</g:link></h3>
                             <p>${part.description}</p>
                             <p>售價：${part.price}</p>
-                            <p>
-                                <g:link controller="eventDetail" action="create"
-                                 params="[part:part.id, head:params?.event]" class="btn btn-primary">新增維修</g:link> 
-                                
-                            </p>
+
+
+                                <p>
+                                    <g:if test="${params.event}">
+                                        <g:link controller="eventDetail" action="create"
+                                         params="[part:part.id, head:params?.event]" class="btn btn-primary">新增維修</g:link> 
+                                    </g:if>
+                                        <g:link controller="part" action="show" id="${part.id}" class="btn">檢視項目</g:link>
+                                </p>
+
 
 
                           </div>

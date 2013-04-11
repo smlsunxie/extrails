@@ -14,18 +14,24 @@ class EventController {
     @Secured(['ROLE_OPERATOR'])
     def create= { 
 
-        if(params?.product){
+        def unfinEvent
+
+        if(params?.event)
+            unfinEvent=Event.findById(params?.event)
+        
+        else if(params?.product){
             params.product=Product.findById(params.product)
 
             log.info params.product.mileage
             params.mileage=params.product.mileage
-
-            def unfinEvent=Event.findByProductAndStatus(params.product,extrails.ProductStatus.UNFIN)
-
-            if(unfinEvent){
-                redirect(controller:"part", action:"portfolio", params:[event:unfinEvent.id])
-            }
+            
+            unfinEvent = Event.findByProductAndStatus(params.product,extrails.ProductStatus.UNFIN)
         }
+
+        if(unfinEvent){
+            redirect(controller:"part", action:"portfolio", params:[event:unfinEvent.id])
+        } 
+
         def event = new Event(params);
         event.user=springSecurityService.currentUser
 
@@ -107,17 +113,63 @@ class EventController {
 
 
     }
+    @Secured(['ROLE_OPERATOR'])
+    def edit={ Long id ->
+        def event = Event.findByIdOrName(id, params.name)
 
+        [ 
+            event: event
+        ]
+    }
+    @Secured(['ROLE_OPERATOR'])
+    def update={Long id ->
+
+        def event = Event.findByIdOrName(id, params.name)
+
+        if(params?.product && params?.product!='null')
+            params.product=Product.findById(params.product)
+
+        if(params?.user && params?.user!='null')
+            params.user=User.findById(params.user)
+
+        
+        if (!event) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'event.label', default: 'Event'), id])
+            redirect(action: "index", controller:"home")
+            return
+        }
+
+
+        event.properties = params
+
+        if(event.product.mileage.toLong() < params.mileage.toLong()){
+            event.product.mileage=params.mileage.toLong()
+        }
+
+        if (!event.save(failOnError: true, flush: true)) {
+            render(view: "edit", model: [event: event])
+            return
+        }
+
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'event'), event.id])
+        redirect(action: "list", params:[event: event])
+    }
     def list={
 
         def events
         def count=1
 
-        params.sort= 'dateCreated'
+        params.sort= 'lastUpdated'
         params.order= 'desc'
         params.max=5
 
-        if(params?.product){
+        if(params?.event){
+            
+            def currentUser=springSecurityService.currentUser
+            events=Event.findAllById(params.event)
+
+
+        }else if(params?.product){
             def currentUser=springSecurityService.currentUser
 
             if(!currentUser)params.max=1
@@ -150,7 +202,11 @@ class EventController {
         event.product.status=params.status
         event.save(flush: true)
 
-        redirect(action:"list", controller:params.controllerName, params:[event:id])
+        log.info params.controllerName
+
+        if(params.controllerName=="home")
+            redirect(action:"index", controller:params.controllerName, params:[event:id])
+        else redirect(action:"list", controller:params.controllerName, params:[event:id])
 
     }
     def htmImport={ 
@@ -180,7 +236,7 @@ class EventController {
                 Element eventHtml = element.getElementsByTag("tr").get(1) 
                 Elements eventCols=eventHtml.getElementsByTag("td")
 
-                def productName=eventCols[3].getElementsByTag("a")[0].html()
+                def productName=eventCols[3].getElementsByTag("a")[0].html().replace("-","")
                 def mileage=eventCols[5].html().decodeHTML().replace("  KM","")
 
 
@@ -191,6 +247,9 @@ class EventController {
                 def user=User.findByUsername(userMap.username)
                 if(!user){
                     userMap.title=userAndProductCols[0].html().decodeHTML()
+                    if(userMap.title=='')
+                        userMap.title=userMap.username
+                    
                     userMap.password=userMap.username
                     user=new User(userMap)
                     user.save(flush:true,failOnError:true)

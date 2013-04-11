@@ -69,19 +69,14 @@
 					</sec:ifAnyGranted >
 
 
-
-					<sec:ifAnyGranted roles="ROLE_OPERATOR">
-
 						<div class="span3 well well-small">
-							<g:message code="user.username.label" />
+							<g:message code="default.description.label" />
 							<div class="row-fluid">
-									 ${product?.user?.username}
+									 ${product?.description}
 							</div>
 						</div>
 
 
-
-					</sec:ifAnyGranted >
 
 
 				</div>

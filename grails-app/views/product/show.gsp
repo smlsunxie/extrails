@@ -13,26 +13,55 @@
 
               <div class="span9 main-column two-columns-right ">
 
-                <sec:ifAllGranted roles="ROLE_MANERGER">
+                <sec:ifAllGranted roles="ROLE_OPERATOR">
                   <g:actionbar actionName="${actionName}" domain="${product}" />
                 </sec:ifAllGranted>
         
-                  <g:render template="content" />
+                <g:render template="content" />
+
+                <sec:ifAnyGranted roles="ROLE_OPERATOR">
+
+                  <div class="row-fluid">
+                    <div class="span12 well well-small">
+
+                      <div class="row-fluid">
+
+                        <div class="span3 well well-small">
+                          <g:message code="user.title.label" />
+                          <div class="row-fluid">
+                              ${product?.user?.title}
+                          </div>
+                        </div>
 
 
- %{--                  <div class="post-item-panel">
-                      <ul>
-                          <li class="date">
-                            <p><i class="icon-calendar"></i><g:formatDate date="${product?.lastUpdated}" type="datetime" style="MEDIUM" /></p>
-                          </li>
+                        <div class="span3 well well-small">
+                          <g:message code="user.telphone.label" />
+                          <div class="row-fluid">
+                              ${product?.user?.telphone}
+                          </div>
+                        </div>
 
-                          <li>
-                            <p>
-                              <g:render template="/tag/links" model="['tags':product.tags]" />
-                            </p>
-                          </li>
-                      </ul>
-                  </div> --}%
+                        <div class="span3 well well-small">
+                          <g:message code="user.mobile.label" />
+                          <div class="row-fluid">
+                              ${product?.user?.mobile}
+                          </div>
+                        </div>
+
+
+                        <div class="span3 well well-small">
+                          <g:message code="user.description.label" />
+                          <div class="row-fluid">
+                              ${product?.user?.description}
+                          </div>
+                        </div>
+
+
+
+                      </div>
+                    </div>
+                  </div>
+                </sec:ifAnyGranted >
 
 
 

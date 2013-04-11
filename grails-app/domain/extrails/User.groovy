@@ -20,6 +20,7 @@ class User {
 	String mobile=""
 	String address=""
 	String email=""
+	String description=""
 
 	boolean enabled
 	boolean accountExpired

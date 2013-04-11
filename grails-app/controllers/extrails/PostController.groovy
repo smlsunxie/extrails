@@ -15,7 +15,7 @@ class PostController {
     /**
      * 直接建立內容後回到瀏覽頁面
      */
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def create={
         def post = new Post(params)
         post.name = "post-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
@@ -39,7 +39,7 @@ class PostController {
             post: post
         ]
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def save={
  
 
@@ -76,7 +76,7 @@ class PostController {
 
 
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def edit={Long id ->
         def post = Post.findByIdOrName(id, params.name)
 
@@ -86,7 +86,7 @@ class PostController {
             post: post
         ]
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def delete={ Long id ->
         def post = Post.findByIdOrName(id, params.name)
         post.delete(flush: true)
@@ -171,7 +171,7 @@ class PostController {
         ]
     }
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def update={ Long id ->
 
 

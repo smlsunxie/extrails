@@ -78,3 +78,16 @@ form select{
   width: 285px;
 
 }
+
+.block-stick-img {
+    display: block;
+    margin-bottom: 10px;
+    margin-left: 15px;
+}
+
+.event{
+  font-size: 16px; 
+  text-align: left;
+
+}
+

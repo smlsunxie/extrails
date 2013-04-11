@@ -4,7 +4,7 @@
 
                   </label>
                   <div class="controls">
-                      <g:textField  name="name" value="${eventDetail?.name}" class="input input-xlarge" />
+                      <g:textField  name="name" readonly value="${eventDetail?.name}" class="input input-xlarge" />
                   </div>
               </div>
 
@@ -14,7 +14,7 @@
 
                   </label>
                   <div class="controls">
-                    <g:select name="head" from="${extrails.Event.list()}" 
+                    <g:select name="head" from="${eventDetail?.head ?: extrails.Event.list()}" 
                     noSelection="${[null:'Select One...']}" optionKey="id" value="${eventDetail?.head?.id}" />
                   </div>
               </div>
@@ -30,7 +30,7 @@
                       <%--必填--%>
                   </label>
                     <div class="controls">
-                      <g:select name="part" from="${extrails.Part.list()}" optionValue="name" 
+                      <g:select name="part" from="${eventDetail?.part ?: extrails.Part.list()}" optionValue="name" 
                       noSelection="${[null:'Select One...']}" optionKey="id" value="${eventDetail?.part?.id}" />
                     </div>
               </div>

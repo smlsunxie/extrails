@@ -5,6 +5,7 @@ import extrails.SecurityMap
 import extrails.Post
 import extrails.Product
 import extrails.Part
+import extrails.ProductOwner
 import org.grails.taggable.Tag
 
 class BootStrap {
@@ -83,20 +84,25 @@ class BootStrap {
                 }  
 
 
-                def p1 = new Product(name:'p1',title:'p1', years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
-                def p2 = new Product(name:'p2',title:'p2', years:new Date()).save(failOnError: true, flush: true)
+                def p1 = new Product(name:'P12345',title:'P12345', years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p2 = new Product(name:'P22345',title:'P22345', years:new Date(), owner:extrails.ProductOwner.CUSTOMER).save(failOnError: true, flush: true)
 
-                def part = new Part(name:'part1', title:'part1', price:100L).save(failOnError: true, flush: true)
-                part.addTag("標準維修")
+                def part1 = new Part(name:'part1', title:'part1', price:100L).save(failOnError: true, flush: true)
+                part1.addTag("標準維修")
+                def part2 = new Part(name:'part2', title:'part2', price:200L).save(failOnError: true, flush: true)
+                part2.addTag("標準維修")
 
                 def post = new Post(name:'post1', title:'post1', product:p1).save(failOnError: true, flush: true)
 
 
-                new User(username: 'fat', password: 'fat', title: "小胖", enabled: true, works: true).save(failOnError: true, flush: true)
-                new User(username: 'bro', password: 'bro', title: "小弟", enabled: true, works: true).save(failOnError: true, flush: true)
-                new User(username: 'tin', password: 'tin', title: "宗庭", enabled: true, works: true).save(failOnError: true, flush: true)
-                new User(username: 'paul', password: 'paul', title: "保羅", enabled: true, works: true).save(failOnError: true, flush: true)
-
+                def user5=new User(username: 'fat', password: 'fat', title: "小胖", enabled: true, works: true).save(failOnError: true, flush: true)
+                def user6=new User(username: 'bro', password: 'bro', title: "小弟", enabled: true, works: true).save(failOnError: true, flush: true)
+                def user7=new User(username: 'tin', password: 'tin', title: "宗庭", enabled: true, works: true).save(failOnError: true, flush: true)
+                def user8=new User(username: 'paul', password: 'paul', title: "保羅", enabled: true, works: true).save(failOnError: true, flush: true)
+                UserRole.create(user5, role3)
+                UserRole.create(user6, role3)
+                UserRole.create(user7, role3)
+                UserRole.create(user8, role3)
 
             }
         }

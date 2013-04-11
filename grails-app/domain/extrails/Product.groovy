@@ -36,7 +36,7 @@ class Product {
 
 		String name
 		String title
-		ProductOwner owner=extrails.ProductOwner.STORE
+		ProductOwner owner=extrails.ProductOwner.CUSTOMER
 		Date years
 		Long cost=0
 		Long price=0

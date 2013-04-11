@@ -19,38 +19,42 @@ class ProductController {
         log.info "product.mainImage ="+product.mainImage
 
         if(!params.name)
-    	   product.name = "product-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
+            product.name = "product-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
+        else {
+            product.title=product.name
+        }
+
+
+        product.user=User.findByUsername(product.name)
+        if(!product?.user){
+            product.user=new User()
+            product.user.username=product.name
+            product.user.title=product.name
+        }
+
+
 
         [ product: product ]
 
     }
-    def query= { 
 
-        def product = Product.findByName(params.name)
-        if(product){
-            redirect(action:'show', id:product.id)
-        }else {
-            redirect(action:'create', params:params)
-        }
-
-
-    }
-
-    def checkNameIsNew={
-        log.info params.name
-        def product = Product.findByName(params.name)
-        if(product){
-            render(text: [success:false] as JSON, contentType:'text/json')
-        }else render(text: [success:true] as JSON, contentType:'text/json')
-
-    }
 
     @Secured(['ROLE_OPERATOR'])
     def save={
         
-        if(params?.user && params?.user!='null')
-            params.user=User.findById(params.user)
-        else params.user=null
+        def user=User.findByUsername(params.username)
+        if(!params.user){
+            user=new User()
+            user.username=params.username
+        }
+
+        user.title=params.userTitle
+        user.telphone=params.userTelphone
+        user.mobile=params.userMobile
+        user.description=params.userDescription
+        user.password=user.username
+        user.save()
+        params.user=user
 
         def product = new Product(params)
 
@@ -124,7 +128,7 @@ class ProductController {
 
         def unfinEvents= Event.findAllByStatus(extrails.ProductStatus.UNFIN)
         def endEvents= Event.findAllByStatus(extrails.ProductStatus.END
-            ,[max:4,order:"dasc",sort:"lastUpdated"])
+            ,[max:8,order:"desc",sort:"lastUpdated"])
         [
             products: products,
             count: productCount,
@@ -148,6 +152,18 @@ class ProductController {
 
 
         def product = Product.findByIdOrName(id, params.name)
+        if(!product?.user)product.user=User.findByUsername(product.name)
+        
+        if(!product?.user){
+            def user=new User()
+            user.username=product.name
+            user.title=product.name
+            user.password=user.username
+            user.save()
+            product.user=user
+            product.save(flush:true)
+        }
+
 
         [ 
             product: product
@@ -156,9 +172,15 @@ class ProductController {
     @Secured(['ROLE_OPERATOR'])
     def update={ Long id ->
 
-        if(params?.user && params?.user!='null')
-            params.user=User.findById(params.user)
-        else params.user=null
+        def user=User.findByUsername(params.username)
+
+
+        user.title=params.userTitle
+        user.telphone=params.userTelphone
+        user.mobile=params.userMobile
+        user.description=params.userDescription
+
+        params.user=user
 
         def product = Product.findByIdOrName(id,params.name)
 
@@ -229,7 +251,26 @@ class ProductController {
         redirect(action:"list")
 
     }
+    def query= { 
 
+        def product = Product.findByName(params.name)
+        if(product){
+            redirect(action:'show', id:product.id)
+        }else {
+            redirect(action:'create', params:params)
+        }
+
+
+    }
+
+    def checkNameIsNew={
+        params.name=params.name.toUpperCase()
+        def product = Product.findByName(params.name)
+        if(product){
+            redirect(action:'show', params:params)
+        }else redirect(action:'create', params:params)
+
+    }
     def csvImport={
 
 

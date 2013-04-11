@@ -82,7 +82,7 @@
 
                 </div>
 
-                <div class="control-group">
+%{--                 <div class="control-group">
                   <label class="control-label required" for="name">
                       <g:message code="user.username.label" />
 
@@ -91,7 +91,7 @@
                       <g:select name="user" from="${extrails.User.list()}" optionValue="username" 
                       noSelection="${[null:'Select One...']}" optionKey="id" value="${product?.user?.id}" />
                     </div>                    
-                </div>
+                </div> --}%
 
                <div class="control-group advanced-region">
                   <label class="control-label" for="owner">
@@ -161,11 +161,14 @@
                     </div>
 
                 </div>
+                
 
+
+                <g:render template="/user/setup" model="[user:product.user]" />
 
                 <div class="control-group">
 
-                  <label class="control-label required" for="description">
+                  <label class="control-label required" for="">
 
                       <g:message code="default.imageUpload.label" />
 

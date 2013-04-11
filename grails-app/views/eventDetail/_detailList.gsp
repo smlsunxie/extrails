@@ -4,14 +4,14 @@
 
 			<sec:ifAnyGranted roles="ROLE_OPERATOR">
         <g:link
-            class="btn btn-danger btn-mini"
+            class="btn btn-danger btn-large pull-right"
             action="delete"
             controller="eventDetail"
             id="${detail.id}"  >
           <g:message code="default.button.delete.label" />
         </g:link>	
         <g:link
-            class="btn btn-primary btn-mini"
+            class="btn btn-primary btn-large"
             action="edit"
             controller="eventDetail"
             id="${detail.id}"  >
@@ -35,13 +35,14 @@
 	        </div>
 	      </div>
 
-	      <div class="span2 well well-small">
-	        <g:message code="eventDetail.price.label" />
-	        <div class="row-fluid">
-						${detail?.price}
-	        </div>
-	      </div>
-
+				<sec:ifLoggedIn>
+		      <div class="span2 well well-small">
+		        <g:message code="eventDetail.price.label" />
+		        <div class="row-fluid">
+							${detail?.price}
+		        </div>
+		      </div>
+				</sec:ifLoggedIn>
 				<sec:ifAnyGranted roles="ROLE_MANERGER">
 		      <div class="span2 well well-small">
 						<g:message code="part.cost.label" />
