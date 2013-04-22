@@ -29,7 +29,7 @@ class EventDetailController {
         ]
 
     }
-
+    @Secured(['ROLE_OPERATOR'])
     def save={
 
 
@@ -118,6 +118,7 @@ class EventDetailController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'eventDetail.label', default: 'EventDetail'), eventDetail.id])
         redirect(action: "list", params:[event: eventDetail.head.id])
     }
+    @Secured(['ROLE_OPERATOR'])
     def delete={ Long id ->
 
         def eventDetail = EventDetail.findById(id)

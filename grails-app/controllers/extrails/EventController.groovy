@@ -91,6 +91,7 @@ class EventController {
 
     }
 
+    @Secured(['ROLE_OPERATOR'])
     def delete={ Long id ->
         def event=Event.findById(id)
 
@@ -194,6 +195,7 @@ class EventController {
         ]
     }
 
+    @Secured(['ROLE_OPERATOR'])
     def changeStatus={ Long id ->
 
         log.info params.status

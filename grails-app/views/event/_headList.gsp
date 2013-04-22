@@ -18,21 +18,21 @@
             controller="part"
             params="[event:event.id]"  >
           <g:message code="eventDetail.create.label" />
-        </g:link>                
-        </sec:ifAnyGranted>
-
-        <g:if test="${event.status == extrails.ProductStatus.UNFIN}">
-
-         <g:link  
-              class="btn btn-primary btn-large"
-              action="changeStatus"
-              controller="event"
-              id="${event.id}" 
-              params="[status:extrails.ProductStatus.END.name(), controllerName:controllerName]" >
-            <g:message code="ProductStatus.END" />
           </g:link>
 
-        </g:if>
+          <g:if test="${event.status == extrails.ProductStatus.UNFIN}">
+           <g:link  
+                class="btn btn-primary btn-large"
+                action="changeStatus"
+                controller="event"
+                id="${event.id}" 
+                params="[status:extrails.ProductStatus.END.name(), controllerName:controllerName]" >
+              <g:message code="ProductStatus.END" />
+            </g:link>
+          </g:if>             
+        </sec:ifAnyGranted>
+
+
 
 
 
