@@ -76,7 +76,14 @@
 							</div>
 						</div>
 
-
+						<g:if test="${product?.events}">
+							<div class="span3 well well-small">
+								<g:message code="product.totalUnreceiveMoney.label" />
+								<div class="row-fluid">
+										 ${product?.events.totalPrice.sum()-product?.events.receivedMoney.sum()}
+								</div>
+							</div>
+						</g:if>
 
 
 				</div>

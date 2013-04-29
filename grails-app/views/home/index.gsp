@@ -61,6 +61,8 @@
                 <div class="row show-grid clear-both">
                     <div class="span12">
                       <div class="row show-grid">
+
+
                         <g:each var='event' in='${unfinEvents}' >
                           <div class="span3">
 
@@ -76,10 +78,9 @@
                             <div class="alert-stick stick event">
 
                               <p><i class="icon-screenshot"></i> 產品編號：${event.product.name.replace(event.product.name.substring(2,4),"**")}</p>
-                              <p><i class="icon-road"></i>使用里程：${event.mileage}</p>
                               <p><i class="icon-user"></i> 維修人員：${event.user.title}</p>
                               <p class="date"><i class="icon-calendar"></i>維修日期： <g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
-
+                              <sec:ifAnyGranted roles="ROLE_OPERATOR"><p class="date"><i class="icon-calendar"></i>維修總額： ${event.totalPrice}</p></sec:ifAnyGranted>
                             
                               <g:link class="btn btn-primary" controller="event" action="list" params="[event:event?.id]">維修記錄</g:link>
 
@@ -93,12 +94,37 @@
                                 <g:link controller="product" action="show" id="${event?.product?.id}" class="btn btn-primary">
                                   產品資料
                                 </g:link>
+
                               </sec:ifAnyGranted>
 
                             </div>
+%{--                             <sec:ifAnyGranted roles="ROLE_OPERATOR">
+                              <div class="row-fluid stick_outside">
+                                
+                                <div class="span6">
+                                    <div class="input-prepend input-append">
+                                      <span class="add-on">已收</span>
+                                      <g:remoteField action="updateReceivedMoney" controller="event" id="${event.id}"
+                                          name="receivedMoney" onSuccess="onSuccessFun(data)" value="${event?.receivedMoney.toString()}"  data-for="unreceiveMoney_${event.id}" class="span6" />                                    
+                                  </div>
+                                </div>
+                                <div class="span6">
+                                    <div class="input-prepend input-append">
+                                      <span  class="add-on">未收</span>
+                                      <input readonly value="${event?.totalPrice-event?.receivedMoney}"  type="text" id="unreceiveMoney_${event.id}"  data-initValue="${event?.totalPrice}"  class="span6" />                                    
+                                  </div>
+                                </div>
+
+                              </div>
+  
+                            </sec:ifAnyGranted> --}%
 
                           </div>
                         </g:each>
+
+
+
+
                       </div>
                     </div>
                 </div>
@@ -129,10 +155,9 @@
 
 
                           <p><i class="icon-screenshot"></i> 產品編號：${event.product.name.replace(event.product.name.substring(2,4),"**")}</p>
-                          <p><i class="icon-road"></i>使用里程：${event.mileage}</p>
                           <p><i class="icon-user"></i> 維修人員：${event.user.title}</p>
                           <p class="date"><i class="icon-calendar"></i>維修日期： <g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
-
+                          <sec:ifAnyGranted roles="ROLE_OPERATOR"><p class="date"><i class="icon-calendar"></i>維修總額： ${event.totalPrice}</p></sec:ifAnyGranted>
 
                           <g:link class="btn btn-primary" controller="event" action="list" params="[event:event?.id]">維修記錄</g:link>
 
@@ -145,7 +170,31 @@
                           </sec:ifAnyGranted>  
 
                         </div>
+%{--                         <sec:ifAnyGranted roles="ROLE_OPERATOR">
+                          <div class="row-fluid stick_outside">
+                            
+                            <div class="span6">
+                                <div class="input-prepend input-append">
+                                  <span class="add-on">已收</span>
+                                  <g:remoteField action="updateReceivedMoney" controller="event" id="${event.id}"
+                                      name="receivedMoney" onSuccess="onSuccessFun(data)" value="${event?.receivedMoney.toString()}"  data-for="unreceiveMoney_${event.id}" class="span6" />                                    
+                              </div>
+                            </div>
+                            <div class="span6">
+                                <div class="input-prepend input-append">
+                                  <span  class="add-on">未收</span>
+                                  <input readonly value="${event?.totalPrice-event?.receivedMoney}"  type="text" id="unreceiveMoney_${event.id}"  data-initValue="${event?.totalPrice}"  class="span6" />                                    
+                              </div>
+                            </div>
+
+                          </div>
+
+                        </sec:ifAnyGranted> --}%
                       </div>
+
+
+
+
                     </g:each>
                   </div>
                 </div>

@@ -2,7 +2,7 @@ package extrails
 
 class UserController extends grails.plugins.springsecurity.ui.UserController {
 
-	   def csvImport={
+	def csvImport={
 
         try{
             def reader = grailsAttributes.getApplicationContext().getResource("/data/user.csv").getFile().toCsvMapReader([batchSize:50])

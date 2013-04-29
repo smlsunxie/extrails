@@ -80,7 +80,6 @@ class PostController {
     def edit={Long id ->
         def post = Post.findByIdOrName(id, params.name)
 
-        log.info post?.product?.id
 
         [ 
             post: post
@@ -117,11 +116,11 @@ class PostController {
 
         ProductController productController = new ProductController()
 
-        log.info post?.product?.id
+
 
         def productShow=(post?.product?.id ? productController.show(post.product.id):null)
 
-        log.info productShow
+
         
     	[
             productShow:productShow,
@@ -195,8 +194,7 @@ class PostController {
         }
 
         if (params.version != null) {  
-            log.info post.version
-            log.info params.version
+
 
 
             if (post.version > (params.version as Long)) {

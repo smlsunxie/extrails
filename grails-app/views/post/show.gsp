@@ -24,7 +24,7 @@
 
                   <div class="markdown-source">${post?.content?.encodeAsHTML()}</div>
 
-                  <disqus:comments bean="${post}" />
+                  <disqus:comments bean="${post}" url="${request.scheme}://${request.serverName}${request.forwardURI}" />
                   
                   <div class="post-item-panel">
                       <ul>

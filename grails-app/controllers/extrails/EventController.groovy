@@ -1,5 +1,7 @@
 package extrails
 
+import grails.converters.JSON
+
 import org.jsoup.Jsoup
 import org.jsoup.nodes.*
 import org.jsoup.select.*
@@ -58,7 +60,6 @@ class EventController {
 
         def event = new Event(params);
         event.creator=springSecurityService.currentUser.username
-        event.date=new Date()
 
 
 
@@ -110,7 +111,7 @@ class EventController {
         flash.message = message(code: 'default.delete.message', 
             args: [message(code: 'event.label', default: 'event'), event.id])
 
-        redirect(action: "list", controller:"product")
+        redirect(action: "index", controller:"home")
 
 
     }
@@ -153,7 +154,80 @@ class EventController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'event'), event.id])
-        redirect(action: "list", params:[event: event])
+        redirect(action: "list", params:[event: event.id])
+    }
+
+    @Secured(['ROLE_OPERATOR'])
+    def updateReceivedMoney={ Long id ->
+
+        def event=Event.findById(id)
+        try{
+            if(!params.value)params.value=0
+
+            def receivedMoney=params.value.toLong()
+            def totalPrice=0
+
+
+            if(event?.details)totalPrice=event?.details.price.sum()
+
+
+
+            if(receivedMoney<=totalPrice){
+
+                event.receivedMoney=params.value.toLong()
+
+                event.save(flush:true,failOnError:true)
+
+                params.success=true
+
+            }else {
+                params.success=false
+                params.msg="已收金額超過總價"
+            }
+            
+        }catch(Exception e){
+            params.success=false
+            params.msg="請輸入數值資料"
+        }
+
+        params.event=event
+
+        render params as JSON
+
+
+    }
+    @Secured(['ROLE_OPERATOR'])
+    def updateDate={ Long id ->
+
+
+        def event=Event.findById(id)
+        try{
+
+
+
+            event.date=new Date(params.date.toLong())
+
+            event.save(flush:true,failOnError:true)
+
+            params.success=true
+
+
+            
+        }catch(Exception e){
+            params.success=false
+            params.msg="更新日期異常！"
+        }
+
+        params.event=event
+
+        log.info params.event.date
+
+        params.date=event.date.format("yyyy-MM-dd")
+
+
+        render params as JSON
+
+
     }
     def list={
 
@@ -162,7 +236,7 @@ class EventController {
 
         params.sort= 'lastUpdated'
         params.order= 'desc'
-        params.max=5
+
 
         if(params?.event){
             
@@ -188,7 +262,6 @@ class EventController {
         }
         
 
-        log.info count
         [
             events: events,
             count:count
@@ -198,19 +271,35 @@ class EventController {
     @Secured(['ROLE_OPERATOR'])
     def changeStatus={ Long id ->
 
-        log.info params.status
+
         def event=Event.findById(id)
         event.status=params.status
         event.product.status=params.status
         event.save(flush: true)
 
-        log.info params.controllerName
 
-        if(params.controllerName=="home")
-            redirect(action:"index", controller:params.controllerName, params:[event:id])
-        else redirect(action:"list", controller:params.controllerName, params:[event:id])
+        // if(params.controllerName=="home")
+        //     redirect(action:"index", controller:params.controllerName, params:[event:id])
+        // else redirect(action:"list", controller:params.controllerName, params:[event:id])
+
+        redirect(action:"index", controller:"home", params:[event:id])
 
     }
+
+    def initTotalPrice={
+        def events=Event.list()
+        events.eachWithIndex(){event,i ->
+            log.info "${i}/${events.size()} start"
+            if(event?.details){
+                event.totalPrice= event.details.price.sum()
+                event.receivedMoney=event.totalPrice
+                event.save(flush: true,failOnError:true)
+                log.info event.totalPrice
+            }
+        }
+
+    }
+
     def htmImport={ 
 
 

@@ -9,9 +9,7 @@
   <div class="row show-grid">
 
       <div class="span12">                        
-          <div class="row show-grid clear-both">
 
-              <div class="span9 main-column two-columns-right ">
 
                 <sec:ifAllGranted roles="ROLE_OPERATOR">
                   <g:actionbar actionName="${actionName}" domain="${product}" />
@@ -61,34 +59,16 @@
                       </div>
                     </div>
                   </div>
+
+
+                  <g:each in="${product.events}" var="event" status="i">
+                    <g:render template='/event/headList' model="[event:event]" />
+                  </g:each>
                 </sec:ifAnyGranted >
 
 
 
-              </div>
-              <div id="right-sidebar" class="span3 sidebar">
-                  <div class="sidebar-news-widget sidebar-block">
-                      <h2>Recent products Widget</h2>
-                      <ul>
-                          <g:each var='recentproduct' in='${recentproducts}' >
-                            <li>
-                                <a class="photo" href="#">
-                                    <g:img alt="" uri="attachment/show?name=${recentproduct.name}&file=${recentproduct.mainImage}" />
-                                </a>
-                                <p>
-                                <a href="">${recentproduct.title}</a>
-                                </p>
-                                <p class="date"><i class="icon-calendar"></i><g:formatDate date="${recentproduct?.lastUpdated}" type="date" style="MEDIUM" /></p>
-                            </li>
-                          </g:each>
 
-                      </ul>
-                  </div>
-
-
-              </div>
-
-          </div>
       </div>                                        
   </div>
 

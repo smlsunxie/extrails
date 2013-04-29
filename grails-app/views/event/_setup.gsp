@@ -42,6 +42,20 @@
                 </div>
             </div>
 
+
+            <div class="control-group">
+
+                <label class="control-label required" for="date">
+                    <g:message code="event.date.label" />
+
+                </label>
+                <div class="controls">
+                    <g:datePicker name="date" value="${event.date}"
+          noSelection="['':'-Choose-']" precision="day" years="${(new Date().getAt(Calendar.YEAR)-1)..(new Date().getAt(Calendar.YEAR))}" />
+                    <span class="help-inline"></span>
+                </div>
+            </div>
+
             <div class="control-group">
                 <label class="control-label required" for="description">
                     <g:message code="default.description.label" />

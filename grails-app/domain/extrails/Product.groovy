@@ -44,6 +44,7 @@ class Product {
 		String mainImage=""
     ProductStatus status=extrails.ProductStatus.END
     ProductBrand brand=extrails.ProductBrand.OTHERS
+    static hasMany = [events:Event]
 
     String description
     User user

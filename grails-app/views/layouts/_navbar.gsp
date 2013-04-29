@@ -17,14 +17,46 @@
               <sec:ifAnyGranted roles="ROLE_OPERATOR">
 
                 <g:form action="checkNameIsNew" controller="product" class="navbar-search  pull-right"> 
-                  <g:link  class="btn btn-primary" controller="part" action="create">
+                  <sec:ifSwitched>
+                    <a href='${request.contextPath}/j_spring_security_exit_user' id="exitSwitch" class="btn btn-primary btn-mini" >
+                        <%--回復身分--%>
+                        切換使用者
+                    </a>
+                  </sec:ifSwitched> 
+
+                  <g:link  class="btn btn-primary btn-mini" controller="part" action="create">
                     建立維修項目
                   </g:link>
+
+
+
+
+
                   <input type="text" name="name" class="search-query" placeholder="建立事件/機車">
                 </g:form>
               </sec:ifAnyGranted>
+
+
+
+
+
         </div>
 
     </div>
 
 </div>
+
+
+<r:script>
+
+  $(function() {
+    
+    $('#exitSwitch').on("click",function(){
+      if(confirm("確定要切換使用者?")){
+        return true;
+      }else return false;
+    });
+    
+  });
+
+</r:script>

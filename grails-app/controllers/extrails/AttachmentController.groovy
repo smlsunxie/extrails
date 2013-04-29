@@ -10,7 +10,7 @@ class AttachmentController {
     def s3Service
     def imageModiService
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def save={
         try {
             // def fileLocation=grailsApplication.config.upload.files.path;
@@ -54,7 +54,7 @@ class AttachmentController {
     /**
      * 附件上傳及清單（顯示在 iframe 頁框內）
      */
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def list= {
         // File dir = new File("${fileLocation}/${params.name}");
 
@@ -104,7 +104,7 @@ class AttachmentController {
         }
     }
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def delete= {
 
         // def file = new File(params.file);

@@ -16,7 +16,6 @@ class ProductController {
 
     	def product = new Product(params)
 
-        log.info "product.mainImage ="+product.mainImage
 
         if(!params.name)
             product.name = "product-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
@@ -43,7 +42,7 @@ class ProductController {
     def save={
         
         def user=User.findByUsername(params.username)
-        if(!params.user){
+        if(!user){
             user=new User()
             user.username=params.username
         }
@@ -53,6 +52,7 @@ class ProductController {
         user.mobile=params.userMobile
         user.description=params.userDescription
         user.password=user.username
+
         user.save()
         params.user=user
 
@@ -118,6 +118,8 @@ class ProductController {
         params.max=5
 
 
+
+
         if(params.q && params.q != ''){
             products= Product.search("*"+params.q+"*").results
             productCount= products.size()
@@ -126,21 +128,22 @@ class ProductController {
             productCount= Product.count()
         }
 
-        def unfinEvents= Event.findAllByStatus(extrails.ProductStatus.UNFIN)
-        def endEvents= Event.findAllByStatus(extrails.ProductStatus.END
-            ,[max:8,order:"desc",sort:"lastUpdated"])
+        // def unfinEvents= Event.findAllByStatus(extrails.ProductStatus.UNFIN)
+        // def endEvents= Event.findAllByStatus(extrails.ProductStatus.END
+        //     ,[max:8,order:"desc",sort:"lastUpdated"])
         [
             products: products,
-            count: productCount,
-            unfinEvents:unfinEvents,
-            endEvents:endEvents
+            count: productCount
+            // ,
+            // unfinEvents:unfinEvents,
+            // endEvents:endEvents
         ]
     } 
+
+
     def show={ Long id ->
         def product = Product.findByIdOrName(id, params.name)
         
-        log.info "${grailsApplication.config.grails.aws.root}/${product.name}"
-
         [
             product: product,
             files: s3Service.getObjectList("${grailsApplication.config.grails.aws.root}/${product.name}")
@@ -202,8 +205,7 @@ class ProductController {
         }
 
         if (params.version != null) {  
-            log.info product.version
-            log.info params.version
+
 
 
             if (product.version > (params.version as Long)) {

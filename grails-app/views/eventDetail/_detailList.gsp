@@ -1,22 +1,30 @@
 	<div class="row-fluid">
 	  <div class="span10 well well-small">
-	  	第 ${i} 項
+     
 
 			<sec:ifAnyGranted roles="ROLE_OPERATOR">
-        <g:link
-            class="btn btn-danger btn-large pull-right"
-            action="delete"
-            controller="eventDetail"
-            id="${detail.id}"  >
-          <g:message code="default.button.delete.label" />
-        </g:link>	
-        <g:link
-            class="btn btn-primary btn-large"
-            action="edit"
-            controller="eventDetail"
-            id="${detail.id}"  >
-          <g:message code="default.button.edit.label" />
-        </g:link>		           	           
+	      <div class="row-fluid">
+
+	        <div class="span4">
+						
+
+				        <g:link
+				            class="btn btn-danger btn-large pull-right"
+				            action="delete"
+				            controller="eventDetail"
+				            id="${detail.id}"  >
+				          <g:message code="default.button.delete.label" />
+				        </g:link>	
+				        <g:link
+				            class="btn btn-primary btn-large"
+				            action="edit"
+				            controller="eventDetail"
+				            id="${detail.id}"  >
+				          <g:message code="default.button.edit.label" />
+				        </g:link>		           	           
+
+	        </div>
+	      </div>
 	    </sec:ifAnyGranted>
 
 
@@ -29,7 +37,7 @@
 	      </div>
 
 	      <div class="span2 well well-small">
-	        <g:message code="part.title.label" />
+	        <g:message code="part.label" />
 	        <div class="row-fluid">
 	          ${detail?.part?.title}
 	        </div>

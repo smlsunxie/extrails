@@ -13,10 +13,10 @@
 
   <div class="row show-grid">
       <div class="span12">                        
-          <div class="row show-grid clear-both">
+          %{-- <div class="row show-grid clear-both"> --}%
 
 
-						  <div id="left-sidebar" class="span3 sidebar">
+%{-- 						  <div id="left-sidebar" class="span3 sidebar">
 						      <div class="sidebar-news-widget sidebar-block">
 						          <h2>維修中</h2>
                       <ul>
@@ -98,11 +98,11 @@
 
 
 
-						  </div>
+						  </div> --}%
 
 
 
-              <div class="span9 main-column two-columns-left ">
+              %{-- <div class="span9 main-column two-columns-left "> --}%
 
 
 								<!-- 如果沒有文章，顯示空白 -->
@@ -117,9 +117,9 @@
 								<g:render template="/component/pagination"/>
 
 
-					  	</div>
+					  	%{-- </div> --}%
 
-			  	</div>
+			  	%{-- </div> --}%
 	  	</div>
 
   </div>

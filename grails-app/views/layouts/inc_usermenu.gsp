@@ -76,15 +76,7 @@
             </g:link>
         </li>
 
-        <sec:ifSwitched>
-            <li  class="single">
-                <a href='${request.contextPath}/j_spring_security_exit_user'>
-                    <%--回復身分--%>
-                    切換使用者
-                    <i>SWITCH</i>
-                </a>
-            </li>
-        </sec:ifSwitched>
+
 
 %{--         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
@@ -207,40 +199,3 @@
           </ul>
       </li>
   </sec:ifLoggedIn>
-
-%{-- <r:script>
-
-  $(function() {
-    var prompt=function(msg){
-      if(!msg)msg="";
-
-      var remoteCheck=function(inputData){
-        inputData=inputData.toUpperCase()
-
-        var resultCheck=function(data){
-          if(!data.success)location.replace('/product/show?name='+inputData); 
-          else location.replace('/product/create?name='+inputData); 
-        }
-
-        <g:remoteFunction controller='product'  action="checkNameIsNew" params= "'name=' + inputData" onSuccess="resultCheck(data);" />
-      } 
-
-      bootbox.prompt("請輸入車牌號碼 "+msg, function(result) {                
-        if (result !== null) {      
-
-          remoteCheck(result);  
-
-     
-        }
-      })
-    };
-
-    $('#productCreateLink').on("click",function(){
-      prompt()
-    });
-  })
-
-
-
-
-</r:script> --}%

@@ -91,3 +91,21 @@ form select{
 
 }
 
+
+.stick_outside {
+    padding: 0px 50px 0px 30px;
+    text-align: center;
+    width: 188px;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.stick {
+    padding: 20px 50px 25px 30px;
+    width: 188px;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+

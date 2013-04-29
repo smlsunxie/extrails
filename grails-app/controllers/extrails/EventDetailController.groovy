@@ -33,9 +33,9 @@ class EventDetailController {
     def save={
 
 
-    	if(params?.head && params?.head!='null')
+    	if(params?.head && params?.head!='null'){
     		params.head=Event.findById(params.head)
-
+        }
 		if(params?.part && params?.part!='null')
 			params.part=Part.findById(params?.part)
         else params.part=null
@@ -48,6 +48,8 @@ class EventDetailController {
 
 
         def eventDetail=new EventDetail(params)
+
+
 
         eventDetail.creator=springSecurityService.currentUser.username
 
@@ -66,6 +68,10 @@ class EventDetailController {
         // use merge for Copy the state of the given object onto the persistent object with the same identifier
         eventDetail.merge(flush: true)
         eventDetail=EventDetail.findByName(params.name)
+
+
+        eventDetail.head.totalPrice= eventDetail.head.details.price.sum()
+        eventDetail.head.save(flush: true)
         
         flash.message = message(code: 'default.created.message', 
             args: [message(code: 'event.label', default: 'event'), eventDetail.id])
@@ -98,6 +104,8 @@ class EventDetailController {
         else params.part=null
 
 
+
+
         if(!params.mainImage)params.mainImage="";
 
         
@@ -110,10 +118,15 @@ class EventDetailController {
 
         eventDetail.properties = params
 
+
+
         if (!eventDetail.save(failOnError: true, flush: true)) {
             render(view: "edit", model: [eventDetail: eventDetail])
             return
         }
+
+        eventDetail.head.totalPrice= eventDetail.head.details.price.sum()
+        eventDetail.head.save(flush: true)
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'eventDetail.label', default: 'EventDetail'), eventDetail.id])
         redirect(action: "list", params:[event: eventDetail.head.id])
@@ -123,9 +136,13 @@ class EventDetailController {
 
         def eventDetail = EventDetail.findById(id)
         def headId=eventDetail.head.id
-
-
         eventDetail.delete(flush:true)
+
+
+        def event = Event.findById(headId)
+        event.totalPrice= (event.details.price.sum()?:0)
+        eventDetail.head.save(flush: true)
+
 
         redirect(action: "list", controller:"eventDetail"
             , params:[event:headId])
@@ -143,5 +160,26 @@ class EventDetailController {
         ]
     }
 
+    // @Secured(['ROLE_OPERATOR'])
+    // def hasUnreceiveMoneylist={
+
+    //     def products
+    //     def productCount
+
+    //     params.sort= 'lastUpdated'
+    //     params.order= 'desc'
+    //     params.max=5
+
+    //     def query = Product.where {
+    //        events.receivedMoney.sum() != events.totalPrice.sum()
+    //     }
+
+    //     products=query.list(params)
+
+    //     render(view:"list", 
+    //         model:[products: products, count: products.size()])
+
+
+    // } 
 
 }
