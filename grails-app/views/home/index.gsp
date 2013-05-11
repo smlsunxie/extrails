@@ -67,7 +67,7 @@
                           <div class="span3">
 
                             <a class="block-stick-img">
-                              <g:if test="${event?.product?.mainImage}">
+                              <g:if test="${event?.product?.mainImage && event?.product?.mainImage!=''}">
                                 <g:img uri="attachment/show?name=${event.product.name}&file=${event.product.mainImage}"  class="bordered-img" />
                               </g:if> 
                               <g:else>
@@ -98,7 +98,7 @@
                               </sec:ifAnyGranted>
 
                             </div>
-%{--                             <sec:ifAnyGranted roles="ROLE_OPERATOR">
+                            <sec:ifAnyGranted roles="ROLE_OPERATOR">
                               <div class="row-fluid stick_outside">
                                 
                                 <div class="span6">
@@ -117,7 +117,7 @@
 
                               </div>
   
-                            </sec:ifAnyGranted> --}%
+                            </sec:ifAnyGranted>
 
                           </div>
                         </g:each>
@@ -143,7 +143,7 @@
 
 
                         <a class="block-stick-img">
-                          <g:if test="${event?.product?.mainImage}">
+                          <g:if test="${event?.product?.mainImage && event?.product?.mainImage!=''}">
                             <g:img uri="attachment/show?name=${event.product.name}&file=${event.product.mainImage}"  class="bordered-img" />
                           </g:if> 
                           <g:else>
@@ -170,7 +170,7 @@
                           </sec:ifAnyGranted>  
 
                         </div>
-%{--                         <sec:ifAnyGranted roles="ROLE_OPERATOR">
+                        <sec:ifAnyGranted roles="ROLE_OPERATOR">
                           <div class="row-fluid stick_outside">
                             
                             <div class="span6">
@@ -189,7 +189,7 @@
 
                           </div>
 
-                        </sec:ifAnyGranted> --}%
+                        </sec:ifAnyGranted>
                       </div>
 
 

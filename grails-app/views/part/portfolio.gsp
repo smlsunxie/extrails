@@ -132,7 +132,7 @@
 
 			${remoteFunction(action: 'updateDate',
 				controller:'event',
-				id:event.id,
+				id:event?.id,
 				onSuccess:'onDateSuccessFun(data)',
 				params: '\'date=\' + ev.date.valueOf()')}
 

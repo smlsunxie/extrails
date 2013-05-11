@@ -5,7 +5,7 @@ import groovy.transform.EqualsAndHashCode
 
 @EqualsAndHashCode
 class Part implements Taggable {
-    static searchable = true
+    // static searchable = true
 		String name
 		String title
 		Long cost=0

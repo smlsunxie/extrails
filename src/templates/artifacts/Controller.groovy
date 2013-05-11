@@ -1,5 +1,4 @@
 @artifact.package@class @artifact.name@ {
 
-    static constraints = {
-    }
+    def index() { }
 }

@@ -43,14 +43,14 @@ upload:
 
 
 deploy:
-	cp ~/.grails/extrails-config.groovy /usr/share/tomcat7/.grails/
-	rm -rf /var/lib/tomcat7/webapps/ROOT.war
-	rm -rf /var/lib/tomcat7/webapps/ROOT
-	cp target/extrails.war /var/lib/tomcat7/webapps/ROOT.war
-	service tomcat7 restart
+	cp ~/.grails/extrails-config.groovy /usr/share/tomcat6/.grails/
+	rm -rf /var/lib/tomcat6/webapps/ROOT.war
+	rm -rf /var/lib/tomcat6/webapps/ROOT
+	cp target/extrails.war /var/lib/tomcat6/webapps/ROOT.war
+	service tomcat6 restart
 
 log:
-	tail -f /var/lib/tomcat7/logs/catalina.out
+	tail -f /var/lib/tomcat6/logs/catalina.out
 
 # upload-secret:
 # 	s3cmd put ~/.grails/codecanaan-config.groovy s3://s3.lyhdev.com/apps/
@@ -65,7 +65,7 @@ log:
 remote-init:
 	ssh -t ${remote_user}@${remote_addr} 'git clone git@github.com:smlsunxie/extrails.git'
 	ssh -t ${remote_user}@${remote_addr} 'mkdir ~/extrails/target && mkdir ~/.grails'
-	ssh -t ${remote_user}@${remote_addr} 'sudo mkdir -p /usr/share/tomcat7/.grails/projects/extrails/searchable-index/production/index/product && sudo chgrp -R tomcat7 /usr/share/tomcat7 && sudo chmod -R 770 /usr/share/tomcat7'
+	ssh -t ${remote_user}@${remote_addr} 'sudo mkdir -p /usr/share/tomcat6/.grails/projects/extrails/searchable-index/production/index/product && sudo chgrp -R tomcat6 /usr/share/tomcat6 && sudo chmod -R 770 /usr/share/tomcat6'
 
 
 remote-dbinit:
@@ -85,8 +85,9 @@ remote-log:
 
 
 
-# syncdb:
-# 	mysqldump -h codecanaan.com -usynconly -p contpub | mysql -h localhost -ucontpub -pcontpub contpub
+syncdb:
+	mysqldump --user=root -p extrails > ~/backup/extrails.sql
+
 
 # services:
 # 	mysqld_safe5 &

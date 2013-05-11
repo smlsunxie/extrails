@@ -82,11 +82,6 @@ class AttachmentController {
         // 將已編碼 URL 還原
         file = URLDecoder.decode(file)
 
-
-        log.info resource(dir: 'images', file: 'notFind.jpg', absolute: true);
-        log.info resource(dir: 'images', file: 'notFind.jpg');
-
-
         try {
 
             // File object = new File("${fileLocation}/${post.name}/${file}")
@@ -95,11 +90,9 @@ class AttachmentController {
             response.outputStream << object.dataInputStream
         }
         catch (e) {
+            
             e.printStackTrace()
             log.error "Could not read ${file}"
-            File notFindImg  = grailsAttributes.getApplicationContext().getResource("/images/notFind.jpg").getFile()
-            response.outputStream << new FileInputStream(notFindImg)
-
             // response.sendError 404
         }
     }

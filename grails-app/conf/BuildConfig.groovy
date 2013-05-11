@@ -57,7 +57,7 @@ grails.project.dependency.resolution = {
         compile 'org.imgscalr:imgscalr-lib:4.1' 
         runtime 'net.java.dev.jets3t:jets3t:0.9.0'
         runtime 'org.jsoup:jsoup:0.2.2'
-        compile 'org.compass-project:compass:2.2.0' 
+        // compile 'org.compass-project:compass:2.2.0' 
 
         // compile 'net.coobird:thumbnailator:0.4.2' 
     }
@@ -97,7 +97,7 @@ grails.project.dependency.resolution = {
         
 
         runtime ':jquery-ui:latest.release'
-        // runtime ":twitter-bootstrap:2.3.0"
+
         runtime ":browser-detection:0.4.3"
         runtime ":modernizr:2.6.2"
         runtime ":jquery:1.8.3"
@@ -106,13 +106,9 @@ grails.project.dependency.resolution = {
         compile ":ajax-uploader:1.1"
 
         
-        compile ":codenarc:0.18.1"
-
-
-        compile ":create-domain-uml:0.5"
         compile ":csv:0.3.1"
 
-        compile ":searchable:0.6.4"
+        // compile ":searchable:0.6.4"
 
 
         compile ":google-analytics:2.0"

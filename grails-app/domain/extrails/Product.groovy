@@ -32,7 +32,7 @@ public enum ProductStatus {
 
 @EqualsAndHashCode
 class Product {
-    static searchable = true
+    // static searchable = true
 
 		String name
 		String title

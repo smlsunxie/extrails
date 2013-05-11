@@ -109,21 +109,33 @@
         </li> --}%
 %{--         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
-                <g:message code="post.label"/>
-                <i>POST</i>
+                <g:message code="summary.label"/>
+                <i>SUMMARY</i>
             </a>
    
             <ul class="dropdown-menu">
                 <li>
-                    <g:link controller="post" action="create">
-                        <g:message code="post.create.label"/>
+                    <g:link controller="summary" action="unreceiveMoney">
+                        <g:message code="summary.unreceiveMoney.label"/>
                     </g:link>
                 </li>
                 <li>
-                    <g:link controller="post" action="list">
-                        <g:message code="post.list.label"/>
+                    <g:link controller="summary" action="day">
+                        <g:message code="summary.day.label"/>
                     </g:link>
                 </li>
+                <li>
+                    <g:link controller="summary" action="week">
+                        <g:message code="summary.week.label"/>
+                    </g:link>
+                </li>
+                <li>
+                    <g:link controller="summary" action="month">
+                        <g:message code="summary.month.label"/>
+                    </g:link>
+                </li>
+
+
             </ul>
         </li> --}%
       </sec:ifAnyGranted>

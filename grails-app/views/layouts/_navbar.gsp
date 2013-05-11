@@ -8,23 +8,23 @@
                     <li class="home btn btn-mini btn-link">${controllerName}</li>
                     <li class="btn btn-mini btn-link">${actionName}</li>
               </ul>
-              <g:if test="${actionName=='list' && controllerName=='product'}">
+%{--               <g:if test="${actionName=='list' && controllerName=='product'}">
                 <g:form action="list" class="navbar-search"> 
   							  <input type="text" name="q" value="${params.q}" class="search-query" placeholder="Search">
   							</g:form>
-              </g:if>
+              </g:if> --}%
               
               <sec:ifAnyGranted roles="ROLE_OPERATOR">
 
                 <g:form action="checkNameIsNew" controller="product" class="navbar-search  pull-right"> 
                   <sec:ifSwitched>
-                    <a href='${request.contextPath}/j_spring_security_exit_user' id="exitSwitch" class="btn btn-primary btn-mini" >
+                    <a href='${request.contextPath}/j_spring_security_exit_user' id="exitSwitch" class="btn btn-primary" >
                         <%--回復身分--%>
                         切換使用者
                     </a>
                   </sec:ifSwitched> 
 
-                  <g:link  class="btn btn-primary btn-mini" controller="part" action="create">
+                  <g:link  class="btn btn-primary" controller="part" action="create">
                     建立維修項目
                   </g:link>
 

@@ -120,13 +120,16 @@ class ProductController {
 
 
 
-        if(params.q && params.q != ''){
-            products= Product.search("*"+params.q+"*").results
-            productCount= products.size()
-        }else {
-            products= Product.list(params)
-            productCount= Product.count()
-        }
+        // if(params.q && params.q != ''){
+        //     products= Product.search("*"+params.q+"*").results
+        //     productCount= products.size()
+        // }else {
+        //     products= Product.list(params)
+        //     productCount= Product.count()
+        // }
+
+        products= Product.list(params)
+        productCount= Product.count()
 
         // def unfinEvents= Event.findAllByStatus(extrails.ProductStatus.UNFIN)
         // def endEvents= Event.findAllByStatus(extrails.ProductStatus.END

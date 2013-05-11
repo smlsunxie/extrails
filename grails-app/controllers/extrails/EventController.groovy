@@ -252,13 +252,16 @@ class EventController {
             events=Event.findAllByProduct(Product.findById(params.product),params)
         }else{
 
-            if(params.q && params.q != ''){
-                events= Event.search(params.q+"*").results
-                count=events.size()
-            }else {
-                events= Event.list(params)
-                count=Event.count()
-            }
+            // if(params.q && params.q != ''){
+            //     events= Event.search(params.q+"*").results
+            //     count=events.size()
+            // }else {
+            //     events= Event.list(params)
+            //     count=Event.count()
+            // }
+
+            events= Event.list(params)
+            count=Event.count()
         }
         
 
