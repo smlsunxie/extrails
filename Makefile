@@ -94,8 +94,8 @@ syncdb:
 # 	rabbitmq-server &
 
 
-done:
+done-remote:
 	make clean war upload && make remote-deploy
 
-done-remote:
-	ssh -t ${remote_user}@${remote_addr} 'cd extrails && make clean war && make deploy'
+done:
+	 make update clean war && sudo make deploy

@@ -87,7 +87,7 @@ grails.project.dependency.resolution = {
         // spring-security 相關
         compile ':spring-security-core:1.2.7.3'
         compile ':spring-security-ui:0.2'
-        compile ':famfamfam:1.0'
+        compile ':famfamfam:1.0.1'
 
 
         // html 相關
