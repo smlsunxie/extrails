@@ -96,3 +96,6 @@ syncdb:
 
 done:
 	make clean war upload && make remote-deploy
+
+done-remote:
+	ssh -t ${remote_user}@${remote_addr} 'cd extrails && make clean war && make deploy'
