@@ -65,9 +65,9 @@ class Product {
       years nullable: true
 
     }
-  //   String toString(){
-  //     "${name}"
-		// }
+  static mapping = {
+       events sort: 'date', order: 'desc'
+  }
 
 
 }

@@ -38,8 +38,7 @@ class Event {
 
   }
 
-  public String toString(){
-  	"${product.name}"
+  static mapping = {
+       sort date: "desc"
   }
-
 }
