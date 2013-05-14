@@ -14,15 +14,6 @@ class EventDetailController {
 
         eventDetail.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
-
-  //   	if(params?.head)
-  //   		eventDetail.head=Event.findById(params.head)
-
-		// if(params?.part && params?.part!='null'){
-		// 	eventDetail.part=Part.findById(params?.part)
-            
-  //       }
-
         eventDetail.price=eventDetail.part.price
         
         params.qty=1
@@ -33,14 +24,6 @@ class EventDetailController {
     }
     @Secured(['ROLE_OPERATOR'])
     def save={
-
-
-  //   	if(params?.head && params?.head!='null'){
-  //   		params.head=Event.findById(params.head)
-  //       }
-		// if(params?.part && params?.part!='null')
-		// 	params.part=Part.findById(params?.part)
-  //       else params.part=null
 
         if(!params?.name)
             params.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"

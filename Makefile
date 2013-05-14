@@ -98,4 +98,4 @@ done-remote:
 	make clean war upload && make remote-deploy
 
 done:
-	 make update clean war && sudo make deploy
+	make update clean war && sudo make deploy
