@@ -81,7 +81,7 @@ class PartController {
         else part.tags = params.tags
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'part.label', default: 'part'), part.id])
-        redirect(action: "list")
+        redirect(action: "show", id:part.id)
     }
 
     @Secured(['ROLE_OPERATOR'])
@@ -92,7 +92,7 @@ class PartController {
         def event
         def tags
         if(params?.event){
-            event=Event.findById(params?.event,[sort: 'dateCreated', order: 'desc'])
+            event=Event.findById(params?.event.id,[sort: 'dateCreated', order: 'desc'])
         }
 
         if(params?.tag){
@@ -127,7 +127,7 @@ class PartController {
 
         [
             part: part,
-            files: s3Service.getObjectList("${grailsApplication.config.grails.aws.root}/${part.name}")
+            files: s3Service.getObjectList("${grailsApplication.config.grails.aws.root}/${part?.name}")
         ]
     }
 

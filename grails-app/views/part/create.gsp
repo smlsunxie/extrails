@@ -8,7 +8,7 @@
       <g:actionbar actionName="${actionName}" domain="${part}" />
 
       <div class="bs-docs-example">
-        <g:render template="setup" />
+        <g:render template="form" />
       </div>
     </g:form>
 

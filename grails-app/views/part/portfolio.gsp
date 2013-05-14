@@ -10,7 +10,7 @@
 	<g:set var="nowTag" value="${params.tag}" />
 	<div class="col-wrapper">
 
-		<g:if test="${params.event}"> 
+		<g:if test="${params?.event?.id}"> 
 
 			<sec:ifAnyGranted roles="ROLE_OPERATOR">
 
@@ -67,7 +67,7 @@
 					
 
 					<li class="active">
-						<g:link controller="eventDetail" action='list' params="[event:params.event]">修改 ${event?.product.name} 維修記錄</g:link>
+						<g:link controller="eventDetail" action='list' params="['event.id':params.event.id]">修改 ${event?.product.name} 維修記錄</g:link>
 					</li>
 					<g:each var="detail" in="${event.details}">
 						<li><a href="#" >${detail.part.title}</a></li>
@@ -86,7 +86,7 @@
 				<g:each var="tag" in="${tags}">
 
 					<li class="${ nowTag == tag.toString() ? 'active' : '' }">
-						<g:link action="portfolio" params="[event:params.event,tag:tag]" >${tag}</g:link>
+						<g:link action="portfolio" params="['event.id':params?.event?.id,tag:tag]" >${tag}</g:link>
 					</li>
 				</g:each>
 
@@ -111,9 +111,9 @@
 
 
 								<p>
-									<g:if test="${params.event}">
+									<g:if test="${params?.event?.id}">
 										<g:link controller="eventDetail" action="create"
-										 params="[part:part.id, head:params?.event]" class="btn btn-primary">新增維修</g:link> 
+										 params="['part.id':part.id, 'head.id':params.event.id]" class="btn btn-primary">新增維修</g:link> 
 									</g:if>
 										<g:link controller="part" action="show" id="${part.id}" class="btn">檢視項目</g:link>
 								</p>

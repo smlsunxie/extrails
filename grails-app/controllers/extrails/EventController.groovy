@@ -18,26 +18,23 @@ class EventController {
 
         def unfinEvent
 
-        if(params?.event)
-            unfinEvent=Event.findById(params?.event)
+        if(params?.event?.id)
+             unfinEvent=Event.findById(params?.event.id)
         
-        else if(params?.product){
-            params.product=Product.findById(params.product)
+        else if(params?.product?.id){
+            params.product=Product.findById(params.product.id)
 
-            log.info params.product.mileage
             params.mileage=params.product.mileage
             
             unfinEvent = Event.findByProductAndStatus(params.product,extrails.ProductStatus.UNFIN)
         }
 
         if(unfinEvent){
-            redirect(controller:"part", action:"portfolio", params:[event:unfinEvent.id])
+            redirect(controller:"part", action:"portfolio", params:['event.id':unfinEvent.id])
         } 
 
         def event = new Event(params);
         event.user=springSecurityService.currentUser
-
-
         event.name = "event-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
     	[
@@ -48,14 +45,11 @@ class EventController {
     @Secured(['ROLE_OPERATOR'])
     def save={
         
-       
-        log.info params.user
+        // if(params?.product && params?.product!='null')
+        //     params.product=Product.findById(params.product)
 
-        if(params?.product && params?.product!='null')
-            params.product=Product.findById(params.product)
-
-        if(params?.user && params?.user!='null')
-            params.user=User.findById(params.user)
+        // if(params?.user && params?.user!='null')
+        //     params.user=User.findById(params.user)
 
 
         def event = new Event(params);
@@ -79,33 +73,35 @@ class EventController {
         }
 
         event.product.status=extrails.ProductStatus.UNFIN
-        event.merge(flush: true)
-        event=Event.findByName(params.name)
+        event.save(flush: true)
+        // event=Event.findByName(params.name)
 
         
         flash.message = message(code: 'default.created.message', 
             args: [message(code: 'event.label', default: 'event'), event.id])
 
 
-        redirect(action: "portfolio", controller:"part", params:[event:event.id])
+        redirect(action: "portfolio", controller:"part", params:["event.id":event.id])
 
 
     }
 
     @Secured(['ROLE_OPERATOR'])
     def delete={ Long id ->
+
         def event=Event.findById(id)
 
         if(event.status==extrails.ProductStatus.UNFIN){
             event.product.status=extrails.ProductStatus.END
-            event.save(flush:true)
+            event.product.save(flush:true)
         }
 
-        def details=EventDetail.findByHead(event)
+        def details=EventDetail.findAllByHead(event)
 
-        if(details)
-            details.delete(flush:true)
-
+        event?.details?.each(){
+            it.delete()
+        }
+        // event.save()
         event.delete(flush:true)
 
         flash.message = message(code: 'default.delete.message', 
@@ -128,11 +124,11 @@ class EventController {
 
         def event = Event.findByIdOrName(id, params.name)
 
-        if(params?.product && params?.product!='null')
-            params.product=Product.findById(params.product)
+        // if(params?.product && params?.product!='null')
+        //     params.product=Product.findById(params.product)
 
-        if(params?.user && params?.user!='null')
-            params.user=User.findById(params.user)
+        // if(params?.user && params?.user!='null')
+        //     params.user=User.findById(params.user)
 
         
         if (!event) {
@@ -154,7 +150,7 @@ class EventController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'event'), event.id])
-        redirect(action: "list", params:[event: event.id])
+        redirect(action: "list", params:["event.id": event.id])
     }
 
     @Secured(['ROLE_OPERATOR'])
@@ -237,19 +233,12 @@ class EventController {
         params.sort= 'lastUpdated'
         params.order= 'desc'
 
-
-        if(params?.event){
-            
-            def currentUser=springSecurityService.currentUser
-            events=Event.findAllById(params.event)
-
-
-        }else if(params?.product){
-            def currentUser=springSecurityService.currentUser
-
+        def currentUser=springSecurityService.currentUser
+        if(params?.event?.id){   
+            events=Event.findAllById(params.event.id)
+        }else if(params?.product?.id){
             if(!currentUser)params.max=1
-
-            events=Event.findAllByProduct(Product.findById(params.product),params)
+            events=Event.findAllByProduct(Product.findById(params.product.id),params)
         }else{
 
             // if(params.q && params.q != ''){

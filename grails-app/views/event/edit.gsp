@@ -8,7 +8,7 @@
     <g:form action="update" class="form-horizontal">     
       <g:actionbar actionName="${actionName}" domain="${event}" />
       <div class="bs-docs-example">
-        <g:render template="setup" />
+        <g:render template="form" />
       </div>
     </g:form>
   </body>

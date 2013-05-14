@@ -11,9 +11,9 @@ modules = {
 			defaultBundle __bundleName
 		}
 
-		"jquery-ui" {
-			defaultBundle __bundleName
-		}
+		// "jquery-ui" {
+		// 	defaultBundle __bundleName
+		// }
 
 
 	}

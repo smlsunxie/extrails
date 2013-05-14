@@ -9,8 +9,8 @@
 					<g:link controller="product" action="show" id="${product?.id}" class="btn btn-primary btn-mini">
 						產品資料
 					</g:link>
-					<g:link class="btn btn-primary btn-mini" controller="event" action="list" params="[product:product?.id]">維修記錄</g:link>
-					<g:link class="btn btn-primary btn-mini" controller="event" action="create" params="[product:product?.id]">新增維修</g:link>
+					<g:link class="btn btn-primary btn-mini" controller="event" action="list" params="['product.id':product?.id]">維修記錄</g:link>
+					<g:link class="btn btn-primary btn-mini" controller="event" action="create" params="['product.id':product?.id]">新增維修</g:link>
 					<g:if test="${product?.status.name() == "UNFIN"}"> 
 						<g:link class="btn btn-primary btn-mini" action="changeStatusEnd" id="${product.id}" params="[status:extrails.ProductStatus.END.name()]">維修結束</g:link>
 					</g:if>

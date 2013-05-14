@@ -15,13 +15,15 @@ class EventDetailController {
         eventDetail.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
 
-    	if(params?.head)
-    		eventDetail.head=Event.findById(params.head)
+  //   	if(params?.head)
+  //   		eventDetail.head=Event.findById(params.head)
 
-		if(params?.part && params?.part!='null'){
-			eventDetail.part=Part.findById(params?.part)
-            eventDetail.price=eventDetail.part.price
-        }
+		// if(params?.part && params?.part!='null'){
+		// 	eventDetail.part=Part.findById(params?.part)
+            
+  //       }
+
+        eventDetail.price=eventDetail.part.price
         
         params.qty=1
         [
@@ -33,12 +35,12 @@ class EventDetailController {
     def save={
 
 
-    	if(params?.head && params?.head!='null'){
-    		params.head=Event.findById(params.head)
-        }
-		if(params?.part && params?.part!='null')
-			params.part=Part.findById(params?.part)
-        else params.part=null
+  //   	if(params?.head && params?.head!='null'){
+  //   		params.head=Event.findById(params.head)
+  //       }
+		// if(params?.part && params?.part!='null')
+		// 	params.part=Part.findById(params?.part)
+  //       else params.part=null
 
         if(!params?.name)
             params.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
@@ -66,19 +68,19 @@ class EventDetailController {
         // eventDetail define hasMany
         // cause error:a different object with the same identifier value was already associated with the session: [extrails.EventDetail#1]
         // use merge for Copy the state of the given object onto the persistent object with the same identifier
-        eventDetail.merge(flush: true)
-        eventDetail=EventDetail.findByName(params.name)
+        // eventDetail.save(flush: true)
+        // eventDetail=EventDetail.findByName(params.name)
 
-
+        eventDetail.save()
         eventDetail.head.totalPrice= eventDetail.head.details.price.sum()
-        eventDetail.head.save(flush: true)
+        eventDetail.save(flush: true)
         
         flash.message = message(code: 'default.created.message', 
             args: [message(code: 'event.label', default: 'event'), eventDetail.id])
 
 
         redirect(action: "portfolio", controller:"part"
-            , params:[event:eventDetail.head.id])
+            , params:['event.id':eventDetail.head.id])
 
 
 
@@ -96,12 +98,12 @@ class EventDetailController {
 
         def eventDetail = EventDetail.findByIdOrName(id, params.name)
 
-        if(params?.head && params?.head!='null')
-            params.head=Event.findById(params.head)
+        // if(params?.head && params?.head!='null')
+        //     params.head=Event.findById(params.head)
 
-        if(params?.part && params?.part!='null')
-            params.part=Part.findById(params?.part)
-        else params.part=null
+        // if(params?.part && params?.part!='null')
+        //     params.part=Part.findById(params?.part)
+        // else params.part=null
 
 
 
@@ -119,17 +121,19 @@ class EventDetailController {
         eventDetail.properties = params
 
 
+        eventDetail.head.totalPrice= eventDetail.head.details.price.sum()
+        // eventDetail.head.save(flush: true)
+
 
         if (!eventDetail.save(failOnError: true, flush: true)) {
             render(view: "edit", model: [eventDetail: eventDetail])
             return
         }
 
-        eventDetail.head.totalPrice= eventDetail.head.details.price.sum()
-        eventDetail.head.save(flush: true)
+
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'eventDetail.label', default: 'EventDetail'), eventDetail.id])
-        redirect(action: "list", params:[event: eventDetail.head.id])
+        redirect(action: "list", params:['event.id': eventDetail.head.id])
     }
     @Secured(['ROLE_OPERATOR'])
     def delete={ Long id ->
@@ -145,14 +149,14 @@ class EventDetailController {
 
 
         redirect(action: "list", controller:"eventDetail"
-            , params:[event:headId])
+            , params:["event.id":headId])
 
     }
 
     def list={
 
 
-        def event=Event.findById(params.event)
+        def event=Event.findById(params.event.id)
 
 
         [

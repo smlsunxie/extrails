@@ -66,7 +66,7 @@ grails.project.dependency.resolution = {
         runtime ":hibernate:$grailsVersion"
         build ":tomcat:$grailsVersion"
         runtime ":database-migration:1.2.1"
-        compile ':mail:latest.release'
+        compile ':mail:1.0.1'
         compile ":webxml:1.4.1"
 
         //resources 優化管理相關
@@ -85,9 +85,9 @@ grails.project.dependency.resolution = {
 
 
         // spring-security 相關
-        compile ':spring-security-core:latest.release'
-        compile ':spring-security-ui:latest.release'
-        compile ':famfamfam:latest.release'
+        compile ':spring-security-core:1.2.7.3'
+        compile ':spring-security-ui:0.2'
+        compile ':famfamfam:1.0'
 
 
         // html 相關
@@ -96,7 +96,7 @@ grails.project.dependency.resolution = {
         // 上面兩個套件 test-app 造成: Error creating bean with name 'instanceTagLibraryApi': Injection of autowired dependencies failed
         
 
-        runtime ':jquery-ui:latest.release'
+        runtime ':jquery-ui:1.8.24'
 
         runtime ":browser-detection:0.4.3"
         runtime ":modernizr:2.6.2"
@@ -107,8 +107,6 @@ grails.project.dependency.resolution = {
 
         
         compile ":csv:0.3.1"
-
-        // compile ":searchable:0.6.4"
 
 
         compile ":google-analytics:2.0"

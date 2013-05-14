@@ -8,7 +8,7 @@
             <div id="myTabContent" class="tab-content">
               
               <div class="tab-pane fade in active" id="setup">
-                <g:render template="setup" />
+                <g:render template="form" />
               </div>
 
               %{-- 編輯區域 tab --}%

@@ -17,7 +17,7 @@
                 class="btn btn-primary btn-large"
                 action="portfolio"
                 controller="part"
-                params="[event:event.id]"  >
+                params="['event.id':event.id]"  >
                 <g:message code="eventDetail.create.label" />   
               </g:link>   
 

@@ -41,12 +41,7 @@ class PostController {
     }
     @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def save={
- 
-
-        if(params?.product && params?.product!='null')
-            params.product=Product.findById(params?.product)
-        else params.product=null
-       
+      
         def post = new Post(params)
 
 
@@ -208,14 +203,7 @@ class PostController {
             }
         }
 
-        if(params.product!='null')params.product=Product.findById(params?.product)
-        else params.product=null;
-
-
         post.properties = params
-
-
-
 
         if (!post.save(flush: true)) {
             post.errors?.allErrors?.each{ 

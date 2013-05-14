@@ -82,10 +82,10 @@
                               <p class="date"><i class="icon-calendar"></i>維修日期： <g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
                               <sec:ifAnyGranted roles="ROLE_OPERATOR"><p class="date"><i class="icon-calendar"></i>維修總額： ${event.totalPrice}</p></sec:ifAnyGranted>
                             
-                              <g:link class="btn btn-primary" controller="event" action="list" params="[event:event?.id]">維修記錄</g:link>
+                              <g:link class="btn btn-primary" controller="event" action="list" params="['event.id':event?.id]">維修記錄</g:link>
 
                               <sec:ifAnyGranted roles="ROLE_OPERATOR">
-                                <g:link class="btn btn-primary" controller="event" action="create" params="[event:event?.id]">新增維修</g:link>
+                                <g:link class="btn btn-primary" controller="event" action="create" params="['event.id':event?.id]">新增維修</g:link>
 
                                 <g:if test="${event?.product?.status.name() == "UNFIN"}"> 
                                   <g:link class="btn btn-primary" action="changeStatus" id="${event?.id}" controller="event" params="[status:extrails.ProductStatus.END.name(),controllerName:controllerName]">維修結束</g:link>
@@ -159,10 +159,10 @@
                           <p class="date"><i class="icon-calendar"></i>維修日期： <g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
                           <sec:ifAnyGranted roles="ROLE_OPERATOR"><p class="date"><i class="icon-calendar"></i>維修總額： ${event.totalPrice}</p></sec:ifAnyGranted>
 
-                          <g:link class="btn btn-primary" controller="event" action="list" params="[event:event?.id]">維修記錄</g:link>
+                          <g:link class="btn btn-primary" controller="event" action="list" params="['event.id':event?.id]">維修記錄</g:link>
 
                           <sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
-                            <g:link class="btn btn-primary" controller="event" action="create" params="[event:event.id]">新增維修</g:link>
+                            <g:link class="btn btn-primary" controller="event" action="create" params="['event.id':event.id]">新增維修</g:link>
                             
                             <g:link controller="product" action="show" id="${event?.product?.id}" class="btn btn-primary">
                               產品資料

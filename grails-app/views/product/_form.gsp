@@ -164,7 +164,7 @@
                 
 
 
-                <g:render template="/user/setup" model="[user:product.user]" />
+                <g:render template="/user/form" model="[user:product.user]" />
 
                 <div class="control-group">
 

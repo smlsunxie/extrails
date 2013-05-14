@@ -107,7 +107,7 @@
 
             </ul>
         </li> --}%
-%{--         <li class="dropdown">
+        <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
                 <g:message code="summary.label"/>
                 <i>SUMMARY</i>
@@ -137,7 +137,7 @@
 
 
             </ul>
-        </li> --}%
+        </li>
       </sec:ifAnyGranted>
 
         <%--已登入--%>
