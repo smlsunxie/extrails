@@ -29,7 +29,7 @@
                             <g:each in="${events}" var="event" status="i">
 
                                 <tr>
-                                    <td><g:link action="show" controller="event" id='${event.product.id}'>${event.id}</g:link></td>
+                                    <td><g:link action="show" controller="event" id='${event.id}'>${event.id}</g:link></td>
                                     <td><g:formatDate date="${event.date}" type="date" style="SHOROT" /></td>
                                     <td><g:link action="show" controller="product" id='${event.product.id}'>${event.product.name}</g:link></td>
                                     <td>${event.totalPrice-event.receivedMoney}</td> 
