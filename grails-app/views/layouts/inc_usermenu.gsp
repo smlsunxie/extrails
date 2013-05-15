@@ -120,20 +120,11 @@
                     </g:link>
                 </li>
                 <li>
-                    <g:link controller="summary" action="day">
-                        <g:message code="summary.day.label"/>
+                    <g:link controller="summary" action="turnoverYearList">
+                        <g:message code="summary.turnover.label"/>
                     </g:link>
                 </li>
-                <li>
-                    <g:link controller="summary" action="week">
-                        <g:message code="summary.week.label"/>
-                    </g:link>
-                </li>
-                <li>
-                    <g:link controller="summary" action="month">
-                        <g:message code="summary.month.label"/>
-                    </g:link>
-                </li>
+
 
 
             </ul>
