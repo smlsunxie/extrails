@@ -3,6 +3,7 @@ package extrails
 import java.util.Calendar
 class SummaryController {
 
+		@Secured(['ROLE_OPERATOR'])
     def unreceiveMoneyList={
 
         def query = Event.where{
@@ -15,6 +16,7 @@ class SummaryController {
 
     }
 
+    @Secured(['ROLE_ADMIN'])
     def turnoverYearList={
 
     	def thisYear=(new Date()).getAt(Calendar.YEAR)
@@ -42,6 +44,7 @@ class SummaryController {
 
     }
 
+    @Secured(['ROLE_ADMIN'])
     def turnoverMonthList={
 
     	def thisYear=params.year
