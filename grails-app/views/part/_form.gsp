@@ -1,5 +1,3 @@
-
-
                 <div class="control-group">
                     <label class="control-label required" for="name">
 

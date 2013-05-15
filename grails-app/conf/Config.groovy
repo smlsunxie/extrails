@@ -105,8 +105,8 @@ environments {
 		//grails.serverURL = "http://dev.codecanaan.com:8080"
 
 		// Using baseurl feature to enable CDN deployment
-		grails.resources.mappers.baseurl.enabled = true
-		grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
+		// grails.resources.mappers.baseurl.enabled = true
+		// grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
 
 		//This not works
 		//grails.resources.mappers.baseurl.excludes = ['biwascheme/*']
