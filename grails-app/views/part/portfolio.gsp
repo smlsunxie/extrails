@@ -67,7 +67,7 @@
 					
 
 					<li class="active">
-						<g:link controller="eventDetail" action='list' params="['event.id':params.event.id]">修改 ${event?.product.name} 維修記錄</g:link>
+						<g:link controller="event" action='show' id="${params.event.id}">修改 ${event?.product.name} 維修記錄</g:link>
 					</li>
 					<g:each var="detail" in="${event.details}">
 						<li><a href="#" >${detail.part.title}</a></li>

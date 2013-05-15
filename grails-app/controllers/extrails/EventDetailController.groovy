@@ -131,8 +131,8 @@ class EventDetailController {
         eventDetail.head.save(flush: true)
 
 
-        redirect(action: "list", controller:"eventDetail"
-            , params:["event.id":headId])
+        redirect(action: "show", controller:"event"
+            , id:headId)
 
     }
 
