@@ -102,25 +102,36 @@
 			<ul id="portfolio" class="row thumbnails">                  
 				<g:each var="part" in="${parts}">
 					<li class="span3 large hp-wrapper element ${part.tags.join(' ')}">        
-						<div class="thumbnail">
+						<div id="${part.name}" class="thumbnail">
 %{--                           <g:img alt="" uri="/attachment/show?name=${part.name}&file=${part.mainImage}" style='height:100px' />  --}%
-						  <div class="caption">
-							<h3><g:link controller="part" action="show" id="${part.id}">${part.title}</g:link></h3>
-							<p>${part.description}</p>
-							<p>售價：${part.price}</p>
+							<g:form action="save" controller="eventDetail" class="form-horizontal" params="['part.id':part.id, 'part.name':part.name, 'head.id':params.event.id, returnUrl:createLink(action:actionName, params:['event.id':params.event.id, tag:params.tag])]">   
+							  <div class="caption">
+									<h3><g:link controller="part" action="show" id="${part.id}">${part.title}</g:link></h3>
+									<p>${part.description}</p>
+									<p>
+										<div class="input-prepend input-append">
+										  <span class="add-on">售價</span>
+										  <g:textField value="${part.price}" name="price" class="span2" />
+										</div>
+
+										<div class="input-prepend input-append">
+										  <span class="add-on">數量</span>
+										  <g:textField value="1"  name="qty" class="span2" />
+										</div>	                        
+									</p>
 
 
-								<p>
-									<g:if test="${params?.event?.id}">
-										<g:link controller="eventDetail" action="create"
-										 params="['part.id':part.id, 'head.id':params.event.id]" class="btn btn-primary">新增維修</g:link> 
-									</g:if>
-										<g:link controller="part" action="show" id="${part.id}" class="btn">檢視項目</g:link>
-								</p>
-
-
-
-						  </div>
+									<p>
+										<g:if test="${params?.event?.id}">
+											<g:submitButton controller="eventDetail" action="create"
+											 class="btn btn-primary" name="新增維修" /> 
+										</g:if>
+										<g:else>
+											<g:link controller="part" action="show" id="${part.id}" class="btn">檢視項目</g:link>
+										</g:else>
+									</p>
+						  	</div>
+						  </g:form>
 						</div>
 					</li>
 				</g:each>

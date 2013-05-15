@@ -48,12 +48,6 @@ class EventDetailController {
             return
         }
 
-        // eventDetail define hasMany
-        // cause error:a different object with the same identifier value was already associated with the session: [extrails.EventDetail#1]
-        // use merge for Copy the state of the given object onto the persistent object with the same identifier
-        // eventDetail.save(flush: true)
-        // eventDetail=EventDetail.findByName(params.name)
-
         eventDetail.save()
         eventDetail.head.totalPrice= eventDetail.head.details.price.sum()
         eventDetail.save(flush: true)
@@ -62,12 +56,16 @@ class EventDetailController {
             args: [message(code: 'event.label', default: 'event'), eventDetail.id])
 
 
-        redirect(action: "portfolio", controller:"part"
+        if(params.returnUrl){
+            redirect(uri: "${params.returnUrl}#${params.part.name}")
+        } else {
+            redirect(action: "portfolio", controller:"part"
             , params:['event.id':eventDetail.head.id])
-
+        }
 
 
     }
+
     @Secured(['ROLE_OPERATOR'])
     def edit={ Long id ->
         def eventDetail = EventDetail.findByIdOrName(id, params.name)
