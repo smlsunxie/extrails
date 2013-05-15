@@ -1087,9 +1087,11 @@ table [class*=span],
 .table-hover tbody tr.info:hover td {
   background-color: #c4e3f3;
 }
-/*form {
+
+form {
   margin: 0 0 20px;
-}*/
+}
+
 fieldset {
   padding: 0;
   margin: 0;
