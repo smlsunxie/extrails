@@ -82,7 +82,7 @@
                               <p class="date"><i class="icon-calendar"></i>維修日期： <g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
                               <sec:ifAnyGranted roles="ROLE_OPERATOR"><p class="date"><i class="icon-calendar"></i>維修總額： ${event.totalPrice}</p></sec:ifAnyGranted>
                             
-                              <g:link class="btn btn-primary" controller="event" action="list" params="['event.id':event?.id]">維修記錄</g:link>
+                              <g:link class="btn btn-primary" controller="event" action="show" id="${event?.id}" >維修記錄</g:link>
 
                               <sec:ifAnyGranted roles="ROLE_OPERATOR">
                                 <g:link class="btn btn-primary" controller="event" action="create" params="['event.id':event?.id]">新增維修</g:link>
@@ -159,7 +159,7 @@
                           <p class="date"><i class="icon-calendar"></i>維修日期： <g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
                           <sec:ifAnyGranted roles="ROLE_OPERATOR"><p class="date"><i class="icon-calendar"></i>維修總額： ${event.totalPrice}</p></sec:ifAnyGranted>
 
-                          <g:link class="btn btn-primary" controller="event" action="list" params="['event.id':event?.id]">維修記錄</g:link>
+                          <g:link class="btn btn-primary" controller="event" action="show" id="${event?.id}">維修記錄</g:link>
 
                           <sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
                             <g:link class="btn btn-primary" controller="event" action="create" params="['event.id':event.id]">新增維修</g:link>

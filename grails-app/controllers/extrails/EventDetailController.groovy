@@ -116,7 +116,7 @@ class EventDetailController {
 
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'eventDetail.label', default: 'EventDetail'), eventDetail.id])
-        redirect(action: "list", params:['event.id': eventDetail.head.id])
+        redirect(action: "show", controller:"event", id: eventDetail.head.id)
     }
     @Secured(['ROLE_OPERATOR'])
     def delete={ Long id ->
@@ -136,16 +136,16 @@ class EventDetailController {
 
     }
 
-    def list={
+    // def list={
 
 
-        def event=Event.findById(params.event.id)
+    //     def event=Event.findById(params.event.id)
 
 
-        [
-            event: event
-        ]
-    }
+    //     [
+    //         event: event
+    //     ]
+    // }
 
     // @Secured(['ROLE_OPERATOR'])
     // def hasUnreceiveMoneylist={

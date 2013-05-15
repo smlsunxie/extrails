@@ -253,7 +253,7 @@ class ProductController {
 
         lastEvent.save(flush: true)
 
-        redirect(action:"list")
+        redirect(action:"index", controller:"home")
 
     }
     def query= { 

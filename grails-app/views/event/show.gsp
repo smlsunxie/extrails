@@ -11,10 +11,7 @@
 </head>
 <body>
 
-<g:render template='/event/headList' model="[event:event]" />
-
-
-
+	<g:render template='headList' model="[event:event]" />
 
 </body>
 </html>

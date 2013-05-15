@@ -115,7 +115,7 @@
    
             <ul class="dropdown-menu">
                 <li>
-                    <g:link controller="summary" action="unreceiveMoney">
+                    <g:link controller="summary" action="unreceiveMoneyList">
                         <g:message code="summary.unreceiveMoney.label"/>
                     </g:link>
                 </li>

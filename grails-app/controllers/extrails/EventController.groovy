@@ -150,7 +150,7 @@ class EventController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'event'), event.id])
-        redirect(action: "list", params:["event.id": event.id])
+        redirect(action: "show", id:event.id)
     }
 
     @Secured(['ROLE_OPERATOR'])
@@ -234,9 +234,7 @@ class EventController {
         params.order= 'desc'
 
         def currentUser=springSecurityService.currentUser
-        if(params?.event?.id){   
-            events=Event.findAllById(params.event.id)
-        }else if(params?.product?.id){
+        if(params?.product?.id){
             if(!currentUser)params.max=1
             events=Event.findAllByProduct(Product.findById(params.product.id),params)
         }else{
@@ -259,6 +257,16 @@ class EventController {
             count:count
         ]
     }
+
+    def show={ Long id ->
+
+        def event=Event.findById(id)
+
+        [
+            event: event
+        ]
+    }
+
 
     @Secured(['ROLE_OPERATOR'])
     def changeStatus={ Long id ->
