@@ -1,6 +1,7 @@
 package extrails
 
 import java.util.Calendar
+import grails.plugins.springsecurity.Secured
 class SummaryController {
 
 		@Secured(['ROLE_OPERATOR'])
