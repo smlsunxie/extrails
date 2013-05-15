@@ -18,6 +18,7 @@
                         <thead>
                           <tr>
                             <th>年度</th>
+                            <th>月份</th>
                             <th>總金額</th>
 
 
@@ -28,7 +29,8 @@
 
                                 <tr>
 
-                                    <td><g:link controller="summary" action="turnoverMonthList" params="[year:result.year]">${result.year}</g:link></td>
+                                    <td>${result.year}</td>
+                                    <td>${result.month}</td>
                                     <td>${result.totalMoney}</td>  
                                   </tr>
 

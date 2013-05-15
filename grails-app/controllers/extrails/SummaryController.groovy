@@ -38,7 +38,37 @@ class SummaryController {
     	}
 
 
-    	[turnoverYearList:resultList]
+    	[resultList:resultList]
 
     }
+
+    def turnoverMonthList={
+
+    	def thisYear=params.year
+    	def months=0..11
+
+    	def resultList=[]
+
+
+    	months.each(){
+
+    		params.month=it
+    	  def query = Event.where {
+				    year(date) == params.year
+				    month(date) == params.month
+				}
+
+        def results = query.list()
+        def record=[year:params.year,month: it, totalMoney:results.totalPrice.sum()]
+        if(record.totalMoney)
+        	resultList << record
+
+    	}
+
+
+    	[resultList:resultList]
+
+    }
+
+
 }
