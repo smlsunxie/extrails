@@ -1,3 +1,4 @@
+              <g:hiddenField name="returnUrl" value="${params.returnUrl}" />
               <div class="control-group">
                   <label class="control-label required" for="name">
                       <g:message code="default.name.label" />

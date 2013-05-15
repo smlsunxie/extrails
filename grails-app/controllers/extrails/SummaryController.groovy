@@ -4,7 +4,7 @@ import java.util.Calendar
 import grails.plugins.springsecurity.Secured
 class SummaryController {
 
-		@Secured(['ROLE_OPERATOR'])
+	@Secured(['ROLE_OPERATOR'])
     def unreceiveMoneyList={
 
         def query = Event.where{
@@ -29,14 +29,14 @@ class SummaryController {
     	years.each(){
 
     		params.year=it
-    	  def query = Event.where {
-				    year(date) == params.year
-				}
+            def query = Event.where {
+    		    year(date) == params.year
+    		}
 
-        def results = query.list()
-        def record=[year:it, totalMoney:results.totalPrice.sum()]
-        if(record.totalMoney)
-        	resultList << record
+            def results = query.list()
+            def record=[year:it, totalMoney:results.totalPrice.sum()]
+            if(record.totalMoney)
+                resultList << record
 
     	}
 

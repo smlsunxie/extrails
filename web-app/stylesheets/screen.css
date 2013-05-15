@@ -108,4 +108,6 @@ form select{
     -moz-box-sizing: content-box;
     box-sizing: content-box;
 }
-
+form.form-thumbnail {
+  margin-bottom: 0px;
+}
