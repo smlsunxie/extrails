@@ -57,7 +57,7 @@ grails.project.dependency.resolution = {
         compile 'org.imgscalr:imgscalr-lib:4.1' 
         runtime 'net.java.dev.jets3t:jets3t:0.9.0'
         runtime 'org.jsoup:jsoup:0.2.2'
-        // compile 'org.compass-project:compass:2.2.0' 
+        compile 'org.compass-project:compass:2.2.0' 
 
         // compile 'net.coobird:thumbnailator:0.4.2' 
     }
@@ -112,6 +112,8 @@ grails.project.dependency.resolution = {
         compile ":google-analytics:2.0"
 
         compile ":disqus:0.1"
+
+        compile ":searchable:0.6.4"
 
 
 

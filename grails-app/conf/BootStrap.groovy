@@ -31,7 +31,7 @@ class BootStrap {
 
 
             if (!user1) {
-                user1 = new User(username: 'admin', password: 'admin', enabled: true, works: true).save(failOnError: true, flush: true)
+                user1 = new User(username: 'admin', password: 'admin', title:'小明',mobile:'0911111111', enabled: true, works: true).save(failOnError: true, flush: true)
                 //join roles
                 UserRole.create(user1, role1)
                 UserRole.create(user1, role2)
@@ -84,8 +84,8 @@ class BootStrap {
                 }  
 
 
-                def p1 = new Product(name:'P12345',title:'P12345', years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
-                def p2 = new Product(name:'P22345',title:'P22345', years:new Date(), owner:extrails.ProductOwner.CUSTOMER).save(failOnError: true, flush: true)
+                def p1 = new Product(name:'P12345',title:'P12345', user:user1, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p2 = new Product(name:'P22345',title:'P22345', user:user1, years:new Date(), owner:extrails.ProductOwner.CUSTOMER).save(failOnError: true, flush: true)
 
                 def part1 = new Part(name:'part1', title:'part1', price:100L).save(failOnError: true, flush: true)
                 part1.addTag("標準維修")
