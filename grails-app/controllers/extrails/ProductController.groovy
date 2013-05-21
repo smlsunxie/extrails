@@ -117,7 +117,6 @@ class ProductController {
         params.order= 'desc'
         params.max=5
 
-        log.info flash.users
 
         if(flash.users){
             // chain from checkNameIsNew
@@ -284,7 +283,6 @@ class ProductController {
                 redirect(action:'create', params:params)
             else {
                 flash.users=users
-                log.info flash.users
                 chain(action:'list', params:params)
             }
         }

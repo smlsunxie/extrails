@@ -22,62 +22,60 @@
 
 				<div class="row-fluid">
 
-					<div class="span3 well well-small">
+					<div class="span2 well well-small">
 						<g:message code="product.cc.label" />
 						<div class="row-fluid">
-								
 								${product.cc}
-
 						</div>
 					</div>
 
-					<div class="span3 well well-small">
+					<div class="span2 well well-small">
 						<g:message code="product.mileage.label" />
 						<div class="row-fluid">
 								${product.mileage}
 						</div>
 					</div>
 
-					<div class="span3 well well-small">
+					<div class="span2 well well-small">
 						<g:message code="product.years.label" />
 						<div class="row-fluid">
-
-								<g:formatDate date="${product.years}" type="date" style="SHOROT"  />
-
+							<g:formatDate date="${product.years}" type="date" style="SHOROT"  />
 						</div>
 					</div>
-						<div class="span3 well well-small">
-							<g:message code="product.price.label" />
-							<div class="row-fluid">
-									${product.price}
-							</div>
+						
+					<div class="span2 well well-small">
+						<g:message code="product.price.label" />
+						<div class="row-fluid">
+							${product.price}
 						</div>
-
-				</div>
-
-				%{-- 第二行 --}%
-				<div class="row-fluid">
-
+					</div>
 
 					<sec:ifAnyGranted roles="ROLE_MANERGER">                
-						<div class="span3 well well-small">
+						<div class="span2 well well-small">
 							<g:message code="product.cost.label" />
 							<div class="row-fluid">
-									${product.cost}
+								${product.cost}
 							</div>
 						</div>
 					</sec:ifAnyGranted >
 
 
-						<div class="span3 well well-small">
-							<g:message code="default.description.label" />
-							<div class="row-fluid">
-									 ${product?.description}
-							</div>
+					<div class="span2 well well-small">
+						<g:message code="default.description.label" />
+						<div class="row-fluid">
+								 ${product?.description}
 						</div>
+					</div>
+
+				</div>
+
+
+
+				<div class="row-fluid">
+					<sec:ifAnyGranted roles="ROLE_OPERATOR">
 
 						<g:if test="${product?.events}">
-							<div class="span3 well well-small">
+							<div class="span2 well well-small">
 								<g:message code="product.totalUnreceiveMoney.label" />
 								<div class="row-fluid">
 										 ${product?.events.totalPrice.sum()-product?.events.receivedMoney.sum()}
@@ -86,6 +84,72 @@
 						</g:if>
 
 
+
+            <div class="span2 well well-small">
+              <g:message code="user.title.label" />
+              <div class="row-fluid">
+                  ${product?.user?.title}
+              </div>
+            </div>
+
+
+            <div class="span2 well well-small">
+              <g:message code="user.telphone.label" />
+              <div class="row-fluid">
+                  ${product?.user?.telphone}
+              </div>
+            </div>
+
+            <div class="span2 well well-small">
+              <g:message code="user.mobile.label" />
+              <div class="row-fluid">
+                  ${product?.user?.mobile}
+              </div>
+            </div>
+
+
+            <div class="span2 well well-small">
+              <g:message code="user.description.label" />
+              <div class="row-fluid">
+                  ${product?.user?.description}
+              </div>
+            </div>
+
+          </sec:ifAnyGranted>
+
+
 				</div>
 			</div>
 		</div>
+    
+
+    <div class="row-fluid">
+      <table class="table">
+          <thead>
+            <tr>
+
+              <th><g:message code="default.dateCreated.label" /></th>
+              <th><g:message code="user.title.label" /></th>
+              <th><g:message code="event.mileage.label" /></th>
+              <th><g:message code="part.label" /></th>
+
+            </tr>
+          </thead>
+          <tbody>
+              <g:each in="${product.events}" var="event" status="i">
+                <g:each in="${event.details}" var="detail" status="j">
+                    <tr>
+                        <g:if test="${j==0}">
+                          <td rowspan="${event.details.size()}"><g:formatDate date="${event.date}" type="date" style="SHOROT" /></td>
+                          <td rowspan="${event.details.size()}">${event.user.title}</td>
+                          <td rowspan="${event.details.size()}">${event.mileage}</td>
+                        </g:if>
+                        <td>${detail.part.title}</td>
+                    </tr>
+                </g:each>
+              </g:each>
+
+          </tbody>
+      </table>                    
+    </div>
+
