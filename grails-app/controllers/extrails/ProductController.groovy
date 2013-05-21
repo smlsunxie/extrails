@@ -117,16 +117,19 @@ class ProductController {
         params.order= 'desc'
         params.max=5
 
+        log.info flash.users
 
-
-
-        // if(params.q && params.q != ''){
-        //     products= Product.search("*"+params.q+"*").results
-        //     productCount= products.size()
-        // }else {
-        //     products= Product.list(params)
-        //     productCount= Product.count()
-        // }
+        if(flash.users){
+            // chain from checkNameIsNew
+            products=Product.findAllByUserInList(flash.users)
+            productCount= products.size()
+        }else if(params.q && params.q != ''){
+            products= Product.search("*"+params.q+"*").results
+            productCount= products.size()
+        }else {
+            products= Product.list(params)
+            productCount= Product.count()
+        }
 
         products= Product.list(params)
         productCount= Product.count()
@@ -256,24 +259,35 @@ class ProductController {
         redirect(action:"index", controller:"home")
 
     }
-    def query= { 
+    // def query= { 
 
-        def product = Product.findByName(params.name)
-        if(product){
-            redirect(action:'show', id:product.id)
-        }else {
-            redirect(action:'create', params:params)
-        }
+    //     def product = Product.findByName(params.name)
+    //     if(product){
+    //         redirect(action:'show', id:product.id)
+    //     }else {
+    //         redirect(action:'create', params:params)
+    //     }
 
 
-    }
+    // }
 
     def checkNameIsNew={
         params.name=params.name.toUpperCase()
         def product = Product.findByName(params.name)
         if(product){
             redirect(action:'show', params:params)
-        }else redirect(action:'create', params:params)
+        }else {
+
+            def users= User.search('*'+params.name+'*').results
+
+            if (!users)
+                redirect(action:'create', params:params)
+            else {
+                flash.users=users
+                log.info flash.users
+                chain(action:'list', params:params)
+            }
+        }
 
     }
     def csvImport={
