@@ -32,7 +32,7 @@
 
 
 
-                  <input type="text" name="name" class="search-query" placeholder="建立事件/機車">
+                  <input type="text" name="name" class="search-query" placeholder="事件/機車/查詢" value="${params.q}">
                 </g:form>
               </sec:ifAnyGranted>
 

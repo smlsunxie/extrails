@@ -97,6 +97,18 @@ class BootStrap {
                 def p1 = new Product(name:'P12345',title:'P12345', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
                 def p2 = new Product(name:'P22345',title:'P22345', user:user8, years:new Date(), owner:extrails.ProductOwner.CUSTOMER).save(failOnError: true, flush: true)
 
+                def p3 = new Product(name:'P1',title:'P1', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p4 = new Product(name:'P2',title:'P2', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p5 = new Product(name:'P3',title:'P3', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p6 = new Product(name:'P4',title:'P4', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p7 = new Product(name:'P5',title:'P5', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p8 = new Product(name:'P6',title:'P6', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p9 = new Product(name:'P7',title:'P7', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p10 = new Product(name:'P8',title:'P8', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p11 = new Product(name:'P9',title:'P9', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p12 = new Product(name:'P10',title:'P10', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p13 = new Product(name:'P11',title:'P11', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                
                 def part1 = new Part(name:'part1', title:'part1', price:100L).save(failOnError: true, flush: true)
                 part1.addTag("標準維修")
                 def part2 = new Part(name:'part2', title:'part2', price:200L).save(failOnError: true, flush: true)

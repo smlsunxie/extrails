@@ -118,27 +118,24 @@ class ProductController {
         params.max=5
 
 
-        if(flash.users){
-            // chain from checkNameIsNew
-            products=Product.findAllByUserInList(flash.users)
-            productCount= products.size()
-        }else if(params.q && params.q != ''){
-            products= Product.search("*"+params.q+"*").results
-            productCount= products.size()
+        // if(flash.users){
+        //     // chain from checkNameIsNew
+        //     products=Product.findAllByUserInList(flash.users)
+        //     productCount= products.size()
+        // }else 
+
+        if(params.q && params.q != ''){
+            def users= User.search('*'+params.q+'*').results
+            products=Product.findAllByUserInList(users,params)
+            productCount= Product.findAllByUserInList(users).size()
         }else {
             products= Product.list(params)
             productCount= Product.count()
         }
 
-        // def unfinEvents= Event.findAllByStatus(extrails.ProductStatus.UNFIN)
-        // def endEvents= Event.findAllByStatus(extrails.ProductStatus.END
-        //     ,[max:8,order:"desc",sort:"lastUpdated"])
         [
             products: products,
             count: productCount
-            // ,
-            // unfinEvents:unfinEvents,
-            // endEvents:endEvents
         ]
     } 
 
@@ -275,13 +272,11 @@ class ProductController {
         }else {
 
             def users= User.search('*'+params.name+'*').results
-            users.each(){
-                log.info it.title
-            }
+
             if (!users)
                 redirect(action:'create', params:params)
             else {
-                flash.users=users
+                params.q=params.name.toUpperCase()
                 chain(action:'list', params:params)
             }
         }
