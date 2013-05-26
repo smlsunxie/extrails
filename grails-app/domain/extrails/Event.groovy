@@ -10,7 +10,7 @@ class Event {
 	String name
 	String description
 	Product product
-	Long mileage
+	Long mileage=0
 
 	static hasMany = [details:EventDetail]
 
@@ -32,10 +32,9 @@ class Event {
 	
 
 	static constraints = {
-    name blank: false, unique: true
-    description nullable: true, empty: true
-    user nullable: true, empty: true
-
+	    creator nullable: true
+	    name blank: false, unique: true
+	    description nullable: true, empty: true
   }
 
   static mapping = {

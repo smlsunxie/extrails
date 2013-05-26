@@ -1,11 +1,4 @@
-import extrails.User
-import extrails.Role
-import extrails.UserRole
-import extrails.SecurityMap
-import extrails.Post
-import extrails.Product
-import extrails.Part
-import extrails.ProductOwner
+import extrails.*
 import org.grails.taggable.Tag
 
 class BootStrap {
@@ -109,10 +102,21 @@ class BootStrap {
                 def p12 = new Product(name:'P10',title:'P10', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
                 def p13 = new Product(name:'P11',title:'P11', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
                 
+
                 def part1 = new Part(name:'part1', title:'part1', price:100L).save(failOnError: true, flush: true)
                 part1.addTag("標準維修")
+
                 def part2 = new Part(name:'part2', title:'part2', price:200L).save(failOnError: true, flush: true)
                 part2.addTag("標準維修")
+
+                def event1 = new Event(name:'event1', user:user7, product:p1, date:new Date()).save(failOnError: true, flush: true)
+                def eventDetail1= new EventDetail(name:'eventDetail1',part:part1, head:event1).save(failOnError: true, flush: true)
+
+                def event2 = new Event(name:'event2', user:user7, product:p2, date:new Date(), status:extrails.ProductStatus.END).save(failOnError: true, flush: true)
+                def eventDetail2= new EventDetail(name:'eventDetail2',part:part2, head:event1).save(failOnError: true, flush: true)
+
+
+
 
                 def post = new Post(name:'post1', title:'post1', product:p1).save(failOnError: true, flush: true)
 
