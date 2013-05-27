@@ -67,20 +67,24 @@ class BootStrap {
                     user2 = new User(username: 'manager', password: 'manager', enabled: true, works: true).save(failOnError: true, flush: true)
                     UserRole.create(user2, role2)
                 }
-                if (!user3) {
-                    user3 = new User(username: 'clerk', password: 'clerk', enabled: true, works: true).save(failOnError: true, flush: true)
-                    UserRole.create(user3, role3)
-                }
+                // if (!user3) {
+                //     user3 = new User(username: 'clerk', password: 'clerk', enabled: true, works: true).save(failOnError: true, flush: true)
+                //     UserRole.create(user3, role3)
+                // }
                 if (!user4) {
                     user4 = new User(username: 'customer', password: 'customer', enabled: true, works: true).save(failOnError: true, flush: true)
                     UserRole.create(user4, role4)
                 }  
 
+                def store1=new Store(title:'store1', name:'store1', address:'taipei', telphone:'2222222').save(flush:true, failonerror:true)
 
-                def user5=new User(username: 'fat', password: 'fat', title: "小胖", enabled: true, works: true).save(failOnError: true, flush: true)
+                user1.store=store1
+                user1.save(flush:true, failOnError:true)
+
+                def user5=new User(username: 'fat', password: 'fat', title: "小胖", enabled: true, works: true, store:store1).save(failOnError: true, flush: true)
                 def user6=new User(username: 'bro', password: 'bro', title: "小弟", enabled: true, works: true).save(failOnError: true, flush: true)
                 def user7=new User(username: 'tin', password: 'tin', title: "宗庭", enabled: true, works: true).save(failOnError: true, flush: true)
-                def user8=new User(username: 'paul', password: 'paul', title: "保羅", enabled: true, works: true).save(failOnError: true, flush: true)
+                def user8=new User(username: 'paul', password: 'paul', title: "保羅", enabled: true, works: true, store:store1).save(failOnError: true, flush: true)
                 UserRole.create(user5, role3)
                 UserRole.create(user6, role3)
                 UserRole.create(user7, role3)

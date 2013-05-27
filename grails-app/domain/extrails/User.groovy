@@ -26,10 +26,12 @@ class User {
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
+	Store store
 
 	static constraints = {
 		username blank: false, unique: true
 		password blank: false
+		store nullable: true
 	}
 
 	static mapping = {

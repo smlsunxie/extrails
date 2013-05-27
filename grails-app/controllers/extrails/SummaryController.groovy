@@ -56,16 +56,16 @@ class SummaryController {
 
     	months.each(){
 
-    		params.month=it
-    	  def query = Event.where {
-				    year(date) == params.year
-				    month(date) == params.month
-				}
+        	params.month=it
+        	def query = Event.where {
+    		    year(date) == params.year
+    		    month(date) == params.month
+    		}
 
-        def results = query.list()
-        def record=[year:params.year,month: it, totalMoney:results.totalPrice.sum()]
-        if(record.totalMoney)
-        	resultList << record
+            def results = query.list()
+            def record=[year:params.year,month: it, totalMoney:results.totalPrice.sum()]
+            if(record.totalMoney)
+            	resultList << record
 
     	}
 
