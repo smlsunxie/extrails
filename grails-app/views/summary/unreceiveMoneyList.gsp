@@ -20,6 +20,9 @@
                             <th><g:message code="event.name.label" /></th>
                             <th><g:message code="default.dateCreated.label" /></th>
                             <th><g:message code="product.name.label" /></th>
+                            <th><g:message code="user.title.label" /></th>
+                            <th><g:message code="user.telphone.label" /></th>
+                            <th><g:message code="user.mobile.label" /></th>
                             <th><g:message code="summary.unreceiveMoney.label" /></th>
 
 
@@ -32,6 +35,10 @@
                                     <td><g:link action="show" controller="event" id='${event.id}'>${event.id}</g:link></td>
                                     <td><g:formatDate date="${event.date}" type="date" style="SHOROT" /></td>
                                     <td><g:link action="show" controller="product" id='${event.product.id}'>${event.product.name}</g:link></td>
+                                    <td>${event.product.user.title}</td>
+                                    <td>${event.product.user.telphone}</td>
+                                    <td>${event.product.user.mobile}</td>
+
                                     <td>${event.totalPrice-event.receivedMoney}</td> 
                                   </tr>
 

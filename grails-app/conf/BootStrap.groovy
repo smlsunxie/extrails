@@ -109,7 +109,7 @@ class BootStrap {
                 def part2 = new Part(name:'part2', title:'part2', price:200L).save(failOnError: true, flush: true)
                 part2.addTag("標準維修")
 
-                def event1 = new Event(name:'event1', user:user7, product:p1, date:new Date()).save(failOnError: true, flush: true)
+                def event1 = new Event(name:'event1', user:user7, product:p1, totalPrice:100L, date:new Date()).save(failOnError: true, flush: true)
                 def eventDetail1= new EventDetail(name:'eventDetail1',part:part1, head:event1).save(failOnError: true, flush: true)
 
                 def event2 = new Event(name:'event2', user:user7, product:p2, date:new Date(), status:extrails.ProductStatus.END).save(failOnError: true, flush: true)
