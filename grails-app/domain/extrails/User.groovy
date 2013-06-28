@@ -1,13 +1,5 @@
 package extrails
 
-
-import groovy.transform.EqualsAndHashCode
-import groovy.transform.ToString
-
-
-
-@ToString(includeNames = true, includeFields = true, excludes = 'dateCreated,lastUpdated,metaClass')
-@EqualsAndHashCode
 class User {
 	static searchable = true
 	transient springSecurityService
