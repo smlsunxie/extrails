@@ -2,17 +2,15 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main">
+		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="\${message(code: '${domainClass.propertyName}.label', default: '${className}')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
 	</head>
 	<body>
 
-		<div id="create-${domainClass.propertyName}" class="content scaffold-create" role="main">
+		<div id="create-${domainClass.propertyName}" class="content" role="main">
 			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
-			<g:if test="\${flash.message}">
-			<div class="message" role="status">\${flash.message}</div>
-			</g:if>
+
 			<g:hasErrors bean="\${${propertyName}}">
 			<ul class="errors" role="alert">
 				<g:eachError bean="\${${propertyName}}" var="error">
@@ -25,7 +23,7 @@
 					<g:render template="form"/>
 				</fieldset>
 				<fieldset class="buttons">
-					<g:submitButton name="create" class="save" value="\${message(code: 'default.button.create.label', default: 'Create')}" />
+					<g:submitButton name="create" class="btn btn-primary" value="\${message(code: 'default.button.create.label', default: 'Create')}" />
 				</fieldset>
 			</g:form>
 		</div>
