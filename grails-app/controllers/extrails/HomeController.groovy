@@ -37,6 +37,9 @@ class HomeController {
 
         def operators=UserRole.findAllByRole(extrails.Role.findByAuthority('ROLE_OPERATOR'))*.user
 
+
+        flash.message= "<a href=\"/post/show/7\">20120812:新增功能</a>"
+
         [
             recentPosts:recentPosts,
             unfinEvents:unfinEvents,

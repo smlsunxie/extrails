@@ -164,14 +164,12 @@ class EventController {
             if(!params.value)params.value=0
 
             def receivedMoney=params.value.toLong()
-            def totalPrice=0
 
-
-            if(event?.details)totalPrice=event?.details.price.sum()
+            // if(event?.details)totalPrice=event?.details.price.sum()
 
 
 
-            if(receivedMoney<=totalPrice){
+            if(receivedMoney<=event.totalPrice){
 
                 event.receivedMoney=params.value.toLong()
 
