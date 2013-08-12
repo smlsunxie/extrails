@@ -55,6 +55,9 @@ class HomeController {
             // log.info operators.store
         }
 
+
+        flash.message= "<a href=\"/post/show/7\">20120812:新增功能</a>"
+
         [
             recentPosts:recentPosts,
             unfinEvents:unfinEvents,

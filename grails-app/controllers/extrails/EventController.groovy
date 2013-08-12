@@ -50,9 +50,12 @@ class EventController {
 
         // if(params?.user && params?.user!='null')
         //     params.user=User.findById(params.user)
+        def event = Event.findByName(params.name);
 
-
-        def event = new Event(params);
+        if(!event) 
+            event = new Event(params);
+        else event.properties = params
+        
         event.creator=springSecurityService.currentUser.username
 
 
@@ -161,14 +164,12 @@ class EventController {
             if(!params.value)params.value=0
 
             def receivedMoney=params.value.toLong()
-            def totalPrice=0
 
-
-            if(event?.details)totalPrice=event?.details.price.sum()
+            // if(event?.details)totalPrice=event?.details.price.sum()
 
 
 
-            if(receivedMoney<=totalPrice){
+            if(receivedMoney<=event.totalPrice){
 
                 event.receivedMoney=params.value.toLong()
 

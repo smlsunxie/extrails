@@ -32,12 +32,17 @@ class Event {
 	
 
 	static constraints = {
-	    creator nullable: true
 	    name blank: false, unique: true
 	    description nullable: true, empty: true
+    	// user nullable: true, empty: true		user 不允許 null
+
   }
 
   static mapping = {
        sort date: "desc"
   }
+
+
+
+
 }

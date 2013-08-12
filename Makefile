@@ -86,8 +86,10 @@ remote-log:
 
 
 syncdb:
-	mysqldump --user=root -p extrails > ~/backup/extrails.sql
+	ssh -t ${remote_user}@${remote_addr} 'mysqldump --user=root -p extrails > ~/backup/extrails.sql'
 
+recoverdb:
+	mysql -u root -p extrails < extrails.sql
 
 # services:
 # 	mysqld_safe5 &

@@ -47,7 +47,7 @@
 		      <div class="span2 well well-small">
 		        <g:message code="eventDetail.price.label" />
 		        <div class="row-fluid">
-							${detail?.price}
+							${detail?.price} * ${detail?.qty} = ${detail?.price*detail?.qty}
 		        </div>
 		      </div>
 				</sec:ifLoggedIn>

@@ -165,6 +165,13 @@
     }
 	}
 
+//	$("input[name='qty']").on("change",function(ev){
+//		console.log($(ev.target).val());
+//		var priceElm=$(ev.target).parent().parent().children("div");
+		//console.log($(priceElm).html());
+//		console.log($(priceElm).val());
+//	});
+
 </r:script>
   </body>
 </html>

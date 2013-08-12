@@ -40,7 +40,7 @@
                           <g:each var='operator' in='${operators}' >
                             <div class="span3">
                               <p>
-                                <g:link class="btn btn-primary" url="${request.contextPath}/j_spring_security_switch_user?j_username=${operator.username}">${operator.title}</g:link>                              
+                                <g:link class="btn btn-primary" url="${request.contextPath}/j_spring_security_switch_user?j_username=${operator.username}">${operator?.title}</g:link>                              
                               </p>
                             </div>
                           </g:each>
@@ -78,7 +78,7 @@
                             <div class="alert-stick stick event">
 
                               <p><i class="icon-screenshot"></i> 產品編號：${event.product.name.replace(event.product.name.substring(2,4),"**")}</p>
-                              <p><i class="icon-user"></i> 維修人員：${event.user.title}</p>
+                              <p><i class="icon-user"></i> 維修人員：${event?.user?.title}</p>
                               <p class="date"><i class="icon-calendar"></i>維修日期： <g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
                               <sec:ifAnyGranted roles="ROLE_OPERATOR"><p class="date"><i class="icon-calendar"></i>維修總額： ${event.totalPrice}</p></sec:ifAnyGranted>
                             
@@ -155,7 +155,7 @@
 
 
                           <p><i class="icon-screenshot"></i> 產品編號：${event.product.name.replace(event.product.name.substring(2,4),"**")}</p>
-                          <p><i class="icon-user"></i> 維修人員：${event.user.title}</p>
+                          <p><i class="icon-user"></i> 維修人員：${event?.user?.title}</p>
                           <p class="date"><i class="icon-calendar"></i>維修日期： <g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
                           <sec:ifAnyGranted roles="ROLE_OPERATOR"><p class="date"><i class="icon-calendar"></i>維修總額： ${event.totalPrice}</p></sec:ifAnyGranted>
 
@@ -353,7 +353,7 @@
                               <g:render template="/post/mainImg" model="[post:recentPost]" />
 
                             </a>
-                            <g:link controller='post' action='show' id='${recentPost.id}' class="block-post-title">${recentPost.title}</g:link>
+                            <g:link controller='post' action='show' id='${recentPost.id}' class="block-post-title">${recentPost?.title}</g:link>
                             <p class="block-post-date"><g:formatDate date='${recentPost.lastUpdated}' type='date' style='MEDIUM' /></p>
                             <p class="block-post-content">${recentPost.description}</p>
                             <g:link controller='post' action='show' id='${recentPost.id}' class="block-post-more">Read more&nbsp;&raquo;</g:link>
