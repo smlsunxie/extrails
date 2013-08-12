@@ -130,9 +130,6 @@ class ProductController {
             productCount= Product.count()
         }
 
-        products= Product.list(params)
-        productCount= Product.count()
-
         // def unfinEvents= Event.findAllByStatus(extrails.ProductStatus.UNFIN)
         // def endEvents= Event.findAllByStatus(extrails.ProductStatus.END
         //     ,[max:8,order:"desc",sort:"lastUpdated"])
@@ -278,7 +275,9 @@ class ProductController {
         }else {
 
             def users= User.search('*'+params.name+'*').results
-
+            users.each(){
+                log.info it.title
+            }
             if (!users)
                 redirect(action:'create', params:params)
             else {

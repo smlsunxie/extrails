@@ -31,7 +31,7 @@ class BootStrap {
 
 
             if (!user1) {
-                user1 = new User(username: 'admin', password: 'admin', title:'小明',mobile:'0911111111', enabled: true, works: true).save(failOnError: true, flush: true)
+                user1 = new User(username: 'admin', password: 'admin', title:'shadow',mobile:'0911111111', enabled: true, works: true).save(failOnError: true, flush: true)
                 //join roles
                 UserRole.create(user1, role1)
                 UserRole.create(user1, role2)
@@ -84,8 +84,18 @@ class BootStrap {
                 }  
 
 
-                def p1 = new Product(name:'P12345',title:'P12345', user:user1, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
-                def p2 = new Product(name:'P22345',title:'P22345', user:user1, years:new Date(), owner:extrails.ProductOwner.CUSTOMER).save(failOnError: true, flush: true)
+                def user5=new User(username: 'fat', password: 'fat', title: "小胖", enabled: true, works: true).save(failOnError: true, flush: true)
+                def user6=new User(username: 'bro', password: 'bro', title: "小弟", enabled: true, works: true).save(failOnError: true, flush: true)
+                def user7=new User(username: 'tin', password: 'tin', title: "宗庭", enabled: true, works: true).save(failOnError: true, flush: true)
+                def user8=new User(username: 'paul', password: 'paul', title: "保羅", enabled: true, works: true).save(failOnError: true, flush: true)
+                UserRole.create(user5, role3)
+                UserRole.create(user6, role3)
+                UserRole.create(user7, role3)
+                UserRole.create(user8, role3)
+
+
+                def p1 = new Product(name:'P12345',title:'P12345', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
+                def p2 = new Product(name:'P22345',title:'P22345', user:user8, years:new Date(), owner:extrails.ProductOwner.CUSTOMER).save(failOnError: true, flush: true)
 
                 def part1 = new Part(name:'part1', title:'part1', price:100L).save(failOnError: true, flush: true)
                 part1.addTag("標準維修")
@@ -95,14 +105,7 @@ class BootStrap {
                 def post = new Post(name:'post1', title:'post1', product:p1).save(failOnError: true, flush: true)
 
 
-                def user5=new User(username: 'fat', password: 'fat', title: "小胖", enabled: true, works: true).save(failOnError: true, flush: true)
-                def user6=new User(username: 'bro', password: 'bro', title: "小弟", enabled: true, works: true).save(failOnError: true, flush: true)
-                def user7=new User(username: 'tin', password: 'tin', title: "宗庭", enabled: true, works: true).save(failOnError: true, flush: true)
-                def user8=new User(username: 'paul', password: 'paul', title: "保羅", enabled: true, works: true).save(failOnError: true, flush: true)
-                UserRole.create(user5, role3)
-                UserRole.create(user6, role3)
-                UserRole.create(user7, role3)
-                UserRole.create(user8, role3)
+
 
             }
         }
