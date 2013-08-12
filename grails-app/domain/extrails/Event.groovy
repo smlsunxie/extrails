@@ -41,4 +41,8 @@ class Event {
   static mapping = {
        sort date: "desc"
   }
+
+
+
+
 }

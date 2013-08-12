@@ -28,6 +28,8 @@ class EventDetailController {
         if(!params?.name)
             params.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
         
+        log.info "params?.qty="+params?.qty
+
         if(!params?.qty)
             params?.qty=1
 
@@ -48,8 +50,7 @@ class EventDetailController {
             return
         }
 
-        eventDetail.save()
-        eventDetail.head.totalPrice= eventDetail.head.details.price.sum()
+
         eventDetail.save(flush: true)
         
         flash.message = message(code: 'default.created.message', 
@@ -102,10 +103,6 @@ class EventDetailController {
         eventDetail.properties = params
 
 
-        eventDetail.head.totalPrice= eventDetail.head.details.price.sum()
-        // eventDetail.head.save(flush: true)
-
-
         if (!eventDetail.save(failOnError: true, flush: true)) {
             render(view: "edit", model: [eventDetail: eventDetail])
             return
@@ -121,12 +118,15 @@ class EventDetailController {
 
         def eventDetail = EventDetail.findById(id)
         def headId=eventDetail.head.id
+
+        def event = Event.findById(headId)
+        event.totalPrice -=  eventDetail.price * eventDetail.qty
+        event.save()
+
         eventDetail.delete(flush:true)
 
 
-        def event = Event.findById(headId)
-        event.totalPrice= (event.details.price.sum()?:0)
-        eventDetail.head.save(flush: true)
+
 
 
         redirect(action: "show", controller:"event"
