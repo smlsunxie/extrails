@@ -52,7 +52,9 @@ class EventController {
         //     params.user=User.findById(params.user)
         def event = Event.findByName(params.name);
 
-        if(!event) event = new Event(params);
+        if(!event) 
+            event = new Event(params);
+        else event.properties = params
         
         event.creator=springSecurityService.currentUser.username
 

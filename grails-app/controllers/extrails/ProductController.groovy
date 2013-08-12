@@ -56,7 +56,14 @@ class ProductController {
         user.save()
         params.user=user
 
-        def product = new Product(params)
+        def product = Product.findByName(params.name);
+
+
+        if(!product) 
+            product = new Product(params);
+        else 
+            product.properties = params
+
 
 
         

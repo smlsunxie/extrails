@@ -34,7 +34,12 @@ class EventDetailController {
             params?.qty=1
 
 
-        def eventDetail=new EventDetail(params)
+        def eventDetail = EventDetail.findByName(params.name);
+
+        if(!eventDetail) 
+            eventDetail = new EventDetail(params);
+        else 
+            eventDetail.properties = params
 
 
 

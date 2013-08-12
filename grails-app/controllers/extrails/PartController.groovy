@@ -58,7 +58,11 @@ class PartController {
         if(!params?.price)params.price=0
         if(!params?.cost)params.cost=0
 
-        def part = new Part(params)
+        def part = Part.findByName(params.name);
+        if(!part) 
+            part = new Part(params);
+        else part.properties = params
+
         //set current user as creator
         part.creator = springSecurityService.currentUser.username
 
