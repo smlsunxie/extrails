@@ -35,10 +35,10 @@
                         <tr>
                             <g:if test="${j==0}">
                               <td rowspan="${event.details.size()}"><g:formatDate date="${event.date}" type="date" style="SHOROT" /></td>
-                              <td rowspan="${event.details.size()}">${event.user.title}</td>
+                              <td rowspan="${event.details.size()}">${event?.user?.title}</td>
                               <td rowspan="${event.details.size()}">${event.mileage}</td>
                             </g:if>
-                            <td>${detail.part.title}</td>
+                            <td>${detail?.part?.title}</td>
                         </tr>
                     </g:each>
                   </g:each>
