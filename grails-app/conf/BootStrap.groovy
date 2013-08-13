@@ -9,13 +9,13 @@ class BootStrap {
         environments {
 
             //def role2 = Role.findOrSaveByAuthority('ROLE_FACEBOOK')
-            def role1 = Role.findOrSaveByAuthority('ROLE_ADMIN')
-            def role2 = Role.findOrSaveByAuthority('ROLE_MANERGER')
-            def role3 = Role.findOrSaveByAuthority('ROLE_OPERATOR')
-            def role4 = Role.findOrSaveByAuthority('ROLE_CUSTOMER')
+            def ruleAdmain = Role.findOrSaveByAuthority('ROLE_ADMIN')
+            def ruleManager = Role.findOrSaveByAuthority('ROLE_MANERGER')
+            def ruleOper = Role.findOrSaveByAuthority('ROLE_OPERATOR')
+            def ruleCus = Role.findOrSaveByAuthority('ROLE_CUSTOMER')
 
             //create administrator
-            def user1 = User.findByUsername('admin')
+            def userAdmin = User.findByUsername('admin')
 
 
             // 動態定義 securityConfig by map in db 
@@ -23,13 +23,13 @@ class BootStrap {
             //    configAttribute: 'ROLE_ADMIN').save(failOnError: true, flush: true)
 
 
-            if (!user1) {
-                user1 = new User(username: 'admin', password: 'admin', title:'shadow',mobile:'0911111111', enabled: true, works: true).save(failOnError: true, flush: true)
+            if (!userAdmin) {
+                userAdmin = new User(username: 'admin', password: 'admin', title:'超級使用者',mobile:'0911111111', enabled: true, works: true).save(failOnError: true, flush: true)
                 //join roles
-                UserRole.create(user1, role1)
-                UserRole.create(user1, role2)
-                UserRole.create(user1, role3)
-                UserRole.create(user1, role4)
+                UserRole.create(userAdmin, ruleAdmain)
+                UserRole.create(userAdmin, ruleManager)
+                UserRole.create(userAdmin, ruleOper)
+                UserRole.create(userAdmin, ruleCus)
 
             }
 
@@ -60,35 +60,25 @@ class BootStrap {
             }
             
             development {
-                def user2 = User.findByUsername('manager')
-                def user3 = User.findByUsername('clerk')
-                def user4 = User.findByUsername('customer')
-                if (!user2) {
-                    user2 = new User(username: 'manager', password: 'manager', enabled: true, works: true).save(failOnError: true, flush: true)
-                    UserRole.create(user2, role2)
-                }
-                // if (!user3) {
-                //     user3 = new User(username: 'clerk', password: 'clerk', enabled: true, works: true).save(failOnError: true, flush: true)
-                //     UserRole.create(user3, role3)
-                // }
-                if (!user4) {
-                    user4 = new User(username: 'customer', password: 'customer', enabled: true, works: true).save(failOnError: true, flush: true)
-                    UserRole.create(user4, role4)
-                }  
 
-                def store1=new Store(title:'store1', name:'store1', address:'taipei', telphone:'2222222').save(flush:true, failonerror:true)
 
-                user1.store=store1
-                user1.save(flush:true, failOnError:true)
+                def store1=new Store(title:'勝祥機車行', name:'store1', address:'台北市汀州路一段 354 號', telphone:'0223033926').save(flush:true, failonerror:true)
 
-                def user5=new User(username: 'fat', password: 'fat', title: "小胖", enabled: true, works: true, store:store1).save(failOnError: true, flush: true)
-                def user6=new User(username: 'bro', password: 'bro', title: "小弟", enabled: true, works: true).save(failOnError: true, flush: true)
-                def user7=new User(username: 'tin', password: 'tin', title: "宗庭", enabled: true, works: true).save(failOnError: true, flush: true)
-                def user8=new User(username: 'paul', password: 'paul', title: "保羅", enabled: true, works: true, store:store1).save(failOnError: true, flush: true)
-                UserRole.create(user5, role3)
-                UserRole.create(user6, role3)
-                UserRole.create(user7, role3)
-                UserRole.create(user8, role3)
+                userAdmin.store=store1
+                userAdmin.save(flush:true, failOnError:true)
+
+                def user4 = new User(username: 'smlsun', password: '1', title:'宗穎', enabled: true, store:store1).save(failOnError: true, flush: true)
+                def user5 = new User(username: 'fat', password: '1', title: "小胖", enabled: true, store:store1).save(failOnError: true, flush: true)
+                def user6 = new User(username: 'bro', password: '1', title: "小弟", enabled: true, store:store1).save(failOnError: true, flush: true)
+                def user7 = new User(username: 'tin', password: '1', title: "宗庭", enabled: true, store:store1).save(failOnError: true, flush: true)
+                def user8 = new User(username: 'paul', password: '1', title: "保羅", enabled: true, store:store1).save(failOnError: true, flush: true)
+                
+                UserRole.create(user4, ruleAdmain)
+                UserRole.create(user4, ruleOper)
+                UserRole.create(user5, ruleOper)
+                UserRole.create(user6, ruleOper)
+                UserRole.create(user7, ruleOper)
+                UserRole.create(user8, ruleManager)
 
 
                 def p1 = new Product(name:'P12345',title:'P12345', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)

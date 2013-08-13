@@ -96,7 +96,7 @@
 				</li>
 
 
-				<sec:ifAnyGranted roles="ROLE_MANERGER">
+				<sec:ifAnyGranted roles="ROLE_MANERGER, ROLE_ADMIN">
 
 					<li>
 						<g:link controller="user" action='list'>

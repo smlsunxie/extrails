@@ -15,4 +15,8 @@ class Store {
     	mobile nullable:true 
 
     }
+    public String toString() {
+
+	    return title;
+  	}
 }
