@@ -103,28 +103,22 @@
 							<g:message code="user.maintain.label" />
 						</g:link>
 					</li>
+			
+				</sec:ifAnyGranted>
 
+				<sec:ifAnyGranted roles="ROLE_ADMIN">
 					<li>
 						<g:link controller="role" action='list'>
 							<g:message code="role.maintain.label" />
 						</g:link>
 					</li>
-
-					<li>
-						<g:link controller="userRole" action='list'>
-							<g:message code="userRole.maintain.label" />
-						</g:link>
-					</li>
-
 					<li>
 						<g:link controller="store" action='list'>
 							<g:message code="store.maintain.label" />
 						</g:link>
 					</li>
-			
-
-			
 				</sec:ifAnyGranted>
+
 
 				<sec:ifNotSwitched>
 					<li>

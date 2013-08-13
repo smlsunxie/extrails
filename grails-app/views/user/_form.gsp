@@ -23,8 +23,19 @@
 		<g:message code="user.store.label" default="Store" />
 		
 	</label>
-	<g:select id="store" name="store.id" from="${extrails.Store.list()}" optionKey="id" value="${userInstance?.store?.id}" class="many-to-one" noSelection="['null': '']"/>
+	<g:select id="store" name="store.id" from="${storeList}" optionKey="id" value="${userInstance?.store?.id}" class="many-to-one" noSelection="['null': '']"/>
 </div>
+
+
+%{-- <sec:ifAnyGranted roles="ROLE_ADMIN">
+	<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'storeOwner', 'error')} ">
+		<label for="storeOwner">
+			<g:message code="user.storeOwner.label" default="Store Owner" />
+			
+		</label>
+		<g:checkBox name="storeOwner" value="${userInstance?.storeOwner}" />
+	</div>
+</sec:ifAnyGranted> --}%
 
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'accountExpired', 'error')} ">
 	<label for="accountExpired">
@@ -106,6 +117,9 @@
 	<g:textField name="title" value="${userInstance?.title}"/>
 </div>
 
+
+
+
 <sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_ADMIN">
 	<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'title', 'error')} ">
 		<label for="title">
@@ -131,6 +145,7 @@
 	    </table>                    
 	</div>
 </sec:ifAnyGranted>
+
 
 
 

@@ -19,6 +19,7 @@ class User {
 	boolean accountLocked
 	boolean passwordExpired
 	Store store
+	// boolean storeOwner=false
 
 	static constraints = {
 		username blank: false, unique: true

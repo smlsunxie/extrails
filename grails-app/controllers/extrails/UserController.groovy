@@ -21,7 +21,7 @@ class UserController {
 
     def create() {
 
-        [userInstance: new User(params),roles: Role.list()]
+        [userInstance: new User(params),roles: Role.list(),storeList:storeList()]
     }
 
     def save() {
@@ -31,6 +31,7 @@ class UserController {
             return
         }
 
+        // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles 的儲存
         if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER")){    
             params.list('userRoles').each(){
                 if(!UserRole.create(userInstance,Role.findByAuthority(it),true)){
@@ -65,7 +66,9 @@ class UserController {
             return
         }
         
-        [userInstance: userInstance,roles: Role.list(),userRoles:UserRole.findAllByUser(userInstance)]
+        [userInstance: userInstance,roles: Role.list()
+        ,userRoles:UserRole.findAllByUser(userInstance)
+        ,storeList:storeList()]
     }
 
     @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
@@ -95,7 +98,7 @@ class UserController {
             return
         }
 
-        //UserRole Update
+        // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
         if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER")){
             UserRole.removeAll(userInstance)    
             params.list('userRoles').each(){
@@ -134,5 +137,19 @@ class UserController {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), id])
             redirect(action: "show", id: id)
         }
+    }
+
+    def storeList(){
+        def storeList=[]
+        if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER") 
+            && springSecurityService?.currentUser?.store){  
+            
+            storeList << springSecurityService.currentUser.store
+        
+        }else if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN"))
+            storeList=Store.list()
+
+        log.debug storeList
+        return storeList
     }
 }
