@@ -17,6 +17,8 @@ class Store {
     static constraints = {
     	name unique:true
     	mobile nullable:true 
+    	telphone nullable:true 
+    	address nullable:true
 
     }
     public String toString() {

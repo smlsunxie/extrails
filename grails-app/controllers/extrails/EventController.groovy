@@ -35,6 +35,8 @@ class EventController {
 
         def event = new Event(params);
         event.user=springSecurityService.currentUser
+        event.store=springSecurityService.currentUser.store
+
         event.name = "event-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
     	[

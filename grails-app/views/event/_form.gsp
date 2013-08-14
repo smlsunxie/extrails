@@ -65,3 +65,14 @@
                     <g:textField  name="description" value="${event?.description}" class="input input-xlarge" />
                 </div>
             </div>
+
+            <div class="control-group">
+                <label class="control-label required" for="description">
+                    <g:message code="user.store.label" default="Store" />
+
+                </label>
+                <div class="controls">
+                   <g:select id="store" name="store.id" from="${extrails.Store.list()}" optionKey="id" value="${event?.store?.id}" class="many-to-one" noSelection="['null': '']"/>
+                </div>
+            </div>
+

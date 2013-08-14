@@ -61,8 +61,9 @@ class BootStrap {
             
             development {
 
-
-                def store1=new Store(title:'勝祥機車行', name:'store1', address:'台北市汀州路一段 354 號', telphone:'0223033926').save(flush:true, failonerror:true)
+                def storeDef=new Store(title:'範例機車行店家', name:'store-default-motocycle').save(flush:true, failOnError:true)
+                def store1=new Store(title:'勝祥機車行', name:'store1', address:'台北市汀州路一段 354 號', telphone:'0223033926').save(flush:true, failOnError:true)
+                // def store2=new Store(title:'勝祥機車行', name:'store2', address:'台北市汀州路一段 354 號', telphone:'0223033926').save(flush:true, failOnError:true)
 
                 userAdmin.store=store1
                 userAdmin.save(flush:true, failOnError:true)
@@ -106,10 +107,10 @@ class BootStrap {
                 def part2 = new Part(name:'part2', title:'part2', price:200L).save(failOnError: true, flush: true)
                 part2.addTag("標準維修")
 
-                def event1 = new Event(name:'event1', user:user7, product:p1, totalPrice:100L, date:new Date()).save(failOnError: true, flush: true)
+                def event1 = new Event(name:'event1', user:user7, product:p1, totalPrice:100L, date:new Date(), store:storeDef).save(failOnError: true, flush: true)
                 def eventDetail1= new EventDetail(name:'eventDetail1',part:part1, head:event1).save(failOnError: true, flush: true)
 
-                def event2 = new Event(name:'event2', user:user7, product:p2, date:new Date(), status:extrails.ProductStatus.END).save(failOnError: true, flush: true)
+                def event2 = new Event(name:'event2', user:user7, product:p2, date:new Date(), status:extrails.ProductStatus.END, store:store1).save(failOnError: true, flush: true)
                 def eventDetail2= new EventDetail(name:'eventDetail2',part:part2, head:event1).save(failOnError: true, flush: true)
 
 
