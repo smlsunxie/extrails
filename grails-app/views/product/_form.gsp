@@ -101,7 +101,7 @@
 
 
                   <div class="controls">
-                    <g:select name="brand" from="${extrails.ProductBrand?.values()}" keys="${extrails.ProductBrand.values()*.name()}" required="" value="${product?.brand?.name()}"  valueMessagePrefix="ProductBrand" />
+                    <g:select name="brand" from="${extrails.ProductBrand?.values()}" keys="${extrails.ProductBrand.values()*.name()}" required="" value="${product?.brandTemp?.name()}"  valueMessagePrefix="ProductBrand" />
                   </div>
 
                 </div>

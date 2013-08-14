@@ -1,13 +1,5 @@
 package extrails
 
-
-import groovy.transform.EqualsAndHashCode
-import groovy.transform.ToString
-
-
-
-@ToString(includeNames = true, includeFields = true, excludes = 'dateCreated,lastUpdated,metaClass')
-@EqualsAndHashCode
 class User {
 	static searchable = true
 	transient springSecurityService
@@ -26,10 +18,13 @@ class User {
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
+	Store store
+	// boolean storeOwner=false
 
 	static constraints = {
 		username blank: false, unique: true
 		password blank: false
+		store nullable: true
 	}
 
 	static mapping = {
@@ -52,5 +47,9 @@ class User {
 
 	protected void encodePassword() {
 		password = springSecurityService.encodePassword(password)
+	}
+
+	public String toString(){
+		return title
 	}
 }

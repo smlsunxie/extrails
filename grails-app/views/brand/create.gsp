@@ -1,19 +1,19 @@
-<%@ page import="extrails.User" %>
+<%@ page import="extrails.Brand" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta name="layout" content="bootstrap">
-		<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
+		<g:set var="entityName" value="${message(code: 'brand.label', default: 'Brand')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
 	</head>
 	<body>
 
-		<div id="create-user" class="content" role="main">
+		<div id="create-brand" class="content" role="main">
 			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 
-			<g:hasErrors bean="${userInstance}">
+			<g:hasErrors bean="${brandInstance}">
 			<ul class="errors" role="alert">
-				<g:eachError bean="${userInstance}" var="error">
+				<g:eachError bean="${brandInstance}" var="error">
 				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
 				</g:eachError>
 			</ul>

@@ -46,3 +46,5 @@ web-app/.sass-cache/
 web-app/tmp
 
 #web-app/bizstrap/
+
+hs_err*.log

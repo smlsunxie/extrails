@@ -22,8 +22,8 @@ class EventDetail {
 	Long price=0
 
 	static constraints={
+		creator nullable: true
 		part nullable:true
-		
 	}
 
 	def beforeInsert() {

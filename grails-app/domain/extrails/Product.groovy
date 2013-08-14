@@ -43,7 +43,7 @@ class Product {
 		Long mileage=0
 		String mainImage=""
     ProductStatus status=extrails.ProductStatus.END
-    ProductBrand brand=extrails.ProductBrand.OTHERS
+    ProductBrand brandTemp=extrails.ProductBrand.OTHERS
     static hasMany = [events:Event]
 
     String description

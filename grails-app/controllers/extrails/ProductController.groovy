@@ -123,40 +123,30 @@ class ProductController {
 
 
 
-        if(flash.users){
-            log.info "search 1"
-            params.max=9999
-            // chain from checkNameIsNew 
-            products=Product.findAllByUserInList(flash.users)
-            productCount= products.size()
-        }else if(params.q && params.q != ''){
-            log.info "search 2"
-            products= Product.search("*"+params.q+"*").results
-            productCount= products.totalCount
+        // if(flash.users){
+        //     // chain from checkNameIsNew
+        //     products=Product.findAllByUserInList(flash.users)
+        //     productCount= products.size()
+        // }else 
+
+
+        params.sort= 'lastUpdated'
+        params.order= 'desc'
+        params.max=5
+
+        if(params.q && params.q != ''){
+            def users= User.search('*'+params.q+'*',[max:9999]).results
+            products=Product.findAllByUserInList(users,params)
+            productCount= Product.findAllByUserInList(users).size()
         }else {
             log.info "search 3"
-
-            params.sort= 'lastUpdated'
-            params.order= 'desc'
-            params.max=5
-
             products= Product.list(params)
             productCount= Product.count()
         }
 
-        log.info "params="+params
-        log.info "params.q="+params.q
-        log.info "productCount="+productCount
-
-        // def unfinEvents= Event.findAllByStatus(extrails.ProductStatus.UNFIN)
-        // def endEvents= Event.findAllByStatus(extrails.ProductStatus.END
-        //     ,[max:8,order:"desc",sort:"lastUpdated"])
         [
             products: products,
             count: productCount
-            // ,
-            // unfinEvents:unfinEvents,
-            // endEvents:endEvents
         ]
     } 
 
@@ -292,17 +282,12 @@ class ProductController {
             redirect(action:'show', params:params)
         }else {
 
-            //先透過輸入的查詢檢查是否有對應的 user 資料，暫時 max:9999
-            def users= User.search('*'+params.name+'*',[max:9999]).results
+            def users= User.search('*'+params.name+'*',[max:1]).results
 
             if (!users)
                 redirect(action:'create', params:params)
             else {
-
-                // 如果有的話在透過 user 去查出對應的 product
-                flash.users=users
-                // params.max=-1
-                // params.q=params.name
+                params.q=params.name.toUpperCase()
                 chain(action:'list', params:params)
             }
         }

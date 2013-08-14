@@ -134,7 +134,7 @@ log4j = {
 
 	info "grails.app"
 
-	debug 'extrails'
+	
 	
 	// //SpringSecurity Facebook
 	// debug   'com.the6hours', 'grails.app.taglib.com.the6hours'
@@ -150,6 +150,12 @@ log4j = {
 		   'org.springframework',
 		   'org.hibernate',
 		   'net.sf.ehcache.hibernate'
+    
+    environments {
+        development {
+            debug "grails.app.controllers"
+        }
+    }
 }
 
 //The default level is SIMPLE_OPTIMIZATIONS, options ADVANCED_OPTIMIZATIONS
