@@ -53,7 +53,7 @@ class ProductController {
         user.description=params.userDescription
         user.password=user.username
 
-        user.save()
+        user.save(flush: true,failOnError:true)
         params.user=user
 
         def product = Product.findByName(params.name);
@@ -81,9 +81,6 @@ class ProductController {
             return
         }
 
-
-
-        
         product.save(flush: true)
 
         // if(params.tags instanceof String)

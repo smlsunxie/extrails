@@ -11,12 +11,7 @@ class HomeController {
 
 
 
-        def recentPosts = Post.findAll(max: 4, sort: 'dateCreated', order: 'desc') {
-
-        }
-
-        def createProducts=Product.findAllByOwner(extrails.ProductOwner.CUSTOMER
-            ,[max:4,order:"desc", sort: 'dateCreated'])
+        def recentPosts = Post.findAll(max: 4, sort: 'dateCreated', order: 'desc')
 
         def unfinEvents= Event.findAllByStatus(extrails.ProductStatus.UNFIN
             ,[order:"desc",sort:"lastUpdated"])

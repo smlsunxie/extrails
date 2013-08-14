@@ -22,6 +22,7 @@ class EventDetail {
 	Long price=0
 
 	static constraints={
+		name unique:true
 		creator nullable: true
 		part nullable:true
 	}

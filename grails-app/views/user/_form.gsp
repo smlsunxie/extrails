@@ -27,15 +27,6 @@
 </div>
 
 
-%{-- <sec:ifAnyGranted roles="ROLE_ADMIN">
-	<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'storeOwner', 'error')} ">
-		<label for="storeOwner">
-			<g:message code="user.storeOwner.label" default="Store Owner" />
-			
-		</label>
-		<g:checkBox name="storeOwner" value="${userInstance?.storeOwner}" />
-	</div>
-</sec:ifAnyGranted> --}%
 
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'accountExpired', 'error')} ">
 	<label for="accountExpired">

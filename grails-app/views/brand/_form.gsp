@@ -2,6 +2,14 @@
 
 
 
+<div class="fieldcontain ${hasErrors(bean: brandInstance, field: 'name', 'error')} ">
+	<label for="name">
+		<g:message code="brand.name.label" default="Name" />
+		
+	</label>
+	<g:textField name="name" value="${brandInstance?.name}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: brandInstance, field: 'description', 'error')} ">
 	<label for="description">
 		<g:message code="brand.description.label" default="Description" />
@@ -16,14 +24,6 @@
 		
 	</label>
 	<g:textField name="homepage" value="${brandInstance?.homepage}"/>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: brandInstance, field: 'name', 'error')} ">
-	<label for="name">
-		<g:message code="brand.name.label" default="Name" />
-		
-	</label>
-	<g:textField name="name" value="${brandInstance?.name}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: brandInstance, field: 'title', 'error')} ">

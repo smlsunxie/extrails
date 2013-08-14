@@ -12,5 +12,10 @@ class Brand {
 	BrandType type=BrandType.OTHERS
 
     static constraints = {
+    	name unique: true
+    }
+
+    public String toString(){
+    	return title
     }
 }

@@ -78,7 +78,7 @@
                             <div class="alert-stick stick event">
 
                               <p><i class="icon-screenshot"></i> 產品編號：${event.product.name.replace(event.product.name.substring(2,4),"**")}</p>
-                              <p><i class="icon-user"></i> 維修人員：${event?.user?.title}</p>
+                              <p><i class="icon-user"></i> 維修人員：${event?.user}</p>
                               <p class="date"><i class="icon-calendar"></i>維修日期： <g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
                               <sec:ifAnyGranted roles="ROLE_OPERATOR"><p class="date"><i class="icon-calendar"></i>維修總額： ${event.totalPrice}</p></sec:ifAnyGranted>
                             
@@ -155,7 +155,7 @@
 
 
                           <p><i class="icon-screenshot"></i> 產品編號：${event.product.name.replace(event.product.name.substring(2,4),"**")}</p>
-                          <p><i class="icon-user"></i> 維修人員：${event?.user?.title}</p>
+                          <p><i class="icon-user"></i> 維修人員：${event?.user}</p>
                           <p class="date"><i class="icon-calendar"></i>維修日期： <g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" /></p>
                           <sec:ifAnyGranted roles="ROLE_OPERATOR"><p class="date"><i class="icon-calendar"></i>維修總額： ${event.totalPrice}</p></sec:ifAnyGranted>
 

@@ -4,7 +4,7 @@
 							
 				<sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
 					
-						維修<g:message code="ProductStatus.${product?.status.name()}" />:<g:message code="ProductBrand.${product?.brandTemp}" />：${product.name}：${product?.title}
+						維修<g:message code="ProductStatus.${product?.status.name()}" />：${product?.brand}：${product.name}：${product?.title}
 					
  					<g:link controller="product" action="show" id="${product?.id}" class="btn btn-primary btn-mini">
 						產品資料
@@ -17,7 +17,7 @@
 				</sec:ifAnyGranted>
 
 				<sec:ifNotLoggedIn>
-						<g:message code="ProductBrand.${product?.brandTemp}" />：${product?.title}
+						${product?.brand.title}：AA${product?.title}
 				</sec:ifNotLoggedIn>
 
 				<div class="row-fluid">
@@ -88,7 +88,7 @@
             <div class="span2 well well-small">
               <g:message code="user.title.label" />
               <div class="row-fluid">
-                  ${product?.user?.title}
+                  ${product?.user}
               </div>
             </div>
 

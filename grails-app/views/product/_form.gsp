@@ -69,18 +69,6 @@
                     </div>
                 </div>
 
-               <div class="control-group advanced-region">
-                  <label class="control-label" for="owner">
-                      <%--post.type--%>
-                      <g:message code="product.owner.label" />
-                  </label>
-
-
-                  <div class="controls">
-                    <g:select name="owner" from="${extrails.ProductOwner?.values()}" keys="${extrails.ProductOwner.values()*.name()}" required="" value="${product?.owner?.name()}"  valueMessagePrefix="ProductOwner" />
-                  </div>
-
-                </div>
 
 %{--                 <div class="control-group">
                   <label class="control-label required" for="name">
@@ -99,9 +87,9 @@
                       <g:message code="product.brand.label" />
                   </label>
 
-
                   <div class="controls">
-                    <g:select name="brand" from="${extrails.ProductBrand?.values()}" keys="${extrails.ProductBrand.values()*.name()}" required="" value="${product?.brandTemp?.name()}"  valueMessagePrefix="ProductBrand" />
+                    <g:select name="brand.id" from="${extrails.Brand.list()}" 
+                    noSelection="${[null:'請選擇...']}" optionKey="id" value="${product?.brand?.id}" />
                   </div>
 
                 </div>
@@ -164,7 +152,62 @@
                 
 
 
-                <g:render template="/user/form" model="[user:product.user]" />
+                %{-- <g:render template="/user/form" model="[user:product.user]" /> --}%
+
+                <p></p>
+
+                <div class="control-group">
+                    <label class="control-label required" for="username">
+                        <g:message code="user.username.label" />
+                    </label>
+                    <div class="controls">
+                        <g:textField name="username" value="${product.user.username}" class="input input-xlarge" />
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label required" for="userTitle">
+                        <g:message code="user.title.label" />
+                    </label>
+                    <div class="controls">
+                        <g:textField name="userTitle" value="${product?.user?.title}" class="input input-xlarge" />
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label required" for="userTelphone">
+                        <g:message code="user.telphone.label" />
+                    </label>
+                    <div class="controls">
+                        <g:field  type="number" name="userTelphone" value="${user?.telphone}" class="input input-xlarge" />
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label required" for="userMobile">
+                        <g:message code="user.mobile.label" />
+                    </label>
+                    <div class="controls">
+                        <g:field  type="number" name="userMobile" value="${user?.mobile}" class="input input-xlarge" />
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label required" for="userDescription">
+                        <g:message code="user.description.label" />
+                    </label>
+                    <div class="controls">
+                        <g:textField name="userDescription" value="${user?.description}" class="input input-xlarge" />
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+
+
+
 
                 <div class="control-group">
 
@@ -186,7 +229,7 @@
   $(function() {
     $("ul[name='tags']").tagit({select:true, tagSource: "${g.createLink(controller:'tag',action: 'listAsJson')}"});
 
-    var ownerChange=function(selectVal){
+%{--     var ownerChange=function(selectVal){
       var years=$("#years_year");
       var cost=$("#cost");
       var price=$("#price");
@@ -215,5 +258,5 @@
     ownerChange("${product.owner}");
 
   });
-
+ --}%
 </r:script>

@@ -24,7 +24,7 @@ class BootStrap {
 
 
             if (!userAdmin) {
-                userAdmin = new User(username: 'admin', password: 'admin', title:'超級使用者',mobile:'0911111111', enabled: true, works: true).save(failOnError: true, flush: true)
+                userAdmin = new User(username: 'admin', password: 'admin', title:'系統管理員',mobile:'0911111111', enabled: true, works: true).save(failOnError: true, flush: true)
                 //join roles
                 UserRole.create(userAdmin, ruleAdmain)
                 UserRole.create(userAdmin, ruleManager)
@@ -96,6 +96,9 @@ class BootStrap {
                 def p12 = new Product(name:'P10',title:'P10', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
                 def p13 = new Product(name:'P11',title:'P11', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
                 
+                def brand1 = new Brand(name:'YAMAHA',title:'山葉').save(failOnError: true, flush: true)
+                def brand2 = new Brand(name:'SUZUKI',title:'台鈴').save(failOnError: true, flush: true)
+
 
                 def part1 = new Part(name:'part1', title:'part1', price:100L).save(failOnError: true, flush: true)
                 part1.addTag("標準維修")

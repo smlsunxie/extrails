@@ -21,6 +21,15 @@
 			</g:if>
 			<ol class="property-list brand">
 			
+				<g:if test="${brandInstance?.name}">
+				<li class="fieldcontain">
+					<span id="name-label" class="property-label"><g:message code="brand.name.label" default="Name" /></span>
+					
+						<span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${brandInstance}" field="name"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${brandInstance?.description}">
 				<li class="fieldcontain">
 					<span id="description-label" class="property-label"><g:message code="brand.description.label" default="Description" /></span>
@@ -35,15 +44,6 @@
 					<span id="homepage-label" class="property-label"><g:message code="brand.homepage.label" default="Homepage" /></span>
 					
 						<span class="property-value" aria-labelledby="homepage-label"><g:fieldValue bean="${brandInstance}" field="homepage"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${brandInstance?.name}">
-				<li class="fieldcontain">
-					<span id="name-label" class="property-label"><g:message code="brand.name.label" default="Name" /></span>
-					
-						<span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${brandInstance}" field="name"/></span>
 					
 				</li>
 				</g:if>

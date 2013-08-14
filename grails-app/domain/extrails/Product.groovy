@@ -6,24 +6,9 @@ import groovy.transform.ToString
 
 
 
-@ToString
-public enum ProductOwner {
-    STORE,
-    CUSTOMER;
-}
 
-public enum ProductBrand {
-    OTHERS,
-    HORTFORD,
-    KAWASAKI,
-    KYMCO,
-    PGO,
-    SUZUKI,
-    SYM,
-    YAMAHA,
-    VESPA,
-    AEON;
-}
+
+
 @ToString
 public enum ProductStatus {
     UNFIN,
@@ -36,14 +21,13 @@ class Product {
 
 		String name
 		String title
-		ProductOwner owner=extrails.ProductOwner.CUSTOMER
 		Date years
 		Long cost=0
 		Long price=0
 		Long mileage=0
 		String mainImage=""
     ProductStatus status=extrails.ProductStatus.END
-    ProductBrand brandTemp=extrails.ProductBrand.OTHERS
+    Brand brand
     static hasMany = [events:Event]
 
     String description
@@ -63,6 +47,7 @@ class Product {
       description nullable: true, empty: true
       user nullable: true
       years nullable: true
+      brand nullable: true
 
     }
   static mapping = {
