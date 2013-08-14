@@ -1,5 +1,8 @@
 package extrails
 
+
+
+
 class Store {
 
 	String name
@@ -7,6 +10,7 @@ class Store {
 	String address
 	String telphone
 	String mobile
+
 
 	static hasMany=[users:User]
 
