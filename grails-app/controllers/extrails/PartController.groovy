@@ -19,6 +19,7 @@ class PartController {
     	def part = new Part(params)
 
         log.info "part.mainImage ="+part.mainImage
+        part.store=springSecurityService.currentUser.store
 
         if(!params.name)
     	   part.name = "part-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"

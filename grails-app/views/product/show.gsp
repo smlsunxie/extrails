@@ -25,6 +25,7 @@
                   <th><g:message code="default.dateCreated.label" /></th>
                   <th><g:message code="user.title.label" /></th>
                   <th><g:message code="event.mileage.label" /></th>
+                  <th><g:message code="event.store.label" /></th>
                   <th><g:message code="part.label" /></th>
 
                 </tr>
@@ -37,6 +38,7 @@
                               <td rowspan="${event.details.size()}"><g:formatDate date="${event.date}" type="date" style="SHOROT" /></td>
                               <td rowspan="${event.details.size()}">${event?.user}</td>
                               <td rowspan="${event.details.size()}">${event.mileage}</td>
+                              <td rowspan="${event.details.size()}">${event.store}</td>
                             </g:if>
                             <td>${detail?.part?.title}</td>
                         </tr>
