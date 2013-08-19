@@ -157,51 +157,52 @@
                 <p></p>
 
                 <div class="control-group">
-                    <label class="control-label required" for="username">
+                    <label class="control-label required" for="user.username">
                         <g:message code="user.username.label" />
                     </label>
                     <div class="controls">
-                        <g:textField name="username" value="${product.user.username}" class="input input-xlarge" />
+                        <g:hiddenField name="user.id" value="${product.user.id}" />
+                        <g:textField name="user.username" value="${product.user.username}" class="input input-xlarge" />
                         <span class="help-inline"></span>
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label required" for="userTitle">
+                    <label class="control-label required" for="user.title">
                         <g:message code="user.title.label" />
                     </label>
                     <div class="controls">
-                        <g:textField name="userTitle" value="${product?.user?.title}" class="input input-xlarge" />
+                        <g:textField name="user.title" value="${product?.user?.title}" class="input input-xlarge" />
                         <span class="help-inline"></span>
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label required" for="userTelphone">
+                    <label class="control-label required" for="user.telphone">
                         <g:message code="user.telphone.label" />
                     </label>
                     <div class="controls">
-                        <g:field  type="number" name="userTelphone" value="${user?.telphone}" class="input input-xlarge" />
+                        <g:field  type="number" name="user.telphone" value="${product?.user?.telphone}" class="input input-xlarge" />
                         <span class="help-inline"></span>
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label required" for="userMobile">
+                    <label class="control-label required" for="user.mobile">
                         <g:message code="user.mobile.label" />
                     </label>
                     <div class="controls">
-                        <g:field  type="number" name="userMobile" value="${user?.mobile}" class="input input-xlarge" />
+                        <g:field  type="number" name="user.mobile" value="${product?.user?.mobile}" class="input input-xlarge" />
                         <span class="help-inline"></span>
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label required" for="userDescription">
+                    <label class="control-label required" for="user.description">
                         <g:message code="user.description.label" />
                     </label>
                     <div class="controls">
-                        <g:textField name="userDescription" value="${user?.description}" class="input input-xlarge" />
+                        <g:textField name="user.description" value="${product?.user?.description}" class="input input-xlarge" />
                         <span class="help-inline"></span>
                     </div>
                 </div>

@@ -41,20 +41,14 @@ class ProductController {
     @Secured(['ROLE_OPERATOR'])
     def save={
         
-        def user=User.findByUsername(params.username)
+        def user=User.findById(params["user.id"])
         if(!user){
-            user=new User()
-            user.username=params.username
+
+            params.user.password=params.user.username
+            user=new User(params.user)
+            user.save(flush: true,failOnError:true)      
+            params["user.id"]=user.id
         }
-
-        user.title=params.userTitle
-        user.telphone=params.userTelphone
-        user.mobile=params.userMobile
-        user.description=params.userDescription
-        user.password=user.username
-
-        user.save(flush: true,failOnError:true)
-        params.user=user
 
         def product = Product.findByName(params.name);
 
@@ -182,15 +176,17 @@ class ProductController {
     @Secured(['ROLE_OPERATOR'])
     def update={ Long id ->
 
-        def user=User.findByUsername(params.username)
+        // def user=User.findByUsername(params.username)
 
 
-        user.title=params.userTitle
-        user.telphone=params.userTelphone
-        user.mobile=params.userMobile
-        user.description=params.userDescription
+        // user.title=params.userTitle
+        // user.telphone=params.userTelphone
+        // user.mobile=params.userMobile
+        // user.description=params.userDescription
 
-        params.user=user
+
+
+        // params.user=user
 
         def product = Product.findByIdOrName(id,params.name)
 
@@ -281,7 +277,11 @@ class ProductController {
 
             def users= User.search('*'+params.name+'*',[max:1]).results
 
-            if (!users)
+
+            //如果檢查使用者查出來的資料只有一筆，且查詢內容與使用者名稱相同，就視為有 user 沒有 product 所以要進行建立的動作
+            if (!users 
+                || (users.size()==1 && !Product.findByUser(users.get(0)) ) 
+            )
                 redirect(action:'create', params:params)
             else {
                 params.q=params.name.toUpperCase()

@@ -83,7 +83,7 @@ class BootStrap {
 
 
                 def p1 = new Product(name:'P12345',title:'P12345', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
-                def p2 = new Product(name:'P22345',title:'P22345', user:user8, years:new Date(), owner:extrails.ProductOwner.CUSTOMER).save(failOnError: true, flush: true)
+                def p2 = new Product(name:'P22345',title:'P22345', user:user8, years:new Date()).save(failOnError: true, flush: true)
 
                 def p3 = new Product(name:'P1',title:'P1', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
                 def p4 = new Product(name:'P2',title:'P2', user:user7, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
