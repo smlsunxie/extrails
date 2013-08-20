@@ -89,7 +89,7 @@
 
                   <div class="controls">
                     <g:select name="brand.id" from="${extrails.Brand.list()}" 
-                    noSelection="${[null:'請選擇...']}" optionKey="id" value="${product?.brand?.id}" />
+                    noSelection="${['null':'請選擇...']}" optionKey="id" value="${product?.brand?.id}" />
                   </div>
 
                 </div>
@@ -222,42 +222,3 @@
                   <g:render template="/attachment/uploadBtn" model="[name:product.name,mainImage: product?.mainImage]" />
 
                 </div>
-
-
-<r:script>
-
-
-  $(function() {
-    $("ul[name='tags']").tagit({select:true, tagSource: "${g.createLink(controller:'tag',action: 'listAsJson')}"});
-
-%{--     var ownerChange=function(selectVal){
-      var years=$("#years_year");
-      var cost=$("#cost");
-      var price=$("#price");
-      if(selectVal==='CUSTOMER'){
-        price.val(0);
-        cost.val(0);
-        [years,cost,price].forEach(function(entry){
-          entry.attr("readonly",true);
-        });
-
-      }else {
-        [years,cost,price].forEach(function(entry){
-          entry.attr("readonly",false);
-        });
-      }
-    }
-
-    $("#owner").on("change",function(){
-
-
-      $('option:selected', this).each(function(){
-        ownerChange(this.value)
-      });
-    });
-
-    ownerChange("${product.owner}");
-
-  });
- --}%
-</r:script>
