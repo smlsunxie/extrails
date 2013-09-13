@@ -34,8 +34,11 @@ class AttachmentController {
             if(params.qqfile.toLowerCase().endsWith(".jpg") || params.qqfile.toLowerCase().endsWith(".jpeg")){
                 def oi=imageModiService.sizeMiddle(ri)                
                 s3Service.saveObject s3Location, new ByteArrayInputStream(oi.toByteArray())
+                oi.close();
+                // oi=null
             }else {
                 s3Service.saveObject s3Location, ri
+                // ri=null
             }
 
 

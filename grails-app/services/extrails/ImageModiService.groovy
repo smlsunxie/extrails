@@ -34,10 +34,6 @@ class ImageModiService {
 		
 		float quality = 0.1f;
 		
-		// create a BufferedImage as the result of decoding the supplied InputStream
-		// BufferedImage image = ImageIO.read(is);
-		
-		// get all image writers for JPG format
 		Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpg");
 		
 		if (!writers.hasNext())
@@ -57,7 +53,8 @@ class ImageModiService {
 	    //associated stream and image metadata and thumbnails to the output
 		writer.write(null, new IIOImage(image, null, null), param);
 		
-		// log.info os.size
+		ios.close();
+		writer.dispose();
 
 		return os
     }

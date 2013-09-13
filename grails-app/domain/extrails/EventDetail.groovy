@@ -10,10 +10,10 @@ import groovy.transform.ToString
 @EqualsAndHashCode
 class EventDetail {
 	// static searchable = true
-	static belongsTo=[head:Event]
+	static belongsTo=[head:Event, part:Part]
+
 	String mainImage=""
 	String name
-	Part part
 	Integer qty=1
 	String description=""
 	String creator

@@ -4,9 +4,13 @@
     <div class="span12">
         <div id="breadcrumb">
               <ul >
-
-                    <li class="home btn btn-mini btn-link">${controllerName}</li>
-                    <li class="btn btn-mini btn-link">${actionName}</li>
+                  <li class="home btn btn-mini btn-link">
+                    <g:link controller="home" action="index">
+                      回首頁
+                    </g:link>
+                  </li>
+                  <li class="btn btn-mini btn-link">${controllerName}</li>
+                  <li class="btn btn-mini btn-link">${actionName}</li>
               </ul>
 %{--               <g:if test="${actionName=='list' && controllerName=='product'}">
                 <g:form action="list" class="navbar-search"> 

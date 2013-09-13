@@ -31,10 +31,36 @@ class SummaryController {
     		params.year=it
             def query = Event.where {
     		    year(date) == params.year
+
     		}
 
             def results = query.list()
-            def record=[year:it, totalMoney:results.totalPrice.sum()]
+            def totalMoney = results.totalPrice.sum()
+
+
+
+            def costsList=[]
+            results.details.part.cost.each{
+                costsList += it
+            }
+            def totalCost = costsList.sum()
+
+
+            query = StoreCostDetail.where {
+                year(date) == params.year
+
+            }
+
+            results = query.list()
+            def totalStoreCost = results.cost.sum() ?: 0
+
+
+            def record=[
+                year:it
+                , totalMoney: totalMoney
+                , totalCost: totalCost
+                , totalStoreCost: totalStoreCost
+            ]
             if(record.totalMoney)
                 resultList << record
 
@@ -63,7 +89,32 @@ class SummaryController {
     		}
 
             def results = query.list()
-            def record=[year:params.year,month: it, totalMoney:results.totalPrice.sum()]
+            def totalMoney = results.totalPrice.sum()
+
+            def costsList=[]
+            results.details.part.cost.each{
+                costsList += it
+            }
+            def totalCost = costsList.sum()
+
+            query = StoreCostDetail.where {
+                year(date) == params.year
+                month(date) == params.month
+            }
+
+            results = query.list()
+            def totalStoreCost = results.cost.sum() ?: 0
+
+
+
+            def record=[
+                year:params.year
+                , month: it
+                , totalMoney: totalMoney
+                , totalCost: totalCost
+                , totalStoreCost: totalStoreCost
+            ]
+
             if(record.totalMoney)
             	resultList << record
 

@@ -103,12 +103,19 @@
 							<g:message code="user.maintain.label" />
 						</g:link>
 					</li>
+
 					<li>
 						<g:link controller="brand" action='list'>
 							<g:message code="brand.maintain.label" />
 						</g:link>
 					</li>
-			
+
+					<li>
+						<g:link controller="storeCostDetail" action='list'>
+							<g:message code="storeCostDetail.maintain.label" />
+						</g:link>
+					</li>		
+
 				</sec:ifAnyGranted>
 
 				<sec:ifAnyGranted roles="ROLE_ADMIN">
