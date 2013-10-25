@@ -11,5 +11,6 @@ class StoreCostDetail {
 
 
     static constraints = {
+    	title unique: 'date'
     }
 }

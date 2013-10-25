@@ -21,6 +21,15 @@
 			</g:if>
 			<ol class="property-list storeCostDetail">
 			
+				<g:if test="${storeCostDetailInstance?.title}">
+				<li class="fieldcontain">
+					<span id="title-label" class="property-label"><g:message code="storeCostDetail.title.label" default="Title" /></span>
+					
+						<span class="property-value" aria-labelledby="title-label"><g:fieldValue bean="${storeCostDetailInstance}" field="title"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${storeCostDetailInstance?.cost}">
 				<li class="fieldcontain">
 					<span id="cost-label" class="property-label"><g:message code="storeCostDetail.cost.label" default="Cost" /></span>
@@ -53,15 +62,6 @@
 					<span id="store-label" class="property-label"><g:message code="storeCostDetail.store.label" default="Store" /></span>
 					
 						<span class="property-value" aria-labelledby="store-label"><g:link controller="store" action="show" id="${storeCostDetailInstance?.store?.id}">${storeCostDetailInstance?.store?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${storeCostDetailInstance?.title}">
-				<li class="fieldcontain">
-					<span id="title-label" class="property-label"><g:message code="storeCostDetail.title.label" default="Title" /></span>
-					
-						<span class="property-value" aria-labelledby="title-label"><g:fieldValue bean="${storeCostDetailInstance}" field="title"/></span>
 					
 				</li>
 				</g:if>

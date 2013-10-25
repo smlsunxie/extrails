@@ -1,6 +1,7 @@
 <%@ page import="extrails.StoreCostDetail" %>
 
 
+
 <div class="fieldcontain ${hasErrors(bean: storeCostDetailInstance, field: 'title', 'error')} ">
 	<label for="title">
 		<g:message code="storeCostDetail.title.label" default="Title" />
@@ -8,7 +9,6 @@
 	</label>
 	<g:textField name="title" value="${storeCostDetailInstance?.title}"/>
 </div>
-
 
 <div class="fieldcontain ${hasErrors(bean: storeCostDetailInstance, field: 'cost', 'error')} required">
 	<label for="cost">
@@ -39,6 +39,6 @@
 		<g:message code="storeCostDetail.store.label" default="Store" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="store" name="store.id" from="${storeCostDetailInstance?.store}" optionKey="id" required="" value="${storeCostDetailInstance?.store?.id}" class="many-to-one"/>
+	<g:select id="store" name="store.id" from="${extrails.Store.list()}" optionKey="id" required="" value="${storeCostDetailInstance?.store?.id}" class="many-to-one"/>
 </div>
 
