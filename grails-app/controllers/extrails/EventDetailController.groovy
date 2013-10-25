@@ -55,8 +55,15 @@ class EventDetailController {
             return
         }
 
-
+        if(eventDetail.cost >0){
+            eventDetail.part.cost = params.cost.toLong()
+        }
+        if(eventDetail.price >0){
+            eventDetail.part.price = params.price.toLong()
+        }
         eventDetail.save(flush: true)
+
+
         
         flash.message = message(code: 'default.created.message', 
             args: [message(code: 'event.label', default: 'event'), eventDetail.id])

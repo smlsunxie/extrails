@@ -111,7 +111,7 @@
                     </label>
                     <div class="controls">
                         <h4>
-                            <g:each var="it" in="${historyPrice}">
+                            <g:each var="it" status="i" in="${historyPrice}">
 
                               <li class="btn btn-link" id='historyPrice' data-historyPrice='${it}' >${it}</li>
 

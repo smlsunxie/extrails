@@ -71,7 +71,7 @@ class HomeController {
         }
 
 
-        flash.message= "<a href=\"/post/show/7\">20120812:新增功能</a>"
+        flash.message= "<a href=\"/post/show/7\">20130812:新增功能</a>, <a href=\"/post/show/9\">20131025:新增功能</a>"
 
         [
             recentPosts:recentPosts,
