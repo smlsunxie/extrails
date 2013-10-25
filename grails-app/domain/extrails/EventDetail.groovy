@@ -20,6 +20,7 @@ class EventDetail {
 	Date dateCreated
 	Date lastUpdated
 	Long price=0
+	Long cost=0
 
 	static constraints={
 		name unique:true

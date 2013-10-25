@@ -140,8 +140,12 @@ class PartController {
     def edit={ Long id ->
         def part = Part.findByIdOrName(id, params.name)
 
+        def eventDetails= EventDetail.findAllByPart(part)
+
         [ 
-            part: part
+            part: part,
+            historyCost: eventDetails*.cost.unique().sort(),
+            historyPrice: eventDetails*.price.unique().sort()
         ]
     }
     @Secured(['ROLE_OPERATOR'])

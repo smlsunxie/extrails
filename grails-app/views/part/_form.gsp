@@ -71,6 +71,26 @@
 
                 <div class="control-group">
 
+                    <label class="control-label required">
+
+                        歷史成本
+
+                    </label>
+
+                    <div class="controls">
+                        <h4>
+                            <g:each var="it" in="${historyCost}">
+
+                              <li class="btn btn-link" id='historyCost' data-historyCost='${it}' >${it}</li>
+
+                            </g:each>
+                        </h4>
+                    </div>
+
+                </div>
+
+                <div class="control-group">
+
                     <label class="control-label required" for="description">
 
                         <g:message code="part.price.label" />
@@ -82,7 +102,24 @@
                     </div>
 
                 </div>
+                <div class="control-group">
 
+                    <label class="control-label required">
+
+                        歷史售價
+
+                    </label>
+                    <div class="controls">
+                        <h4>
+                            <g:each var="it" in="${historyPrice}">
+
+                              <li class="btn btn-link" id='historyPrice' data-historyPrice='${it}' >${it}</li>
+
+                            </g:each>
+                        </h4>
+                    </div>
+
+                </div>
                 <div class="control-group">
 
                     <label class="control-label required" for="description">
@@ -124,6 +161,16 @@
       $(function() {
 
         $("ul[name='tags']").tagit({select:true, tagSource: "${g.createLink(controller:'tag',action: 'listAsJson')}"});
+
+        $("li[id ='historyCost']").on('click',function(eventObject){
+            var historyCost = $(this).attr("data-historyCost");
+            $("#cost").val(historyCost)
+        });
+
+        $("li[id ='historyPrice']").on('click',function(eventObject){
+            var historyCost = $(this).attr("data-historyPrice");
+            $("#price").val(historyCost)
+        });
 
       });
 
