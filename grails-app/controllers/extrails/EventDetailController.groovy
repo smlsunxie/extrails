@@ -55,12 +55,13 @@ class EventDetailController {
             return
         }
 
-        if(eventDetail.cost >0){
-            eventDetail.part.cost = params.cost.toLong()
+        if(eventDetail.cost == 0){
+            eventDetail.cost = eventDetail.part.cost 
         }
-        if(eventDetail.price >0){
-            eventDetail.part.price = params.price.toLong()
+        if(eventDetail.price == 0){
+            eventDetail.part = eventDetail.part.price
         }
+
         eventDetail.save(flush: true)
 
 

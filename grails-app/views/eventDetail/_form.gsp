@@ -49,6 +49,21 @@
 
               </div>
 
+
+              <div class="control-group">
+
+                  <label class="control-label required" for="cost">
+
+                      <g:message code="eventDetail.cost.label" />
+
+                  </label>
+                  <div class="controls">
+                      <g:field  type="number" name="cost" value="${eventDetail?.cost}" class="input input-xlarge" />
+                      <span class="help-inline"></span>
+                  </div>
+
+              </div>
+
               <div class="control-group">
 
                   <label class="control-label required" for="description">
