@@ -10,18 +10,21 @@
         </uploader:uploader>
 
       </div>
-      <div  class="span2" >
-        <input type="button" style="height: 35px;" id="shapshot" name="shapshot" value="攝影照像">
-      </div>
-      <div  class="span2" >
-        <input type="button" style="height: 35px;" id="uploadShapshot" name="uploadShapshot" value="照片上傳">
+
+      <div id="webcamCtrlDiv"   >
+        <div  class="span2" >
+          <input type="button" style="height: 35px;" id="shapshot" name="shapshot" value="攝影照像">
+        </div>
+        <div  class="span2" >
+          <input type="button" style="height: 35px;" id="uploadShapshot" name="uploadShapshot" value="照片上傳">
+        </div>
       </div>
     </div>
 
   </div>  
   <hr/>
 
-  <div  class="row-fluid" >
+  <div id="webcamViewDiv" class="row-fluid" >
     <video class="span6 thumbnail" autoplay></video>
     <canvas class="span6 thumbnail" height = '225'></canvas>    
   </div>
@@ -76,7 +79,19 @@
       navigator.webkitGetUserMedia({video: true}, function(stream) {
         video.src = window.URL.createObjectURL(stream);
         localMediaStream = stream;
-      }, function(){});
+      },function(){ // success
+        console.log("false");
+        $("#webcamCtrlDiv").css( "display", "none" );
+        $("#webcamViewDiv").css( "display", "none" );
+        // $("#webcamCtrlDiv").css( "display", "block" );
+        // $("#webcamViewDiv").css( "display", "block" );
+
+      },
+      function(){
+        console.log("success");
+        $("#webcamCtrlDiv").css( "display", "block" );
+        $("#webcamViewDiv").css( "display", "block" );
+      });
 
 
       var displayList=function(){
