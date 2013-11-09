@@ -114,13 +114,6 @@
                     <g:form action="save" controller="eventDetail" class="form-thumbnail" params="['part.id':part.id, 'part.name':part.name, 'head.id':params.event.id, returnUrl:createLink(action:actionName, params:['event.id':params.event.id, tag:params.tag])]"> 
                       <p>
 
-                            <sec:ifAnyGranted roles="ROLE_MANERGER">
-                          <div class="input-prepend input-append">
-                            <span class="add-on">成本</span>
-                            <g:textField value="${part.cost}" name="cost" class="span2" />
-                          </div>
-                        </sec:ifAnyGranted>
-
 
                         <div class="input-prepend input-append">
                           <span class="add-on">售價</span>

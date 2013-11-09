@@ -58,9 +58,9 @@ class EventDetailController {
         if(eventDetail.cost == 0){
             eventDetail.cost = eventDetail.part.cost 
         }
-        if(eventDetail.price == 0){
-            eventDetail.part = eventDetail.part.price
-        }
+        // if(eventDetail.price == 0){
+        //     eventDetail.price = eventDetail.part.price
+        // }
 
         eventDetail.save(flush: true)
 

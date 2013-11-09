@@ -101,3 +101,17 @@ done-remote:
 
 done:
 	make update clean war && sudo make deploy
+
+loglink:
+	- mkdir ~/Library/Logs/extrails
+	- touch target/development.log
+	- touch target/test.log
+	- touch target/grails.log
+	- touch target/root.log
+	- touch target/stacktrace.log
+	- ln ~/projects/extrails/target/development.log ~/Library/Logs/extrails/development.log
+	- ln ~/projects/extrails/target/grails.log ~/Library/Logs/extrails/grails.log
+	- ln ~/projects/extrails/target/root.log ~/Library/Logs/extrails/root.log
+	- ln ~/projects/extrails/target/stacktrace.log ~/Library/Logs/extrails/stacktrace.log
+	- ln ~/projects/extrails/target/test.log ~/Library/Logs/extrails/test.log
+

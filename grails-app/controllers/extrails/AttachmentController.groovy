@@ -4,11 +4,26 @@ package extrails
 import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+import org.springframework.security.core.codec.Base64
 
 class AttachmentController {
 
     def s3Service
     def imageModiService
+
+
+    def SaveBlob(){
+
+        byte[] imageBytes=params.image.decodeBase64()
+
+        def s3Location="${grailsApplication.config.grails.aws.root}/${params.name}/${params.name}.jpg";
+
+        s3Service.saveObject s3Location, new ByteArrayInputStream(imageBytes)
+
+        return render(text: [success:true] as JSON, contentType:'text/json')
+
+
+    }
 
     @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def save={
