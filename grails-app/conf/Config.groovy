@@ -180,22 +180,13 @@ environments {
 // Analytics
 google.analytics.webPropertyID = "UA-39903264-1"
 
-// Added by the Spring Security Core plugin:
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'motoranger.User'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'motoranger.UserRole'
-grails.plugin.springsecurity.authority.className = 'motoranger.Role'
-grails.plugin.springsecurity.securityConfigType = "Annotation"
+
 
 // disqus
 grails.plugins.disqus.shortname = "motoranger"
 
 
-grails.plugin.springsecurity.c = true
-grails.plugin.springsecurity.rememberMe.alwaysRemember = true
-grails.plugin.springsecurity.rememberMe.persistent = true
-grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'motoranger.PersistentLogin'
 grails.taggable.preserve.case = true
-
 grails.taggable.tag.autoImport=true
 grails.taggable.tagLink.autoImport=true
 
@@ -203,3 +194,30 @@ aws.domain = ''
 aws.accessKey = ''
 aws.secretKey = ''
 aws.bucketName = ''
+
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'motoranger.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'motoranger.UserRole'
+grails.plugin.springsecurity.authority.className = 'motoranger.Role'
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+    '/j_spring_security_switch_user': ['ROLE_MANERGER'],
+    '/':                              ['permitAll'],
+    '/index':                         ['permitAll'],
+    '/index.gsp':                     ['permitAll'],
+    '/**/**/**':                      ['permitAll'],
+    // '/**/js/**':                      ['permitAll'],
+    // '/**/css/**':                     ['permitAll'],
+    // '/**/images/**':                  ['permitAll'],
+    // '/**/pagedown/**':                ['permitAll'],
+    // '/**/jquery-plugins/**':          ['permitAll'],
+    // '/**/stylesheets/**':             ['permitAll'],
+    // '/**/favicon.ico':                ['permitAll']
+]
+
+
+grails.plugin.springsecurity.useSwitchUserFilter = true
+grails.plugin.springsecurity.rememberMe.alwaysRemember = true
+grails.plugin.springsecurity.rememberMe.persistent = true
+grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'motoranger.PersistentLogin'
+

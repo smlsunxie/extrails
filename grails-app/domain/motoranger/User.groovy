@@ -19,7 +19,8 @@ class User {
 	boolean accountLocked
 	boolean passwordExpired
 	Store store
-	// boolean storeOwner=false
+	
+	static transients = ['springSecurityService']
 
 	static constraints = {
 		username blank: false, unique: true

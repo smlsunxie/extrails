@@ -13,7 +13,7 @@ class HomeController {
         def endEvents
         def store= springSecurityService.currentUser?.store
 
-        def recentPosts = Post.findAll(max: 4, sort: 'dateCreated', order: 'desc')
+        def recentPosts = Post.list(max: 4, sort: 'dateCreated', order: 'desc')
 
         if(store){
             unfinEvents= Event.findAllByStatusAndStore(motoranger.ProductStatus.UNFIN
@@ -70,8 +70,6 @@ class HomeController {
             // log.info operators.store
         }
 
-
-        flash.message= "<a href=\"/post/show/7\">20130812:新增功能</a>, <a href=\"/post/show/9\">20131025:新增功能</a>"
 
         [
             recentPosts:recentPosts,
