@@ -1,4 +1,4 @@
-<%@ page import="extrails.Brand" %>
+<%@ page import="motoranger.Brand" %>
 <!DOCTYPE html>
 <html>
 	<head>

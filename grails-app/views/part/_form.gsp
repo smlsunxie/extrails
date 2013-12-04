@@ -140,7 +140,7 @@
 
                 </label>
                 <div class="controls">
-                   <g:select id="store" name="store.id" from="${extrails.Store.list()}" optionKey="id" value="${part?.store?.id}" class="many-to-one" noSelection="['null': '']"/>
+                   <g:select id="store" name="store.id" from="${motoranger.Store.list()}" optionKey="id" value="${part?.store?.id}" class="many-to-one" noSelection="['null': '']"/>
                 </div>
             </div>
 

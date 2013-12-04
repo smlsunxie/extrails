@@ -15,7 +15,7 @@
 
                   </label>
                   <div class="controls">
-                    <g:select name="head.id" from="${eventDetail?.head ?: extrails.Event.list()}" 
+                    <g:select name="head.id" from="${eventDetail?.head ?: motoranger.Event.list()}" 
                     noSelection="${[null:'Select One...']}" optionKey="id" value="${eventDetail?.head?.id}" />
                   </div>
               </div>
@@ -31,7 +31,7 @@
                       <%--必填--%>
                   </label>
                     <div class="controls">
-                      <g:select name="part.id" from="${eventDetail?.part ?: extrails.Part.list()}" optionValue="name" 
+                      <g:select name="part.id" from="${eventDetail?.part ?: motoranger.Part.list()}" optionValue="name" 
                       noSelection="${[null:'Select One...']}" optionKey="id" value="${eventDetail?.part?.id}" />
                     </div>
               </div>

@@ -34,7 +34,7 @@
 
 
                   <div class="controls">
-                    <g:select name="product.id" from="${extrails.Product.list()}" optionValue="name" 
+                    <g:select name="product.id" from="${motoranger.Product.list()}" optionValue="name" 
                     noSelection="${['null':'Select One...']}" optionKey="id"
                      value="${post?.product?.id}" />
                   </div>
@@ -49,7 +49,7 @@
 
 
                   <div class="controls">
-                    <g:select name="type" from="${extrails.PostType?.values()}" keys="${extrails.PostType.values()*.name()}" required="" value="${post?.type?.name()}"  valueMessagePrefix="PostType" />
+                    <g:select name="type" from="${motoranger.PostType?.values()}" keys="${motoranger.PostType.values()*.name()}" required="" value="${post?.type?.name()}"  valueMessagePrefix="PostType" />
                   </div>
 
                 </div>

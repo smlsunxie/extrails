@@ -32,9 +32,9 @@ environments {
             //dialect = org.hibernate.dialect.MySQL5InnoDBDialect
             //dialect = org.hibernate.dialect.MySQLMyISAMDialect
             // logSql = true
-            username = "extrails"
+            username = "motoranger"
             password = "mvagusta"
-            url = "jdbc:mysql://localhost/extrails?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull"
+            url = "jdbc:mysql://localhost/motoranger?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull"
             properties {
                 minEvictableIdleTimeMillis=1800000
                 timeBetweenEvictionRunsMillis=1800000

@@ -1,4 +1,4 @@
-<%@ page import="extrails.Brand" %>
+<%@ page import="motoranger.Brand" %>
 
 
 
@@ -39,6 +39,6 @@
 		<g:message code="brand.type.label" default="Type" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select name="type" from="${extrails.BrandType?.values()}" keys="${extrails.BrandType.values()*.name()}" required="" value="${brandInstance?.type?.name()}"/>
+	<g:select name="type" from="${motoranger.BrandType?.values()}" keys="${motoranger.BrandType.values()*.name()}" required="" value="${brandInstance?.type?.name()}"/>
 </div>
 

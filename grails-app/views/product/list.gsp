@@ -46,7 +46,7 @@
 																		<g:link class="btn btn-primary btn-mini" controller="event" action="create" params="[event:event?.id]">新增維修</g:link>
 
 																		<g:if test="${event?.product?.status.name() == "UNFIN"}"> 
-																			<g:link class="btn btn-primary btn-mini" action="changeStatusEnd" id="${event?.product.id}" params="[status:extrails.ProductStatus.END.name()]">維修結束</g:link>
+																			<g:link class="btn btn-primary btn-mini" action="changeStatusEnd" id="${event?.product.id}" params="[status:motoranger.ProductStatus.END.name()]">維修結束</g:link>
 																		</g:if>
 																	</p>
 																</sec:ifAnyGranted>
@@ -83,7 +83,7 @@
 																		<g:link class="btn btn-primary btn-mini" controller="event" action="list" params="[event:event?.id]">維修記錄</g:link>
 																		<g:link class="btn btn-primary btn-mini" controller="event" action="create" params="[event:event?.product?.id, event:event.id]">新增維修</g:link>
 																		<g:if test="${event?.product?.status.name() == "UNFIN"}"> 
-																			<g:link class="btn btn-primary btn-mini" action="changeStatus" id="${event?.id}" params="[status:extrails.ProductStatus.END.name()]">維修結束</g:link>
+																			<g:link class="btn btn-primary btn-mini" action="changeStatus" id="${event?.id}" params="[status:motoranger.ProductStatus.END.name()]">維修結束</g:link>
 																		</g:if>
 																	
 																	</p>

@@ -6,19 +6,19 @@
     </li>
       
 
-    <li class="${controllerName=='post' && type==extrails.PostType.SALE ?'active':''} single">
+    <li class="${controllerName=='post' && type==motoranger.PostType.SALE ?'active':''} single">
         <g:link controller="post" action="portfolio" params="[type:'SALE']">
             拍賣
             <i>SALE</i>
         </g:link>
     </li>
-    <li class="${controllerName=='post' && type==extrails.PostType.NEWS ?'active':''} single">
+    <li class="${controllerName=='post' && type==motoranger.PostType.NEWS ?'active':''} single">
         <g:link controller="post" action="portfolio" params="[type:'NEWS']">
             <g:message code="default.news.label"/>
             <i>NEWS</i>
         </g:link>
     </li>
-    <li class="${controllerName=='post' && type==extrails.PostType.DEMO ?'active':''} single">
+    <li class="${controllerName=='post' && type==motoranger.PostType.DEMO ?'active':''} single">
         <g:link controller="post" action="portfolio" params="[type:'DEMO']">
             <g:message code="default.demo.label"/>
             <i>DEMO</i>

@@ -1,4 +1,4 @@
-def __bundleName = 'extrails'
+def __bundleName = 'motoranger'
 
 modules = {
 

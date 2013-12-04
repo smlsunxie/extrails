@@ -1,5 +1,5 @@
 
-<%@ page import="extrails.Store" %>
+<%@ page import="motoranger.Store" %>
 <!DOCTYPE html>
 <html>
 	<head>

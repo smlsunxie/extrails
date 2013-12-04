@@ -1,4 +1,4 @@
-<%@ page import="extrails.StoreCostDetail" %>
+<%@ page import="motoranger.StoreCostDetail" %>
 <!DOCTYPE html>
 <html>
 	<head>

@@ -76,7 +76,7 @@
 
                   </label>
                     <div class="controls">
-                      <g:select name="user" from="${extrails.User.list()}" optionValue="username" 
+                      <g:select name="user" from="${motoranger.User.list()}" optionValue="username" 
                       noSelection="${[null:'Select One...']}" optionKey="id" value="${product?.user?.id}" />
                     </div>                    
                 </div> --}%
@@ -88,7 +88,7 @@
                   </label>
 
                   <div class="controls">
-                    <g:select name="brand.id" from="${extrails.Brand.list()}" 
+                    <g:select name="brand.id" from="${motoranger.Brand.list()}" 
                     noSelection="${['null':'請選擇...']}" optionKey="id" value="${product?.brand?.id}" />
                   </div>
 

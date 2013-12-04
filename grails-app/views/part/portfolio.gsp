@@ -61,7 +61,7 @@
 
           <g:if test="${event?.product?.status.name() == "UNFIN"}"> 
           <li class="active">
-            <g:link action="changeStatus" id="${event?.id}" controller="event" params="[status:extrails.ProductStatus.END.name(),controllerName:'home']">維修結束</g:link>
+            <g:link action="changeStatus" id="${event?.id}" controller="event" params="[status:motoranger.ProductStatus.END.name(),controllerName:'home']">維修結束</g:link>
           </li>
           </g:if>
           

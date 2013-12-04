@@ -1,4 +1,4 @@
-import extrails.*
+import motoranger.*
 import org.grails.taggable.Tag
 
 class BootStrap {
@@ -110,7 +110,7 @@ class BootStrap {
                 def event1 = new Event(name:'event1', user:user7, product:p1, totalPrice:100L, date:new Date(), store:storeDef).save(failOnError: true, flush: true)
                 def eventDetail1= new EventDetail(name:'eventDetail1',part:part1, head:event1).save(failOnError: true, flush: true)
 
-                def event2 = new Event(name:'event2', user:user7, product:p2, date:new Date(), status:extrails.ProductStatus.END, store:store1).save(failOnError: true, flush: true)
+                def event2 = new Event(name:'event2', user:user7, product:p2, date:new Date(), status:motoranger.ProductStatus.END, store:store1).save(failOnError: true, flush: true)
                 def eventDetail2= new EventDetail(name:'eventDetail2',part:part2, head:event1).save(failOnError: true, flush: true)
 
 

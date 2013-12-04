@@ -2,38 +2,35 @@
 // config files can be ConfigSlurper scripts, Java properties files, or classes
 // in the classpath in ConfigSlurper format
 
-// grails.config.locations = [ "classpath:${appName}-config.properties",
-//                             "classpath:${appName}-config.groovy",
-//                             "file:${userHome}/.grails/${appName}-config.properties",
-//                             "file:${userHome}/.grails/${appName}-config.groovy"]
+grails.config.locations = [ "classpath:${appName}-config.properties",
+                            "classpath:${appName}-config.groovy",
+                            "file:${userHome}/.grails/${appName}-config.properties",
+                            "file:${userHome}/.grails/${appName}-config.groovy"]
 
-// if (System.properties["${appName}.config.location"]) {
-//    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
-// }
+if (System.properties["${appName}.config.location"]) {
+   grails.config.locations << "file:" + System.properties["${appName}.config.location"]
+}
 
-// Externalized Configuration: Secure Passwords in private config file or without reatart configuation
-grails.config.locations = [
-	"file:${userHome}/.grails/${appName}-config.groovy"
-]
 
 grails.app.context = '/'
-
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
-grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
-grails.mime.use.accept.header = false
+
+// The ACCEPT header will not be used for content negotiation for user agents containing the following strings (defaults to the 4 major rendering engines)
+grails.mime.disable.accept.header.userAgents = ['Gecko', 'WebKit', 'Presto', 'Trident']
 grails.mime.types = [
-	all:           '*/*',
-	atom:          'application/atom+xml',
-	css:           'text/css',
-	csv:           'text/csv',
-	form:          'application/x-www-form-urlencoded',
-	html:          ['text/html','application/xhtml+xml'],
-	js:            'text/javascript',
-	json:          ['application/json', 'text/json'],
-	multipartForm: 'multipart/form-data',
-	rss:           'application/rss+xml',
-	text:          'text/plain',
-	xml:           ['text/xml', 'application/xml']
+    all:           '*/*',
+    atom:          'application/atom+xml',
+    css:           'text/css',
+    csv:           'text/csv',
+    form:          'application/x-www-form-urlencoded',
+    html:          ['text/html','application/xhtml+xml'],
+    js:            'text/javascript',
+    json:          ['application/json', 'text/json'],
+    multipartForm: 'multipart/form-data',
+    rss:           'application/rss+xml',
+    text:          'text/plain',
+    hal:           ['application/hal+json','application/hal+xml'],
+    xml:           ['text/xml', 'application/xml']
 ]
 
 // URL Mapping Cache Max Size, defaults to 5000
@@ -41,14 +38,35 @@ grails.mime.types = [
 
 // What URL patterns should be processed by the resources plugin
 grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
-grails.resources.bundle.excludes = ['**/*.less']
 
-// The default codec used to encode data with ${}
-grails.views.default.codec = "none" // none, html, base64
-grails.views.gsp.encoding = "UTF-8"
+// Legacy setting for codec used to encode data with ${}
+grails.views.default.codec = "html"
+
+// The default scope for controllers. May be prototype, session or singleton.
+// If unspecified, controllers are prototype scoped.
+grails.controllers.defaultScope = 'singleton'
+
+// GSP settings
+grails {
+    views {
+        gsp {
+            encoding = 'UTF-8'
+            htmlcodec = 'xml' // use xml escaping instead of HTML4 escaping
+            codecs {
+                expression = 'html' // escapes values inside ${}
+                scriptlet = 'html' // escapes output from scriptlets in GSPs
+                taglib = 'none' // escapes output from taglibs
+                staticparts = 'none' // escapes output from static template parts
+            }
+        }
+        // escapes all not-encoded output at final stage of outputting
+        filteringCodecForContentType {
+            //'text/html' = 'html'
+        }
+    }
+}
+ 
 grails.converters.encoding = "UTF-8"
-// enable Sitemesh preprocessing of GSP pages
-grails.views.gsp.sitemesh.preprocess = true
 // scaffolding templates configuration
 grails.scaffolding.templates.domainSuffix = 'Instance'
 
@@ -68,67 +86,30 @@ grails.exceptionresolver.params.exclude = ['password']
 grails.hibernate.cache.queries = false
 
 environments {
-	development {
-		grails.logging.jul.usebridge = true
-		grails.serverURL = "http://localhost:8080"
-		
-		//disable resource path hash ?_debugResources=y
-		grails.resource.debug = true
-		grails.resources.mapper.hashandcache.excludes = ['**/*']
-	
-		// Don't enable CDN for development
-		grails.resources.mappers.baseurl.enabled = false
-
-		// Don't enable cached-resources
-		//grails.resources.mappers.
-		//grails.resources.mapper.hashandcache.excludes = ['**/*']
-		grails.resources.mapper.cached.excludes = ['**/*']
-		// upload.files.path="${userHome}/appData/${appName}/uploadfiles"
-
-		// grails.resources.mappers.baseurl.enabled = true
-		// grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
-
-		grails.aws.root = 'temp'
-		google.analytics.enabled = false
-
-
-		//grails.resources.debug = true 
-	}
-	test {
-		// dirty fix "Cannot create a bundle from resource" warning
-		grails.resources.mappers.bundle.excludes = ['**/*'] 
-	}
-	production {
-	
-		grails.logging.jul.usebridge = false
-		grails.serverURL = "http://motoranger.net"
-		//grails.serverURL = "http://dev.codecanaan.com:8080"
-
-		// Using baseurl feature to enable CDN deployment
-		grails.resources.mappers.baseurl.enabled = true
-		grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
-
-		//This not works
-		//grails.resources.mappers.baseurl.excludes = ['biwascheme/*']
-		grails.aws.root = 'attachment'
-		google.analytics.enabled = true
-	}
-}
-
-// log4j configuration
-environments {
  
     development {
+        grails.serverURL = "http://localhost:8080"
+        grails.indexPath = "/development/app.html"
+        grails.logging.jul.usebridge = true
+        grails.resources.debug=true
+        grails.converters.default.pretty.print = true
+
+        grails.foodpaint.service.server.url = "http://localhost:8180"
+        grails.foodpaint.service.api.url = "http://localhost:8180/api"
+        grails.aws.root = 'test'
+        google.analytics.enabled = false
+
         log4j = {
             appenders {
                 file name: 'grailsfile', file: 'target/grails.log'
                 file name: 'rootlog', file: 'target/root.log'
                 file name: 'devfile', file: 'target/development.log'
-                console name:'stdout',
 
-                layout: pattern(conversionPattern: "[%d{HH:mm:ss:SSS}] %-5p %c{2}:%L %m%n")
+                layout: pattern(conversionPattern: "[%d{HH:mm:ss:SSS}] %-5p %c{2} %m%n")
             }
-            root { error 'stdout', 'rootlog' }
+            root { 
+                error 'stdout', 'rootlog' 
+            }
             info additivity: false, grailsfile: 'org.codehaus.groovy.grails.commons'
             all additivity: false, devfile: [
                 'grails.app.controllers',
@@ -143,14 +124,24 @@ environments {
     }
  
     test {
+
+        grails.serverURL = "http://localhost:8080"
+        grails.indexPath = "/test/app.html"
+        grails.logging.jul.usebridge = true
+        grails.resources.debug=true
+        grails.converters.default.pretty.print = true
+
+        grails.foodpaint.service.server.url = "http://localhost:8180"
+        grails.foodpaint.service.api.url = "http://localhost:8180/api"
+        grails.aws.root = 'test'
+
         log4j = {
             appenders {
                 file name: 'grailsfile', file: 'target/grails.log'
                 file name: 'rootlog', file: 'target/root.log'
                 file name: 'testfile', file: 'target/test.log'
-                console name:'stdout',
                 
-                layout: pattern(conversionPattern: "[%d{HH:mm:ss:SSS}] %-5p %c{2}:%L %m%n")
+                layout: pattern(conversionPattern: "[%d{HH:mm:ss:SSS}] %-5p %c{2} %m%n")
             }
             root { error 'stdout', 'rootlog' }
             info additivity: false, grailsfile: 'org.codehaus.groovy.grails.commons'
@@ -167,96 +158,48 @@ environments {
     }
     production {
         grails.logging.jul.usebridge = false
+        grails.serverURL = "http://motoranger.net"
+        //grails.serverURL = "http://dev.codecanaan.com:8080"
+
+        // Using baseurl feature to enable CDN deployment
+        grails.resources.mappers.baseurl.enabled = true
+        grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
+
+        grails.aws.root = 'attachment'
+        google.analytics.enabled = true
+
+
         log4j = {
-            appenders {
-                layout: pattern(conversionPattern: "[%d{HH:mm:ss:SSS}] %-5p %c{2}:%L %m%n")
-            }
             root { 
                 error()
             }
         }
-
     }
 }
-
-//The default level is SIMPLE_OPTIMIZATIONS, options ADVANCED_OPTIMIZATIONS
-// grails.resources.mappers.googleclosurecompiler.compilation_level='SIMPLE_OPTIMIZATIONS'
-
-// Twitter Bootstrap
-grails.plugins.twitterbootstrap.fixtaglib = true
-
-// Bundle all resources to extrails
-grails.plugins.twitterbootstrap.defaultBundle = 'extrails'
-
-// JustFont
-// grails.justfont.appId = '04a33145MnLiu8AI4KNCkfQQX18d_e3RX0f8GVpfG1diW5LYhaoiIuChsq61MXXmmv1-DTv5O0x8Q-M6wDVACDJxtEeI-_zEH2erPVBnvn_O0rNYUxTAysJ7bMYsPVRNRtxxKcR7LU_kpdARwG4Q_xXHkyzrSTEhAPHewUyTug7fj48gBxY='
 
 // Analytics
 google.analytics.webPropertyID = "UA-39903264-1"
 
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'extrails.User'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'extrails.UserRole'
-grails.plugins.springsecurity.authority.className = 'extrails.Role'
-
-// 動態定義 securityConfig by map in db
-// grails.plugins.springsecurity.securityConfigType = "Requestmap"
-// grails.plugins.springsecurity.requestMap.className = 'extrails.SecurityMap'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'motoranger.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'motoranger.UserRole'
+grails.plugin.springsecurity.authority.className = 'motoranger.Role'
+grails.plugin.springsecurity.securityConfigType = "Annotation"
 
 // disqus
 grails.plugins.disqus.shortname = "motoranger"
 
 
-grails.plugins.springsecurity.useSwitchUserFilter = true
-grails.plugins.springsecurity.controllerAnnotations.staticRules = [
-	'/j_spring_security_switch_user': ['ROLE_MANERGER'],
-	'/securityInfo/*': ['ROLE_ADMIN'],
-	'/registrationCode/*': ['ROLE_ADMIN'],
-	'/persistentLogin/*': ['ROLE_ADMIN'],
-	'/role/*': ['ROLE_ADMIN'],
-	'/user/search': ['ROLE_ADMIN']
-]
-
-grails.plugins.springsecurity.rememberMe.alwaysRemember = true
-grails.plugins.springsecurity.rememberMe.persistent = true
-grails.plugins.springsecurity.rememberMe.persistentToken.domainClassName = 'extrails.PersistentLogin'
+grails.plugin.springsecurity.c = true
+grails.plugin.springsecurity.rememberMe.alwaysRemember = true
+grails.plugin.springsecurity.rememberMe.persistent = true
+grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'motoranger.PersistentLogin'
 grails.taggable.preserve.case = true
 
 grails.taggable.tag.autoImport=true
 grails.taggable.tagLink.autoImport=true
 
-
-//SpringSecurity Facebook
-// grails.plugins.springsecurity.facebook.permissions='email,user_about_me'
-// grails.plugins.springsecurity.facebook.filter.type='redirect'
-// grails.plugins.springsecurity.facebook.domain.classname='codecanaan.FacebookUser'
-// grails.plugins.springsecurity.facebook.appId='--appid--'
-// grails.plugins.springsecurity.facebook.secret='--secret--'
-
-// google {
-//     adsense.adClient = 'ca-pub-0839975967683137'
-// }
-
 aws.domain = ''
 aws.accessKey = ''
 aws.secretKey = ''
 aws.bucketName = ''
-
-
-// grails {
-//     mail {
-//         host = "smtp.gmail.com"
-//         port = 465
-//         username = "youracount@gmail.com"
-//         password = "yourpassword"
-//         props = [
-//             "mail.smtp.auth":                   "true",
-//             "mail.smtp.socketFactory.port":     "465",
-//             "mail.smtp.socketFactory.class":    "javax.net.ssl.SSLSocketFactory",
-//             "mail.smtp.socketFactory.fallback": "false"
-//         ]
-//     }
-// }
-
-
-

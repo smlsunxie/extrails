@@ -88,7 +88,7 @@
                                 <g:link class="btn btn-primary" controller="event" action="create" params="['event.id':event?.id]">新增維修</g:link>
 
                                 <g:if test="${event?.product?.status.name() == "UNFIN"}"> 
-                                  <g:link class="btn btn-primary" action="changeStatus" id="${event?.id}" controller="event" params="[status:extrails.ProductStatus.END.name(),controllerName:controllerName]">維修結束</g:link>
+                                  <g:link class="btn btn-primary" action="changeStatus" id="${event?.id}" controller="event" params="[status:motoranger.ProductStatus.END.name(),controllerName:controllerName]">維修結束</g:link>
                                 </g:if>
 
                                 <g:link controller="product" action="show" id="${event?.product?.id}" class="btn btn-primary">

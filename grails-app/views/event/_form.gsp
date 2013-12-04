@@ -14,7 +14,7 @@
 
               </label>
                 <div class="controls">
-                  <g:select name="user.id" from="${event?.user ?: extrails.UserRole.findAllByRole(extrails.Role.findByAuthority('ROLE_OPERATOR'))*.user}" optionValue="username" 
+                  <g:select name="user.id" from="${event?.user ?: motoranger.UserRole.findAllByRole(motoranger.Role.findByAuthority('ROLE_OPERATOR'))*.user}" optionValue="username" 
                   noSelection="${[null:'Select One...']}" optionKey="id" value="${event?.user?.id}" />
                 </div>                    
             </div>
@@ -25,7 +25,7 @@
                     <g:message code="event.product.label" />
                 </label>
                   <div class="controls">
-                    <g:select name="product.id" from="${event?.product?:extrails.Product.list()}" optionValue="name" 
+                    <g:select name="product.id" from="${event?.product?:motoranger.Product.list()}" optionValue="name" 
                     noSelection="${[null:'Select One...']}" optionKey="id" value="${event?.product?.id}" />
                   </div>
             </div>
@@ -72,7 +72,7 @@
 
                 </label>
                 <div class="controls">
-                   <g:select id="store" name="store.id" from="${extrails.Store.list()}" optionKey="id" value="${event?.store?.id}" class="many-to-one" noSelection="['null': '']"/>
+                   <g:select id="store" name="store.id" from="${motoranger.Store.list()}" optionKey="id" value="${event?.store?.id}" class="many-to-one" noSelection="['null': '']"/>
                 </div>
             </div>
 

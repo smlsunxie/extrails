@@ -1,5 +1,5 @@
 
-<%@ page import="extrails.Role" %>
+<%@ page import="motoranger.Role" %>
 <!DOCTYPE html>
 <html>
 	<head>
