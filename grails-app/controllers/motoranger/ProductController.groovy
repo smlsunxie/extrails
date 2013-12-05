@@ -143,7 +143,7 @@ class ProductController {
 
 
     def show(){ 
-        def product = Product.findByIdOrName(id, params.name)
+        def product = Product.findByIdOrName(params.id, params.name)
         
         [
             product: product,
@@ -155,7 +155,7 @@ class ProductController {
         
 
 
-        def product = Product.findByIdOrName(id, params.name)
+        def product = Product.findByIdOrName(params.id, params.name)
         if(!product?.user)product.user=User.findByUsername(product.name)
         
         if(!product?.user){
@@ -234,7 +234,7 @@ class ProductController {
     }
     @Secured(['ROLE_OPERATOR'])
     def delete(){ 
-        def product = Product.findByIdOrName(id, params.name)
+        def product = Product.findByIdOrName(params.id, params.name)
         product.delete(flush: true)
 
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), id])

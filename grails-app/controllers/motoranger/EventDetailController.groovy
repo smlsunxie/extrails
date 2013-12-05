@@ -82,7 +82,7 @@ class EventDetailController {
 
     @Secured(['ROLE_OPERATOR'])
     def edit(){ 
-        def eventDetail = EventDetail.findByIdOrName(id, params.name)
+        def eventDetail = EventDetail.findByIdOrName(params.id, params.name)
 
         [ 
             eventDetail: eventDetail
@@ -91,7 +91,7 @@ class EventDetailController {
     @Secured(['ROLE_OPERATOR'])
     def update(){
 
-        def eventDetail = EventDetail.findByIdOrName(id, params.name)
+        def eventDetail = EventDetail.findByIdOrName(params.id, params.name)
 
         // if(params?.head && params?.head!='null')
         //     params.head=Event.findById(params.head)

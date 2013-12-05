@@ -73,7 +73,7 @@ class PostController {
 
     @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def edit(){
-        def post = Post.findByIdOrName(id, params.name)
+        def post = Post.findByIdOrName(params.id, params.name)
 
 
         [ 
@@ -82,7 +82,7 @@ class PostController {
     }
     @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def delete(){ 
-        def post = Post.findByIdOrName(id, params.name)
+        def post = Post.findByIdOrName(params.id, params.name)
         post.delete(flush: true)
 
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'post.label', default: 'post'), id])
@@ -91,7 +91,7 @@ class PostController {
     }
 
     def show(){ 
-        def post = Post.findByIdOrName(id, params.name)
+        def post = Post.findByIdOrName(params.id, params.name)
         
 
         if (post) {

@@ -118,7 +118,7 @@ class EventController {
     }
     @Secured(['ROLE_OPERATOR'])
     def edit() { 
-        def event = Event.findByIdOrName(id, params.name)
+        def event = Event.findByIdOrName(params.id, params.name)
 
         [ 
             event: event
@@ -127,7 +127,7 @@ class EventController {
     @Secured(['ROLE_OPERATOR'])
     def update() {
 
-        def event = Event.findByIdOrName(id, params.name)
+        def event = Event.findByIdOrName(params.id, params.name)
 
         // if(params?.product && params?.product!='null')
         //     params.product=Product.findById(params.product)
