@@ -41,8 +41,7 @@
 
             <div class="input-prepend input-append">
               <span class="add-on">維修日期</span>
-              <input  type="text" value="${event?.date.format('yyyy-MM-dd')}" data-date="${event?.date.format('yyyy-MM-dd')}" data-date-format="yyyy-mm-dd" class="span2" name="date"
-              onchange="alert(1)"/>
+              <input  type="text" value="${event?.date.format('yyyy-MM-dd')}" data-date="${event?.date.format('yyyy-MM-dd')}" data-date-format="yyyy-mm-dd" class="span2" name="date"/>
 
 
 
@@ -149,30 +148,31 @@
     </div>
   </div>                
 <r:script>
-  $("[name='date']").datepicker().on('changeDate', function(ev){
+  $(function() {
+    $("[name='date']").datepicker().on('changeDate', function(ev){
 
-      ${remoteFunction(action: 'updateDate',
-        controller:'event',
-        id:event?.id,
-        onSuccess:'onDateSuccessFun(data)',
-        params: '\'date=\' + ev.date.valueOf()')}
+      $.ajax({
+        type:'POST',
+        data:'date=' + ev.date.valueOf(), 
+        url:'/event/updateDate/${event?.id}',
+        success:function(data,textStatus){
+          onDateSuccessFun(data);
+        },
+        error:function(XMLHttpRequest,textStatus,errorThrown){
 
-  });
-  
-  var onDateSuccessFun=function(data){
-    if(data.success){
-      bootstrap_alert.warning("維修日期已改為："+data.date)
-    }else {
-      bootstrap_alert.warning(data.msg)
+        }
+      });
+
+    });
+    
+    var onDateSuccessFun=function(data){
+      if(data.success){
+        bootstrap_alert.warning("維修日期已改為："+data.date)
+      }else {
+        bootstrap_alert.warning(data.msg)
+      }
     }
-  }
-
-//  $("input[name='qty']").on("change",function(ev){
-//    console.log($(ev.target).val());
-//    var priceElm=$(ev.target).parent().parent().children("div");
-    //console.log($(priceElm).html());
-//    console.log($(priceElm).val());
-//  });
+  });
 
 </r:script>
   </body>

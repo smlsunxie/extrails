@@ -79,7 +79,9 @@ website:   	http://www.themepunch.com
 /*	THE MEDIA CHOOSER TO SET DIFFERENT SIZES OF THE CONTAINER DEPENDING ON THE SCREEN SIZE    */
 @media only screen and (min-width: 768px) and (max-width: 959px) {		
 
-    .banner, .bannercontainer			{	width:724px; height:auto;	}
+    .banner, .bannercontainer			{	width:764px; height:auto; 	}
+	.bannercontainer {
+		margin:0 -20px;}
     .bannercontainer .middle {
         font-size: 20px;
     }

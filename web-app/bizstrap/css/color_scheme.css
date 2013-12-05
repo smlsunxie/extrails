@@ -198,6 +198,94 @@ a:hover {
 .portfolio-switch li a.active {
     background-color: #2773ae;
 }
+.fancy-wrapper .fancy {
+    /* background: url("../img/home_portfolio_hover_orange.png") no-repeat scroll center center transparent; */
+	background-color:#2773ae;
+	
+}
+.fancy-wrapper .fancy:after {
+	content: "\f067";
+	position:absolute;
+	top:0;
+	left:0;
+	width:300px;
+	height:200px;
+	line-height:212px;
+	text-align:center;
+	color:#fff;
+	font-size:60px;
+	font-family: FontAwesome;
+}
+.portfolio-grid-1 .hp-wrapper:hover .bottom-block-optional:after {
+	content:'';
+	width:11px;
+	height:3px;
+	position:absolute;
+	bottom:0;
+	left:50%;
+	margin-left:-5px;
+	background:#2773ae;
+}
+/*.portfolio-grid-1:hover .small .bottom-block, .portfolio-grid-1:hover .middle .bottom-block, .portfolio-grid-1:hover .tall .bottom-block {
+    border-bottom: 1px solid #2773AE;
+}*/
+.portfolio-grid-1 .hp-wrapper .bottom-block {
+    border-bottom: 1px solid transparent;
+}
+.portfolio-grid-1 .hp-wrapper:hover .bottom-block {
+    border-bottom: 1px solid #2773ae;
+}
+.portfolio-grid-1 .hp-wrapper:hover {
+    border-bottom: 1px solid #2773ae;
+}
+a.cs-logo {
+    background: url("../img/logo.png") no-repeat top left transparent;
+}
+/*Dark grey hero-unit background
+----------------------------------------------------------------------*/
+.dark-hero {
+    background: url("../img/dark_tissue.png") repeat scroll 0 0 transparent;
+}
+/*Dark grey hero-unit button styles
+----------------------------------------------------------------------*/
+.dark-hero .btn {
+    font-size: 24px;
+    padding: 10px 67px;
+    background-image: linear-gradient(bottom, #6DA8CF 10%, #0768AD 55%, #0064AC 78%);
+    background-image: -o-linear-gradient(bottom, #6DA8CF 10%, #0768AD 55%, #0064AC 78%);
+    background-image: -moz-linear-gradient(bottom, #6DA8CF 10%, #0768AD 55%, #0064AC 78%);
+    background-image: -webkit-linear-gradient(bottom, #6DA8CF 10%, #0768AD 55%, #0064AC 78%);
+    background-image: -ms-linear-gradient(bottom, #6DA8CF 10%, #0768AD 55%, #0064AC 78%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.1, #6DA8CF),
+        color-stop(0.55, #0768AD),
+        color-stop(0.78, #0064AC)
+        );
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    line-height: 20px;
+}
+.dark-hero .btn:hover {
+    background-image: linear-gradient(bottom, #6DA8CF 10%, #1E77B6 55%, #1E77B6 78%);
+    background-image: -o-linear-gradient(bottom, #6DA8CF 10%, #1E77B6 55%, #1E77B6 78%);
+    background-image: -moz-linear-gradient(bottom, #6DA8CF 10%, #1E77B6 55%, #1E77B6 78%);
+    background-image: -webkit-linear-gradient(bottom, #6DA8CF 10%, #1E77B6 55%, #1E77B6 78%);
+    background-image: -ms-linear-gradient(bottom, #6DA8CF 10%, #1E77B6 55%, #1E77B6 78%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.1, #6DA8CF),
+        color-stop(0.55, #1E77B6),
+        color-stop(0.78, #1E77B6)
+        );
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    background-position: 0 0;
+}
 
 /* Price Tables check-icon color
 ---------------------------------------------------------------------- */
@@ -211,32 +299,32 @@ a:hover {
 ---------------------------------------------------------------------- */
 
 .price-table-object .btn-primary {
-color: white;
-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-background-color: #006DCC;
-background-image: -moz-linear-gradient(top, #08C, #04C);
-background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#08C), to(#04C));
-background-image: -webkit-linear-gradient(top, #08C, #04C);
-background-image: -o-linear-gradient(top, #08C, #04C);
-background-image: linear-gradient(to bottom, #08C, #04C);
-background-repeat: repeat-x;
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
-border-color: #04C #04C #002A80;
-border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    color: white;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #006DCC;
+    background-image: -moz-linear-gradient(top, #08C, #04C);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#08C), to(#04C));
+    background-image: -webkit-linear-gradient(top, #08C, #04C);
+    background-image: -o-linear-gradient(top, #08C, #04C);
+    background-image: linear-gradient(to bottom, #08C, #04C);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
+    border-color: #04C #04C #002A80;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 
 .price-table-object .btn:hover {
-color: #333;
-text-decoration: none;
-background-color: #E6E6E6;
-background-position: 0 -15px;
--webkit-transition: background-position 0.1s linear;
--moz-transition: background-position 0.1s linear;
--o-transition: background-position 0.1s linear;
-transition: background-position 0.1s linear;
+    color: #333;
+    text-decoration: none;
+    background-color: #E6E6E6;
+    background-position: 0 -15px;
+    -webkit-transition: background-position 0.1s linear;
+    -moz-transition: background-position 0.1s linear;
+    -o-transition: background-position 0.1s linear;
+    transition: background-position 0.1s linear;
 }
 .price-table-object .btn-primary:hover, .price-table-object .btn-primary:active, .price-table-object .btn-primary.active, .price-table-object .btn-primary.disabled, .price-table-object .btn-primary[disabled] {
-color: white;
-background-color: #04C;
+    color: white;
+    background-color: #04C;
 }

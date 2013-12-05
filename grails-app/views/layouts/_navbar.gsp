@@ -50,17 +50,3 @@
 
 </div>
 
-
-<r:script>
-
-  $(function() {
-    
-    $('#exitSwitch').on("click",function(){
-      if(confirm("確定要切換使用者?")){
-        return true;
-      }else return false;
-    });
-    
-  });
-
-</r:script>

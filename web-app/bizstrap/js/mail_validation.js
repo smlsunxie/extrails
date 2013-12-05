@@ -9,10 +9,40 @@ $mjq(function(){
 	$mjq("#inputEmail").bind('blur', is_valid_email);
 	$mjq("#inputName").bind('blur', is_valid_name);
 	$mjq("#textarea").bind('blur', is_valid_comment);
-	$mjq('#validForm').bind('submit', function() {
-		return is_valid_form();
-	});
+    $mjq('#validForm').bind('submit', function(e) {
+        if (!is_valid_form())
+            return false;
+
+        e.preventDefault();
+        $mjq("#result").html('');
+        var data = $mjq(this).serialize();
+
+        $mjq.ajax({
+            url: "/send-form-email.php",
+            type: "post",
+            dataType : "json",
+            data: data,
+            success: function(data) {
+                var alertClass;
+                if(data.error === true){
+                    alertClass = 'alert-error';
+                }else{
+                    alertClass = 'alert-success';
+                    $mjq('#validForm').closest('form').find("input[type=text], textarea").val("");
+                }
+                $mjq("#result").html(returnHtml(alertClass, data.message));
+            },
+            error: function(data) {
+                $mjq("#result").html(returnHtml('alert-error', data));
+            }
+        });
+    });
 });
+
+function returnHtml(alertClass, html){
+    return '<div class="alert  '+alertClass+'"><button type="button" class="close" data-dismiss="alert">&times;</button>'+html+'</div>';
+}
+
 // Email validate
 function is_valid_email() {
 	$this = $mjq("#inputEmail");

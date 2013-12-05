@@ -1,17 +1,12 @@
 /**************************************************************************
  * jquery.themepunch.revolution.js - jQuery Plugin for kenburn Slider
- * @version: 1.3.2 (05.09.2012)
- * @requires jQuery v1.4 or later
+ * @version: 1.5.1 (24.10.2012)
+ * @requires jQuery v1.7 or later (tested on 1.8.2 already)
  * @author Krisztian Horvath
 **************************************************************************/
 
 
-
-
-
 (function($,undefined){
-
-
 
 
 	////////////////////////////////////////
@@ -20,194 +15,303 @@
 
 	$.fn.extend({
 
-
 		// OUR PLUGIN HERE :)
 		revolution: function(options) {
 
 
 
-		////////////////////////////////
-		// SET DEFAULT VALUES OF ITEM //
-		////////////////////////////////
-		var defaults = {
-			delay:9000,
-			startheight:490,
-			startwidth:890,
+				////////////////////////////////
+				// SET DEFAULT VALUES OF ITEM //
+				////////////////////////////////
+				var defaults = {
+					delay:9000,
+					startheight:490,
+					startwidth:890,
 
-			hideThumbs:200,
+					hideThumbs:200,
 
-			thumbWidth:100,							// Thumb With and Height and Amount (only if navigation Tyope set to thumb !)
-			thumbHeight:50,
-			thumbAmount:5,
+					thumbWidth:100,							// Thumb With and Height and Amount (only if navigation Tyope set to thumb !)
+					thumbHeight:50,
+					thumbAmount:5,
 
-			navigationType:"both",					//bullet, thumb, none, both		(No Thumbs In FullWidth Version !)
-			navigationArrows:"nexttobullets",		//nexttobullets, verticalcentered, none
-			navigationStyle:"round",				//round,square,navbar
+					navigationType:"both",					//bullet, thumb, none, both		(No Thumbs In FullWidth Version !)
+					navigationArrows:"nexttobullets",		//nexttobullets, verticalcentered, none
+					navigationStyle:"round",				//round,square,navbar
 
-			touchenabled:"on",						// Enable Swipe Function : on/off
-			onHoverStop:"on",						// Stop Banner Timet at Hover on Slide on/off
+					touchenabled:"on",						// Enable Swipe Function : on/off
+					onHoverStop:"on",						// Stop Banner Timet at Hover on Slide on/off
 
-			navOffsetHorizontal:0,
-			navOffsetVertical:20,
+					navOffsetHorizontal:0,
+					navOffsetVertical:20,
 
-			shadow:1,
+					stopAtSlide:4,
+					stopAfterLoops:1,
+					shadow:1,
 
-			stopLoop:"off"
-		};
-
-			options = $.extend({}, $.fn.revolution.defaults, options);
-
-
-
-
-			return this.each(function() {
-
-				var opt=options;
-
-				// CATCH THE CONTAINER
-				var container=$(this);
-
-				 // LOAD THE YOUTUBE API IF NECESSARY
-				 
-				container.find('.caption iframe').each(function() {
-					try {
-							if ($(this).attr('src').indexOf('you')>0) {
-								
-								var s = document.createElement("script");
-								s.src = "http://www.youtube.com/player_api"; /* Load Player API*/
-								var before = document.getElementsByTagName("script")[0];
-								before.parentNode.insertBefore(s, before);
-							}
-						} catch(e) {}
-				});
-
-
-
-				 // LOAD THE VIMEO API
-				 container.find('.caption iframe').each(function() {
-					try{
-							if ($(this).attr('src').indexOf('vim')>0) {
-							
-								var f = document.createElement("script");
-								f.src = "http://a.vimeocdn.com/js/froogaloop2.min.js"; /* Load Player API*/
-								var before = document.getElementsByTagName("script")[0];
-								before.parentNode.insertBefore(f, before);
-							}
-						} catch(e) {}
-				});
-
-
-
-				// CREATE SOME DEFAULT OPTIONS FOR LATER
-				opt.slots=4;
-				opt.act=-1;
-				opt.next=0;
-				opt.origcd=opt.delay;
-
-				// CHECK IF FIREFOX 13 IS ON WAY.. IT HAS A STRANGE BUG, CSS ANIMATE SHOULD NOT BE USED
-				opt.firefox13 = ($.browser.mozilla)  && (parseInt($.browser.version,0)==13 ||  parseInt($.browser.version,0)==14);
-				opt.ie = $.browser.msie && parseInt($.browser.version,0)<9;
-
-
-
-
-				// BASIC OFFSET POSITIONS OF THE BULLETS
-				if (opt.navOffsetHorizontal==undefined) opt.navOffsetHorizontal=0;
-				if (opt.navOffsetVertical==undefined) opt.navOffsetVertical=0;
-
-				// SHORTWAY USAGE OF OFFSETS
-				opt.navOH = opt.navOffsetHorizontal;
-				opt.navOV = opt.navOffsetVertical;
-
-
-
-				container.append('<div class="tp-loader"></div>');
-
-				// RESET THE TIMER
-				var bt=container.find('.tp-bannertimer');
-				if (bt.length>0) {
-					bt.css({'width':'0%'});
+					stopLoop:"off"
 				};
 
-
-				// WE NEED TO ADD A BASIC CLASS FOR SETTINGS.CSS
-				container.addClass("tp-simpleresponsive");
-				opt.container=container;
-
-				//if (container.height()==0) container.height(opt.startheight);
-
-				// AMOUNT OF THE SLIDES
-				opt.slideamount = container.find('ul:first li').length;
-
-				// A BASIC GRID MUST BE DEFINED. IF NO DEFAULT GRID EXIST THAN WE NEED A DEFAULT VALUE, ACTUAL SIZE OF CONAINER
-				if (opt.startwidth==undefined || opt.startwidth==0) opt.startwidth=container.width();
-				if (opt.startheight==undefined || opt.startheight==0) opt.startheight=container.height();
-
-				// OPT WIDTH && HEIGHT SHOULD BE SET
-				opt.width=container.width();
-				opt.height=container.height();
-
-				// DEFAULT DEPENDECIES
-				opt.bw = opt.startwidth / container.width();
-				opt.bh = opt.startheight / container.height();
-
-				// IF THE ITEM ALREADY IN A RESIZED FORM
-				if (opt.width!=opt.startwidth) {
-
-					opt.height = Math.round(opt.startheight * (opt.width/opt.startwidth));
-					container.height(opt.height);
-
-				}
-
-				// LETS SEE IF THERE IS ANY SHADOW
-				if (opt.shadow!=0) {
-					container.parent().append('<div class="tp-bannershadow tp-shadow'+opt.shadow+'"></div>');
-
-					container.parent().find('.tp-bannershadow').css({'width':opt.width});
-				}
+					options = $.extend({}, $.fn.revolution.defaults, options);
 
 
 
-				// IF IMAGES HAS BEEN LOADED
-				container.waitForImages(function() {
-						// PREPARE THE SLIDES
-						prepareSlides(container,opt);
 
-						// CREATE BULLETS
-						createBullets(container,opt);
-						createThumbs(container,opt);
-						createArrows(container,opt);
-						swipeAction(container,opt);
+					return this.each(function() {
 
-						if (opt.hideThumbs>0) hideThumbs(container,opt);
+						var opt=options;
+						var container=$(this);
+						
+						// CHECK THE jQUERY VERSION
+						var version = $.fn.jquery.split('.'),
+							versionTop = parseFloat(version[0]),
+							versionMinor = parseFloat(version[1]),
+							versionIncrement = parseFloat(version[2] || '0');
+							
+						if (versionTop==1 && versionMinor < 7) {
+							container.html('<div style="text-align:center; padding:40px 0px; font-size:20px; color:#992222;"> The Current Version of jQuery:'+version+' <br>Please update your jQuery Version to min. 1.7 in Case you wish to use the Revolution Slider Plugin</div>');
+						}
+						
+						// Delegate .transition() calls to .animate()
+						// if the browser can't do CSS transitions.
+						if (!$.support.transition)
+							$.fn.transition = $.fn.animate;
 
-						container.waitForImages(function() {
-							// START THE FIRST SLIDE
-							container.find('.tp-loader').fadeOut(400);
-							setTimeout(function() {
-								swapSlide(container,opt);
-								// START COUNTDOWN
-								countDown(container,opt);
-							},1000);
+
+
+						$.cssEase['bounce'] = 'cubic-bezier(0,1,0.5,1.3)';
+
+						// CATCH THE CONTAINER
+						//var container=$(this);
+						//container.css({'display':'block'});
+
+						 // LOAD THE YOUTUBE API IF NECESSARY
+
+						container.find('.caption iframe').each(function() {
+							try {
+									if ($(this).attr('src').indexOf('you')>0) {
+
+										var s = document.createElement("script");
+										s.src = "http://www.youtube.com/player_api"; /* Load Player API*/
+										var before = document.getElementsByTagName("script")[0];
+										before.parentNode.insertBefore(s, before);
+									}
+								} catch(e) {}
 						});
 
 
-				});
+
+						 // LOAD THE VIMEO API
+						 container.find('.caption iframe').each(function() {
+							try{
+									if ($(this).attr('src').indexOf('vim')>0) {
+
+										var f = document.createElement("script");
+										f.src = "http://a.vimeocdn.com/js/froogaloop2.min.js"; /* Load Player API*/
+										var before = document.getElementsByTagName("script")[0];
+										before.parentNode.insertBefore(f, before);
+									}
+								} catch(e) {}
+						});
+
+						// SHUFFLE MODE
+						if (opt.shuffle=="on") {
+							for (var u=0;u<container.find('>ul:first-child >li').length;u++) {
+								var it = Math.round(Math.random()*container.find('>ul:first-child >li').length);
+								container.find('>ul:first-child >li:eq('+it+')').prependTo(container.find('>ul:first-child'));
+							}
+						}
 
 
-				// IF RESIZED, NEED TO STOP ACTUAL TRANSITION AND RESIZE ACTUAL IMAGES
-				$(window).resize(function() {
+						// CREATE SOME DEFAULT OPTIONS FOR LATER
+						opt.slots=4;
+						opt.act=-1;
+						opt.next=0;
+						opt.origcd=opt.delay;
 
-					if (container.outerWidth(true)!=opt.width) {
+						// CHECK IF FIREFOX 13 IS ON WAY.. IT HAS A STRANGE BUG, CSS ANIMATE SHOULD NOT BE USED
+						opt.firefox13 = ($.browser.mozilla)  && (parseInt($.browser.version,0)==13 ||  parseInt($.browser.version,0)==14 ||  parseInt($.browser.version,0)==15 ||  parseInt($.browser.version,0)==16 );
+						opt.ie = $.browser.msie && parseInt($.browser.version,0)<9;
+						opt.ie9 = $.browser.msie && parseInt($.browser.version,0)==9;
 
-						containerResized(container,opt);
 
-					}
-				});
-			})
-		}
+
+
+						// BASIC OFFSET POSITIONS OF THE BULLETS
+						if (opt.navOffsetHorizontal==undefined) opt.navOffsetHorizontal=0;
+						if (opt.navOffsetVertical==undefined) opt.navOffsetVertical=0;
+
+						// SHORTWAY USAGE OF OFFSETS
+						opt.navOH = opt.navOffsetHorizontal;
+						opt.navOV = opt.navOffsetVertical;
+
+
+
+						container.append('<div class="tp-loader"></div>');
+
+						// RESET THE TIMER
+						var bt=container.find('.tp-bannertimer');
+						if (bt.length>0) {
+							bt.css({'width':'0%'});
+						};
+
+
+						// WE NEED TO ADD A BASIC CLASS FOR SETTINGS.CSS
+						container.addClass("tp-simpleresponsive");
+						opt.container=container;
+
+						//if (container.height()==0) container.height(opt.startheight);
+
+						// AMOUNT OF THE SLIDES
+						opt.slideamount = container.find('>ul:first >li').length;
+						//alert(opt.slideamount);
+
+						// A BASIC GRID MUST BE DEFINED. IF NO DEFAULT GRID EXIST THAN WE NEED A DEFAULT VALUE, ACTUAL SIZE OF CONAINER
+						if (container.height()==0) container.height(opt.startheight);
+						if (opt.startwidth==undefined || opt.startwidth==0) opt.startwidth=container.width();
+						if (opt.startheight==undefined || opt.startheight==0) opt.startheight=container.height();
+
+						// OPT WIDTH && HEIGHT SHOULD BE SET
+						opt.width=container.width();
+						opt.height=container.height();
+
+						// DEFAULT DEPENDECIES
+						opt.bw = opt.startwidth / container.width();
+						opt.bh = opt.startheight / container.height();
+
+						// IF THE ITEM ALREADY IN A RESIZED FORM
+						if (opt.width!=opt.startwidth) {
+
+							opt.height = Math.round(opt.startheight * (opt.width/opt.startwidth));
+							container.height(opt.height);
+
+						}
+
+						// LETS SEE IF THERE IS ANY SHADOW
+						if (opt.shadow!=0) {
+							container.parent().append('<div class="tp-bannershadow tp-shadow'+opt.shadow+'"></div>');
+
+							container.parent().find('.tp-bannershadow').css({'width':opt.width});
+						}
+
+
+
+						// IF IMAGES HAS BEEN LOADED
+						container.waitForImages(function() {
+								// PREPARE THE SLIDES
+								prepareSlides(container,opt);
+
+								// CREATE BULLETS
+								if (opt.slideamount >1) createBullets(container,opt);
+								if (opt.slideamount >1) createThumbs(container,opt);
+								if (opt.slideamount >1) createArrows(container,opt);
+								swipeAction(container,opt);
+
+								if (opt.hideThumbs>0) hideThumbs(container,opt);
+
+								container.waitForImages(function() {
+									// START THE FIRST SLIDE
+
+									container.find('.tp-loader').fadeOut(400);
+									setTimeout(function() {
+										swapSlide(container,opt);
+										// START COUNTDOWN
+										if (opt.slideamount >1) countDown(container,opt);
+									},1000);
+
+								});
+
+
+						});
+
+
+						// IF RESIZED, NEED TO STOP ACTUAL TRANSITION AND RESIZE ACTUAL IMAGES
+						$(window).resize(function() {
+
+							if (container.outerWidth(true)!=opt.width) {
+
+								containerResized(container,opt);
+
+							}
+						});
+
+
+					})
+				},
+
+
+		// METHODE PAUSE
+		revpause: function(options) {
+
+					return this.each(function() {
+						var container=$(this);
+						container.data('conthover',1);
+						container.data('conthover-changed',1);
+						container.trigger('revolution.slide.onpause');
+						var bt = container.parent().find('.tp-bannertimer');
+						bt.stop();
+
+					})
+
+
+				},
+
+		// METHODE RESUME
+		revresume: function(options) {
+					return this.each(function() {
+						var container=$(this);
+						container.data('conthover',0);
+						container.data('conthover-changed',1);
+						container.trigger('revolution.slide.onresume');
+						var bt = container.parent().find('.tp-bannertimer');
+						var opt = bt.data('opt');
+
+						bt.animate({'width':"100%"},{duration:((opt.delay-opt.cd)-100),queue:false, easing:"linear"});
+					})
+
+				},
+
+		// METHODE NEXT
+		revnext: function(options) {
+					return this.each(function() {
+						// CATCH THE CONTAINER
+						var container=$(this);
+						container.parent().find('.tp-rightarrow').click();
+
+
+					})
+
+				},
+
+		// METHODE RESUME
+		revprev: function(options) {
+					return this.each(function() {
+						// CATCH THE CONTAINER
+						var container=$(this);
+						container.parent().find('.tp-leftarrow').click();
+					})
+
+				},
+
+		// METHODE LENGTH
+		revmaxslide: function(options) {
+						// CATCH THE CONTAINER
+						return $(this).find('>ul:first-child >li').length;
+				},
+
+		// METHODE RESUME
+		revshowslide: function(slide) {
+					return this.each(function() {
+						// CATCH THE CONTAINER
+						var container=$(this);
+						container.data('showus',slide);
+						container.parent().find('.tp-rightarrow').click();
+					})
+
+				}
+
 
 })
+
 
 		//////////////////////////
 		//	CONTAINER RESIZED	//
@@ -228,15 +332,15 @@
 							container.parent().find('.tp-bannershadow').css({'width':opt.width});
 						} catch(e) {}
 
-						var actsh = container.find('li:eq('+opt.act+') .slotholder');
-						var nextsh = container.find('li:eq('+opt.next+') .slotholder');
-						removeSlots(container);
+						var actsh = container.find('>ul >li:eq('+opt.act+') .slotholder');
+						var nextsh = container.find('>ul >li:eq('+opt.next+') .slotholder');
+						removeSlots(container,opt);
 						nextsh.find('.defaultimg').css({'opacity':0});
 						actsh.find('.defaultimg').css({'opacity':1});
 
 						setCaptionPositions(container,opt);
 
-						var nextli = container.find('li:eq('+opt.next+')');
+						var nextli = container.find('>ul >li:eq('+opt.next+')');
 						container.find('.caption').each(function() { $(this).stop(true,true);});
 						animateTheCaptions(nextli, opt);
 
@@ -300,8 +404,8 @@
 			bup.parent().width(opt.thumbWidth*opt.thumbAmount);
 			bup.parent().height(opt.thumbHeight);
 
-			container.find('ul:first li').each(function(i) {
-							var li= container.find("ul:first li:eq("+i+")");
+			container.find('>ul:first >li').each(function(i) {
+							var li= container.find(">ul:first >li:eq("+i+")");
 							if (li.data('thumb') !=undefined)
 								var src= li.data('thumb')
 							else
@@ -332,7 +436,7 @@
 			});
 
 
-			var max=minwidth*container.find('ul:first li').length;
+			var max=minwidth*container.find('>ul:first >li').length;
 			var thumbconwidth=bullets.parent().width();
 			opt.thumbWidth = minwidth;
 
@@ -357,7 +461,7 @@
 							var x = $('body').data('mousex')-offset.left;
 							var thumbconwidth=$this.width();
 							var minwidth=$this.find('.bullet:first').outerWidth(true);
-							var max=minwidth*container.find('ul:first li').length;
+							var max=minwidth*container.find('>ul:first >li').length;
 							var diff=(max- thumbconwidth)+15;
 							var steps = diff / thumbconwidth;
 							x=x-30;
@@ -380,7 +484,7 @@
 											var x = $('body').data('mousex')-offset.left;
 											var thumbconwidth=$this.width();
 											var minwidth=$this.find('.bullet:first').outerWidth(true);
-											var max=minwidth*container.find('ul:first li').length;
+											var max=minwidth*container.find('>ul:first >li').length;
 											var diff=(max- thumbconwidth)+15;
 											var steps = diff / thumbconwidth;
 											x=x-30;
@@ -404,6 +508,8 @@
 									moveSelectedThumb(container);
 					});
 				}
+
+
 		}
 
 
@@ -420,7 +526,7 @@
 									var x = $this.find('.bullet.selected').index() * minwidth;
 									var thumbconwidth=$this.width();
 									var minwidth=$this.find('.bullet:first').outerWidth(true);
-									var max=minwidth*container.find('ul:first li').length;
+									var max=minwidth*container.find('>ul:first >li').length;
 									var diff=(max- thumbconwidth);
 									var steps = diff / thumbconwidth;
 
@@ -457,8 +563,8 @@
 
 			var bullets = container.parent().find('.tp-bullets');
 
-			container.find('ul:first li').each(function(i) {
-							var src=container.find("ul:first li:eq("+i+") img:first").attr('src');
+			container.find('>ul:first >li').each(function(i) {
+							var src=container.find(">ul:first >li:eq("+i+") img:first").attr('src');
 							bullets.append('<div class="bullet"></div>');
 							var bullet= bullets.find('.bullet:first');
 				});
@@ -519,6 +625,8 @@
 				},100);
 			});
 
+
+
 		}
 
 		//////////////////////
@@ -528,31 +636,41 @@
 
 						var bullets = container.find('.tp-bullets');
 
-						if (opt.navigationArrow!="none") container.parent().append('<div class="tp-leftarrow tparrows '+opt.navigationStyle+'"></div>');
-						if (opt.navigationArrow!="none") container.parent().append('<div class="tp-rightarrow tparrows '+opt.navigationStyle+'"></div>');
+						var hidden="";
+						if (opt.navigationArrow=="none") hidden="visibility:none";
 
-
+						container.parent().append('<div style="'+hidden+'" class="tp-leftarrow tparrows '+opt.navigationStyle+'"></div>');
+						container.parent().append('<div style="'+hidden+'" class="tp-rightarrow tparrows '+opt.navigationStyle+'"></div>');
 
 
 						// 	THE LEFT / RIGHT BUTTON CLICK !	 //
 						container.parent().find('.tp-rightarrow').click(function() {
 
 							if (opt.transition==0) {
-									opt.next = opt.next+1;
-									if (opt.next == opt.slideamount) opt.next=0;
-									callingNewSlide(opt,container);
+									if (container.data('showus') !=undefined && container.data('showus') != -1)
+										opt.next = container.data('showus')-1;
+									else
+										opt.next = opt.next+1;
+									container.data('showus',-1);
+									if (opt.next >= opt.slideamount) opt.next=0;
+									if (opt.next<0) opt.next=0;
+
+									if (opt.act !=opt.next)
+										callingNewSlide(opt,container);
 							}
 						});
 
 						container.parent().find('.tp-leftarrow').click(function() {
 							if (opt.transition==0) {
 									opt.next = opt.next-1;
+									opt.leftarrowpressed=1;
 									if (opt.next < 0) opt.next=opt.slideamount-1;
 									callingNewSlide(opt,container);
 							}
 						});
 
 						setBulPos(container,opt);
+
 		}
 
 		////////////////////////////
@@ -568,6 +686,7 @@
 
 													if (opt.transition==0) {
 															opt.next = opt.next-1;
+															opt.leftarrowpressed=1;
 															if (opt.next < 0) opt.next=opt.slideamount-1;
 															callingNewSlide(opt,container);
 													}
@@ -612,14 +731,18 @@
 			container.data('hidethumbs',opt.hideThumbs);
 
 
-
-			try{ bullets.css({'opacity':0}); } catch(e) {}
-			try { ca.css({'opacity':0}); } catch(e) {}
+			if (opt.ie) {
+				bullets.css({'visibility':'hidden'});
+				ca.css({'visibility':'hidden'});
+			} else {
+				try { bullets.css({'opacity':0}); } catch(e) {}
+				try { ca.css({'opacity':0}); } catch(e) {}
+			}
 
 			bullets.hover(function() {
 				bullets.addClass("hovered");
 				clearTimeout(container.data('hidethumbs'));
-				bullets.cssAnimate({'opacity':1},{duration:200,queue:false});
+				bullets.animate({'opacity':1},{duration:200,queue:false});
 				ca.animate({'opacity':1},{duration:200,queue:false});
 			},
 			function() {
@@ -627,8 +750,13 @@
 				bullets.removeClass("hovered");
 				if (!container.hasClass("hovered") && !bullets.hasClass("hovered"))
 					container.data('hidethumbs', setTimeout(function() {
-						bullets.cssAnimate({'opacity':0},{duration:200,queue:false});
-						ca.animate({'opacity':0},{duration:200,queue:false});
+						if (opt.ie) {
+							bullets.css({'visibility':'hidden'});
+							ca.css({'visibility':'hidden'});
+						} else {
+							bullets.animate({'opacity':0},{duration:200,queue:false});
+							ca.animate({'opacity':0},{duration:200,queue:false});
+						}
 					},opt.hideThumbs));
 			});
 
@@ -636,16 +764,26 @@
 			ca.hover(function() {
 				bullets.addClass("hovered");
 				clearTimeout(container.data('hidethumbs'));
-				bullets.cssAnimate({'opacity':1},{duration:200,queue:false});
-				ca.animate({'opacity':1},{duration:200,queue:false});
+				if (opt.ie) {
+							bullets.css({'visibility':'visible'});
+							ca.css({'visibility':'visible'});
+						} else {
+							bullets.animate({'opacity':1},{duration:200,queue:false});
+							ca.animate({'opacity':1},{duration:200,queue:false});
+						}
 			},
 			function() {
 
 				bullets.removeClass("hovered");
 				if (!container.hasClass("hovered") && !bullets.hasClass("hovered"))
 					container.data('hidethumbs', setTimeout(function() {
-						bullets.cssAnimate({'opacity':0},{duration:200,queue:false});
-						ca.animate({'opacity':0},{duration:200,queue:false});
+						if (opt.ie) {
+							bullets.css({'visibility':'hidden'});
+							ca.css({'visibility':'hidden'});
+						} else {
+							bullets.animate({'opacity':0},{duration:200,queue:false});
+							ca.animate({'opacity':0},{duration:200,queue:false});
+						}
 					},opt.hideThumbs));
 			});
 
@@ -654,16 +792,26 @@
 			container.live('mouseenter', function() {
 				container.addClass("hovered");
 				clearTimeout(container.data('hidethumbs'));
-				bullets.cssAnimate({'opacity':1},{duration:200,queue:false});
-				ca.animate({'opacity':1},{duration:200,queue:false});
+				if (opt.ie) {
+							bullets.css({'visibility':'visible'});
+							ca.css({'visibility':'visible'});
+						} else {
+							bullets.animate({'opacity':1},{duration:200,queue:false});
+							ca.animate({'opacity':1},{duration:200,queue:false});
+						}
 			});
 
 			container.live('mouseleave', function() {
 				container.removeClass("hovered");
 				if (!container.hasClass("hovered") && !bullets.hasClass("hovered"))
 					container.data('hidethumbs', setTimeout(function() {
-								bullets.cssAnimate({'opacity':0},{duration:200,queue:false});
-								ca.animate({'opacity':0},{duration:200,queue:false});
+								if (opt.ie) {
+							bullets.css({'visibility':'hidden'});
+							ca.css({'visibility':'hidden'});
+						} else {
+							bullets.animate({'opacity':0},{duration:200,queue:false});
+							ca.animate({'opacity':0},{duration:200,queue:false});
+						}
 					},opt.hideThumbs));
 			});
 
@@ -706,7 +854,11 @@
 
 							var bullets = cap.find('.tp-bullets.simplebullets');
 							bullets.css({'visibility':'visible'});
-							try{ cap.find('.tp-thumbs').css({'visibility':'hidden'});} catch(e) {}
+
+							try{
+									cap.find('.tp-thumbs').css({'visibility':'hidden'});
+									if (opt.ie) cap.find('.tp-thumbs').remove();
+								} catch(e) {}
 
 							var fulllong=bullets.width();
 							if (!bullets.hasClass("tp-thumbs")) {
@@ -912,19 +1064,22 @@
 
 			container.find('.caption').each(function() { $(this).addClass($(this).data('transition')); $(this).addClass('start') });
 
-			container.find('ul:first >li').each(function(j) {
+			container.find('>ul:first >li').each(function(j) {
 				var li=$(this);
 				if (li.data('link')!=undefined) {
 					var link = li.data('link');
-					li.append('<div class="caption sft slidelink" data-x="0" data-y="0" data-start="0"><a href="'+link+'"><div></div></a></div>');
+					var target="_self";
+					if (li.data('target')!=undefined) target=li.data('target');
+					li.append('<div class="caption sft slidelink" data-x="0" data-y="0" data-start="0"><a target="'+target+'" href="'+link+'"><div></div></a></div>');
 
 				}
 			});
 
-			container.find('ul:first li >img').each(function(j) {
+			container.find('>ul:first >li >img').each(function(j) {
 
 				var img=$(this);
 				img.addClass('defaultimg');
+				setSize(img,opt);
 				setSize(img,opt);
 				img.wrap('<div class="slotholder"></div>');
 				img.css({'opacity':0});
@@ -1064,13 +1219,17 @@
 		///////////////////////
 		//	REMOVE SLOTS	//
 		/////////////////////
-		function removeSlots(container) {
+		function removeSlots(container,opt,time) {
+			if (time==undefined)
+				time==80
 
-			container.find('.slotholder .slot').each(function() {
-				clearTimeout($(this).data('tout'));
-				$(this).remove();
-			});
-
+			setTimeout(function() {
+				container.find('.slotholder .slot').each(function() {
+					clearTimeout($(this).data('tout'));
+					$(this).remove();
+				});
+				opt.transition = 0;
+			},time);
 		}
 
 
@@ -1080,8 +1239,8 @@
 		function setCaptionPositions(container,opt) {
 
 			// FIND THE RIGHT CAPTIONS
-			var actli = container.find('li:eq('+opt.act+')');
-			var nextli = container.find('li:eq('+opt.next+')');
+			var actli = container.find('>li:eq('+opt.act+')');
+			var nextli = container.find('>li:eq('+opt.next+')');
 
 			// SET THE NEXT CAPTION AND REMOVE THE LAST CAPTION
 			var nextcaption=nextli.find('.caption');
@@ -1110,13 +1269,13 @@
 			opt.videoplaying = false;
 
 			try{
-				var actli = container.find('li:eq('+opt.act+')');
+				var actli = container.find('>ul:first-child >li:eq('+opt.act+')');
 			} catch(e) {
-				var actli=container.find('li:eq(1)');
+				var actli=container.find('>ul:first-child >li:eq(1)');
 			}
 
 
-			var nextli = container.find('li:eq('+opt.next+')');
+			var nextli = container.find('>ul:first-child >li:eq('+opt.next+')');
 
 			var actsh = actli.find('.slotholder');
 			var nextsh = nextli.find('.slotholder');
@@ -1151,62 +1310,88 @@
 
 
 			if (nextli.data('transition')=="boxslide") nexttrans = 0
-			  else
+			else
 				if (nextli.data('transition')=="boxfade") nexttrans = 1
-				  else
-					if (nextli.data('transition')=="slotslide-horizontal") nexttrans = 2
-					  else
-						if (nextli.data('transition')=="slotslide-vertical") nexttrans = 3
-						  else
-						    if (nextli.data('transition')=="curtain-1") nexttrans = 4
-							  else
-								if (nextli.data('transition')=="curtain-2") nexttrans = 5
-								 else
-								   if (nextli.data('transition')=="curtain-3") nexttrans = 6
-									 else
-									   if (nextli.data('transition')=="slotzoom-horizontal") nexttrans = 7
-									     else
-											if (nextli.data('transition')=="slotzoom-vertical")  nexttrans = 8
-											  else
-												 if (nextli.data('transition')=="slotfade-horizontal")  nexttrans = 9
-												    else
-													   if (nextli.data('transition')=="slotfade-vertical") nexttrans = 10
-													      else
-															if (nextli.data('transition')=="fade") nexttrans = 11
-															 else
-																if (nextli.data('transition')=="slideleft")  nexttrans = 12
-																	else
-																		if (nextli.data('transition')=="slideup") nexttrans = 13
-																			else
-																				if (nextli.data('transition')=="slidedown") nexttrans = 14
-																					else
-																						if (nextli.data('transition')=="slideright") nexttrans = 15;
-																							else {
-																								nexttrans=Math.round(Math.random()*16);
-																								nextli.data('slotamount',Math.round(Math.random()*12+4));
-																							}
+			else
+				if (nextli.data('transition')=="slotslide-horizontal") nexttrans = 2
+			else
+				if (nextli.data('transition')=="slotslide-vertical") nexttrans = 3
+			else
+				if (nextli.data('transition')=="curtain-1") nexttrans = 4
+			else
+				if (nextli.data('transition')=="curtain-2") nexttrans = 5
+			else
+				if (nextli.data('transition')=="curtain-3") nexttrans = 6
+			else
+				if (nextli.data('transition')=="slotzoom-horizontal") nexttrans = 7
+			else
+				if (nextli.data('transition')=="slotzoom-vertical")  nexttrans = 8
+			else
+				if (nextli.data('transition')=="slotfade-horizontal")  nexttrans = 9
+			else
+				if (nextli.data('transition')=="slotfade-vertical") nexttrans = 10
+			else
+				if (nextli.data('transition')=="fade") nexttrans = 11
+			else
+				if (nextli.data('transition')=="slideleft")  nexttrans = 12
+			else
+				if (nextli.data('transition')=="slideup") nexttrans = 13
+			else
+				if (nextli.data('transition')=="slidedown") nexttrans = 14
+			else
+				if (nextli.data('transition')=="slideright") nexttrans = 15;
+			else
+				if (nextli.data('transition')=="papercut") nexttrans = 16;
+			else
+				if (nextli.data('transition')=="3dcurtain-horizontal") nexttrans = 17;
+			else
+				if (nextli.data('transition')=="3dcurtain-vertical") nexttrans = 18;
+			else
+				if (nextli.data('transition')=="cubic") nexttrans = 19;
+			else
+				if (nextli.data('transition')=="flyin") nexttrans = 20;
+			else
+				if (nextli.data('transition')=="turnoff") nexttrans = 21;
+			else {
+				nexttrans=Math.round(Math.random()*20);
+				nextli.data('slotamount',Math.round(Math.random()*12+4));
+			}
+
+
+		    var direction=-1;
+			if (opt.leftarrowpressed==1 || opt.act>opt.next) direction=1;
 
 			if (nextli.data('transition')=="slidehorizontal") {
-					if (opt.act<opt.next)
 						nexttrans = 12
-					else
+					if (opt.leftarrowpressed==1)
 						nexttrans = 15
 				}
 
 			if (nextli.data('transition')=="slidevertical") {
-					if (opt.act<opt.next)
 						nexttrans = 13
-					else
+					if (opt.leftarrowpressed==1)
 						nexttrans = 14
 				}
 
+			opt.leftarrowpressed=0;
 
-			if (nexttrans>16) nexttrans = 15;
+
+
+			if (nexttrans>21) nexttrans = 21;
 			if (nexttrans<0) nexttrans = 0;
+
+			if (!$.support.transition && nexttrans >16) {
+					nexttrans=Math.round(Math.random()*16);
+					nextli.data('slotamount',Math.round(Math.random()*12+4));
+			};
+			if (opt.ie && (nexttrans==17 || nexttrans==16 || nexttrans==2 || nexttrans==3 || nexttrans==9 || nexttrans==10 || nexttrans==11)) nexttrans=Math.round(Math.random()*3+12);
+
+
+			//$('body').find('.debug').html("Transition:"+nextli.data('transition')+"  id:"+nexttrans);
 
 			// DEFINE THE MASTERSPEED FOR THE SLIDE //
 			var masterspeed=300;
-			if (nextli.data('masterspeed')!=undefined && nextli.data('masterspeed')>99 && nextli.data('masterspeed')<2001)
+			if (nextli.data('masterspeed')!=undefined && nextli.data('masterspeed')>99 && nextli.data('masterspeed')<4001)
 				masterspeed = nextli.data('masterspeed');
 
 
@@ -1227,7 +1412,7 @@
 			// 		SET THE NEXT CAPTION AND REMOVE THE LAST CAPTION		//
 			//////////////////////////////////////////////////////////////////
 
-					container.find('li').each(function() {
+					container.find('>li').each(function() {
 						var li = $(this);
 						if (li.index!=opt.act && li.index!=opt.next) li.css({'z-index':16});
 					});
@@ -1256,7 +1441,22 @@
 								opt.slots=Math.round(Math.random()*6+3);
 						 } else {
 							opt.slots=nextli.data('slotamount');
+
 						}
+
+			/////////////////////////////////////////////
+			//	SET THE ACTUAL AMOUNT OF SLIDES !!     //
+			//  SET A RANDOM AMOUNT OF SLOTS          //
+			///////////////////////////////////////////
+						if (nextli.data('rotate')==undefined)
+							opt.rotate = 0
+						 else
+							if (nextli.data('rotate')==999)
+								opt.rotate=Math.round(Math.random()*360);
+							 else
+							    opt.rotate=nextli.data('rotate');
+						if (!$.support.transition  || opt.ie || opt.ie9) opt.rotate=0;
+
 
 
 
@@ -1264,14 +1464,10 @@
 			/////////////////////////////////////
 			// THE SLOTSLIDE - TRANSITION I.  //
 			////////////////////////////////////
-			if (nexttrans==0) {
-
-
+			if (nexttrans==0) {								// BOXSLIDE
 
 						masterspeed = masterspeed + 100;
-
-
-						if (opt.slots>15) opt.slots=15;
+						if (opt.slots>10) opt.slots=10;
 
 						nextli.css({'opacity':1});
 
@@ -1286,41 +1482,26 @@
 
 						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
 
+
 						nextsh.find('.slotslide').each(function(j) {
 							var ss=$(this);
-							ss.css({'top':(0-opt.sloth)+"px",'left':(0-opt.slotw)+"px"});
-
-
+							if (opt.ie9)
+								ss.transition({top:(0-opt.sloth),left:(0-opt.slotw)},0);
+							else
+								ss.transition({top:(0-opt.sloth),left:(0-opt.slotw), rotate:opt.rotate},0);
 							setTimeout(function() {
+											ss.transition({top:0, left:0, scale:1, rotate:0},masterspeed*1.5,function() {
 
-									if (opt.firefox13)
-											ss.animate({'top':"0px",'left':'0px'},{duration:(masterspeed),queue:false,complete:function() {
 																	if (j==(opt.slots*opt.slots)-1) {
-																		removeSlots(container);
+																		removeSlots(container,opt);
 																		nextsh.find('.defaultimg').css({'opacity':1});
-																		actsh.find('.defaultimg').css({'opacity':0});
+
+																		if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 																		opt.act=opt.next;
-																		opt.transition = 0;
-																		moveSelectedThumb(container);
+																	moveSelectedThumb(container);
+
 																	}
-
-											}});
-
-									else
-
-											ss.cssAnimate({'top':"0px",'left':'0px'},{duration:(masterspeed),queue:false,complete:function() {
-																	if (j==(opt.slots*opt.slots)-1) {
-																		removeSlots(container);
-																		nextsh.find('.defaultimg').css({'opacity':1});
-																		actsh.find('.defaultimg').css({'opacity':0});
-																		if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
-
-																		opt.act=opt.next;
-																		opt.transition = 0;
-																		moveSelectedThumb(container);
-																	}
-
-											}});
+															});
 							},j*15);
 						});
 			}
@@ -1333,7 +1514,7 @@
 			if (nexttrans==1) {
 
 
-						if (opt.slots>15) opt.slots=15;
+						if (opt.slots>5) opt.slots=5;
 						nextli.css({'opacity':1});
 
 						// PREPARE THE SLOTS HERE
@@ -1351,39 +1532,27 @@
 							var ss=$(this);
 							ss.css({'opacity':0});
 							ss.find('img').css({'opacity':0});
-							ss.find('img').css({'top':(Math.random()*opt.slotw-opt.slotw)+"px",'left':(Math.random()*opt.slotw-opt.slotw)+"px"});
-
+							if (opt.ie9)
+								ss.find('img').transition({'top':(Math.random()*opt.slotw-opt.slotw)+"px",'left':(Math.random()*opt.slotw-opt.slotw)+"px"},0);
+							else
+								ss.find('img').transition({'top':(Math.random()*opt.slotw-opt.slotw)+"px",'left':(Math.random()*opt.slotw-opt.slotw)+"px", rotate:opt.rotate},0);
 
 							var rand=Math.random()*1000+(masterspeed + 200);
 							if (j==(opt.slots*opt.slots)-1) rand=1500;
-							if (opt.firefox13) {
-									ss.find('img').animate({'opacity':1,'top':(0-ss.data('y'))+"px",'left':(0-ss.data('x'))+'px'},{duration:rand,queue:false});
-									ss.animate({'opacity':1},{duration:rand,queue:false,complete:function() {
+
+									ss.find('img').transition({'opacity':1,'top':(0-ss.data('y'))+"px",'left':(0-ss.data('x'))+'px', rotate:0},rand);
+									ss.transition({'opacity':1},rand,function() {
 															if (j==(opt.slots*opt.slots)-1) {
-																removeSlots(container);
+																removeSlots(container,opt);
 																nextsh.find('.defaultimg').css({'opacity':1});
-																actsh.find('.defaultimg').css({'opacity':0});
+																if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 																opt.act=opt.next;
-																opt.transition = 0;
-																		moveSelectedThumb(container);
+
+																moveSelectedThumb(container);
 															}
 
-									}});
-							} else {
-									ss.find('img').animate({'opacity':1,'top':(0-ss.data('y'))+"px",'left':(0-ss.data('x'))+'px'},{duration:rand,queue:false});
-									ss.cssAnimate({'opacity':1},{duration:rand,queue:false,complete:function() {
-															if (j==(opt.slots*opt.slots)-1) {
-																removeSlots(container);
-																nextsh.find('.defaultimg').css({'opacity':1});
-																actsh.find('.defaultimg').css({'opacity':0});
-																if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
-																opt.act=opt.next;
-																opt.transition = 0;
-																		moveSelectedThumb(container);
-															}
+									});
 
-									}});
-							}
 
 						});
 			}
@@ -1407,61 +1576,43 @@
 						nextsh.find('.defaultimg').css({'opacity':0});
 						//actsh.find('.defaultimg').css({'opacity':0});
 
+
 						// ALL OLD SLOTS SHOULD BE SLIDED TO THE RIGHT
 						actsh.find('.slotslide').each(function() {
 							var ss=$(this);
-							if (opt.firefox13) {
 
-									ss.animate({'left':opt.slotw+'px'},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
+
+									//ss.animate({'left':opt.slotw+'px'},{duration:masterspeed,queue:false,complete:function() {
+									ss.transit({'left':opt.slotw+'px',rotate:(0-opt.rotate)},masterspeed,function() {
+															removeSlots(container,opt);
 															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
+															if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 															opt.act=opt.next;
-															opt.transition = 0;
-																		moveSelectedThumb(container);
+															moveSelectedThumb(container);
 
-									}});
-								} else {
+									});
 
-									ss.cssAnimate({'left':opt.slotw+'px'},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
-															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
-															opt.act=opt.next;
-															opt.transition = 0;
-																		moveSelectedThumb(container);
-
-									}});
-								}
 						});
 
 						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
 						nextsh.find('.slotslide').each(function() {
 							var ss=$(this);
-							ss.css({'left':(0-opt.slotw)+"px"});
-							if (opt.firefox13) {
+							if (opt.ie9)
+								ss.transit({'left':(0-opt.slotw)+"px"},0);
+							else
+								ss.transit({'left':(0-opt.slotw)+"px",rotate:opt.rotate},0);
 
-									ss.animate({'left':'0px'},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
+									ss.transit({'left':'0px',rotate:0},masterspeed,function() {
+															removeSlots(container,opt);
 															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
+															if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 															if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
 															opt.act=opt.next;
-															opt.transition = 0;
+
 																		moveSelectedThumb(container);
 
-									}});
-							} else {
-									ss.cssAnimate({'left':'0px'},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
-															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
-															opt.act=opt.next;
-															opt.transition = 0;
-																		moveSelectedThumb(container);
+									});
 
-									}});
-							}
 						});
 			}
 
@@ -1487,56 +1638,34 @@
 						// ALL OLD SLOTS SHOULD BE SLIDED TO THE RIGHT
 						actsh.find('.slotslide').each(function() {
 							var ss=$(this);
-							if (opt.firefox13) {
-									ss.animate({'top':opt.sloth+'px'},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
-															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
-															opt.act=opt.next;
-															opt.transition = 0;
-																		moveSelectedThumb(container);
 
-									}});
-							} else {
-									ss.cssAnimate({'top':opt.sloth+'px'},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
+									ss.transit({'top':opt.sloth+'px',rotate:opt.rotate},masterspeed,function() {
+															removeSlots(container,opt);
 															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
-															if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
+															if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 															opt.act=opt.next;
-															opt.transition = 0;
-																		moveSelectedThumb(container);
+															moveSelectedThumb(container);
 
-									}});
-							}
+									});
+
 						});
 
 						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
 						nextsh.find('.slotslide').each(function() {
 							var ss=$(this);
-							ss.css({'top':(0-opt.sloth)+"px"});
-							if (opt.firefox13) {
-								ss.animate({'top':'0px'},{duration:masterspeed,queue:false,complete:function() {
-													removeSlots(container);
+								if (opt.ie9)
+									ss.transit({'top':(0-opt.sloth)+"px"},0);
+								else
+									ss.transit({'top':(0-opt.sloth)+"px",rotate:opt.rotate},0);
+								ss.transit({'top':'0px',rotate:0},masterspeed,function() {
+													removeSlots(container,opt);
 													nextsh.find('.defaultimg').css({'opacity':1});
-													actsh.find('.defaultimg').css({'opacity':0});
+													if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 													opt.act=opt.next;
-													opt.transition = 0;
-																moveSelectedThumb(container);
+													moveSelectedThumb(container);
 
-								}});
-							} else {
-								ss.cssAnimate({'top':'0px'},{duration:masterspeed,queue:false,complete:function() {
-													removeSlots(container);
-													nextsh.find('.defaultimg').css({'opacity':1});
-													actsh.find('.defaultimg').css({'opacity':0});
-													if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
-													opt.act=opt.next;
-													opt.transition = 0;
-																moveSelectedThumb(container);
+								});
 
-								}});
-							}
 						});
 			}
 
@@ -1564,42 +1693,28 @@
 						actsh.find('.slotslide').each(function(i) {
 							var ss=$(this);
 
-							ss.cssAnimate({'top':(0+(opt.height))+"px",'opacity':1},{duration:masterspeed+(i*(70-opt.slots)),queue:false,complete:function() {
-
-
-							}});
+							ss.transit({'top':(0+(opt.height))+"px",'opacity':1,rotate:opt.rotate},masterspeed+(i*(70-opt.slots)));
 						});
 
 						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
 						nextsh.find('.slotslide').each(function(i) {
 							var ss=$(this);
-							ss.css({'top':(0-(opt.height))+"px",'opacity':0});
-							if (opt.firefox13) {
-									ss.animate({'top':'0px','opacity':1},{duration:masterspeed+(i*(70-opt.slots)),queue:false,complete:function() {
+								if (opt.ie9)
+										ss.transition({'top':(0-(opt.height))+"px",'opacity':0},0);
+									else
+										ss.transition({'top':(0-(opt.height))+"px",'opacity':0,rotate:opt.rotate},0);
+
+									ss.transition({'top':'0px','opacity':1,rotate:0},masterspeed+(i*(70-opt.slots)),function() {
 															if (i==opt.slots-1) {
-																removeSlots(container);
+																removeSlots(container,opt);
 																nextsh.find('.defaultimg').css({'opacity':1});
-																actsh.find('.defaultimg').css({'opacity':0});
+																if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 																opt.act=opt.next;
-																opt.transition = 0;
-																		moveSelectedThumb(container);
+																moveSelectedThumb(container);
 															}
 
-									}});
-							} else {
-									ss.cssAnimate({'top':'0px','opacity':1},{duration:masterspeed+(i*(70-opt.slots)),queue:false,complete:function() {
-															if (i==opt.slots-1) {
-																removeSlots(container);
-																nextsh.find('.defaultimg').css({'opacity':1});
-																actsh.find('.defaultimg').css({'opacity':0});
-																if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
-																opt.act=opt.next;
-																opt.transition = 0;
-																		moveSelectedThumb(container);
-															}
+									});
 
-									}});
-							}
 						});
 			}
 
@@ -1624,45 +1739,30 @@
 						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
 						actsh.find('.slotslide').each(function(i) {
 							var ss=$(this);
-							if (opt.firefox13) {
-									ss.animate({'top':(0+(opt.height))+"px",'opacity':1},{duration:masterspeed+((opt.slots-i)*(70-opt.slots)),queue:false,complete:function() {
-									}});
-							} else {
-									ss.cssAnimate({'top':(0+(opt.height))+"px",'opacity':1},{duration:masterspeed+((opt.slots-i)*(70-opt.slots)),queue:false,complete:function() {
-									}});
-							}
+
+									ss.transition({'top':(0+(opt.height))+"px",'opacity':1,rotate:opt.rotate},masterspeed+((opt.slots-i)*(70-opt.slots)));
+
 						});
 
 						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
 						nextsh.find('.slotslide').each(function(i) {
 							var ss=$(this);
-							ss.css({'top':(0-(opt.height))+"px",'opacity':0});
-							if (opt.firefox13) {
-									ss.animate({'top':'0px','opacity':1},{duration:masterspeed+((opt.slots-i)*(70-opt.slots)),queue:false,complete:function() {
+									if (opt.ie9)
+										ss.transition({'top':(0-(opt.height))+"px",'opacity':0},0);
+									else
+										ss.transition({'top':(0-(opt.height))+"px",'opacity':0,rotate:opt.rotate},0);
+
+									ss.transition({'top':'0px','opacity':1,rotate:0},masterspeed+((opt.slots-i)*(70-opt.slots)),function() {
 															if (i==0) {
-																removeSlots(container);
+																removeSlots(container,opt);
 																nextsh.find('.defaultimg').css({'opacity':1});
-																actsh.find('.defaultimg').css({'opacity':0});
+																if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 																opt.act=opt.next;
-																opt.transition = 0;
-																																moveSelectedThumb(container);
+																moveSelectedThumb(container);
 															}
 
-									}});
-							} else {
-										ss.cssAnimate({'top':'0px','opacity':1},{duration:masterspeed+((opt.slots-i)*(70-opt.slots)),queue:false,complete:function() {
-															if (i==0) {
-																removeSlots(container);
-																nextsh.find('.defaultimg').css({'opacity':1});
-																actsh.find('.defaultimg').css({'opacity':0});
-																if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
-																opt.act=opt.next;
-																opt.transition = 0;
-																																moveSelectedThumb(container);
-															}
+									});
 
-									}});
-							}
 						});
 			}
 
@@ -1693,48 +1793,35 @@
 							else
 								var tempo = (2+opt.slots-i)*60;
 
-							if (opt.firefox13) {
-									ss.animate({'top':(0+(opt.height))+"px",'opacity':1},{duration:masterspeed+tempo,queue:false,complete:function() {}});
-							} else {
-									ss.cssAnimate({'top':(0+(opt.height))+"px",'opacity':1},{duration:masterspeed+tempo,queue:false,complete:function() {}});
-							}
+
+									ss.transition({'top':(0+(opt.height))+"px",'opacity':1},masterspeed+tempo);
+
 						});
 
 						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
 						nextsh.find('.slotslide').each(function(i) {
 							var ss=$(this);
-							ss.css({'top':(0-(opt.height))+"px",'opacity':0});
+							if (opt.ie9)
+								ss.transition({'top':(0-(opt.height))+"px",'opacity':0},0);
+							else
+								ss.transition({'top':(0-(opt.height))+"px",'opacity':0,rotate:opt.rotate},0);
 							if (i<opt.slots/2)
 								var tempo = (i+2)*60;
 							else
 								var tempo = (2+opt.slots-i)*60;
 
-							if (opt.firefox13) {
-									ss.animate({'top':'0px','opacity':1},{duration:masterspeed+tempo,queue:false,complete:function() {
+
+									ss.transition({'top':'0px','opacity':1,rotate:0},masterspeed+tempo,function() {
 															if (i==Math.round(opt.slots/2)) {
-																removeSlots(container);
+																removeSlots(container,opt);
 																nextsh.find('.defaultimg').css({'opacity':1});
-																actsh.find('.defaultimg').css({'opacity':0});
+																if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 																opt.act=opt.next;
-																opt.transition = 0;
-																																moveSelectedThumb(container);
+																moveSelectedThumb(container);
 															}
 
-									}});
-							} else {
-									ss.cssAnimate({'top':'0px','opacity':1},{duration:masterspeed+tempo,queue:false,complete:function() {
-															if (i==Math.round(opt.slots/2)) {
-																removeSlots(container);
-																nextsh.find('.defaultimg').css({'opacity':1});
-																actsh.find('.defaultimg').css({'opacity':0});
-																if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
-																opt.act=opt.next;
-																opt.transition = 0;
-																																moveSelectedThumb(container);
-															}
+									});
 
-									}});
-							}
 						});
 			}
 
@@ -1758,80 +1845,48 @@
 						// ALL OLD SLOTS SHOULD BE SLIDED TO THE RIGHT
 						actsh.find('.slotslide').each(function() {
 							var ss=$(this).find('img');
-							if (opt.firefox13) {
-									ss.animate({'left':(0-opt.slotw/2)+'px',
-												   'top':(0-opt.height/2)+'px',
-												   'width':(opt.slotw*2)+"px",
-												   'height':(opt.height*2)+"px",
-												   opacity:0
-													},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
-															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
-															opt.transition = 0;
-															opt.act = opt.next;
-																															moveSelectedThumb(container);
-													}});
-							}	else	{
 
-										ss.cssAnimate({'left':(0-opt.slotw/2)+'px',
+									ss.transition({'left':(0-opt.slotw/2)+'px',
 												   'top':(0-opt.height/2)+'px',
 												   'width':(opt.slotw*2)+"px",
 												   'height':(opt.height*2)+"px",
-												   opacity:0
-													},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
+												   opacity:0,
+												   rotate:opt.rotate
+													},masterspeed,function() {
+															removeSlots(container,opt);
 															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
-															if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
-															opt.transition = 0;
+															if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 															opt.act = opt.next;
-																															moveSelectedThumb(container);
-													}});
-							}
+															moveSelectedThumb(container);
+													});
+
 						});
 
-
+/						//////////////////////////////////////////////////////////////
 						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT //
 						///////////////////////////////////////////////////////////////
 						nextsh.find('.slotslide').each(function(i) {
 							var ss=$(this).find('img');
-							ss.css({'left':(0)+'px',
-									'top':(0)+'px',
-									//'width':(opt.width*2)+"px",
-									//'height':(opt.height*2)+"px",
-									opacity:0});
-							if (opt.firefox13) {
-									ss.animate({'left':(0-i*opt.slotw)+'px',
+
+									if (opt.ie9)
+										ss.transition({'left':(0)+'px','top':(0)+'px',opacity:0},0);
+									else
+										ss.transition({'left':(0)+'px','top':(0)+'px',opacity:0,rotate:opt.rotate},0);
+									ss.transition({'left':(0-i*opt.slotw)+'px',
 												   'top':(0)+'px',
 												   'width':(nextsh.find('.defaultimg').data('neww'))+"px",
 												   'height':(nextsh.find('.defaultimg').data('newh'))+"px",
-												   opacity:1
-													},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
-															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
-															opt.transition = 0;
-															opt.act = opt.next;
-																															moveSelectedThumb(container);
-													}});
+												   opacity:1,rotate:0
 
-							} else {
-								 ss.cssAnimate({'left':(0-i*opt.slotw)+'px',
-												   'top':(0)+'px',
-												   'width':(nextsh.find('.defaultimg').data('neww'))+"px",
-												   'height':(nextsh.find('.defaultimg').data('newh'))+"px",
-												   opacity:1
-													},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
+													},masterspeed,function() {
+															removeSlots(container,opt);
 															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
-															opt.transition = 0;
+															if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 															opt.act = opt.next;
-																															moveSelectedThumb(container);
-													}});
+															moveSelectedThumb(container);
+													});
 
-							}
+
 						});
 			}
 
@@ -1857,37 +1912,21 @@
 						// ALL OLD SLOTS SHOULD BE SLIDED TO THE RIGHT
 						actsh.find('.slotslide').each(function() {
 							var ss=$(this).find('img');
-							if (opt.firefox13) {
-									ss.animate({'left':(0-opt.width/2)+'px',
-												   'top':(0-opt.sloth/2)+'px',
-												   'width':(opt.width*2)+"px",
-												   'height':(opt.sloth*2)+"px",
-												   opacity:0
-													},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
-															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
-															opt.transition = 0;
-															opt.act = opt.next;
-															moveSelectedThumb(container);
-													}});
-							} else {
 
-											ss.cssAnimate({'left':(0-opt.width/2)+'px',
+									ss.transition({'left':(0-opt.width/2)+'px',
 												   'top':(0-opt.sloth/2)+'px',
 												   'width':(opt.width*2)+"px",
 												   'height':(opt.sloth*2)+"px",
-												   opacity:0
-													},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
+												   opacity:0,rotate:opt.rotate
+													},masterspeed,function() {
+															removeSlots(container,opt);
 															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
-															if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
-															opt.transition = 0;
+															if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
+
 															opt.act = opt.next;
 															moveSelectedThumb(container);
-													}});
-							}
+													});
+
 						});
 
 
@@ -1895,42 +1934,24 @@
 						///////////////////////////////////////////////////////////////
 						nextsh.find('.slotslide').each(function(i) {
 							var ss=$(this).find('img');
-							ss.css({'left':(0)+'px',
-									'top':(0)+'px',
-									//'width':(opt.width*2)+"px",
-									//'height':(opt.height*2)+"px",
-									opacity:0});
-							if (opt.firefox13) {
-									ss.animate({'left':(0)+'px',
+									if (opt.ie9)
+										ss.transition({'left':(0)+'px','top':(0)+'px',opacity:0},0);
+									else
+										ss.transition({'left':(0)+'px','top':(0)+'px',opacity:0,rotate:opt.rotate},0);
+									ss.transition({'left':(0)+'px',
 												   'top':(0-i*opt.sloth)+'px',
 												   'width':(nextsh.find('.defaultimg').data('neww'))+"px",
 												   'height':(nextsh.find('.defaultimg').data('newh'))+"px",
-												   opacity:1
-													},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
+												   opacity:1,rotate:0
+													},masterspeed,function() {
+															removeSlots(container,opt);
 															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
-															opt.transition = 0;
-															opt.act = opt.next;
-															moveSelectedThumb(container);
-													}});
-							} else {
-									ss.cssAnimate({'left':(0)+'px',
-												   'top':(0-i*opt.sloth)+'px',
-												   'width':(nextsh.find('.defaultimg').data('neww'))+"px",
-												   'height':(nextsh.find('.defaultimg').data('newh'))+"px",
-												   opacity:1
-													},{duration:masterspeed,queue:false,complete:function() {
-															removeSlots(container);
-															nextsh.find('.defaultimg').css({'opacity':1});
-															actsh.find('.defaultimg').css({'opacity':0});
-															if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
-															opt.transition = 0;
-															opt.act = opt.next;
-															moveSelectedThumb(container);
-													}});
+															if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 
-							}
+															opt.act = opt.next;
+															moveSelectedThumb(container);
+													});
+
 						});
 			}
 
@@ -1957,21 +1978,23 @@
 						nextsh.find('.slotslide').each(function(i) {
 							var ss=$(this);
 							ssamount++;
-							ss.css({'opacity':0});
+							ss.transition({'opacity':0,x:0,y:0},0);
 							ss.data('tout',setTimeout(function() {
-											ss.cssAnimate({'opacity':1},{duration:masterspeed,queue:false});
+											ss.transition({x:0,y:0,'opacity':1},masterspeed);
 
 											},i*4)
 									);
 
 						});
 
+						//nextsh.find('.defaultimg').transition({'opacity':1},(masterspeed+(ssamount*4)));
+
 						setTimeout(function() {
-									removeSlots(container);
+									removeSlots(container,opt);
 									nextsh.find('.defaultimg').css({'opacity':1});
-									actsh.find('.defaultimg').css({'opacity':0});
+									if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 									if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
-									opt.transition = 0;
+
 									opt.act = opt.next;
 									moveSelectedThumb(container);
 							},(masterspeed+(ssamount*4)));
@@ -2002,21 +2025,23 @@
 						nextsh.find('.slotslide').each(function(i) {
 							var ss=$(this);
 							ssamount++;
-							ss.css({'opacity':0});
+							ss.transition({'opacity':0,x:0,y:0},0);
 							ss.data('tout',setTimeout(function() {
-											ss.animate({'opacity':1},{duration:masterspeed,queue:false});
+											ss.transition({x:0,y:0,'opacity':1},masterspeed);
 
 											},i*4)
 									);
 
 						});
 
+						//nextsh.find('.defaultimg').transition({'opacity':1},(masterspeed+(ssamount*4)));
+
 						setTimeout(function() {
-									removeSlots(container);
+									removeSlots(container,opt);
 									nextsh.find('.defaultimg').css({'opacity':1});
-									actsh.find('.defaultimg').css({'opacity':0});
+									if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 									if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
-									opt.transition = 0;
+
 									opt.act = opt.next;
 									moveSelectedThumb(container);
 							},(masterspeed+(ssamount*4)));
@@ -2043,19 +2068,24 @@
 
 						var ssamount=0;
 						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
+
 						nextsh.find('.slotslide').each(function(i) {
 							var ss=$(this);
 							ssamount++;
-							ss.css({'opacity':0});
-							ss.animate({'opacity':1},{duration:masterspeed,queue:false});
+							if (opt.ie9)
+								ss.transition({'opacity':0},0);
+							else
+								ss.transition({'opacity':0,rotate:opt.rotate},0);
+
+							ss.transition({'opacity':1,rotate:0},masterspeed);
 						});
 
 						setTimeout(function() {
-									removeSlots(container);
+									removeSlots(container,opt);
 									nextsh.find('.defaultimg').css({'opacity':1});
-									actsh.find('.defaultimg').css({'opacity':0});
+									if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 									if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
-									opt.transition = 0;
+
 									opt.act = opt.next;
 									moveSelectedThumb(container);
 							},masterspeed);
@@ -2090,71 +2120,378 @@
 						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
 						var ssn=nextsh.find('.slotslide')
 						if (nexttrans==12)
-							ssn.css({'left':oow+"px"});
+							if (opt.ie9)
+								ssn.transition({'left':oow+"px"},0);
+							else
+								ssn.transition({'left':oow+"px",rotate:opt.rotate},0);
 						else
 							if (nexttrans==15)
-								ssn.css({'left':(0-opt.width)+"px"});
+								if (opt.ie9)
+									ssn.transition({'left':(0-opt.width)+"px"},0);
+								else
+									ssn.transition({'left':(0-opt.width)+"px",rotate:opt.rotate},0);
 							else
 								if (nexttrans==13)
-									ssn.css({'top':(ooh)+"px"});
+									if (opt.ie9)
+										ssn.transition({'top':(ooh)+"px"},0);
+									else
+										ssn.transition({'top':(ooh)+"px",rotate:opt.rotate},0);
 								else
 									if (nexttrans==14)
-										ssn.css({'top':(0-opt.height)+"px"});
+										if (opt.ie9)
+											ssn.transition({'top':(0-opt.height)+"px"},0);
+										else
+											ssn.transition({'top':(0-opt.height)+"px",rotate:opt.rotate},0);
 
-						if (opt.firefox13) {
-										ssn.animate({'left':'0px','top':'0px',opacity:1},{duration:masterspeed,queue:false,complete:function() {
-														removeSlots(container);
+
+										ssn.transition({'left':'0px','top':'0px',opacity:1,rotate:0},masterspeed,function() {
+
+
+														removeSlots(container,opt,0);
+														if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
 														nextsh.find('.defaultimg').css({'opacity':1});
-														actsh.find('.defaultimg').css({'opacity':0});
-														opt.transition = 0;
 														opt.act = opt.next;
 														moveSelectedThumb(container);
-												}});
-						} else {
-										ssn.cssAnimate({'left':'0px','top':'0px',opacity:1},{duration:masterspeed,queue:false,complete:function() {
-														removeSlots(container);
-														nextsh.find('.defaultimg').css({'opacity':1});
-														actsh.find('.defaultimg').css({'opacity':0});
-														if ($.browser.msie && $.browser.version<9) actsh.find('.defaultimg').css({'opacity':1});
-														opt.transition = 0;
-														opt.act = opt.next;
-														moveSelectedThumb(container);
-												}});
-						}
+												});
+
 
 
 						var ssa=actsh.find('.slotslide');
-						if (opt.firefox13) {
-								if (nexttrans==12)
-									ssa.animate({'left':(0-oow)+'px',opacity:1},{duration:masterspeed,queue:false});
-								else
-									if (nexttrans==15)
-										ssa.animate({'left':(oow)+'px',opacity:1},{duration:masterspeed,queue:false});
-									else
-										if (nexttrans==13)
-											ssa.animate({'top':(0-ooh)+'px',opacity:1},{duration:masterspeed,queue:false});
-										else
-											if (nexttrans==14)
-												ssa.animate({'top':(ooh)+'px',opacity:1},{duration:masterspeed,queue:false});
-						} else {
-								if (nexttrans==12)
-									ssa.cssAnimate({'left':(0-oow)+'px',opacity:1},{duration:masterspeed,queue:false});
-								else
-									if (nexttrans==15)
-										ssa.cssAnimate({'left':(oow)+'px',opacity:1},{duration:masterspeed,queue:false});
-									else
-										if (nexttrans==13)
-											ssa.cssAnimate({'top':(0-ooh)+'px',opacity:1},{duration:masterspeed,queue:false});
-										else
-											if (nexttrans==14)
-												ssa.cssAnimate({'top':(ooh)+'px',opacity:1},{duration:masterspeed,queue:false});
-						}
 
+								if (nexttrans==12)
+									ssa.transition({'left':(0-oow)+'px',opacity:1,rotate:0},masterspeed);
+								else
+									if (nexttrans==15)
+										ssa.transition({'left':(oow)+'px',opacity:1,rotate:0},masterspeed);
+									else
+										if (nexttrans==13)
+											ssa.transition({'top':(0-ooh)+'px',opacity:1,rotate:0},masterspeed);
+										else
+											if (nexttrans==14)
+												ssa.transition({'top':(ooh)+'px',opacity:1,rotate:0},masterspeed);
 
 
 
 			}
 
+
+			//////////////////////////////////////
+			// THE SLOTSLIDE - TRANSITION XVI.  //
+			//////////////////////////////////////
+			if (nexttrans==16) {						// PAPERCUT
+
+					actli.css({'position':'absolute','z-index':20});
+					nextli.css({'position':'absolute','z-index':15});
+					// PREPARE THE CUTS
+					actli.wrapInner('<div class="tp-half-one"></div>');
+					actli.find('.tp-half-one').clone(true).appendTo(actli).addClass("tp-half-two");
+					actli.find('.tp-half-two').removeClass('tp-half-one');
+					actli.find('.tp-half-two').wrapInner('<div class="tp-offset"></div>');
+
+					// ANIMATE THE CUTS
+					actli.find('.tp-half-one').css({'width':opt.width+"px",'height':opt.height/2+"px",'overflow':'hidden','position':'absolute','top':'0px','left':'0px'});
+					actli.find('.tp-half-two').css({'width':opt.width+"px",'height':opt.height/2+"px",'overflow':'hidden','position':'absolute','top':opt.height/2+'px','left':'0px'});
+					actli.find('.tp-half-two .tp-offset').css({'position':'absolute','top':(0-opt.height/2)+'px','left':'0px'});
+
+					// Delegate .transition() calls to .animate()
+					// if the browser can't do CSS transitions.
+					if (!$.support.transition) {
+
+						actli.find('.tp-half-one').animate({'top':(0-opt.height/2)+"px"},{duration: 500,queue:false});
+						actli.find('.tp-half-two').animate({'top':(opt.height)+"px"},{duration: 500,queue:false});
+					} else {
+						var ro1=Math.round(Math.random()*40-20);
+						var ro2=Math.round(Math.random()*40-20);
+						var sc1=Math.random()*1+1;
+						var sc2=Math.random()*1+1;
+						actli.find('.tp-half-one').transition({opacity:1, scale:sc1, rotate:ro1,y:(0-opt.height/1.4)+"px"},800,'in');
+						actli.find('.tp-half-two').transition({opacity:1, scale:sc2, rotate:ro2,y:(0+opt.height/1.4)+"px"},800,'in');
+
+						if (actli.html()!=null) nextli.transition({scale:0.8,x:opt.width*0.1, y:opt.height*0.1, rotate:ro1},0).transition({rotate:0, scale:1,x:0,y:0},600,'snap');
+					}
+					nextsh.find('.defaultimg').css({'opacity':1});
+					setTimeout(function() {
+
+
+								// CLEAN UP BEFORE WE START
+								actli.css({'position':'absolute','z-index':18});
+								nextli.css({'position':'absolute','z-index':20});
+								nextsh.find('.defaultimg').css({'opacity':1});
+								actsh.find('.defaultimg').css({'opacity':0});
+								if (actli.find('.tp-half-one').length>0)  {
+									actli.find('.tp-half-one >img, .tp-half-one >div').unwrap();
+
+								}
+								actli.find('.tp-half-two').remove();
+								opt.transition = 0;
+								opt.act = opt.next;
+
+					},800);
+					nextli.css({'opacity':1});
+
+			}
+
+			////////////////////////////////////////
+			// THE SLOTSLIDE - TRANSITION XVII.  //
+			///////////////////////////////////////
+			if (nexttrans==17) {								// 3D CURTAIN HORIZONTAL
+
+						masterspeed = masterspeed + 100;
+						if (opt.slots>10) opt.slots=10;
+
+						nextli.css({'opacity':1});
+
+						// PREPARE THE SLOTS HERE
+						prepareOneSlideV(actsh,opt,true);
+						prepareOneSlideV(nextsh,opt,false);
+
+						//SET DEFAULT IMG UNVISIBLE
+						nextsh.find('.defaultimg').css({'opacity':0});
+						//actsh.find('.defaultimg').css({'opacity':0});
+
+
+						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
+
+
+						nextsh.find('.slotslide').each(function(j) {
+							var ss=$(this);
+							ss.transition({ rotateY:350 ,rotateX:40, perspective:'1400px', rotate:0},0);
+							setTimeout(function() {
+											ss.transition({top:0, left:0, scale:1, perspective:'150px', rotate:0,rotateY:0, rotateX:0},masterspeed*2,function() {
+
+																	if (j==opt.slots-1) {
+																		removeSlots(container,opt);
+																		nextsh.find('.defaultimg').css({'opacity':1});
+
+																		if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
+																		opt.act=opt.next;
+																		moveSelectedThumb(container);
+
+																	}
+															});
+							},j*100);
+						});
+			}
+
+
+
+			////////////////////////////////////////
+			// THE SLOTSLIDE - TRANSITION XVIII.  //
+			///////////////////////////////////////
+			if (nexttrans==18) {								// 3D CURTAIN VERTICAL
+
+						masterspeed = masterspeed + 100;
+						if (opt.slots>10) opt.slots=10;
+
+						nextli.css({'opacity':1});
+
+						// PREPARE THE SLOTS HERE
+						prepareOneSlide(actsh,opt,true);
+						prepareOneSlide(nextsh,opt,false);
+
+						//SET DEFAULT IMG UNVISIBLE
+						nextsh.find('.defaultimg').css({'opacity':0});
+						//actsh.find('.defaultimg').css({'opacity':0});
+
+
+						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
+
+
+						nextsh.find('.slotslide').each(function(j) {
+							var ss=$(this);
+							ss.transition({ rotateX:10 ,rotateY:310, perspective:'1400px', rotate:0,opacity:0},0);
+							setTimeout(function() {
+											ss.transition({top:0, left:0, scale:1, perspective:'150px', rotate:0,rotateY:0, rotateX:0,opacity:1},masterspeed*2,function() {
+
+																	if (j==opt.slots-1) {
+																		removeSlots(container,opt);
+																		nextsh.find('.defaultimg').css({'opacity':1});
+
+																		if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
+																		opt.act=opt.next;
+																		moveSelectedThumb(container);
+
+																	}
+															});
+							},j*100);
+						});
+			}
+
+			////////////////////////////////////////
+			// THE SLOTSLIDE - TRANSITION XIX.  //
+			///////////////////////////////////////
+			if (nexttrans==19) {								// CUBIC VERTICAL
+						masterspeed = masterspeed + 100;
+						if (opt.slots>10) opt.slots=10;
+
+						nextli.css({'opacity':1});
+
+						// PREPARE THE SLOTS HERE
+						prepareOneSlide(actsh,opt,true);
+						prepareOneSlide(nextsh,opt,false);
+
+						//SET DEFAULT IMG UNVISIBLE
+						nextsh.find('.defaultimg').css({'opacity':0});
+						//actsh.find('.defaultimg').css({'opacity':0});
+
+
+						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
+
+
+						nextsh.find('.slotslide').each(function(j) {
+							var ss=$(this);
+							if (direction==1)
+								ss.transition({ left:0,top:0+(opt.height/2),perspective: opt.height*2,rotate3d: '100, 0, 0, -90deg'},0);
+							else
+								ss.transition({ left:0,top:0-(opt.height/2),perspective: opt.height*2,rotate3d: '100, 0, 0, 90deg'},0);
+							setTimeout(function() {
+											ss.transition({top:0,perspective: opt.height*2,rotate3d: '0, 0, 0, 0deg'},masterspeed*2,function() {
+
+																	if (j==opt.slots-1) {
+																		removeSlots(container,opt);
+																		nextsh.find('.defaultimg').css({'opacity':1});
+
+																		if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
+																		opt.act=opt.next;
+																		moveSelectedThumb(container);
+
+																	}
+															});
+							},j*100);
+						});
+
+						actsh.find('.slotslide').each(function(j) {
+							var ss=$(this);
+							ss.transition({ top:0,perspective: opt.height*2,rotate3d: '0, 0, 0, 0deg'},0);
+							actsh.find('.defaultimg').css({'opacity':0});
+							setTimeout(function() {
+											if (direction==1)
+												ss.transition({left:0,top:(0-opt.height/2),perspective: opt.height,rotate3d: '100, 0, 0, 90deg'},masterspeed*1.5,function() {});
+											else
+												ss.transition({left:0,top:(opt.height/2),perspective: opt.height,rotate3d: '100, 0, 0, -90deg'},masterspeed*1.5,function() {});
+							},j*100);
+						});
+			}
+
+			////////////////////////////////////////
+			// THE SLOTSLIDE - TRANSITION XX.  //
+			///////////////////////////////////////
+			if (nexttrans==20) {								// FLYIN
+						masterspeed = masterspeed + 100;
+						if (opt.slots>10) opt.slots=10;
+
+						nextli.css({'opacity':1});
+
+						// PREPARE THE SLOTS HERE
+						prepareOneSlideV(actsh,opt,true);
+						prepareOneSlideV(nextsh,opt,false);
+
+						//SET DEFAULT IMG UNVISIBLE
+						nextsh.find('.defaultimg').css({'opacity':0});
+						//actsh.find('.defaultimg').css({'opacity':0});
+
+
+						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
+
+
+						nextsh.find('.slotslide').each(function(j) {
+							var ss=$(this);
+							if (direction==1)
+								ss.transition({ scale:0.8,top:0,left:0-opt.width,perspective:opt.width,rotate3d: '2, 5, 0, 110deg'},0);
+							else
+								ss.transition({ scale:0.8,top:0,left:0+opt.width,perspective:opt.width,rotate3d: '2, 5, 0, -110deg'},0);
+							setTimeout(function() {
+											ss.transition({scale:0.8,left:0,perspective: opt.width,rotate3d: '1, 5, 0, 0deg'},masterspeed*2,'ease').transition({scale:1},200,'out',function() {
+
+																	if (j==opt.slots-1) {
+																		removeSlots(container,opt);
+																		nextsh.find('.defaultimg').css({'opacity':1});
+
+																		if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
+																		opt.act=opt.next;
+																		moveSelectedThumb(container);
+
+																	}
+															});
+							},j*100);
+						});
+
+						actsh.find('.slotslide').each(function(j) {
+							var ss=$(this);
+							ss.transition({ scale:0.5,left:0,perspective: 500,rotate3d: '1, 5, 0, 5deg'},300,'in-out');
+							actsh.find('.defaultimg').css({'opacity':0});
+							setTimeout(function() {
+											if (direction==1)
+												ss.transition({top:0,left:opt.width/2,perspective: opt.width,rotate3d: '0, -3, 0, 70deg',opacity:0},masterspeed*2,'out',function() {});
+											else
+												ss.transition({top:0,left:0-opt.width/2,perspective: opt.width,rotate3d: '0, -3, 0, -70deg',opacity:0},masterspeed*2,'out',function() {});
+							},j*100);
+						});
+			}
+
+
+			////////////////////////////////////////
+			// THE SLOTSLIDE - TRANSITION XX.  //
+			///////////////////////////////////////
+			if (nexttrans==21) {								// TURNOFF
+						masterspeed = masterspeed + 100;
+						if (opt.slots>10) opt.slots=10;
+
+						nextli.css({'opacity':1});
+
+						// PREPARE THE SLOTS HERE
+						prepareOneSlideV(actsh,opt,true);
+						prepareOneSlideV(nextsh,opt,false);
+
+						//SET DEFAULT IMG UNVISIBLE
+						nextsh.find('.defaultimg').css({'opacity':0});
+						//actsh.find('.defaultimg').css({'opacity':0});
+
+
+						// ALL NEW SLOTS SHOULD BE SLIDED FROM THE LEFT TO THE RIGHT
+
+
+						nextsh.find('.slotslide').each(function(j) {
+							var ss=$(this);
+							if (direction==1)
+								ss.transition({ top:0,left:0-(opt.width/2),perspective: opt.width*2,rotate3d: '0, 100, 0, 90deg'},0);
+							else
+								ss.transition({ top:0,left:0+(opt.width/2),perspective: opt.width*2,rotate3d: '0, 100, 0, -90deg'},0);
+							setTimeout(function() {
+											ss.transition({left:0,perspective: opt.width*2,rotate3d: '0, 0, 0, 0deg'},masterspeed*2,function() {
+
+																	if (j==opt.slots-1) {
+																		removeSlots(container,opt);
+																		nextsh.find('.defaultimg').css({'opacity':1});
+
+																		if (nextli.index()!=actli.index()) actsh.find('.defaultimg').css({'opacity':0});
+																		opt.act=opt.next;
+																		moveSelectedThumb(container);
+
+																	}
+															});
+							},j*100);
+						});
+
+						actsh.find('.slotslide').each(function(j) {
+							var ss=$(this);
+							ss.transition({ left:0,perspective: opt.width*2,rotate3d: '0, 0, 0, 0deg'},0);
+							actsh.find('.defaultimg').css({'opacity':0});
+							setTimeout(function() {
+										if (direction==1)
+											ss.transition({top:0,left:(opt.width/2),perspective: opt.width,rotate3d: '0, 1000, 0, -90deg'},masterspeed*1.5,function() {});
+										else
+											ss.transition({top:0,left:(0-opt.width/2),perspective: opt.width,rotate3d: '0, 1000, 0, +90deg'},masterspeed*1.5,function() {});
+
+							},j*100);
+						});
+			}
+
+
+			var data={};
+			data.slideIndex=opt.next+1;
+			container.trigger('revolution.slide.onchange',data);
+			container.trigger('revolution.slide.onvideostop');
 
 
 		}
@@ -2172,6 +2509,8 @@
 							var ll = nextcaption.data('repx');
 							var tt = nextcaption.data('repy');
 							var oo = nextcaption.data('repo');
+							var rot = nextcaption.data('rotate');
+							var sca = nextcaption.data('scale');
 
 
 							if (nextcaption.find('iframe').length>0) {
@@ -2182,7 +2521,16 @@
 									par.append(iframe);
 								},nextcaption.data('speed'));
 							}
-							try {nextcaption.animate({'opacity':oo,'left':ll+'px','top':tt+"px"},{duration:nextcaption.data('speed'), easing:easetype});} catch(e) {}
+							try {
+									if (rot!=undefined || sca!=undefined)
+										{
+											if (rot==undefined) rot=0;
+											if (sca==undefined) sca=1;
+											nextcaption.transition({'rotate':rot, 'scale':sca, 'opacity':oo,'left':ll+'px','top':tt+"px"},(nextcaption.data('speed')+10), function() { nextcaption.removeClass('noFilterClass');nextcaption.css({'visibility':'hidden'})});
+										} else {
+											nextcaption.animate({'opacity':oo,'left':ll+'px','top':tt+"px"},{duration:(nextcaption.data('speed')+10), easing:easetype, complete:function() { nextcaption.removeClass('noFilterClass');nextcaption.css({'visibility':'hidden'})}});
+										}
+								} catch(e) {}
 						});
 				}
 
@@ -2203,6 +2551,7 @@
 						var opt = bt.data('opt');
 						bt.stop();
 						opt.videoplaying=true;
+						opt.videostartednow=1;
 
 					} else {
 
@@ -2211,8 +2560,16 @@
 						if (opt.conthover==0)
 							bt.animate({'width':"100%"},{duration:((opt.delay-opt.cd)-100),queue:false, easing:"linear"});
 						opt.videoplaying=false;
+						opt.videostoppednow=1;
 					}
 				  }
+
+				  ///////////////////////////////
+				  //	YOUTUBE VIDEO AUTOPLAY //
+				  ///////////////////////////////
+				   function onPlayerReady(event) {
+						event.target.playVideo();
+					}
 
 				 ////////////////////////
 				// VIMEO ADD EVENT /////
@@ -2238,6 +2595,11 @@
 
 						var froogaloop = $f(player_id);
 
+
+						froogaloop.addEvent('ready', function(data) {
+
+						});
+
 						froogaloop.addEvent('play', function(data) {
 							var bt = $('body').find('.tp-bannertimer');
 							var opt = bt.data('opt');
@@ -2251,6 +2613,7 @@
 								if (opt.conthover==0)
 									bt.animate({'width':"100%"},{duration:((opt.delay-opt.cd)-100),queue:false, easing:"linear"});
 								opt.videoplaying=false;
+								opt.videostartednow=1;
 						});
 
 						froogaloop.addEvent('pause', function(data) {
@@ -2259,6 +2622,45 @@
 								if (opt.conthover==0)
 									bt.animate({'width':"100%"},{duration:((opt.delay-opt.cd)-100),queue:false, easing:"linear"});
 								opt.videoplaying=false;
+								opt.videostoppednow=1;
+						});
+
+
+					}
+
+
+					function vimeoready_auto(player_id) {
+
+						var froogaloop = $f(player_id);
+
+
+						froogaloop.addEvent('ready', function(data) {
+							froogaloop.api('play');
+						});
+
+						froogaloop.addEvent('play', function(data) {
+							var bt = $('body').find('.tp-bannertimer');
+							var opt = bt.data('opt');
+							bt.stop();
+							opt.videoplaying=true;
+						});
+
+						froogaloop.addEvent('finish', function(data) {
+								var bt = $('body').find('.tp-bannertimer');
+								var opt = bt.data('opt');
+								if (opt.conthover==0)
+									bt.animate({'width':"100%"},{duration:((opt.delay-opt.cd)-100),queue:false, easing:"linear"});
+								opt.videoplaying=false;
+								opt.videostartednow=1;
+						});
+
+						froogaloop.addEvent('pause', function(data) {
+								var bt = $('body').find('.tp-bannertimer');
+								var opt = bt.data('opt');
+								if (opt.conthover==0)
+									bt.animate({'width':"100%"},{duration:((opt.delay-opt.cd)-100),queue:false, easing:"linear"});
+								opt.videoplaying=false;
+								opt.videostoppednow=1;
 						});
 
 
@@ -2270,7 +2672,7 @@
 				////////////////////////
 				// SHOW THE CAPTION  //
 				///////////////////////
-				function animateTheCaptions(nextli, opt) {
+				function animateTheCaptions(nextli, opt,actli) {
 
 
 
@@ -2290,7 +2692,7 @@
 								}
 
 								var xbw = opt.bw;
-
+								var xbh = opt.bh;
 
 
 
@@ -2300,6 +2702,8 @@
 
 								if (nextcaption.hasClass("coloredbg")) offsetx=0;
 								if (offsetx<0) offsetx=0;
+
+								var offsety = 0; //opt.height/2 - (opt.startheight*xbh)/2;
 
 								clearTimeout(nextcaption.data('timer'));
 
@@ -2314,14 +2718,27 @@
 
 									if (ifr.attr('src').toLowerCase().indexOf('youtube')>=0) {
 
-												ifr.attr('id',frameID);
-												ifr.addClass("HasListener");
-												var player;
-												player = new YT.Player(frameID, {
-													events: {
-														"onStateChange": onPlayerStateChange
-													}
-												});
+												try {
+													ifr.attr('id',frameID);
+
+													var player;
+													if (nextcaption.data('autoplay')==true)
+														player = new YT.Player(frameID, {
+															events: {
+																"onStateChange": onPlayerStateChange,
+																'onReady': onPlayerReady,
+															}
+														});
+													else
+														player = new YT.Player(frameID, {
+															events: {
+																"onStateChange": onPlayerStateChange,
+															}
+														});
+													ifr.addClass("HasListener");
+
+
+												} catch(e) {}
 
 									} else {
 										if (ifr.attr('src').toLowerCase().indexOf('vimeo')>=0) {
@@ -2355,7 +2772,11 @@
 
 													ifr.attr('src',isrc);
 													var player = nextcaption.find('iframe')[0];
-													$f(player).addEvent('ready', vimeoready);
+													if (nextcaption.data('autoplay')==true)
+														$f(player).addEvent('ready', vimeoready_auto);
+													else
+														$f(player).addEvent('ready', vimeoready);
+
 
 											   }
 
@@ -2365,7 +2786,8 @@
 
 
 
-
+								if (nextcaption.hasClass("randomrotate") && (opt.ie || opt.ie9)) nextcaption.removeClass("randomrotate").addClass("sfb");
+								nextcaption.removeClass('noFilterClass');
 
 
 							   var imw =0;
@@ -2387,6 +2809,7 @@
 										} else {
 
 											if (nextcaption.find('iframe').length>0) {
+
 												var im = nextcaption.find('iframe');
 												if (nextcaption.data('ww') == undefined) {
 													nextcaption.data('ww',im.width());
@@ -2415,8 +2838,13 @@
 
 													if (nc.data('lh') == undefined) nc.data('lh',parseInt(nc.css('lineHeight'),0) || 0);
 
+													var fvwidth=opt.width;
+													var fvheight=opt.height;
+													if (fvwidth>opt.startwidth) fvwidth=opt.startwidth;
+													if (fvheight>opt.startheight) fvheight=opt.startheight;
 
-													nextcaption.css({
+													if (!nextcaption.hasClass('fullscreenvideo'))
+																nextcaption.css({
 																	 'font-size': (nc.data('fsize') * opt.bw)+"px",
 
 																	 'padding-top': (nc.data('pt') * opt.bh) + "px",
@@ -2437,9 +2865,13 @@
 																	 'line-height': (nc.data('lh') * opt.bh) + "px",
 																	 'height':(hh*opt.bh)+'px',
 																	 'white-space':"nowrap"
+																	});
+														else
+																nextcaption.css({
+																	'width':opt.startwidth*opt.bw,
+																	'height':opt.startheight*opt.bh
+																});
 
-
-													});
 
 												im.width(ww*opt.bw);
 												im.height(hh*opt.bh);
@@ -2502,17 +2934,30 @@
 									nextcaption.css({'opacity':0,'left':(xbw*nextcaption.data('x')+offsetx)+'px','top':(opt.bh*nextcaption.data('y'))+"px"});
 								}
 
+								if (nextcaption.hasClass("randomrotate")) {
+											nextcaption.css({'left':(xbw*nextcaption.data('x')+offsetx)+'px','top':((xbh*nextcaption.data('y'))+offsety)+"px" });
+											var sc=Math.random()*2+1;
+											var ro=Math.round(Math.random()*200-100);
+											var xx=Math.round(Math.random()*200-100);
+											var yy=Math.round(Math.random()*200-100);
+											nextcaption.data('repx',xx);
+											nextcaption.data('repy',yy);
+											nextcaption.data('repo',nextcaption.css('opacity'));
+											nextcaption.data('rotate',ro);
+											nextcaption.data('scale',sc);
 
+											nextcaption.transition({opacity:0, scale:sc, rotate:ro, x:xx, y: yy,duration: '0ms'});
+								}
 
 								if (nextcaption.hasClass('lfr')) {
 
-									nextcaption.css({'opacity':1,'left':(5+opt.width)+'px','top':(opt.bh*nextcaption.data('y'))+"px"});
+									nextcaption.css({'opacity':1,'left':(15+opt.width)+'px','top':(opt.bh*nextcaption.data('y'))+"px"});
 
 								}
 
 								if (nextcaption.hasClass('lfl')) {
 
-									nextcaption.css({'opacity':1,'left':(-5-imw)+'px','top':(opt.bh*nextcaption.data('y'))+"px"});
+									nextcaption.css({'opacity':1,'left':(-15-imw)+'px','top':(opt.bh*nextcaption.data('y'))+"px"});
 
 								}
 
@@ -2530,12 +2975,12 @@
 
 								if (nextcaption.hasClass('lft')) {
 
-									nextcaption.css({'opacity':1,'left':(xbw*nextcaption.data('x')+offsetx)+'px','top':(-5 - imh)+"px"});
+									nextcaption.css({'opacity':1,'left':(xbw*nextcaption.data('x')+offsetx)+'px','top':(-25 - imh)+"px"});
 
 								}
 
 								if (nextcaption.hasClass('lfb')) {
-									nextcaption.css({'opacity':1,'left':(xbw*nextcaption.data('x')+offsetx)+'px','top':(5+opt.height)+"px"});
+									nextcaption.css({'opacity':1,'left':(xbw*nextcaption.data('x')+offsetx)+'px','top':(25+opt.height)+"px"});
 
 								}
 
@@ -2551,10 +2996,18 @@
 
 
 								nextcaption.data('timer',setTimeout(function() {
+										nextcaption.css({'visibility':'visible'});
 										if (nextcaption.hasClass('fade')) {
 											nextcaption.data('repo',nextcaption.css('opacity'));
-											nextcaption.animate({'opacity':1});
+											nextcaption.animate({'opacity':1},{duration:nextcaption.data('speed')});
+											if (opt.ie) nextcaption.addClass('noFilterClass');
 										}
+
+										if (nextcaption.hasClass("randomrotate")) {
+											nextcaption.transition({opacity:1, scale:1, 'left':(xbw*nextcaption.data('x')+offsetx)+'px','top':(xbh*(nextcaption.data('y'))+offsety)+"px", rotate:0, x:0, y:0,duration: nextcaption.data('speed')});
+											if (opt.ie) nextcaption.addClass('noFilterClass');
+										}
+
 										if (nextcaption.hasClass('lfr') ||
 											nextcaption.hasClass('lfl') ||
 											nextcaption.hasClass('sfr') ||
@@ -2572,6 +3025,7 @@
 
 											nextcaption.data('repo',nextcaption.css('opacity'));
 											nextcaption.animate({'opacity':1,'left':(xbw*nextcaption.data('x')+offsetx)+'px','top':opt.bh*(nextcaption.data('y'))+"px"},{duration:nextcaption.data('speed'), easing:easetype});
+											if (opt.ie) nextcaption.addClass('noFilterClass');
 										}
 								},nextcaption.data('start')));
 
@@ -2585,56 +3039,103 @@
 		/////////////////////////
 		function countDown(container,opt) {
 			opt.cd=0;
+			opt.loop=0;
+			if (opt.stopAfterLoops!=undefined && opt.stopAfterLoops>-1)
+					opt.looptogo=opt.stopAfterLoops;
+			else
+				opt.looptogo=9999999;
 
-			var bt=container.find('.tp-bannertimer');
-			if (bt.length>0) {
-				bt.css({'width':'0%'});
-				bt.animate({'width':"100%"},{duration:(opt.delay-100),queue:false, easing:"linear"});
-			}
+			if (opt.stopAtSlide!=undefined && opt.stopAtSlide>-1)
+					opt.lastslidetoshow=opt.stopAtSlide;
+			else
+					opt.lastslidetoshow=999;
 
-			bt.data('opt',opt);
-			opt.cdint=setInterval(function() {
-
-				if (opt.conthover!=1 && opt.videoplaying!=true) opt.cd=opt.cd+100;
-
-				// STOP TIMER IF NO LOOP NO MORE NEEDED.
-			    if (opt.stopLoop=="on" && opt.act==	container.find('>ul >li').length-1) {
-						clearInterval(opt.cdint);
-						container.find('.tp-bannertimer').css({'visibility':'hidden'});
-				}
-
-				if (opt.cd>=opt.delay) {
-					opt.cd=0;
-					// SWAP TO NEXT BANNER
-					opt.act=opt.next;
-					opt.next=opt.next+1;
-					if (opt.next>container.find('>ul >li').length-1) opt.next=0;
+			if (opt.looptogo==0) opt.stopLoop="on";
 
 
-					// SWAP THE SLIDES
-					swapSlide(container,opt);
 
-					// Clear the Timer
+			if (opt.slideamount >1 && !(opt.stopAfterLoops==0 && opt.stopAtSlide==1) ) {
+					var bt=container.find('.tp-bannertimer');
 					if (bt.length>0) {
 						bt.css({'width':'0%'});
 						bt.animate({'width':"100%"},{duration:(opt.delay-100),queue:false, easing:"linear"});
 					}
-				}
-			},100);
 
-			container.hover(
-				function() {
-					opt.conthover=1;
-					if (opt.onHoverStop=="on") {
-						bt.stop();
-					}
-				},
-				function() {
-					opt.conthover=0;
-					if (opt.onHoverStop=="on" && opt.videoplaying!=true) {
-						bt.animate({'width':"100%"},{duration:((opt.delay-opt.cd)-100),queue:false, easing:"linear"});
-					}
-				});
+					bt.data('opt',opt);
+					opt.cdint=setInterval(function() {
+
+						if (container.data('conthover-changed') == 1) {
+							opt.conthover=	container.data('conthover');
+							container.data('conthover-changed',0);
+						}
+
+						if (opt.conthover!=1 && opt.videoplaying!=true) opt.cd=opt.cd+100;
+
+						// EVENT TRIGGERING IN CASE VIDEO HAS BEEN STARTED
+						if (opt.videostartednow==1) {
+							container.trigger('revolution.slide.onvideoplay');
+							opt.videostartednow=0;
+						}
+
+						// EVENT TRIGGERING IN CASE VIDEO HAS BEEN STOPPED
+						if (opt.videostoppednow==1) {
+							container.trigger('revolution.slide.onvideostop');
+							opt.videostoppednow=0;
+						}
+
+
+						if (opt.cd>=opt.delay) {
+							opt.cd=0;
+							// SWAP TO NEXT BANNER
+							opt.act=opt.next;
+							opt.next=opt.next+1;
+							if (opt.next>container.find('>ul >li').length-1) {
+									opt.next=0;
+									opt.looptogo=opt.looptogo-1;
+									if (opt.loop<=0) {
+											opt.stopLoop="on";
+
+									}
+								}
+
+							// STOP TIMER IF NO LOOP NO MORE NEEDED.
+							if (opt.stopLoop=="on" && opt.next==opt.lastslidetoshow-1) {
+									clearInterval(opt.cdint);
+									container.find('.tp-bannertimer').css({'visibility':'hidden'});
+									container.trigger('revolution.slide.onstop');
+							}
+
+							// SWAP THE SLIDES
+							swapSlide(container,opt);
+
+
+							// Clear the Timer
+							if (bt.length>0) {
+								bt.css({'width':'0%'});
+								bt.animate({'width':"100%"},{duration:(opt.delay-100),queue:false, easing:"linear"});
+							}
+						}
+					},100);
+
+
+					container.hover(
+						function() {
+							opt.conthover=1;
+							if (opt.onHoverStop=="on") {
+								bt.stop();
+								container.trigger('revolution.slide.onpause');
+							}
+						},
+						function() {
+							if (container.data('conthover')!=1) {
+								container.trigger('revolution.slide.onresume');
+								opt.conthover=0;
+								if (opt.onHoverStop=="on" && opt.videoplaying!=true) {
+									bt.animate({'width':"100%"},{duration:((opt.delay-opt.cd)-100),queue:false, easing:"linear"});
+								}
+							}
+						});
+			}
 		}
 
 

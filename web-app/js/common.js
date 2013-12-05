@@ -1,4 +1,6 @@
 // 常用字串處理函式
+var $ = jQuery;
+
 var trim  = function(s) { return typeof(s)=='string'?s.replace(/^\s+|\s+$/g,""):s; };
 var ltrim = function(s) { return typeof(s)=='string'?s.replace(/^\s+/,""):s;       };
 var rtrim = function(s) { return typeof(s)=='string'?s.replace(/\s+$/,""):s;       };
