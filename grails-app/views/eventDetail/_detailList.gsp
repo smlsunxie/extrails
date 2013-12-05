@@ -29,14 +29,14 @@
 
 
       <div class="row-fluid">
-        <div class="span2 well well-small">
+        <div class="col-sm-2 col-md-2 well well-small">
           <g:message code="default.dateCreated.label" />
           <div class="row-fluid">
               <g:formatDate date="${detail.lastUpdated}" type="date" style="SHOROT" />
           </div>
         </div>
 
-        <div class="span2 well well-small">
+        <div class="col-sm-2 col-md-2 well well-small">
           <g:message code="part.label" />
           <div class="row-fluid">
             ${detail?.part?.title}
@@ -44,7 +44,7 @@
         </div>
 
         <sec:ifLoggedIn>
-          <div class="span2 well well-small">
+          <div class="col-sm-2 col-md-2 well well-small">
             <g:message code="eventDetail.price.label" />
             <div class="row-fluid">
               ${detail?.price} * ${detail?.qty} = ${detail?.price*detail?.qty}
@@ -52,7 +52,7 @@
           </div>
         </sec:ifLoggedIn>
         <sec:ifAnyGranted roles="ROLE_MANERGER">
-          <div class="span2 well well-small">
+          <div class="col-sm-2 col-md-2 well well-small">
             <g:message code="part.cost.label" />
             <div class="row-fluid">
               ${detail?.cost}
@@ -65,7 +65,7 @@
     </div>
 
       <g:if test="${detail?.mainImage}">
-      <div class="span2">
+      <div class="col-sm-2 col-md-2">
         <div class="row-fluid">
           <g:link action="show" controller="attachment" params="[name:detail.name ,file:detail.mainImage]"><g:img  alt="" uri="attachment/show?name=${detail.name}&file=${detail.mainImage}" /></g:link>
           

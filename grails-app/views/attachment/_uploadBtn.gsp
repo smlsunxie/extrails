@@ -12,10 +12,10 @@
       </div>
 
       <div id="webcamCtrlDiv"   >
-        <div  class="span2" >
+        <div  class="col-sm-2 col-md-2" >
           <input type="button" style="height: 35px;" id="shapshot" name="shapshot" value="攝影照像">
         </div>
-        <div  class="span2" >
+        <div  class="col-sm-2 col-md-2" >
           <input type="button" style="height: 35px;" id="uploadShapshot" name="uploadShapshot" value="照片上傳">
         </div>
       </div>
@@ -25,15 +25,15 @@
   <hr/>
 
   <div id="webcamViewDiv" class="row-fluid" >
-    <video class="span6 thumbnail" autoplay></video>
-    <canvas class="span6 thumbnail" height = '225'></canvas>    
+    <video class="col-sm-6 col-md-6 thumbnail" autoplay></video>
+    <canvas class="col-sm-6 col-md-6 thumbnail" height = '225'></canvas>    
   </div>
 
 
 
 
   <div  class="row-fluid">
-    <div id="images" class="span12">
+    <div id="images" class="col-sm-12 col-md-12">
     </div>
   </div>
 

@@ -1,6 +1,6 @@
 
     <div class="row-fluid">
-      <div class="span12 well well-small">
+      <div class="col-sm-12 col-md-12 well well-small">
               
 %{--         <g:link controller="eventDetail" action="list" params="[event:event.id]">${event.name}</g:link> --}%
         <sec:ifAnyGranted roles="ROLE_OPERATOR">
@@ -41,7 +41,7 @@
 
             
 
-            <div class="span2 offset4">
+            <div class="col-sm-2 col-md-2 offset4">
               <div class="input-prepend input-append">
                 <span class="add-on">已收</span>
                   <g:remoteField action="updateReceivedMoney" controller="event" id="${event.id}"
@@ -49,7 +49,7 @@
               </div>
             </div>
 
-            <div class="span2">
+            <div class="col-sm-2 col-md-2">
               <div class="input-prepend input-append">
                 <span class="add-on">未收</span>
                   <input readonly value="${event?.totalPrice-event?.receivedMoney}" class="span9"  id="unreceiveMoney_${event.id}"  type="text" data-initValue="${event?.totalPrice}" /> 
@@ -70,7 +70,7 @@
         <div class="row-fluid">
 
           <sec:ifLoggedIn>
-            <div class="span2 well well-small">
+            <div class="col-sm-2 col-md-2 well well-small">
               <g:message code="product.name.label" />
               <div class="row-fluid">
                   ${event.product.name}
@@ -78,7 +78,7 @@
             </div>
           </sec:ifLoggedIn>
 
-          <div class="span2 well well-small">
+          <div class="col-sm-2 col-md-2 well well-small">
             <g:message code="user.username.label" />
             <div class="row-fluid">
                 ${event.user.username}
@@ -86,21 +86,21 @@
           </div>
 
 
-          <div class="span2 well well-small">
+          <div class="col-sm-2 col-md-2 well well-small">
             <g:message code="event.status.label" />
             <div class="row-fluid">
                 <g:message code="ProductStatus.${event.status.name()}" />
             </div>
           </div>
 
-          <div class="span2 well well-small">
+          <div class="col-sm-2 col-md-2 well well-small">
             <g:message code="event.mileage.label" />
             <div class="row-fluid">
               ${event.mileage}
             </div>
           </div>
 
-          <div class="span2 well well-small">
+          <div class="col-sm-2 col-md-2 well well-small">
             <g:message code="event.date.label" />
             <div class="row-fluid">
 
@@ -110,7 +110,7 @@
           </div>
 
             <sec:ifLoggedIn>
-              <div class="span2 well well-small">
+              <div class="col-sm-2 col-md-2 well well-small">
                 <g:message code="event.totalPrice.label" />
                 <div class="row-fluid">
                   ${event?.totalPrice}

@@ -33,12 +33,12 @@
               <div class="main-block block-posts">
 
                   <div class="row show-grid clear-both">
-                      <div class="span12">
+                      <div class="col-sm-12 col-md-12">
 
                         <div class="row show-grid">
 
                           <g:each var='operator' in='${operators}' >
-                            <div class="span3">
+                            <div class="col-sm-3 col-md-3">
                               <p>
                                 <g:link class="btn btn-primary" url="${request.contextPath}/j_spring_security_switch_user?j_username=${operator.username}">${operator?.title}</g:link>                              
                               </p>
@@ -59,12 +59,12 @@
                   <h1><i class="icon-signin"></i> 維修中</h1>
               </div>
                 <div class="row show-grid clear-both">
-                    <div class="span12">
+                    <div class="col-sm-12 col-md-12">
                       <div class="row show-grid">
 
 
                         <g:each var='event' in='${unfinEvents}' >
-                          <div class="span3">
+                          <div class="col-sm-3 col-md-3">
 
                             <a class="block-stick-img">
                               <g:if test="${event?.product?.mainImage && event?.product?.mainImage!=''}">
@@ -101,17 +101,17 @@
                             <sec:ifAnyGranted roles="ROLE_OPERATOR">
                               <div class="row-fluid stick_outside">
                                 
-                                <div class="span6">
+                                <div class="col-sm-6 col-md-6">
                                     <div class="input-prepend input-append">
                                       <span class="add-on">已收</span>
                                       <g:remoteField action="updateReceivedMoney" controller="event" id="${event.id}"
-                                          name="receivedMoney" onSuccess="onSuccessFun(data)" value="${event?.receivedMoney.toString()}"  data-for="unreceiveMoney_${event.id}" class="span6" />                                    
+                                          name="receivedMoney" onSuccess="onSuccessFun(data)" value="${event?.receivedMoney.toString()}"  data-for="unreceiveMoney_${event.id}" class="col-sm-6 col-md-6" />                                    
                                   </div>
                                 </div>
-                                <div class="span6">
+                                <div class="col-sm-6 col-md-6">
                                     <div class="input-prepend input-append">
                                       <span  class="add-on">未收</span>
-                                      <input readonly value="${event?.totalPrice-event?.receivedMoney}"  type="text" id="unreceiveMoney_${event.id}"  data-initValue="${event?.totalPrice}"  class="span6" />                                    
+                                      <input readonly value="${event?.totalPrice-event?.receivedMoney}"  type="text" id="unreceiveMoney_${event.id}"  data-initValue="${event?.totalPrice}"  class="col-sm-6 col-md-6" />                                    
                                   </div>
                                 </div>
 
@@ -136,10 +136,10 @@
                   <h1><i class="icon-ok "></i> 維修完成</h1>
               </div>
               <div class="row show-grid clear-both">
-                <div class="span12">
+                <div class="col-sm-12 col-md-12">
                   <div class="row show-grid">
                     <g:each var='event' in='${endEvents}' >
-                      <div class="span3">
+                      <div class="col-sm-3 col-md-3">
 
 
                         <a class="block-stick-img">
@@ -173,17 +173,17 @@
                         <sec:ifAnyGranted roles="ROLE_OPERATOR">
                           <div class="row-fluid stick_outside">
                             
-                            <div class="span6">
+                            <div class="col-sm-6 col-md-6">
                                 <div class="input-prepend input-append">
                                   <span class="add-on">已收</span>
                                   <g:remoteField action="updateReceivedMoney" controller="event" id="${event.id}"
-                                      name="receivedMoney" onSuccess="onSuccessFun(data)" value="${event?.receivedMoney.toString()}"  data-for="unreceiveMoney_${event.id}" class="span6" />                                    
+                                      name="receivedMoney" onSuccess="onSuccessFun(data)" value="${event?.receivedMoney.toString()}"  data-for="unreceiveMoney_${event.id}" class="col-sm-6 col-md-6" />                                    
                               </div>
                             </div>
-                            <div class="span6">
+                            <div class="col-sm-6 col-md-6">
                                 <div class="input-prepend input-append">
                                   <span  class="add-on">未收</span>
-                                  <input readonly value="${event?.totalPrice-event?.receivedMoney}"  type="text" id="unreceiveMoney_${event.id}"  data-initValue="${event?.totalPrice}"  class="span6" />                                    
+                                  <input readonly value="${event?.totalPrice-event?.receivedMoney}"  type="text" id="unreceiveMoney_${event.id}"  data-initValue="${event?.totalPrice}"  class="col-sm-6 col-md-6" />                                    
                               </div>
                             </div>
 
@@ -208,10 +208,10 @@
                     <h1>最近建立產品</h1>
                 </div>
                 <div class="row show-grid clear-both">
-                    <div class="span12">
+                    <div class="col-sm-12 col-md-12">
                       <div class="row show-grid">
                         <g:each var='product' in='${createProducts}' >
-                          <div class="span3">
+                          <div class="col-sm-3 col-md-3">
 
                             <g:if test="${product?.mainImage}">
                               <a class="block-post-img">
@@ -249,10 +249,10 @@
             
             <hr> --}%
             <div class="row main-block">
-                <div class="span12">
+                <div class="col-sm-12 col-md-12">
                     <div class="row">
 <!-- MAIN CONTENT AREA: REDESIGN CUSTOM - HERO BLOCK 1 (TEXT BLOCK)] -->
-                        <div class="span12 home-block hero-block-1">
+                        <div class="col-sm-12 col-md-12 home-block hero-block-1">
                             <h1>歡迎您的光臨</h1>
                             <h2>為您的愛車提供最優質的服務</h2>
                             <h3>開店已有 30 餘年，請相信我們的專業，誠摯為您服務，各種廠牌二手車輛買賣與維修，非一般大賣場勉強整理的機車，品質與車況有保障</h3>
@@ -275,10 +275,10 @@
             </div>
             <hr>
             <div class="row main-block">
-                <div class="span12">
+                <div class="col-sm-12 col-md-12">
 <!-- MAIN CONTENT AREA: bizstrap CUSTOM - HERO LIST -->
                     <div class="row show-grid hero-list">
-%{--                         <div class="span3">
+%{--                         <div class="col-sm-3 col-md-3">
                             <div class="image-wrapper">
                                 <img alt="" src="img/ruler.png" />
                             </div>
@@ -287,7 +287,7 @@
                             </p>
                         </div> --}%
 
-                        <div class="span3">
+                        <div class="col-sm-3 col-md-3">
                             <div class="image-wrapper">
                                 <img alt="" src="img/direction.png" />
                             </div>
@@ -296,7 +296,7 @@
                                 %{-- <a href="#">Learn more&nbsp;&raquo;</a> --}%
                             </p>
                         </div>
-                        <div class="span3">
+                        <div class="col-sm-3 col-md-3">
                             <div class="image-wrapper">
                                 <img alt="" src="img/both_arrows.png" />
                             </div>
@@ -305,7 +305,7 @@
                                 %{-- <a href="#">Learn more&nbsp;&raquo;</a> --}%
                             </p>
                         </div>
-                        <div class="span6">
+                        <div class="col-sm-6 col-md-6">
                             <div class="image-wrapper">
                                 <img alt="" src="img/equaliser.png" />
                             </div>
@@ -316,11 +316,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="horizontal-divider span12"></div>
+                <div class="horizontal-divider col-sm-12 col-md-12"></div>
             </div>
             <hr>
             <div class="row show-grid">
-              <div class="span12 grey-box">
+              <div class="col-sm-12 col-md-12 grey-box">
                   <div class="hero-block3">
                       <div class="row show-grid">
                           <div class="span9">
@@ -328,7 +328,7 @@
                                   <h2>English it's OK! 日本語もできます！</h2>
                               </div>
                           </div>
-%{--                           <div class="span3">
+%{--                           <div class="col-sm-3 col-md-3">
                               <div class="tour-btn">
                                   <a href="#" class="btn btn-warning">come Here!</a>
                               </div>
@@ -343,10 +343,10 @@
                     <h2>最近的文章</h2><a href="#" class="all"></a>
                 </div>
                 <div class="row show-grid clear-both">
-                    <div class="span12">
+                    <div class="col-sm-12 col-md-12">
                       <div class="row show-grid">
                         <g:each var='recentPost' in='${recentPosts}' >
-                          <div class="span3">
+                          <div class="col-sm-3 col-md-3">
                             <a class="block-post-img" href="#">
 
   
@@ -371,24 +371,24 @@
                     <h2>服務廠牌</h2>
                 </div>
                 <div class="row show-grid">
-                    <div class="span12">
+                    <div class="col-sm-12 col-md-12">
                         <div id="clients" class="row show-grid">
-                            <div class="span2 clear-both hp-wrapper">
+                            <div class="col-sm-2 col-md-2 clear-both hp-wrapper">
                                 <g:img alt="" dir="images" file="yamaha.jpg" />
                             </div>
-                            <div class="span2 hp-wrapper">
+                            <div class="col-sm-2 col-md-2 hp-wrapper">
                                 <g:img alt="" dir="images" file="sym.jpg" />
                             </div>
-                            <div class="span2 hp-wrapper">
+                            <div class="col-sm-2 col-md-2 hp-wrapper">
                                 <g:img alt="" dir="images" file="kymco.jpg" />
                             </div>
-                            <div class="span2 hp-wrapper">
+                            <div class="col-sm-2 col-md-2 hp-wrapper">
                                 <g:img alt="" dir="images" file="suzuki.jpg" />
                             </div>
-                            <div class="span2 hp-wrapper">
+                            <div class="col-sm-2 col-md-2 hp-wrapper">
 
                             </div>
-                            <div class="span2 hp-wrapper">
+                            <div class="col-sm-2 col-md-2 hp-wrapper">
                                 
                             </div>
 

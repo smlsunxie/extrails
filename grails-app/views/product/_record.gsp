@@ -1,6 +1,6 @@
 
 		<div class="row-fluid">
-			<div class="span12 well well-small">
+			<div class="col-sm-12 col-md-12 well well-small">
 							
 				<sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
 					
@@ -22,28 +22,28 @@
 
 				<div class="row-fluid">
 
-					<div class="span2 well well-small">
+					<div class="col-sm-2 col-md-2 well well-small">
 						<g:message code="product.cc.label" />
 						<div class="row-fluid">
 								${product.cc}
 						</div>
 					</div>
 
-					<div class="span2 well well-small">
+					<div class="col-sm-2 col-md-2 well well-small">
 						<g:message code="product.mileage.label" />
 						<div class="row-fluid">
 								${product.mileage}
 						</div>
 					</div>
 
-					<div class="span2 well well-small">
+					<div class="col-sm-2 col-md-2 well well-small">
 						<g:message code="product.years.label" />
 						<div class="row-fluid">
 							<g:formatDate date="${product.years}" type="date" style="SHOROT"  />
 						</div>
 					</div>
 						
-					<div class="span2 well well-small">
+					<div class="col-sm-2 col-md-2 well well-small">
 						<g:message code="product.price.label" />
 						<div class="row-fluid">
 							${product.price}
@@ -51,7 +51,7 @@
 					</div>
 
 					<sec:ifAnyGranted roles="ROLE_MANERGER">                
-						<div class="span2 well well-small">
+						<div class="col-sm-2 col-md-2 well well-small">
 							<g:message code="product.cost.label" />
 							<div class="row-fluid">
 								${product.cost}
@@ -60,7 +60,7 @@
 					</sec:ifAnyGranted >
 
 
-					<div class="span2 well well-small">
+					<div class="col-sm-2 col-md-2 well well-small">
 						<g:message code="default.description.label" />
 						<div class="row-fluid">
 								 ${product?.description}
@@ -75,7 +75,7 @@
 					<sec:ifAnyGranted roles="ROLE_OPERATOR">
 
 						<g:if test="${product?.events}">
-							<div class="span2 well well-small">
+							<div class="col-sm-2 col-md-2 well well-small">
 								<g:message code="product.totalUnreceiveMoney.label" />
 								<div class="row-fluid">
 										 ${product?.events.totalPrice.sum()-product?.events.receivedMoney.sum()}
@@ -85,7 +85,7 @@
 
 
 
-            <div class="span2 well well-small">
+            <div class="col-sm-2 col-md-2 well well-small">
               <g:message code="user.title.label" />
               <div class="row-fluid">
                   ${product?.user}
@@ -93,14 +93,14 @@
             </div>
 
 
-            <div class="span2 well well-small">
+            <div class="col-sm-2 col-md-2 well well-small">
               <g:message code="user.telphone.label" />
               <div class="row-fluid">
                   ${product?.user?.telphone}
               </div>
             </div>
 
-            <div class="span2 well well-small">
+            <div class="col-sm-2 col-md-2 well well-small">
               <g:message code="user.mobile.label" />
               <div class="row-fluid">
                   ${product?.user?.mobile}
@@ -108,7 +108,7 @@
             </div>
 
 
-            <div class="span2 well well-small">
+            <div class="col-sm-2 col-md-2 well well-small">
               <g:message code="user.description.label" />
               <div class="row-fluid">
                   ${product?.user?.description}

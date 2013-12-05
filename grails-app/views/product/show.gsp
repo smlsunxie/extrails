@@ -8,7 +8,7 @@
 <body>
   <div class="row show-grid">
 
-      <div class="span12">                        
+      <div class="col-sm-12 col-md-12">                        
 
 
         <sec:ifAllGranted roles="ROLE_OPERATOR">

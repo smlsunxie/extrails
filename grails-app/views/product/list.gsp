@@ -12,11 +12,11 @@
 <body>
 
   <div class="row show-grid">
-      <div class="span12">                        
+      <div class="col-sm-12 col-md-12">                        
           %{-- <div class="row show-grid clear-both"> --}%
 
 
-%{-- 						  <div id="left-sidebar" class="span3 sidebar">
+%{-- 						  <div id="left-sidebar" class="col-sm-3 col-md-3 sidebar">
 						      <div class="sidebar-news-widget sidebar-block">
 						          <h2>維修中</h2>
                       <ul>

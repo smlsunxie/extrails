@@ -29,7 +29,7 @@
             <div id="portfolio" class="row">                        
 
                 <g:each var="post" in="${posts}">
-                    <div class="span6 large hp-wrapper element ${post.tags.join(' ')}">        
+                    <div class="col-sm-6 col-md-6 large hp-wrapper element ${post.tags.join(' ')}">        
  
 
                         <g:link controller="post" action="show" id="${post.id}"><g:img alt="" dir='img' file="460_arrow_2_hover.png" class="hover-shade" />

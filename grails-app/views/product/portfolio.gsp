@@ -8,7 +8,7 @@
 
     <div class="container">
 %{--         <div class="row show-frid">
-            <div class="span12">
+            <div class="col-sm-12 col-md-12">
                 <div id="breadcrumb">
                     <ul>
                         <li class="home"><a href="#">${type}</a></li>

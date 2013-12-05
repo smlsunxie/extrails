@@ -1,6 +1,6 @@
 
   <div class="row">
-    <div class="span12">
+    <div class="col-sm-12 col-md-12">
       <h1>文章</h1>
       <p class="lead">content</p>
     </div>
