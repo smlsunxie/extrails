@@ -40,7 +40,7 @@
                 <ul id="portfolio" class="row thumbnails">                  
 
                     <g:each var="part" in="${parts}">
-                        <li class="span4 large hp-wrapper element ${part.tags.join(' ')}">        
+                        <li class="col-sm-4 col-md-4 large hp-wrapper element ${part.tags.join(' ')}">        
      
 
 

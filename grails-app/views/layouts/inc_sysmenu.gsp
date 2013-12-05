@@ -1,4 +1,4 @@
-    <li class="${controllerName=='home' && actionName=='index' ?'active':''} single">
+    <li class="${controllerName=='home' && actionName=='index' ?'active ':''}single">
         <g:link controller="home">
             <g:message code="default.home.label"/>
             <i>HOME</i>
@@ -6,33 +6,33 @@
     </li>
       
 
-    <li class="${controllerName=='post' && type==motoranger.PostType.SALE ?'active':''} single">
+    <li class="${controllerName=='post' && type==motoranger.PostType.SALE ?'active ':''}single">
         <g:link controller="post" action="portfolio" params="[type:'SALE']">
             拍賣
             <i>SALE</i>
         </g:link>
     </li>
-    <li class="${controllerName=='post' && type==motoranger.PostType.NEWS ?'active':''} single">
+    <li class="${controllerName=='post' && type==motoranger.PostType.NEWS ?'active ':''}single">
         <g:link controller="post" action="portfolio" params="[type:'NEWS']">
             <g:message code="default.news.label"/>
             <i>NEWS</i>
         </g:link>
     </li>
-    <li class="${controllerName=='post' && type==motoranger.PostType.DEMO ?'active':''} single">
+    <li class="${controllerName=='post' && type==motoranger.PostType.DEMO ?'active ':''}single">
         <g:link controller="post" action="portfolio" params="[type:'DEMO']">
             <g:message code="default.demo.label"/>
             <i>DEMO</i>
         </g:link>
     </li>
 
-%{--     <li class="${controllerName=='part' && actionName=='portfolio' ?'active':''} single">
+%{--     <li class="${controllerName=='part' && actionName=='portfolio' ?'active ':''}single">
         <g:link controller="part" action="portfolio">
             <g:message code="default.parts.label" default="parts"/>
             <i>PARTS</i>
         </g:link>
     </li> --}%
 
-%{--     <li class="${controllerName=='home' && actionName=='abouts' ?'active':''} single">
+%{--     <li class="${controllerName=='home' && actionName=='abouts' ?'active ':''}single">
         <g:link controller="home" action="abouts">
             <g:message code="default.abouts.label"/>
             <i>ABOUTS</i>

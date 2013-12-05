@@ -5,7 +5,7 @@
       <sec:ifAnyGranted roles="ROLE_OPERATOR">
         <div class="row-fluid">
 
-          <div class="span4">
+          <div class="col-sm-4 col-md-4">
             
 
                 <g:link

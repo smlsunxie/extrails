@@ -16,7 +16,7 @@
 
                 <div class="row">
 
-                  <div class="span4">
+                  <div class="col-sm-4 col-md-4">
                     <g:render template="md_help" />
 
                   </div>

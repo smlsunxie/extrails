@@ -7,7 +7,7 @@
 
           <div class="row-fluid">
 
-            <div class="span4">
+            <div class="col-sm-4 col-md-4">
               <g:link class="btn btn-primary btn-large "
                   action="edit" controller="event" id="${event.id}" >
                 <g:message code="default.button.edit.label" />

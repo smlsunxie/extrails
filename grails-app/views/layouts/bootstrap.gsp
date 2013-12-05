@@ -17,57 +17,50 @@
 %{-- <g:justfont /> --}%
 %{-- <google:analytics /> --}%
 </head>
-<body data-spy="scroll" data-target=".bs-docs-sidebar">
-<!-- THE LINE AT THE VERY TOP OF THE PAGE -->
-        <div class="top_line"></div>
-<!-- HEADER AREA -->
-        <header>
-            <g:applyLayout name="inc_header" />
+<body>
+
+  <div id="load" style="position:fixed; top:0; left:0; right:0; bottom:0; background:#fff; z-index:999999;"><span></span></div>
+  
+  <div class="container"></div>
+  
+  <div id="over">
+    <div id="out_container">
+      <div class="top_line"></div>
+      
+      <header>
+        <g:applyLayout name="inc_header" />
+      </header>
 
 
+      <div role="main" class="main-content">
+        <%--GoogleChromeFrame--%>
+        <g:render template="/layouts/alert_chromeframe" />
 
-        </header>
-                <%--快閃訊息--%>
+      	<%--主畫面內容--%>
+        <div class="container">
 
-<%--畫面可視區域：起點--%>
+          <g:render template="/layouts/navbar" />
 
-<div class="blur-after-modal-shown">
+          <div class="row">
+            <div class="span12" id="alert_placeholder"></div>
+          </div>
 
+          <g:layoutBody/>
 
-<div role="main" class="main-content">
-
-    <%--GoogleChromeFrame--%>
-    <g:render template="/layouts/alert_chromeframe" />
-
-	<%--主畫面內容--%>
-    <div class="container">
-
-        
-
+        </div>
+      </div>
 
 
-        <g:render template="/layouts/navbar" />
- 
-            <div class="row">
-                <div class="span12" id="alert_placeholder">
-
-                </div>
-            </div>
-	   <g:layoutBody/>
+      <footer id="footer">
+      	<g:applyLayout name="inc_footer" />
+      </footer>
 
     </div>
-
-</div>
-
-<footer id="footer">
-	<g:applyLayout name="inc_footer" />
-</footer>
-</div>
-
-<%--畫面可視區域：終點--%>
+  </div>
 
 
-<r:script>
+
+  <r:script>
 
     bootstrap_alert = function() {}
     bootstrap_alert.warning = function(message) {
@@ -77,39 +70,34 @@
     if('${flash.message}'!=='') bootstrap_alert.warning('${flash.message}');
 
 
-  var onSuccessFun=function(data){
-		
-    var unreciveMoneyElm=$("#unreceiveMoney_"+data.event.id);
-    var receivedMoney=data.event.receivedMoney;
-    var initValue=unreciveMoneyElm.attr("data-initValue");
-    var unreciveMoney=initValue-receivedMoney;
+    var onSuccessFun=function(data){
+  		
+      var unreciveMoneyElm=$("#unreceiveMoney_"+data.event.id);
+      var receivedMoney=data.event.receivedMoney;
+      var initValue=unreciveMoneyElm.attr("data-initValue");
+      var unreciveMoney=initValue-receivedMoney;
 
-    if(data.success){
-     
+      if(data.success){
+       
 
-      if(unreciveMoney<0)unreciveMoney=0;
+        if(unreciveMoney<0)unreciveMoney=0;
 
-      unreciveMoneyElm.val(unreciveMoney);
+        unreciveMoneyElm.val(unreciveMoney);
 
-      bootstrap_alert.warning("已收金額已更新為："+data.event.receivedMoney)
-    }else {
+        bootstrap_alert.warning("已收金額已更新為："+data.event.receivedMoney)
+      }else {
 
-      var receivedMoneyElm=$("[id='"+data.event.id+"'][name='receivedMoney']");
-      receivedMoneyElm.val(data.event.receivedMoney)
+        var receivedMoneyElm=$("[id='"+data.event.id+"'][name='receivedMoney']");
+        receivedMoneyElm.val(data.event.receivedMoney)
 
-
-      bootstrap_alert.warning(data.msg)
-      unreciveMoneyElm.val(unreciveMoney);
-
-
+        bootstrap_alert.warning(data.msg)
+        unreciveMoneyElm.val(unreciveMoney);
+      }
     }
 
+  </r:script>
 
-  }
-
-</r:script>
-
-<r:layoutResources />
+  <r:layoutResources />
 
 
 

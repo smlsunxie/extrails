@@ -1,7 +1,7 @@
   <div class="controls">
     <div  class="row-fluid" >
 
-      <div  class="span4" >
+      <div  class="col-sm-4 col-md-4" >
 
         <uploader:uploader debug="true" id="fileupload" url="${[controller:'attachment', action:'save']}" params='[name:name]' >
           <uploader:onComplete>
