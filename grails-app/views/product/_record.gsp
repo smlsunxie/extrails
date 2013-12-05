@@ -1,5 +1,5 @@
 
-		<div class="row-fluid">
+		<div class="row">
 			<div class="col-sm-12 col-md-12 well well-small">
 							
 				<sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_OPERATOR">
@@ -20,32 +20,32 @@
 						${product?.brand.title}：AA${product?.title}
 				</sec:ifNotLoggedIn>
 
-				<div class="row-fluid">
+				<div class="row">
 
 					<div class="col-sm-2 col-md-2 well well-small">
 						<g:message code="product.cc.label" />
-						<div class="row-fluid">
+						<div class="row">
 								${product.cc}
 						</div>
 					</div>
 
 					<div class="col-sm-2 col-md-2 well well-small">
 						<g:message code="product.mileage.label" />
-						<div class="row-fluid">
+						<div class="row">
 								${product.mileage}
 						</div>
 					</div>
 
 					<div class="col-sm-2 col-md-2 well well-small">
 						<g:message code="product.years.label" />
-						<div class="row-fluid">
+						<div class="row">
 							<g:formatDate date="${product.years}" type="date" style="SHOROT"  />
 						</div>
 					</div>
 						
 					<div class="col-sm-2 col-md-2 well well-small">
 						<g:message code="product.price.label" />
-						<div class="row-fluid">
+						<div class="row">
 							${product.price}
 						</div>
 					</div>
@@ -53,7 +53,7 @@
 					<sec:ifAnyGranted roles="ROLE_MANERGER">                
 						<div class="col-sm-2 col-md-2 well well-small">
 							<g:message code="product.cost.label" />
-							<div class="row-fluid">
+							<div class="row">
 								${product.cost}
 							</div>
 						</div>
@@ -62,7 +62,7 @@
 
 					<div class="col-sm-2 col-md-2 well well-small">
 						<g:message code="default.description.label" />
-						<div class="row-fluid">
+						<div class="row">
 								 ${product?.description}
 						</div>
 					</div>
@@ -71,13 +71,13 @@
 
 
 
-				<div class="row-fluid">
+				<div class="row">
 					<sec:ifAnyGranted roles="ROLE_OPERATOR">
 
 						<g:if test="${product?.events}">
 							<div class="col-sm-2 col-md-2 well well-small">
 								<g:message code="product.totalUnreceiveMoney.label" />
-								<div class="row-fluid">
+								<div class="row">
 										 ${product?.events.totalPrice.sum()-product?.events.receivedMoney.sum()}
 								</div>
 							</div>
@@ -87,7 +87,7 @@
 
             <div class="col-sm-2 col-md-2 well well-small">
               <g:message code="user.title.label" />
-              <div class="row-fluid">
+              <div class="row">
                   ${product?.user}
               </div>
             </div>
@@ -95,14 +95,14 @@
 
             <div class="col-sm-2 col-md-2 well well-small">
               <g:message code="user.telphone.label" />
-              <div class="row-fluid">
+              <div class="row">
                   ${product?.user?.telphone}
               </div>
             </div>
 
             <div class="col-sm-2 col-md-2 well well-small">
               <g:message code="user.mobile.label" />
-              <div class="row-fluid">
+              <div class="row">
                   ${product?.user?.mobile}
               </div>
             </div>
@@ -110,7 +110,7 @@
 
             <div class="col-sm-2 col-md-2 well well-small">
               <g:message code="user.description.label" />
-              <div class="row-fluid">
+              <div class="row">
                   ${product?.user?.description}
               </div>
             </div>

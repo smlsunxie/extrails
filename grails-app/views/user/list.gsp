@@ -17,7 +17,7 @@
 		
 		<div id="list-user" class="container" role="main">
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
-            <div class="row-fluid">
+            <div class="row">
 				<table  class="table">
 					<thead>
 						<tr>

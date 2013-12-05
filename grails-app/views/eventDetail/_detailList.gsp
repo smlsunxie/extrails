@@ -1,9 +1,9 @@
-  <div class="row-fluid">
+  <div class="row">
     <div class="span10 well well-small">
      
 
       <sec:ifAnyGranted roles="ROLE_OPERATOR">
-        <div class="row-fluid">
+        <div class="row">
 
           <div class="col-sm-4 col-md-4">
             
@@ -28,17 +28,17 @@
       </sec:ifAnyGranted>
 
 
-      <div class="row-fluid">
+      <div class="row">
         <div class="col-sm-2 col-md-2 well well-small">
           <g:message code="default.dateCreated.label" />
-          <div class="row-fluid">
+          <div class="row">
               <g:formatDate date="${detail.lastUpdated}" type="date" style="SHOROT" />
           </div>
         </div>
 
         <div class="col-sm-2 col-md-2 well well-small">
           <g:message code="part.label" />
-          <div class="row-fluid">
+          <div class="row">
             ${detail?.part?.title}
           </div>
         </div>
@@ -46,7 +46,7 @@
         <sec:ifLoggedIn>
           <div class="col-sm-2 col-md-2 well well-small">
             <g:message code="eventDetail.price.label" />
-            <div class="row-fluid">
+            <div class="row">
               ${detail?.price} * ${detail?.qty} = ${detail?.price*detail?.qty}
             </div>
           </div>
@@ -54,7 +54,7 @@
         <sec:ifAnyGranted roles="ROLE_MANERGER">
           <div class="col-sm-2 col-md-2 well well-small">
             <g:message code="part.cost.label" />
-            <div class="row-fluid">
+            <div class="row">
               ${detail?.cost}
             </div>
           </div>
@@ -66,7 +66,7 @@
 
       <g:if test="${detail?.mainImage}">
       <div class="col-sm-2 col-md-2">
-        <div class="row-fluid">
+        <div class="row">
           <g:link action="show" controller="attachment" params="[name:detail.name ,file:detail.mainImage]"><g:img  alt="" uri="attachment/show?name=${detail.name}&file=${detail.mainImage}" /></g:link>
           
         </div>

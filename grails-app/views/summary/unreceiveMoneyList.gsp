@@ -13,7 +13,7 @@
 
 <div class="container">
 
-                  <div class="row-fluid">
+                  <div class="row">
                     <table class="table">
                         <thead>
                           <tr>

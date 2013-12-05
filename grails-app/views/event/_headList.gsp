@@ -1,11 +1,11 @@
 
-    <div class="row-fluid">
+    <div class="row">
       <div class="col-sm-12 col-md-12 well well-small">
               
 %{--         <g:link controller="eventDetail" action="list" params="[event:event.id]">${event.name}</g:link> --}%
         <sec:ifAnyGranted roles="ROLE_OPERATOR">
 
-          <div class="row-fluid">
+          <div class="row">
 
             <div class="col-sm-4 col-md-4">
               <g:link class="btn btn-primary btn-large "
@@ -67,12 +67,12 @@
 
 
 
-        <div class="row-fluid">
+        <div class="row">
 
           <sec:ifLoggedIn>
             <div class="col-sm-2 col-md-2 well well-small">
               <g:message code="product.name.label" />
-              <div class="row-fluid">
+              <div class="row">
                   ${event.product.name}
               </div>
             </div>
@@ -80,7 +80,7 @@
 
           <div class="col-sm-2 col-md-2 well well-small">
             <g:message code="user.username.label" />
-            <div class="row-fluid">
+            <div class="row">
                 ${event.user.username}
             </div>
           </div>
@@ -88,21 +88,21 @@
 
           <div class="col-sm-2 col-md-2 well well-small">
             <g:message code="event.status.label" />
-            <div class="row-fluid">
+            <div class="row">
                 <g:message code="ProductStatus.${event.status.name()}" />
             </div>
           </div>
 
           <div class="col-sm-2 col-md-2 well well-small">
             <g:message code="event.mileage.label" />
-            <div class="row-fluid">
+            <div class="row">
               ${event.mileage}
             </div>
           </div>
 
           <div class="col-sm-2 col-md-2 well well-small">
             <g:message code="event.date.label" />
-            <div class="row-fluid">
+            <div class="row">
 
                 <g:formatDate date="${event.date}" type="date" style="SHOROT" />
 
@@ -112,14 +112,14 @@
             <sec:ifLoggedIn>
               <div class="col-sm-2 col-md-2 well well-small">
                 <g:message code="event.totalPrice.label" />
-                <div class="row-fluid">
+                <div class="row">
                   ${event?.totalPrice}
                 </div>
               </div>
 
             </sec:ifLoggedIn>
 
-            <div class="row-fluid">
+            <div class="row">
                 <g:each in="${event.details}" var="detail" status="i" >
                   <g:render template='/eventDetail/detailList' model="[detail:detail, i:i+1]" />
                 </g:each>

@@ -1,5 +1,5 @@
   <div class="controls">
-    <div  class="row-fluid" >
+    <div  class="row" >
 
       <div  class="col-sm-4 col-md-4" >
 
@@ -24,7 +24,7 @@
   </div>  
   <hr/>
 
-  <div id="webcamViewDiv" class="row-fluid" >
+  <div id="webcamViewDiv" class="row" >
     <video class="col-sm-6 col-md-6 thumbnail" autoplay></video>
     <canvas class="col-sm-6 col-md-6 thumbnail" height = '225'></canvas>    
   </div>
@@ -32,7 +32,7 @@
 
 
 
-  <div  class="row-fluid">
+  <div  class="row">
     <div id="images" class="col-sm-12 col-md-12">
     </div>
   </div>

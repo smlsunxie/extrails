@@ -17,7 +17,7 @@
 
         <g:render template="content" />
 
-        <div class="row-fluid">
+        <div class="row">
           <table class="table">
               <thead>
                 <tr>

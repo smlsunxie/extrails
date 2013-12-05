@@ -46,7 +46,7 @@
               %{-- 圖片 tab --}%
               <div class="tab-pane fade" id="imagesTab">
 
-                <div class="row-fluid">
+                <div class="row">
 
                     <g:render template="/attachment/uploadBtn" model="[name:post.name ,mainImage: post?.mainImage]" />  
                 </div>

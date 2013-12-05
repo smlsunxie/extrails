@@ -99,7 +99,7 @@
 
                             </div>
                             <sec:ifAnyGranted roles="ROLE_OPERATOR">
-                              <div class="row-fluid stick_outside">
+                              <div class="row stick_outside">
                                 
                                 <div class="col-sm-6 col-md-6">
                                     <div class="input-prepend input-append">
@@ -171,7 +171,7 @@
 
                         </div>
                         <sec:ifAnyGranted roles="ROLE_OPERATOR">
-                          <div class="row-fluid stick_outside">
+                          <div class="row stick_outside">
                             
                             <div class="col-sm-6 col-md-6">
                                 <div class="input-prepend input-append">
