@@ -85,8 +85,8 @@ modules = {
         dependsOn 'bizstrap'
         defaultBundle __bundleName
         
-        resource url: 'stylesheets/font-awesome.css'
-        resource url: 'stylesheets/font-awesome-ie7.css',
+        resource url: 'css/font-awesome.css'
+        resource url: 'css/font-awesome-ie7.css',
             wrapper: { s -> "<!--[if lte IE 7]>$s<![endif]-->" }
     }
     
@@ -104,7 +104,7 @@ modules = {
         dependsOn 'bizstrap, tagit, fileuploader'
         defaultBundle __bundleName
 
-        resource url: 'stylesheets/screen.css'
+        resource url: 'css/screen.css'
     }
 
 

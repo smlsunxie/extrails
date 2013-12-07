@@ -18,30 +18,30 @@
         <div class="row">
           
           <div class="col-sm-3 col-md-3">
-            <div class="input-prepend input-append">
-              <span class="add-on">已收金額</span>
+            <div class="input-group">
+              <span class="input-group-addon">已收金額</span>
               <g:remoteField action="updateReceivedMoney" controller="event" id="${event.id}"
-                name="receivedMoney" onSuccess="onSuccessFun(data)" value="${event?.receivedMoney.toString()}"  data-for="unreceiveMoney_${event.id}" class="col-sm-2 col-md-2" />
+                name="receivedMoney" onSuccess="onSuccessFun(data)" value="${event?.receivedMoney.toString()}"  data-for="unreceiveMoney_${event.id}" class="form-control" />
             </div>                          
 
           </div>
           <div class="col-sm-3 col-md-3">
-            <div class="input-prepend input-append">
-              <span class="add-on">未收金額</span>
-              <input readonly value="${event?.totalPrice-event?.receivedMoney}"  type="text" id="unreceiveMoney_${event.id}"  data-initValue="${event?.totalPrice}"  class="col-sm-2 col-md-2" />                               
+            <div class="input-group">
+              <span class="input-group-addon">未收金額</span>
+              <input readonly value="${event?.totalPrice-event?.receivedMoney}"  type="text" id="unreceiveMoney_${event.id}"  data-initValue="${event?.totalPrice}" class="form-control" />                               
             </div>
             
           </div>      
           <div class="col-sm-3 col-md-3">
-            <div class="input-prepend input-append">
-              <span class="add-on">維修總額</span>
-              <input readonly value="${event?.totalPrice}"  type="text" class="col-sm-2 col-md-2" />                              
+            <div class="input-group">
+              <span class="input-group-addon">維修總額</span>
+              <input readonly value="${event?.totalPrice}"  type="text" class="form-control" />                              
             </div>
           </div>
 
-            <div class="input-prepend input-append">
-              <span class="add-on">維修日期</span>
-              <input  type="text" value="${event?.date.format('yyyy-MM-dd')}" data-date="${event?.date.format('yyyy-MM-dd')}" data-date-format="yyyy-mm-dd" class="col-sm-2 col-md-2" name="date"/>
+            <div class="input-group">
+              <span class="input-group-addon">維修日期</span>
+              <input  type="text" value="${event?.date.format('yyyy-MM-dd')}" data-date="${event?.date.format('yyyy-MM-dd')}" data-date-format="yyyy-mm-dd" name="date" class="form-control"/>
 
 
 
@@ -55,7 +55,7 @@
 
       <div class="portfolio-nav">
   <!-- SET PORTFOLIO NAV FILTERS HERE -->                     
-        <ul id="filters" data-option-key="filter" class="nav nav-pills nav-pills-portfolio">
+        <ul data-option-key="filter" class="nav nav-pills nav-pills-portfolio">
 
 
           <g:if test="${event?.product?.status.name() == "UNFIN"}"> 
@@ -81,7 +81,7 @@
 <!-- START PORTFOLIO NAV -->                    
     <div class="portfolio-nav">
 <!-- SET PORTFOLIO NAV FILTERS HERE -->                     
-      <ul id="filters" data-option-key="filter" class="nav nav-pills nav-pills-portfolio">
+      <ul data-option-key="filter" class="nav nav-pills nav-pills-portfolio">
         <g:each var="tag" in="${tags}">
 
           <li class="${ nowTag == tag.toString() ? 'active' : '' }">
@@ -114,14 +114,14 @@
                       <p>
 
 
-                        <div class="input-prepend input-append">
-                          <span class="add-on">售價</span>
-                          <g:textField value="${part.price}" name="price" class="col-sm-2 col-md-2" />
+                        <div class="input-group">
+                          <span class="input-group-addon">售價</span>
+                          <g:textField value="${part.price}" name="price" class="form-control" />
                         </div>
 
-                        <div class="input-prepend input-append">
-                          <span class="add-on">數量</span>
-                          <g:textField value="1"  name="qty" class="col-sm-2 col-md-2" />
+                        <div class="input-group">
+                          <span class="input-group-addon">數量</span>
+                          <g:textField value="1"  name="qty" class="form-control" />
                         </div>                          
                       </p>
 

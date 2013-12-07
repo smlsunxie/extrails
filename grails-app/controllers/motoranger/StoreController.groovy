@@ -4,10 +4,42 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class StoreController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static layout = 'bootstrap'
+    def springSecurityService
 
     def index() {
-        redirect(action: "list", params: params)
+
+        def currentUser = springSecurityService.currentUser
+        def store = currentUser?.store
+        
+        def unfinEvents= Event.findAllByStatusAndStore(motoranger.ProductStatus.UNFIN
+            , store,[order:"desc",sort:"lastUpdated"])
+        def endEvents= Event.findAllByStatusAndStore(motoranger.ProductStatus.END
+            , store,[max:8,order:"desc",sort:"lastUpdated"])
+
+
+        def operators=[]
+        if(springSecurityService?.currentUser?.store 
+            && springSecurityService?.currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_MANERGER'))){
+
+            def users=User.findAllByStore(springSecurityService?.currentUser?.store)
+
+            users.each(){
+                if(it.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_OPERATOR'))){
+                    operators << it
+                }
+
+            }
+        }
+
+        [
+            unfinEvents: unfinEvents,
+            endEvents: endEvents,
+            operators: operators,
+            store: store
+        ]
+
+
     }
 
     def list(Integer max) {

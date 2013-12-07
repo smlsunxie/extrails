@@ -26,11 +26,7 @@ jQuery(document).ready(function() {
 	if(default_settings.pattern && default_settings.pattern != 'none') default_settings.pattern = 'js/style-switcher/patterns/' + default_settings.pattern + '.png';
 	if(default_settings.bg && default_settings.bg != 'none') default_settings.bg = 'js/style-switcher/images/' + default_settings.bg + '.jpg';
 	
-	if(jQuery('body').hasClass('admin')) {
-		directory = '../';
-	} else {
-		directory = '';
-	}
+	directory = '/bizstrap/';
 	
 	
 	jQuery('head').append('<script type="text/javascript" src="' + directory + 'js/style-switcher/jquery.cookie.js">');

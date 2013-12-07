@@ -1,5 +1,5 @@
   <div class="row">
-    <div class="span10 well well-small">
+    <div class="col-sm-10 col-md-10 well well-small">
      
 
       <sec:ifAnyGranted roles="ROLE_OPERATOR">

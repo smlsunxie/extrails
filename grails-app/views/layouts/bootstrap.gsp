@@ -32,13 +32,12 @@
       </header>
 
 
-      <div role="main" class="main-content">
+      <div class="main-content">
         <%--GoogleChromeFrame--%>
         <g:render template="/layouts/alert_chromeframe" />
 
       	<%--主畫面內容--%>
         <div class="container">
-
           <g:render template="/layouts/navbar" />
 
           <div class="row">
@@ -53,6 +52,17 @@
 
       <footer id="footer">
       	<g:applyLayout name="inc_footer" />
+
+        <div class="footer-bottom">
+          <div class="container">
+            <div class="row show-grid">
+              <div class="col-sm-12 col-md-12">
+                <p>Template by bizstrap power by <a href="http://ccws.co">ccws</a></p>
+
+              </div>
+            </div>
+          </div>
+        </div>
       </footer>
 
     </div>
