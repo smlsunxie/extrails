@@ -4,6 +4,7 @@ package motoranger
 import uk.co.desirableobjects.ajaxuploader.exception.FileUploadException
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
+import common.*
 
 class AttachmentController {
 
@@ -26,36 +27,18 @@ class AttachmentController {
 
     @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def save(){
+
+
+        def result = [:]
         try {
-            // def fileLocation=grailsApplication.config.upload.files.path;
-            // log.info fileLocation
+            def inputStream = (InputStream)request.inputStream
+            def byteArrayOutputStream=imageModiService.sizeNormal(inputStream)
 
-            //檢查路徑是否存在，若不存在則產生資料夾
-            // fileHandleService.checkAndCreate(new File("${fileLocation}/${params.name}"));
-
-            // 定義上傳的檔案名稱
-            // File uploaded = new File("${fileLocation}/${params.name}/${params.qqfile}")
-            // File compressed = new File("${fileLocation}/${params.name}/${params.qqfile}_compressed")
-
-            // 將使用者上傳檔案的 inputStream 指定給 uploaded 完成檔案儲存
-            // ajaxUploaderService.upload(request.inputStream, uploaded)
-
-            //改變檔案大小
-
-            def ri = (InputStream)request.inputStream
             def s3Location="${grailsApplication.config.grails.aws.root}/${params.name}/${params.qqfile}";
-
-            if(params.qqfile.toLowerCase().endsWith(".jpg") || params.qqfile.toLowerCase().endsWith(".jpeg")){
-                def oi=imageModiService.sizeMiddle(ri)                
-                s3Service.saveObject s3Location, new ByteArrayInputStream(oi.toByteArray())
-                oi.close();
-                // oi=null
-            }else {
-                s3Service.saveObject s3Location, ri
-                // ri=null
-            }
-
-
+            ByteArrayInputStream inputStreamScaled = new ByteArrayInputStream(byteArrayOutputStream.toByteArray())
+            
+            s3Service.saveObject s3Location, inputStreamScaled
+            result.success = true
             return render(text: [success:true] as JSON, contentType:'text/json')
 
         } catch (FileUploadException e) {
@@ -64,6 +47,9 @@ class AttachmentController {
             return render(text: [success:false] as JSON, contentType:'text/json')
 
         }
+
+
+
 
     }
 

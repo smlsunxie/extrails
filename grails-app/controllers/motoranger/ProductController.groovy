@@ -86,39 +86,12 @@ class ProductController {
     }
 
 
-    // def portfolio(){
 
-
-    //     def products=Product.list()
-
-
-    //     def tags=[]
-    //     if(products){
-    //         products.tags.each{ //i ->
-    //             tags.addAll(it) 
-    //         }
-    //     }
-
-    //     [
-    //         products: products,
-    //         tags: tags.unique()
-    //     ]
-
-    // }
     @Secured(['ROLE_OPERATOR'])
     def list(){
 
         def products
         def productCount
-
-
-
-
-        // if(flash.users){
-        //     // chain from checkNameIsNew
-        //     products=Product.findAllByUserInList(flash.users)
-        //     productCount= products.size()
-        // }else 
 
 
         params.sort= 'lastUpdated'
@@ -145,6 +118,8 @@ class ProductController {
     def show(){ 
         def product = Product.findByIdOrName(params.id, params.name)
         
+
+        println "${grailsApplication.config.grails.aws.root}/${product.name}" 
         [
             product: product,
             files: s3Service.getObjectList("${grailsApplication.config.grails.aws.root}/${product.name}")
