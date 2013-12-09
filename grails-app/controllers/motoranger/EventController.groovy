@@ -18,10 +18,10 @@ class EventController {
 
         def unfinEvent
 
-        if(params?.event?.id)
+        if(params?.event?.id){
              unfinEvent=Event.findById(params?.event.id)
         
-        else if(params?.product?.id){
+        }else if(params?.product?.id){
             params.product=Product.findById(params.product.id)
 
             params.mileage=params.product.mileage
@@ -44,14 +44,12 @@ class EventController {
     	]
 
     }
+
+
     @Secured(['ROLE_OPERATOR'])
     def save() {
         
-        // if(params?.product && params?.product!='null')
-        //     params.product=Product.findById(params.product)
 
-        // if(params?.user && params?.user!='null')
-        //     params.user=User.findById(params.user)
         def event = Event.findByName(params.name);
 
         if(!event) 
@@ -86,10 +84,34 @@ class EventController {
             args: [message(code: 'event.label', default: 'event'), event.id])
 
 
-        redirect(action: "portfolio", controller:"part", params:["event.id":event.id])
+        redirect(action: "show", id: event.id)
 
 
     }
+    @Secured(['ROLE_OPERATOR'])
+    def pickPartAddDetail(){
+
+        def parts
+        def event
+        def tags
+        if(params?.id){
+            event=Event.findById(params?.id,[sort: 'dateCreated', order: 'desc'])
+        }
+
+        if(params?.tag){
+            parts=Part.findAllByTag(params.tag,[sort: 'title', order: 'asc'])
+        }
+
+        
+
+
+        [
+            parts: parts,
+            event:event
+        ]
+
+    }
+
 
     @Secured(['ROLE_OPERATOR'])
     def delete() { 
@@ -129,12 +151,6 @@ class EventController {
 
         def event = Event.findByIdOrName(params.id, params.name)
 
-        // if(params?.product && params?.product!='null')
-        //     params.product=Product.findById(params.product)
-
-        // if(params?.user && params?.user!='null')
-        //     params.user=User.findById(params.user)
-
         
         if (!event) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'event.label', default: 'Event'), id])
@@ -145,7 +161,7 @@ class EventController {
 
         event.properties = params
 
-        if(event.product.mileage.toLong() < params.mileage.toLong()){
+        if(params.mileage && event.product.mileage.toLong() < params.mileage.toLong()){
             event.product.mileage=params.mileage.toLong()
         }
 
@@ -154,8 +170,15 @@ class EventController {
             return
         }
 
+
         flash.message = message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'event'), event.id])
-        redirect(action: "show", id:event.id)
+        
+        if(request.getHeader('referer').indexOf("event/pickPartAddDetail") != -1
+            || request.getHeader('referer').indexOf("/store/") != -1){
+             redirect(uri: request.getHeader('referer') )
+        }else {
+            redirect(action: "show", id:event.id)
+        }
     }
 
     @Secured(['ROLE_OPERATOR'])
@@ -271,183 +294,4 @@ class EventController {
     }
 
 
-    @Secured(['ROLE_OPERATOR'])
-    def changeStatus() { 
-
-
-        def event=Event.findById(params.id)
-        event.status=params.status
-        event.product.status=params.status
-        event.save(flush: true)
-
-
-        // if(params.controllerName=="home")
-        //     redirect(action:"index", controller:params.controllerName, params:[event:id])
-        // else redirect(action:"list", controller:params.controllerName, params:[event:id])
-
-        redirect(action:"index", controller:"home", params:[event:id])
-
-    }
-
-    def initTotalPrice={
-        def events=Event.list()
-        events.eachWithIndex(){event,i ->
-            log.info "${i}/${events.size()} start"
-            if(event?.details){
-                event.totalPrice= event.details.price.sum()
-                event.receivedMoney=event.totalPrice
-                event.save(flush: true,failOnError:true)
-                log.info event.totalPrice
-            }
-        }
-
-    }
-
-    def htmImport={ 
-
-
-        for ( i in 1..8 ){
-
-            File input = grailsAttributes.getApplicationContext().getResource("/data/event/${i}.htm").getFile()
-
-            Document doc = Jsoup.parse(input, "UTF-8", "http://motoranger.net/");
-
-
-            // event
-            Elements elements = doc.select("td[width=65%] > table[cellspacing=3]");
-            Elements elements2 = doc.select("td[width=35%] > table[cellspacing=3]");
-
-
-
-            elements.eachWithIndex(){ element,j ->
-
-                
-                
-
-                Element userAndProductHtml = element.getElementsByTag("tr").get(3) 
-                Elements userAndProductCols=userAndProductHtml.getElementsByTag("td")
-
-                Element eventHtml = element.getElementsByTag("tr").get(1) 
-                Elements eventCols=eventHtml.getElementsByTag("td")
-
-                def productName=eventCols[3].getElementsByTag("a")[0].html().replace("-","")
-                def mileage=eventCols[5].html().decodeHTML().replace("  KM","")
-
-
-                //---------
-                def userMap=[:]
-
-                userMap.username=productName
-                def user=User.findByUsername(userMap.username)
-                if(!user){
-                    userMap.title=userAndProductCols[0].html().decodeHTML()
-                    if(userMap.title=='')
-                        userMap.title=userMap.username
-                    
-                    userMap.password=userMap.username
-                    user=new User(userMap)
-                    user.save(flush:true,failOnError:true)
-                }else {
-                    user.title=userAndProductCols[0].html().decodeHTML()
-                    user.save(flush:true,failOnError:true)
-                }
-
-                //---------
-                def admin=User.findByUsername("admin")
-                def recordUser=User.findByTitle(userAndProductCols[1].html().decodeHTML())
-
-
-                if(!recordUser)recordUser=admin
-                //---------
-                def productMap=[:]
-                productMap.name=productName
-                productMap.mileage=mileage
-                productMap.user=user
-
-                
-
-                def product=Product.findByName(productMap.name)
-                if(!product){
-                    def brand=userAndProductCols[2].html().decodeHTML()
-
-                    if(brand=="山葉")brand=motoranger.ProductBrand.YAMAHA
-                    else if(brand=="光陽")brand=motoranger.ProductBrand.KYMCO
-                    else if(brand=="三陽")brand=motoranger.ProductBrand.SYM
-                    else if(brand=="川崎")brand=motoranger.ProductBrand.KAWASAKI
-                    else if(brand=="比雅久")brand=motoranger.ProductBrand.PGO
-                    else if(brand=="哈特佛")brand=motoranger.ProductBrand.HORTFORD
-                    else if(brand=="偉士牌")brand=motoranger.ProductBrand.VESPA
-                    else if(brand=="台鈴")brand=motoranger.ProductBrand.SUZUKI
-                    else brand=motoranger.ProductBrand.OTHERS
-
-                    productMap.brand=brand
-                    productMap.title=productMap.name
-                    productMap.creator="admin"
-                    
-                    product=new Product(productMap)
-                    product.save(flush:true,failOnError:true)
-
-                }else if(product.mileage < productMap.mileage.toLong() ){
-                    product.mileage= productMap.mileage.toLong()
-                    product.save(flush:true,failOnError:true)
-                
-                }
-
-
-                //---------
-                def eventMap=[:]
-                def dateString=eventCols[4].html()
-                eventMap.product=product
-                eventMap.creator="admin"
-                eventMap.name="event-${productName}-${dateString}-${i}-${j}"
-
-
-                eventMap.user=recordUser
-                eventMap.mileage=mileage
-                eventMap.status=motoranger.ProductStatus.END
-                eventMap.date=new Date().parse("yyyy/M/d",dateString)
-
-                eventMap.description=eventCols[6].html().decodeHTML()
-
-                def event=new Event(eventMap).save(flush:true,failOnError:true)
-
-
-                Elements eventDetailsHtml=elements2.get(j).getElementsByTag("tr")
-
-                eventDetailsHtml.eachWithIndex(){ detailHtml,k ->
-                    if(k>0){
-                        Elements detailCols=detailHtml.getElementsByTag("td")
-                        def partMap=[:]
-                        partMap.title=detailCols[0].html().decodeHTML().replace("  ","")
-
-                        def part=Part.findByTitle(partMap.title)
-
-                        if(!part){
-                            partMap.name="part-${i}-${j}-${k}"
-                            partMap.price=detailCols[1].html().decodeHTML().replace(",","").toLong()
-                            partMap.cost=partMap.price
-                            part=new Part(partMap)
-                            part.save(flush:true,failOnError:true)
-                            part.addTag("未分類")
-                        }
-
-
-                        def eventDetailMap=[:]
-                        eventDetailMap.head=event
-                        eventDetailMap.name="eventDetail-${i}-${j}-${k}"
-                        eventDetailMap.qty=detailCols[2].html().decodeHTML().toInteger()
-                        eventDetailMap.creator="admin"
-                        eventDetailMap.part=part
-
-                        new EventDetail(eventDetailMap).save(flush:true,failOnError:true)
-
-
-                    }
-                }
-                log.info "${i}:${elements.size()}/${j} end"
-                   
-            }
-        }
-
-    }
 }

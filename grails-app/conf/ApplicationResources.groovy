@@ -79,6 +79,9 @@ modules = {
 
         resource url: 'bootstrap-ext/datepicker/css/datepicker.css'
         resource url: 'bootstrap-ext/datepicker/js/bootstrap-datepicker.js'
+        resource url: 'bootstrap-ext/datepicker/js/locales/bootstrap-datepicker.zh-TW.js'
+
+        
     }
     
     'font-awesome' {

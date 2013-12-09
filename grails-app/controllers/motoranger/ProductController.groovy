@@ -118,11 +118,8 @@ class ProductController {
     def show(){ 
         def product = Product.findByIdOrName(params.id, params.name)
         
-
-        println "${grailsApplication.config.grails.aws.root}/${product.name}" 
         [
-            product: product,
-            files: s3Service.getObjectList("${grailsApplication.config.grails.aws.root}/${product.name}")
+            product: product
         ]
     }
     @Secured(['ROLE_OPERATOR'])
@@ -217,31 +214,6 @@ class ProductController {
         redirect(action: "list")
     }
 
-    @Secured(['ROLE_OPERATOR'])
-    def changeStatusEnd(){ 
-
-        def product=Product.findById(params.id)
-        def lastEvent=Event.findByProductAndStatus(product,motoranger.ProductStatus.UNFIN)
-        
-        lastEvent.status=params.status
-        lastEvent.product.status=params.status
-
-        lastEvent.save(flush: true)
-
-        redirect(action:"index", controller:"home")
-
-    }
-    // def query= { 
-
-    //     def product = Product.findByName(params.name)
-    //     if(product){
-    //         redirect(action:'show', id:product.id)
-    //     }else {
-    //         redirect(action:'create', params:params)
-    //     }
-
-
-    // }
 
     def checkNameIsNew(){
         params.name=params.name.toUpperCase()
@@ -264,28 +236,6 @@ class ProductController {
             }
         }
 
-    }
-    def csvImport(){
-
-
-        def reader = grailsAttributes.getApplicationContext().getResource("/data/product.csv").getFile().toCsvMapReader([batchSize:50])
-        reader.each{ batchList ->
-            batchList.each{ map ->
-
-                map.user=User.findByUsername(map?.user)
-
-                if(map?.years=="")map.years=null
-                else map.years=new Date().parse("yyyy/M/d",map.years)
-
-                if(map.title=="")map.title=map.name
-
-                if(!Product.findByName(map?.name))
-                    new Product(map).save(failOnError: true, flush: true)
-            }
-        }              
-
-
-      
     }
 
 }

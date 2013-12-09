@@ -13,6 +13,20 @@ class PartController {
     def messageSource
     def tagQueryService
 
+    def index(){
+
+        def parts
+
+        if(params?.tag){
+            parts=Part.findAllByTag(params.tag,[sort: 'title', order: 'asc'])
+        }
+
+        [
+            parts: parts
+        ]
+
+    }
+
 	@Secured(['ROLE_OPERATOR'])
     def create(){
 
@@ -89,35 +103,7 @@ class PartController {
         redirect(action: "show", id:part.id)
     }
 
-    @Secured(['ROLE_OPERATOR'])
-    def portfolio(){
 
-
-        def parts
-        def event
-        def tags
-        if(params?.event){
-            event=Event.findById(params?.event.id,[sort: 'dateCreated', order: 'desc'])
-        }
-
-        if(params?.tag){
-            parts=Part.findAllByTag(params.tag,[sort: 'title', order: 'asc'])
-        }
-
-        // String listAllHQL = """
-        //    SELECT tag
-        //    FROM Tag tag
-        //    ORDER BY tag.name
-        // """
-        // def allTags = Part.executeQuery(listAllHQL)
-
-        [
-            parts: parts,
-            tags: tagQueryService.getUniTag("part"),
-            event:event
-        ]
-
-    }
     @Secured(['ROLE_OPERATOR'])
     def list(){
         [
@@ -214,40 +200,6 @@ class PartController {
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), id])
 
         redirect(action: "portfolio")
-    }
-
-    def htmImport(){
-
-        def tags=["通用維修","定期保養","鋼索剎車"
-        ,"輪胎","機油","週邊用品"
-        ,"電器部品","引擎維修","外裝"
-        ,"精品","排氣設備","標準維修"]
-
-        tags.eachWithIndex(){ tag,i->
-
-            File input = grailsAttributes.getApplicationContext().getResource("/data/part/${i+1}.htm").getFile()
-
-            Document doc = Jsoup.parse(input, "UTF-8", "http://motoranger.net/");
-
-            Elements elements = doc.select("#dlRepairItem > tr > td > input[type=Button]");
-            if(elements.size()==0)elements = doc.select("#dlRepairItem > tr > td > input[type=submit]");
-            log.info elements.size()
-
-            elements.eachWithIndex(){ element,j ->
-
-                def map=[:]
-
-                map.price=element.attr("value").split("\n")[1].replace("\$","").toLong()
-                map.post=map.price
-                map.title=element.attr("value").split("\n")[0]
-                map.name="part-default-$i-$j"
-                
-                def part=new Part(map).save(flush:true,failOnError:true)
-                part.addTag(tag)
-                   
-            }
-        }
-
     }
 
 }

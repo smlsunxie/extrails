@@ -1,6 +1,6 @@
 <sec:ifNotLoggedIn>
 
-  <li>
+  <li >
     <g:link controller="store" action="list">
       <g:message code="store.label" />
       <i>store</i>
@@ -27,7 +27,7 @@
 
 
 <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">
-  <li>
+  <li class="single">
     <g:link controller="home">
       <g:message code="store.navbar.label" />
       <i>store</i>
@@ -39,19 +39,43 @@
 
 <sec:ifAnyGranted roles="ROLE_CUSTOMER, ROLE_OPERATOR, ROLE_MANERGER">
 
-  <li>
-    <g:link controller="part">
+
+  <li class="dropdown">
+    <g:link controller="product" action="create" class="dropdown-toggle" data-toggle="dropdown">
+      <g:message code="product.label" />
+      <i>product</i>
+    </g:link>
+ 
+    <ul class="dropdown-menu">
+      <li>
+        <g:link controller="product" action="create">
+          <g:message code="product.create.label"/>
+        </g:link>
+      </li>
+    </ul>
+  </li>
+
+
+  <li class="dropdown">
+    <g:link controller="part" action="index" class="dropdown-toggle" data-toggle="dropdown">
       <g:message code="part.label" />
       <i>part</i>
     </g:link>
+ 
+    <ul class="dropdown-menu">
+      <li>
+        <g:link controller="part" action="index">
+          <g:message code="part.view.label"/>
+        </g:link>
+      </li>
+      <li>
+        <g:link controller="part" action="create">
+          <g:message code="part.create.label"/>
+        </g:link>
+      </li>
+    </ul>
   </li>
 
-  <li>
-    <g:link controller="event">
-      <g:message code="event.label" />
-      <i>event</i>
-    </g:link>
-  </li>
 
 </sec:ifAnyGranted>
 

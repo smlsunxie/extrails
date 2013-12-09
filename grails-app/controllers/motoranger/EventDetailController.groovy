@@ -6,6 +6,7 @@ class EventDetailController {
 
     def springSecurityService
     def messageSource
+    def tagQueryService
 
     @Secured(['ROLE_OPERATOR'])
     def create(){
@@ -22,6 +23,17 @@ class EventDetailController {
         ]
 
     }
+
+    def show(){
+
+        def eventDetail = EventDetail.findById(params.id);
+
+        [
+            eventDetail:eventDetail
+        ]
+
+    }
+
     @Secured(['ROLE_OPERATOR'])
     def save(){
 
@@ -50,8 +62,7 @@ class EventDetailController {
                 eventDetail.errors?.allErrors?.each{ 
                     flash.message=  messageSource.getMessage(it, null)
                 };
-            redirect(action: "portfolio", controller:"part"
-                , params:[event:params?.head])
+            redirect(uri: request.getHeader('referer') )
             return
         }
 
@@ -70,12 +81,7 @@ class EventDetailController {
             args: [message(code: 'event.label', default: 'event'), eventDetail.id])
 
 
-        if(params.returnUrl){
-            redirect(uri: "${params.returnUrl}#${params.part.name}")
-        } else {
-            redirect(action: "portfolio", controller:"part"
-            , params:['event.id':eventDetail.head.id])
-        }
+        redirect(uri: request.getHeader('referer') )
 
 
     }
@@ -147,37 +153,6 @@ class EventDetailController {
 
     }
 
-    // def list(){
 
-
-    //     def event=Event.findById(params.event.id)
-
-
-    //     [
-    //         event: event
-    //     ]
-    // }
-
-    // @Secured(['ROLE_OPERATOR'])
-    // def hasUnreceiveMoneylist(){
-
-    //     def products
-    //     def productCount
-
-    //     params.sort= 'lastUpdated'
-    //     params.order= 'desc'
-    //     params.max=5
-
-    //     def query = Product.where {
-    //        events.receivedMoney.sum() != events.totalPrice.sum()
-    //     }
-
-    //     products=query.list(params)
-
-    //     render(view:"list", 
-    //         model:[products: products, count: products.size()])
-
-
-    // } 
 
 }

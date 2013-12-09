@@ -10,6 +10,7 @@ class AttachmentController {
 
     def s3Service
     def imageModiService
+    def grailsApplication
 
 
     def SaveBlob(){
@@ -94,8 +95,9 @@ class AttachmentController {
         }
         catch (e) {
             
-            e.printStackTrace()
             log.error "Could not read ${file}"
+            def notFindImg = new FileInputStream(grailsAttributes.getApplicationContext().getResource('/images/notFind.jpg').getFile())
+            response.outputStream << notFindImg
             // response.sendError 404
         }
     }

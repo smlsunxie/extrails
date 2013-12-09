@@ -1,23 +1,24 @@
                   <div class="col-sm-3 col-md-3">
 
                     <a class="block-stick-img">
-                      <g:if test="${event?.product?.mainImage && event?.product?.mainImage!=''}">
-                        <g:img uri="attachment/show?name=${event.product.name}&file=${event.product.mainImage}"  class="bordered-img" />
-                      </g:if> 
-                      <g:else>
-                        <g:img dir="images" file="notFind.jpg" class="bordered-img" />
-                      </g:else>
+
+                        <g:img uri="/attachment/show?name=${event.product.name}&file=${event.product.mainImage}"  class="img-thumbnail" />
+   
                     </a>
 
                     <div class="${stickName}-stick stick event">
+
+                      <p>
+                        <g:link controller="event" action="show" id="${event?.id}">
+                        ${event?.name}
+                      </g:link> 
+                      </p>
 
                       <p>
                         <i class="icon-screenshot"></i> 
                         產品編號：<g:link controller="product" action="show" id="${event?.product?.id}">
                         ${event.product.name.replace(event.product.name.substring(2,4),"**")}
                       </g:link> 
-
-
                       </p>
                       
                       <p>
@@ -34,10 +35,10 @@
 
                       </p>
 
-                      <p class="date">
+%{--                       <p class="date">
                         <i class="icon-calendar"></i>
                         維修日期： <g:formatDate date="${event.lastUpdated}" type="date" style="MEDIUM" />
-                      </p>
+                      </p> --}%
                       
                       <sec:ifAnyGranted roles="ROLE_OPERATOR">
                         <p class="date">
@@ -48,13 +49,9 @@
 
 
                       <sec:ifAnyGranted roles="ROLE_OPERATOR">
-                        <g:link class="btn btn-primary" controller="event" action="create" params="['event.id':event?.id]">新增維修</g:link>
+                        <g:link class="btn btn-primary" controller="event" action="pickPartAddDetail" id="${event?.id}">新增維修</g:link>
 
-                        <g:if test="${event?.product?.status.name() == "UNFIN"}"> 
-                          <g:link class="btn btn-primary" action="changeStatus" id="${event?.id}" controller="event" params="[status:motoranger.ProductStatus.END.name(),controllerName:controllerName]">維修結束</g:link>
-                        </g:if>
-
-
+                        <g:render template="/event/statusChangeBtn" model="[event: event]" />
 
                       </sec:ifAnyGranted>
 
