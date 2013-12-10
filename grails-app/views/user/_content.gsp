@@ -4,7 +4,7 @@
           <tbody>
             <tr>
                 <td class="small"><g:message code="user.title.label" /></td>
-                <td class="bold"><g:link controller="user" action="show">${user.title}</g:link></td>
+                <td class="bold"><g:link controller="user" action="show" id="${user.id}" >${user.title}</g:link></td>
 
             </tr> 
             <tr>

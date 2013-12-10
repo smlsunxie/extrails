@@ -18,10 +18,7 @@ class EventController {
 
         def unfinEvent
 
-        if(params?.event?.id){
-             unfinEvent=Event.findById(params?.event.id)
-        
-        }else if(params?.product?.id){
+        if(params?.product?.id){
             params.product=Product.findById(params.product.id)
 
             params.mileage=params.product.mileage
@@ -30,7 +27,7 @@ class EventController {
         }
 
         if(unfinEvent){
-            redirect(controller:"part", action:"portfolio", params:['event.id':unfinEvent.id])
+            redirect(controller:"event", action:"pickPartAddDetail", id:unfinEvent.id)
         } 
 
         def event = new Event(params);

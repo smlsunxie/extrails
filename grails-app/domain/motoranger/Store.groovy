@@ -4,13 +4,16 @@ package motoranger
 
 
 class Store {
-
+    static searchable = true
 	String name
 	String title
 	String address
 	String telphone
-	String mobile
+    String mobile
     User owner
+    String fax=""
+    String description=""
+    String email=""
 
 
 	static hasMany=[users:User]

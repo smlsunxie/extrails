@@ -2,6 +2,7 @@ package motoranger
 
 class User {
 	static searchable = true
+
 	transient springSecurityService
 
 	String username
@@ -9,7 +10,7 @@ class User {
 
 	String title=""
 	String telphone=""
-	String fax=""
+
 	String mobile=""
 	String address=""
 	String email=""
@@ -57,4 +58,6 @@ class User {
 	public String toString(){
 		return title
 	}
+
+
 }

@@ -85,36 +85,6 @@ class ProductController {
         redirect(action: "show", id:product.id)
     }
 
-
-
-    @Secured(['ROLE_OPERATOR'])
-    def list(){
-
-        def products
-        def productCount
-
-
-        params.sort= 'lastUpdated'
-        params.order= 'desc'
-        params.max=5
-
-        if(params.q && params.q != ''){
-            def users= User.search('*'+params.q+'*',[max:9999]).results
-            products=Product.findAllByUserInList(users,params)
-            productCount= Product.findAllByUserInList(users).size()
-        }else {
-            log.info "search 3"
-            products= Product.list(params)
-            productCount= Product.count()
-        }
-
-        [
-            products: products,
-            count: productCount
-        ]
-    } 
-
-
     def show(){ 
         def product = Product.findByIdOrName(params.id, params.name)
         
@@ -215,27 +185,6 @@ class ProductController {
     }
 
 
-    def checkNameIsNew(){
-        params.name=params.name.toUpperCase()
-        def product = Product.findByName(params.name)
-        if(product){
-            redirect(action:'show', params:params)
-        }else {
 
-            def users= User.search('*'+params.name+'*',[max:1]).results
-
-
-            //如果檢查使用者查出來的資料只有一筆，且查詢內容與使用者名稱相同，就視為有 user 沒有 product 所以要進行建立的動作
-            if (!users 
-                || (users.size()==1 && !Product.findByUser(users.get(0)) ) 
-            )
-                redirect(action:'create', params:params)
-            else {
-                params.q=params.name.toUpperCase()
-                chain(action:'list', params:params)
-            }
-        }
-
-    }
 
 }

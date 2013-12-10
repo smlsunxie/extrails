@@ -10,8 +10,8 @@
               
               <sec:ifAnyGranted roles="ROLE_OPERATOR">
 
-                <g:form action="checkNameIsNew" controller="product" class="form-inline pull-right"> 
-                  <input type="text" name="name" class="form-control" placeholder="事件/機車/查詢" value="${params.q}">
+                <g:form action="query" controller="search" class="form-inline pull-right"> 
+                  <input type="text" name="q" class="form-control" placeholder="機車或使用者" value="${params.q}">
                 </g:form>
               </sec:ifAnyGranted>
 

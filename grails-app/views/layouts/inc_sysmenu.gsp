@@ -9,21 +9,6 @@
 
 </sec:ifNotLoggedIn>
 
-<sec:ifAnyGranted roles="ROLE_CUSTOMER">
-  <li>
-    <g:link controller="product">
-      <g:message code="product.label" />
-      <i>product</i>
-    </g:link>
-  </li>
-  <li>
-    <g:link controller="store" action="list">
-      <g:message code="store.label" />
-      <i>store</i>
-    </g:link>
-  </li>
-
-</sec:ifAnyGranted>
 
 
 <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">
@@ -114,7 +99,7 @@
   </li>
 
   <li>
-    <g:link controller="user">
+    <g:link controller="user" action="list">
       <g:message code="user.label" />
       <i>user</i>
     </g:link>

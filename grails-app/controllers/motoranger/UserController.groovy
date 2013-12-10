@@ -87,14 +87,14 @@ class UserController {
     }
 
     def show(Long id) {
-        def userInstance = User.get(id)
-        if (!userInstance) {
+        def user = User.get(id)
+        if (!user) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), id])
             redirect(action: "list")
             return
         }
 
-        [userInstance: userInstance]
+        [user: user]
     }
 
     def edit(Long id) {
