@@ -4,7 +4,12 @@
 
 <sec:ifNotLoggedIn>
   <%--未登入--%>
-
+  <li class="${controllerName=='user' && actionName=='create' ?'active':''} single">
+    <g:link controller="user" action="create">
+       <g:message code="default.register.text" />
+      <i>register</i>
+    </g:link>
+  </li>
   <li class="${controllerName=='login' && actionName=='auth' ?'active':''} single">
     <g:link controller="login" action="auth">
        <g:message code="default.login.text" />

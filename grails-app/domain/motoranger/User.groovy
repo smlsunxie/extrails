@@ -9,6 +9,7 @@ class User {
 
 	String title=""
 	String telphone=""
+	String fax=""
 	String mobile=""
 	String address=""
 	String email=""
@@ -19,6 +20,8 @@ class User {
 	boolean accountLocked
 	boolean passwordExpired
 	Store store
+
+	static hasMany=[products:Product]
 	
 	static transients = ['springSecurityService']
 
@@ -26,6 +29,7 @@ class User {
 		username blank: false, unique: true
 		password blank: false
 		store nullable: true
+		products nullable: true
 	}
 
 	static mapping = {
