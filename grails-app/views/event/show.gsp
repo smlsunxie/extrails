@@ -37,19 +37,12 @@
       </div>
 
       <div class="col-sm-4 col-md-4">
-        <div class="input-group">
-          <span class="input-group-addon">已收</span>
-          <g:remoteField action="updateReceivedMoney" controller="event" id="${event.id}"
-          name="receivedMoney" onSuccess="onSuccessFun(data)" value="${event?.receivedMoney.toString()}" class="form-control" data-for="unreceiveMoney_${event.id}"  /> 
-        </div>
+        <g:render template="/event/updateReceivedMoney" model="[event: event]" />
       </div>
 
 
       <div class="col-sm-4 col-md-4">
-        <div class="input-group">
-          <span class="input-group-addon">未收</span>
-          <input readonly value="${event?.totalPrice-event?.receivedMoney}" class="form-control" id="unreceiveMoney_${event.id}"  type="text" data-initValue="${event?.totalPrice}" /> 
-        </div>
+        <g:render template="/event/updateUnreceiveMoney" model="[event: event]" />
       </div>
 
 
@@ -62,16 +55,7 @@
     <g:render template="contentWithDetails"  model="[event: event]" />
   </div>
 
-  <div class="row">
-    <div class="contact-info col-sm-6 col-md-6">
-      <h2>維修機車資料</h2>
-      <g:render template="/product/content" model="[product: event.product]" />
-    </div>
-    <div class="contact-info col-sm-6 col-md-6">
-      <h2>維修人員資料</h2>
-      <g:render template="/user/content" model="[user: event.user]" />
-    </div>
-  </div>
+  <g:render template="/product/contentWithDetails" model="[product: event.product]" />
             
 </body>
 </html>

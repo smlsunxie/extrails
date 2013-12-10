@@ -8,6 +8,7 @@ class StoreCostDetail {
 	String description
 	Long cost
 	Date date
+	Store store
 
 
     static constraints = {

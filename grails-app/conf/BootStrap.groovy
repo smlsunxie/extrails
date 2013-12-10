@@ -88,6 +88,8 @@ class BootStrap {
                 def cus = new User(username: 'cus', password: 'cus', title: "客戶", enabled: true).save(failOnError: true, flush: true)
                 UserRole.create(cus, ruleCus)
 
+                storedemo.owner = paul
+                storedemo.save(flush:true, failOnError:true)
 
                 def p1 = new Product(name:'P12345',title:'P12345', user:cus, years:new Date(), mileage:1234L).save(failOnError: true, flush: true)
                 def p2 = new Product(name:'P22345',title:'P22345', user:cus, years:new Date()).save(failOnError: true, flush: true)

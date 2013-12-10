@@ -20,6 +20,7 @@ class Part implements Taggable {
     Date lastUpdated    //修改日期
 
     Store store
+    Store user
 
     static constraints = {
     	name blank: false, unique: true
@@ -28,6 +29,7 @@ class Part implements Taggable {
       creator nullable: true
       mainImage nullable: true, empty: true
       store nullable: true
+      user nullable: true
     }
 
     String toString(){

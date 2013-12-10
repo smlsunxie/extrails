@@ -170,7 +170,7 @@ form.form-thumbnail {
 }
 
 
-#years_month, #years_year {
+#years_month, #years_year, #date_month, #date_day, #date_year  {
   display: block;
   width: 100%;
   /*height: 294px;*/

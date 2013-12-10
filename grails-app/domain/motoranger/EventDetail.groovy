@@ -12,10 +12,10 @@ class EventDetail {
 	// static searchable = true
 	static belongsTo=[head:Event, part:Part]
 
-	String mainImage=""
+	String mainImage
 	String name
 	Integer qty=1
-	String description=""
+	String description
 	String creator
 	Date dateCreated
 	Date lastUpdated
@@ -26,6 +26,8 @@ class EventDetail {
 		name unique:true
 		creator nullable: true
 		part nullable:true
+		mainImage nullable:true
+		description nullable:true
 	}
 
 	def beforeInsert() {

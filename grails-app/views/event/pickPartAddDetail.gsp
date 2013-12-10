@@ -15,25 +15,22 @@
 
   <div class="row">
     <div class="col-sm-3 col-md-3">
+      <g:link  class="btn btn-primary"  action="show" id="${event?.id}">新增完成</g:link>
       <g:render template="statusChangeBtn" />
     </div>
     
-    <div class="col-sm-3 col-md-3">
-      <div class="input-group">
-        <span class="input-group-addon">已收金額</span>
-        <g:remoteField action="updateReceivedMoney" controller="event" id="${event.id}"
-          name="receivedMoney" onSuccess="onSuccessFun(data)" value="${event?.receivedMoney.toString()}"  data-for="unreceiveMoney_${event.id}" class="form-control" />
-      </div>                          
 
-    </div>
 
     <div class="col-sm-3 col-md-3">
-      <div class="input-group">
-        <span class="input-group-addon">未收金額</span>
-        <input readonly value="${event?.totalPrice-event?.receivedMoney}"  type="text" id="unreceiveMoney_${event.id}"  data-initValue="${event?.totalPrice}" class="form-control" />                               
-      </div>
-      
+      <g:render template="/event/updateReceivedMoney" model="[event: event]" />
     </div>
+
+
+    <div class="col-sm-3 col-md-3">
+      <g:render template="/event/updateUnreceiveMoney" model="[event: event]" />
+    </div>
+
+
 
     <div class="col-sm-3 col-md-3">
       <div class="input-group">

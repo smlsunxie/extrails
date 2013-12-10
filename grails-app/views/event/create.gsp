@@ -17,12 +17,6 @@
  
       </g:form>
 
-%{--     <r:script>
-      $(function() {
-        $("#user").select2();
-        $("#product").select2();
 
-      });
-    </r:script> --}%
   </body>
 </html>

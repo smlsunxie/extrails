@@ -1,6 +1,7 @@
 package motoranger
 
 import grails.plugin.springsecurity.annotation.Secured
+import grails.converters.JSON
 class EventDetailController {
     static layout="bootstrap"
 
@@ -40,7 +41,6 @@ class EventDetailController {
         if(!params?.name)
             params.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
         
-        log.info "params?.qty="+params?.qty
 
         if(!params?.qty)
             params?.qty=1
@@ -69,9 +69,6 @@ class EventDetailController {
         if(eventDetail.cost == 0){
             eventDetail.cost = eventDetail.part.cost 
         }
-        // if(eventDetail.price == 0){
-        //     eventDetail.price = eventDetail.part.price
-        // }
 
         eventDetail.save(flush: true)
 
@@ -97,19 +94,7 @@ class EventDetailController {
     @Secured(['ROLE_OPERATOR'])
     def update(){
 
-        def eventDetail = EventDetail.findByIdOrName(params.id, params.name)
-
-        // if(params?.head && params?.head!='null')
-        //     params.head=Event.findById(params.head)
-
-        // if(params?.part && params?.part!='null')
-        //     params.part=Part.findById(params?.part)
-        // else params.part=null
-
-
-
-
-        if(!params.mainImage)params.mainImage="";
+        def eventDetail = EventDetail.get(params.id)
 
         
         if (!eventDetail) {
@@ -120,6 +105,9 @@ class EventDetailController {
 
 
         eventDetail.properties = params
+
+
+
 
 
         if (!eventDetail.save(failOnError: true, flush: true)) {

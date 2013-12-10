@@ -10,7 +10,7 @@ class StoreController {
     def index() {
 
         def currentUser = springSecurityService.currentUser
-        def store = currentUser?.store
+        def store = Store.findByName(params.name)
         
         def unfinEvents= Event.findAllByStatusAndStore(motoranger.ProductStatus.UNFIN
             , store,[order:"desc",sort:"lastUpdated"])
@@ -19,8 +19,8 @@ class StoreController {
 
 
         def operators=[]
-        if(springSecurityService?.currentUser?.store 
-            && springSecurityService?.currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_MANERGER'))){
+        if(currentUser?.store 
+            && currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_MANERGER'))){
 
             def users=User.findAllByStore(springSecurityService?.currentUser?.store)
 

@@ -6,7 +6,6 @@ import org.imgscalr.*;
 
 class ImageModiService {
 
-
     def ByteArrayOutputStream sizeNormal(InputStream uploaded) {
         return scale(uploaded, 640)
     }

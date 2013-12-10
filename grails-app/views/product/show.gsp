@@ -1,4 +1,3 @@
-<g:set var="s3Service" bean="s3Service"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,29 +23,13 @@
   </sec:ifAllGranted>
 
                       
-  <div class="row">
-
-    <div class="contact-info col-sm-4 col-md-4">
-      <h2>外觀</h2>
-      <g:render template="/component/slider" model='[files: s3Service.getObjectList("${grailsApplication.config.grails.aws.root}/${product.name}"), name: product.name]'/>
-    </div>
-    <div class="contact-info col-sm-4 col-md-4">
-      <h2>基本資料</h2>
-      <g:render template="content" model="[product: product]" />
-    </div>
-    <div class="contact-info col-sm-4 col-md-4">
-      <h2>車主資料</h2>
-      <g:render template="/user/content" model="[user: product.user]" />
-    </div>
-  </div>
+  <g:render template="contentWithDetails" model="[product: product]" />
 
   
 
   <div class="contact-info" >
     <h2>維修記錄</h2>
-    <g:each in="${product.events}" var="event">
-      <g:render template="/event/contentDetails" model="[event: event]" />
-    </g:each>
+    <g:render template="/event/contentWithDetails" collection="${product.events}" var="event" />
   </div>
 
 

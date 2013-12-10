@@ -10,6 +10,7 @@ class Store {
 	String address
 	String telphone
 	String mobile
+    User owner
 
 
 	static hasMany=[users:User]
@@ -19,6 +20,7 @@ class Store {
     	mobile nullable:true 
     	telphone nullable:true 
     	address nullable:true
+        owner nullable:true
 
     }
     public String toString() {

@@ -58,20 +58,12 @@
                     </div>
                     <sec:ifAnyGranted roles="ROLE_OPERATOR">
                       <div class="row stick_outside">
-                        
-                        <div class="col-sm-6 col-md-6">
-                            <div class="input-group input-group-sm">
-                              <span class="input-group-addon">已收</span>
-                              <g:remoteField action="updateReceivedMoney" controller="event" id="${event.id}"
-                                  name="receivedMoney" onSuccess="onSuccessFun(data)" value="${event?.receivedMoney.toString()}"  data-for="unreceiveMoney_${event.id}" class="form-control" />                    
-                          </div>
-                        </div>
-                        <div class="col-sm-6 col-md-6">
-                            <div class="input-group input-group-sm">
-                              <span  class="input-group-addon">未收</span>
-                              <input readonly value="${event?.totalPrice-event?.receivedMoney}"  type="text" id="unreceiveMoney_${event.id}"  data-initValue="${event?.totalPrice}"  class="form-control" />                                    
-                          </div>
-                        </div>
+                       
+
+                          <g:render template="/event/updateReceivedMoney" model="[event: event]" />
+
+                          <g:render template="/event/updateUnreceiveMoney" model="[event: event]" />
+
 
                       </div>
 

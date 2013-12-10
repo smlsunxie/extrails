@@ -25,6 +25,7 @@ class Event {
 
  	Long receivedMoney=0
  	Long totalPrice=0
+ 	Long discountMoney=0
 
 	Date dateCreated
 	Date lastUpdated

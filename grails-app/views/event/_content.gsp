@@ -20,10 +20,7 @@
         <td class="bold">${event.store}</td>
     </tr>
 
-    <tr>
-        <td class="small"><g:message code="event.totalPrice.label" /></td>
-        <td class="bold">${event?.totalPrice}</td>
-    </tr>
+
 
     <g:if test = "${actionName != 'pickPartAddDetail'}">
       <tr>
@@ -42,13 +39,20 @@
           <td class="small">未收</td>
           <td class="bold">${event?.totalPrice-event?.receivedMoney}</td>
       </tr> 
-      <tr>
-          <td class="small"><g:message code="default.dateCreated.label" /></td>
-          <td class="bold">
-            <g:formatDate date="${event.date}" type="date" style="SHOROT" />
-          </td>
-      </tr> 
     </g:if>
+
+    
+    <tr>
+      <td class="small"><g:message code="event.totalPrice.label" /></td>
+      <td class="bold">${event?.totalPrice}</td>
+    </tr>
+    <tr>
+        <td class="small"><g:message code="default.dateCreated.label" /></td>
+        <td class="bold">
+          <g:formatDate date="${event.date}" type="date" style="SHOROT" />
+        </td>
+    </tr> 
+
 
 
   </tbody>

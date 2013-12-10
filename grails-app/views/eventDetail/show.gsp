@@ -40,24 +40,21 @@
       <g:render template="content" model="[eventDetail: eventDetail]" />
     </div>
     <div class="contact-info col-sm-4 col-md-4">
-      <h2>維修項目</h2>
+      <h2>耗材資料</h2>
       <g:render template="/part/content" model="[part: eventDetail.part]" />
     </div>
   </div>
 
 
   <div class="row">
-    <div class="contact-info col-sm-4 col-md-4">
-      <h2>維修機車資料</h2>
-      <g:render template="/product/content" model="[product: eventDetail.head.product]" />
-    </div>
-    <div class="contact-info col-sm-4 col-md-4">
+
+    <div class="contact-info col-sm-8 col-md-8">
       <h2>維修記錄</h2>
       <g:render template="/event/content" model="[event: eventDetail.head]" />
     </div>
     <div class="contact-info col-sm-4 col-md-4">
-      <h2>維修人員資料</h2>
-      <g:render template="/user/content" model="[user: eventDetail.head.user]" />
+      <h2>維修機車資料</h2>
+      <g:render template="/product/content" model="[product: eventDetail.head.product]" />
     </div>
   </div>
             

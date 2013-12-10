@@ -73,6 +73,50 @@ function winHeight() {
     return window.innerHeight || (document.documentElement || document.body).clientHeight;
 }
 
+function onUpdateUnreciveMoneyMoneySuccess(data){
+  
+  var unreciveMoneyElm=$("[id='"+data.event.id+"'][name='unreceiveMoney']");
+
+  var unreciveMoney = data.event.totalPrice-data.event.receivedMoney-data.event.discountMoney
+
+
+  if(data.success){
+    bootstrap_alert.warning("未收金額已更新為："+unreciveMoney)
+  }else {
+    bootstrap_alert.warning(data.msg)
+
+    console.log(data.event.totalPrice);
+    console.log(data.event.discountMoney);
+    console.log(unreciveMoney);
+
+    unreciveMoneyElm.val(unreciveMoney);
+  }
+}
+
+function onUpdateReceivedMoneySuccess(data){
+      var unreciveMoneyElm=$("[id='"+data.event.id+"'][name='unreceiveMoney']");
+      var receivedMoney=data.event.receivedMoney;
+      var totalPrice=unreciveMoneyElm.attr("data-totalPrice");
+      var unreciveMoney=totalPrice-receivedMoney-data.event.discountMoney;
+
+      if(data.success){
+       
+
+        if(unreciveMoney<0)unreciveMoney=0;
+
+        unreciveMoneyElm.val(unreciveMoney);
+
+        bootstrap_alert.warning("已收金額已更新為："+data.event.receivedMoney)
+      }else {
+
+        var receivedMoneyElm=$("[id='"+data.event.id+"'][name='receivedMoney']");
+        receivedMoneyElm.val(data.event.receivedMoney)
+
+        bootstrap_alert.warning(data.msg)
+        unreciveMoneyElm.val(unreciveMoney);
+      }
+}
+
 (function () {
 
     //tags 處理
@@ -224,96 +268,5 @@ function winHeight() {
         }
     });
 
-    /*
-    CodeMirror.on(window, "resize", function() {
-      var showing = document.body.getElementsByClassName("CodeMirror-fullscreen")[0];
-      if (!showing) return;
-      showing.CodeMirror.getWrapperElement().style.height = winHeight() + "px";
-    });
-    */
 
-    //init codemirror
-    // if (CodeMirror) $('.codemirror-auto').each(function() {
-   
-    //     // retrieve editor config from html5 data attributes
-    //     var id = $(this).prop('id');
-    //     var mode = $(this).data('mode');
-    //     var height = $(this).data('height');
-        
-    //     // folding support
-    //     var foldFunc = CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder);
-    //     var foldFunc_html = CodeMirror.newFoldFunction(CodeMirror.tagRangeFinder);
-
-    //     var tabWidth = 4;
-    //     var tabString = "     ";
-
-    //     var isHTML = false;
-
-    //     if (mode == 'text/html') {
-    //         isHTML = true;
-    //         tabWidth = 2;
-    //         tabString = "   ";
-    //     }
-
-    //     var editor = editors[id] = CodeMirror.fromTextArea(this, {
-    //         lineNumbers: true,
-    //         matchBrackets: true,
-    //         mode: mode,
-    //         indentUnit: tabWidth,
-    //         smartIndent: true,
-    //         tabSize: tabWidth,
-    //         indentWithTabs: false,
-    //         extraKeys: {
-    //             "F11": function(cm) {
-    //                 //setFullScreen(cm, !isFullScreen(cm));
-    //             },
-    //             "Esc": function(cm) {
-    //                 //if (isFullScreen(cm)) setFullScreen(cm, false);
-    //             },
-    //             "Tab": function(cm) {
-    //                 cm.replaceSelection(tabString, "end");
-    //             },
-    //             "Ctrl-Q": function(cm) {
-    //                 foldFunc(cm, cm.getCursor().line);
-    //                 if (isHTML) {
-    //                     foldFunc_html(cm, cm.getCursor().line);
-    //                 }
-    //             }
-    //         }
-    //     });
-    //     editor.on("gutterClick", function(cm, line) {
-    //         foldFunc(cm, line);
-    //         if (isHTML) {
-    //             foldFunc_html(cm, line);
-    //         }
-    //     });
-    //     editor.setSize(null, height);
-
-    //     $('.CodeMirror').resizable({
-    //         handles: 's',
-    //         grid: 50,
-    //         maxHeight: 1000,
-    //         minHeight: 300,
-    //         stop: function() {
-    //             editor.refresh();
-    //         },
-    //         resize: function() {
-    //             editor.setSize($(this).width(), $(this).height());
-    //             editor.refresh();
-    //         }
-    //     });
-    // });
-    
-    // if (CodeMirror) $('.codemirror-auto-runmode').each(function() {
-    //     var _this = $(this);
-
-    //     // retrieve editor config from html5 data attributes
-    //     var mode = _this.data('mode');
-
-    //     // 模擬成 document.getElementById 的物件（為了通過 runmode 檢查）
-    //     var node = _this.get(0);
-    //     node.nodeType = 1;
-
-    //     CodeMirror.runMode(_this.text(), mode, node);
-    // });
 })();

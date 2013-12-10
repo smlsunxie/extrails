@@ -196,7 +196,10 @@ class EventController {
 
             if(receivedMoney<=event.totalPrice){
 
-                event.receivedMoney=params.value.toLong()
+                event.receivedMoney=receivedMoney
+
+                if(receivedMoney + event.discountMoney > event.totalPrice)
+                    event.discountMoney=event.totalPrice - receivedMoney
 
                 event.save(flush:true,failOnError:true)
 
@@ -218,6 +221,47 @@ class EventController {
 
 
     }
+    @Secured(['ROLE_OPERATOR'])
+    def updateDiscountMoney() { 
+
+        def event=Event.findById(params.id)
+        try{
+            if(!params.value)params.value=0
+
+            def unreceiveMoney=params.value.toLong()
+
+            // if(event?.details)totalPrice=event?.details.price.sum()
+            println unreceiveMoney
+            println event.receivedMoney
+            println event.totalPrice
+
+            println event.totalPrice  -  event.discountMoney -event.receivedMoney
+
+            if(unreceiveMoney<=event.totalPrice - event.receivedMoney){
+
+                event.discountMoney=event.totalPrice - event.receivedMoney -unreceiveMoney
+
+                event.save(flush:true,failOnError:true)
+
+                params.success=true
+
+            }else {
+                params.success=false
+                params.msg="未收金額超過總價"
+            }
+            
+        }catch(Exception e){
+            params.success=false
+            params.msg="請輸入數值資料"
+        }
+
+        params.event=event
+
+        render params as JSON
+
+
+    }
+
     @Secured(['ROLE_OPERATOR'])
     def updateDate() { 
 
