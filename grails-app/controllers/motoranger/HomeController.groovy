@@ -24,7 +24,7 @@ class HomeController {
             if(store){
                 redirect uri: "/store/${store.name}"
             }else {
-                redirect uri: "/user/${currentUser.name}"
+                redirect uri: "/user/${currentUser.username}"
             }
         }else {
 

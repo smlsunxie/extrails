@@ -34,35 +34,27 @@
 
 
 
+  <div class="row show-grid features-block mini-blocks">
+    <div class="contact-info col-sm-8 col-md-8">
+      <h2>車主資料</h2>
+      <g:render template="/user/content" model="[user: user]" />
+    </div>
 
-  <div class="row">
+    <g:each in="${user.products}" var="product" status="i" >
 
 
 
-  </div>
+      <div class="contact-info col-sm-4 col-md-4 block2">
+        <div class="mini-wrapper">
 
+          <g:render template="/product/content" model="[product: product]" />
 
-    <div class="row show-grid features-block mini-blocks">
-      <div class="contact-info col-sm-8 col-md-8">
-        <h2>車主資料</h2>
-        <g:render template="/user/content" model="[user: user]" />
+        </div>
       </div>
 
-      <g:each in="${user.products}" var="product" status="i" >
 
-
-
-        <div class="contact-info col-sm-4 col-md-4 block2">
-          <div class="mini-wrapper">
-
-            <g:render template="/product/content" model="[product: product]" />
-
-          </div>
-        </div>
-
-
-      </g:each>
-    </div>
+    </g:each>
+  </div>
 
 
 

@@ -31,6 +31,12 @@ class User {
 		password blank: false
 		store nullable: true
 		products nullable: true
+		// title nullable: true
+		// telphone nullable: true
+		// mobile nullable: true
+		// address nullable: true
+		// email nullable: true
+		// description nullable: true
 	}
 
 	static mapping = {

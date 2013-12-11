@@ -6,9 +6,19 @@
   </head>
   <body>
 
-      <sec:ifAllGranted roles="ROLE_OPERATOR">
-        <g:actionbar actionName="${actionName}" domain="${store}" />
-      </sec:ifAllGranted>
+    <sec:ifAllGranted roles="ROLE_MANERGER">
+      <div class="row" id="actionbar">
+
+        <div class="col-sm-12 col-md-12">           
+          <g:link  class="btn btn-primary" controller="store" action="edit" id="${store.id}" >修改店家資料</g:link>
+
+
+        </div>
+
+      </div>
+    </sec:ifAllGranted>
+
+
 
     <div class="main-block block-posts">
       <div class="title-wrapper">
