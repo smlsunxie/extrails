@@ -18,7 +18,7 @@ class Product {
 	Long cost=0
 	Long price=0
 	Long mileage=0
-	String mainImage=""
+	String mainImage
     ProductStatus status=motoranger.ProductStatus.END
     Brand brand
     static hasMany = [events:Event]

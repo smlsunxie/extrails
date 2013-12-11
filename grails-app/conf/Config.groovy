@@ -221,3 +221,5 @@ grails.plugin.springsecurity.rememberMe.alwaysRemember = true
 grails.plugin.springsecurity.rememberMe.persistent = true
 grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'motoranger.PersistentLogin'
 
+grails.plugin.databasemigration.updateOnStart = true
+grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']

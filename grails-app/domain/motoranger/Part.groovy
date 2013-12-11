@@ -13,7 +13,7 @@ class Part implements Taggable {
 
 		String description
 		Integer stockCount=0
-		String mainImage=''
+		String mainImage
 
 		String creator		//建立者
     Date dateCreated    //建立日期

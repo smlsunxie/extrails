@@ -30,7 +30,7 @@ class Post implements Taggable {
     Date lastUpdated    //修改日期
     
     int hits = 0        //點擊次數
-    String mainImage=''
+    String mainImage
 
     static constraints = {
     	name blank: false, unique: true

@@ -8,14 +8,14 @@ hibernate {
 // environment specific settings
 environments {
     development {
-        dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
-            pooled = true
-            driverClassName = "org.h2.Driver"
-            username = "sa"
-            password = ""
-        }
+        // dataSource {
+        //     dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
+        //     url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+        //     pooled = true
+        //     driverClassName = "org.h2.Driver"
+        //     username = "sa"
+        //     password = ""
+        // }
     }
     test {
         dataSource {

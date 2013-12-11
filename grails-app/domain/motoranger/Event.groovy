@@ -21,7 +21,7 @@ class Event {
  	
  	Date date
  	
- 	String creator=""
+ 	String creator
 
  	Long receivedMoney=0
  	Long totalPrice=0
@@ -36,6 +36,7 @@ class Event {
 	    name blank: false, unique: true
 	    description nullable: true, empty: true
 	    store nullable:true
+	    creator nullable:true
     	// user nullable: true, empty: true		user 不允許 null
 
   }

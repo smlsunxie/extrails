@@ -7,12 +7,14 @@ public enum BrandType {
 class Brand {
 	String name
 	String title
-	String description=""
-	String homepage=""
+	String description
+	String homepage
 	BrandType type=BrandType.OTHERS
 
     static constraints = {
     	name unique: true
+        description nullable:true
+        homepage nullable:true
     }
 
     public String toString(){
