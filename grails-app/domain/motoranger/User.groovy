@@ -8,13 +8,13 @@ class User {
 	String username
 	String password
 
-	String title=""
-	String telphone=""
+	String title
+	String telphone
 
-	String mobile=""
-	String address=""
-	String email=""
-	String description=""
+	String mobile
+	String address
+	String email
+	String description
 
 	boolean enabled
 	boolean accountExpired
@@ -31,12 +31,13 @@ class User {
 		password blank: false
 		store nullable: true
 		products nullable: true
-		// title nullable: true
-		// telphone nullable: true
-		// mobile nullable: true
-		// address nullable: true
-		// email nullable: true
-		// description nullable: true
+		
+		title nullable: true
+		telphone nullable: true
+		mobile nullable: true
+		address nullable: true
+		email nullable: true
+		description nullable: true
 	}
 
 	static mapping = {
