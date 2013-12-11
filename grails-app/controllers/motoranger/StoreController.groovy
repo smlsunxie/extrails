@@ -7,10 +7,10 @@ class StoreController {
     static layout = 'bootstrap'
     def springSecurityService
 
-    def index() {
+    def show() {
 
         def currentUser = springSecurityService.currentUser
-        def store = Store.findByName(params.name)
+        def store = Store.findById(params.id)
         
         def unfinEvents= Event.findAllByStatusAndStore(motoranger.ProductStatus.UNFIN
             , store,[order:"desc",sort:"lastUpdated"])
@@ -62,16 +62,6 @@ class StoreController {
         redirect(action: "show", id: storeInstance.id)
     }
 
-    def show(Long id) {
-        def storeInstance = Store.get(id)
-        if (!storeInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'store.label', default: 'Store'), id])
-            redirect(action: "list")
-            return
-        }
-
-        [storeInstance: storeInstance]
-    }
 
     def edit(Long id) {
         def storeInstance = Store.get(id)
@@ -85,6 +75,7 @@ class StoreController {
     }
 
     def update(Long id, Long version) {
+        println params
         def storeInstance = Store.get(id)
         if (!storeInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'store.label', default: 'Store'), id])
@@ -101,6 +92,8 @@ class StoreController {
                 return
             }
         }
+
+
 
         storeInstance.properties = params
 

@@ -10,50 +10,7 @@ class UserController {
 
     def springSecurityService
 
-    def index() {
-        def currentUser = springSecurityService.currentUser
-        def store = currentUser?.store
-        def unfinEvents
-        def endEvents
 
-
-        def recentPosts = Post.list(max: 4, sort: 'dateCreated', order: 'desc')
-
-        if(store){
-            unfinEvents= Event.findAllByStatusAndStore(motoranger.ProductStatus.UNFIN
-                ,store,[order:"desc",sort:"lastUpdated"])
-            endEvents= Event.findAllByStatusAndStore(motoranger.ProductStatus.END
-                ,store,[max:8,order:"desc",sort:"lastUpdated"])
-        }else {
-            unfinEvents= Event.findAllByStatus(motoranger.ProductStatus.UNFIN
-                ,[order:"desc",sort:"lastUpdated"])
-            endEvents= Event.findAllByStatus(motoranger.ProductStatus.END
-                ,[max:8,order:"desc",sort:"lastUpdated"])
-        }
-
-        def operators=[]
-
-        if(springSecurityService?.currentUser?.store 
-            && springSecurityService?.currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_MANERGER'))){
-
-            def users=User.findAllByStore(springSecurityService?.currentUser?.store)
-
-            users.each(){
-                if(it.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_OPERATOR'))){
-                    operators << it
-                }
-
-            }
-        }
-
-
-        [
-            recentPosts:recentPosts,
-            unfinEvents:unfinEvents,
-            endEvents:endEvents,
-            operators:operators
-        ]
-    }
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -112,8 +69,8 @@ class UserController {
         ,storeList:storeList()]
     }
 
-    @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
     def update(Long id, Long version) {
+        println "user update"
         def userInstance = User.get(id)
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), id])

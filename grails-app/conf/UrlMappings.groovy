@@ -8,10 +8,7 @@ class UrlMappings {
 		}
 
 		"/" (controller: "home")
-		"/store/$name" (controller: "store", action: "index")
-		"/user/$name" (controller: "user", action: "index")
-		"/user/list" (controller: "user", action: "list")
-		"/user/create" (controller: "user", action: "create")
+
 		
 		"500"(view:'/error')
 

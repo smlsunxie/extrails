@@ -22,9 +22,9 @@ class HomeController {
 
 
             if(store){
-                redirect uri: "/store/${store.name}"
+                redirect uri: "/store/show/${store.id}"
             }else {
-                redirect uri: "/user/${currentUser.username}"
+                redirect uri: "/user/show/${currentUser.id}"
             }
         }else {
 

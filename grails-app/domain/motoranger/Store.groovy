@@ -11,7 +11,6 @@ class Store {
 	String telphone
     String mobile
     
-    User owner
     String fax
     String description
     String email
@@ -25,7 +24,6 @@ class Store {
     	telphone nullable:true 
     	address nullable:true
 
-        owner nullable:true
         fax nullable:true
         description nullable:true
         email nullable:true

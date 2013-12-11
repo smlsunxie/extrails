@@ -51,7 +51,15 @@
 
 
       <footer id="footer">
-      	<g:applyLayout name="inc_footer" />
+        <g:set var="springSecurityService" bean="springSecurityService"/>
+
+        <g:if test="${store}">
+          <g:applyLayout name="inc_footer_store" />
+        </g:if>
+        <g:else>
+          <g:applyLayout name="inc_footer" />
+        </g:else>
+      	
 
         <div class="footer-bottom">
           <div class="container">

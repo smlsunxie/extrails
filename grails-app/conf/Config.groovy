@@ -201,7 +201,7 @@ grails.plugin.springsecurity.userLookup.userDomainClassName = 'motoranger.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'motoranger.UserRole'
 grails.plugin.springsecurity.authority.className = 'motoranger.Role'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
-    '/j_spring_security_switch_user': ['ROLE_MANERGER'],
+    '/j_spring_security_switch_user': ['ROLE_MANERGEstR'],
     '/':                              ['permitAll'],
     '/index':                         ['permitAll'],
     '/index.gsp':                     ['permitAll'],
@@ -221,5 +221,5 @@ grails.plugin.springsecurity.rememberMe.alwaysRemember = true
 grails.plugin.springsecurity.rememberMe.persistent = true
 grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'motoranger.PersistentLogin'
 
-grails.plugin.databasemigration.updateOnStart = true
-grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
+// grails.plugin.databasemigration.updateOnStart = true
+// grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
