@@ -28,11 +28,25 @@
 
               </td>
               <td data-title='<g:message code="default.description.label" />'>${detail?.description}&nbsp;</td>
+ 
             </tr>
-          
-          
         </tbody>
       </g:each>
+      
+
+        <tbody>     
+         <td data-title='<g:message code="default.description.label" />' colspan='4' >
+            <div class="text-center">
+              <g:render template="/event/statusChangeBtn" />
+              <g:if test="${actionName!='pickPartAddDetail'}" >
+                <g:link  class="btn btn-primary" controller="event" action="pickPartAddDetail" id="${event?.id}">
+                  新增維修項目
+                </g:link>
+              </g:if>
+
+            </div>
+          </td>
+        </tbody>
 
 
     </table> 

@@ -56,9 +56,15 @@ class ProductController {
 
     def show(){ 
         def product = Product.findByIdOrName(params.id, params.name)
+
+        def eventUnFin = Event.findByProductAndStatus(product, motoranger.ProductStatus.UNFIN)
+
+        def statusEnd = false
+        if(!eventUnFin) statusEnd =true
         
         [
-            product: product
+            product: product,
+            statusEnd :statusEnd
         ]
     }
     @Secured(['ROLE_OPERATOR'])

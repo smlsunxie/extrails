@@ -149,6 +149,14 @@ class UserController {
             userRoleInstances?.each(){
                 it.delete()
             }
+
+            def products = Product.findByUser(userInstance)
+
+            products?.each(){
+                products.user = null
+                products.save()
+            }
+
             userInstance.delete(flush: true,failOnError:true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), id])
             redirect(action: "list")

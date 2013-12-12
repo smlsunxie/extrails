@@ -117,6 +117,20 @@ function onUpdateReceivedMoneySuccess(data){
       }
 }
 
+var bootstrap_alert = function() {};
+bootstrap_alert.warning = function(message) {
+  // $('#alert_placeholder').html(
+  //   '<div class="alert alert-info">'+
+  //     '<button data-dismiss="alert" class="close" data-dismiss="alert">&times;</button>'+
+  //     '<h2>message</h2>'+
+  //     '<span>'+message+'</span>'+
+  //   '</div>')
+  $('#alert_placeholder').html(
+      '<span class="bold" >'+message+'</span>'+
+    '</div>')
+
+};
+
 (function () {
 
     //tags 處理

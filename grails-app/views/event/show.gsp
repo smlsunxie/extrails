@@ -15,19 +15,13 @@
 
     <div class="row" id="actionbar">
 
-      <div class="col-sm-4 col-md-4">
+      <div class="col-sm-3 col-md-3">
 
         <g:link class="btn btn-primary btn-large "
           action="edit" controller="event" id="${event.id}" >
         <g:message code="default.button.edit.label" />
-        </g:link>
+        </g:link>  
 
-        <g:link class="btn btn-primary" controller="event" action="pickPartAddDetail" id="${event.id}"  >
-          <g:message code="eventDetail.create.label" />   
-        </g:link>   
-
-
-        <g:render template="statusChangeBtn" />
 
 
         <g:link class="btn btn-danger"
@@ -36,13 +30,17 @@
         </g:link> 
       </div>
 
-      <div class="col-sm-4 col-md-4">
+      <div class="col-sm-3 col-md-3">
         <g:render template="/event/updateReceivedMoney" model="[event: event]" />
       </div>
 
 
-      <div class="col-sm-4 col-md-4">
+      <div class="col-sm-3 col-md-3">
         <g:render template="/event/updateUnreceiveMoney" model="[event: event]" />
+      </div>
+
+      <div class="col-sm-3 col-md-3">
+        <g:render template="/event/updateEventDate" model="[event: event]" />
       </div>
 
 

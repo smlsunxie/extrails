@@ -1,3 +1,5 @@
+
+
 <table class="table">
   <tbody>
     <tr>
@@ -6,7 +8,12 @@
           <g:link controller="event" action="show" id="${event.id}">${event.name}</g:link>
         </td>
     </tr>
-
+    <tr>
+        <td class="small"><g:message code="product.name.label" /></td>
+        <td class="bold">
+          <g:link controller="product" action="show" id="${event.product.id}">${event.product.name}</g:link>
+        </td>
+    </tr>
 
     <tr>
         <td class="small"><g:message code="event.mileage.label" /></td>
@@ -29,8 +36,11 @@
       </tr> 
       <tr>
           <td class="small"><g:message code="event.status.label" /></td>
-          <td class="bold"><g:message code="ProductStatus.${event.status.name()}" /></td>
+          <td class="bold">
+            <g:message code="ProductStatus.${event.status.name()}" />
+          </td>
       </tr>
+
       <tr>
           <td class="small">已收</td>
           <td class="bold">${event?.receivedMoney.toString()}</td>

@@ -45,9 +45,11 @@ class Product {
         brand nullable: true
 
     }
-  static mapping = {
+    static mapping = {
        events sort: 'date', order: 'desc'
-  }
-
+    }
+    public String toString(){
+        return title
+    }
 
 }

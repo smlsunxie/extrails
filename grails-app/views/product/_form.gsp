@@ -59,6 +59,19 @@
 
 </div>
 
+
+
+<div class="form-group">
+  
+  <label for="inputEmail3" class="col-sm-2 control-label">
+    <g:message code="product.user.label" />
+  </label>
+  <div class="col-sm-10">
+    <g:select id="user" name="user.id" from="${motoranger.User.findById(params?.user?.id)}" optionKey="id" value="${params?.user?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
+  </div>
+
+</div>
+
 <div class="form-group">
   
   <label for="inputEmail3" class="col-sm-2 control-label">

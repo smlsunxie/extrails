@@ -6,6 +6,8 @@
               <ul >
                   <li class="home">${controllerName}</li>
                   <li>${actionName}</li>
+
+                  <li id="alert_placeholder"></li>
               </ul>
               
               <sec:ifAnyGranted roles="ROLE_OPERATOR">

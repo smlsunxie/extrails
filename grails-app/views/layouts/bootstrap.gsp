@@ -40,9 +40,6 @@
         <div class="container">
           <g:render template="/layouts/navbar" />
 
-          <div class="row">
-            <div class="col-sm-12 col-md-12" id="alert_placeholder"></div>
-          </div>
 
           <g:layoutBody/>
 
@@ -73,40 +70,9 @@
 
 
   <r:script>
-
-    bootstrap_alert = function() {}
-    bootstrap_alert.warning = function(message) {
-                $('#alert_placeholder').html('<div class="alert"><a class="close" data-dismiss="alert">×</a><span>'+message+'</span></div>')
-            }
-
+  (function () {
     if('${flash.message}'!=='') bootstrap_alert.warning('${flash.message}');
-
-
-    var onSuccessFun=function(data){
-  		
-      var unreciveMoneyElm=$("#unreceiveMoney_"+data.event.id);
-      var receivedMoney=data.event.receivedMoney;
-      var initValue=unreciveMoneyElm.attr("data-initValue");
-      var unreciveMoney=initValue-receivedMoney;
-
-      if(data.success){
-       
-
-        if(unreciveMoney<0)unreciveMoney=0;
-
-        unreciveMoneyElm.val(unreciveMoney);
-
-        bootstrap_alert.warning("已收金額已更新為："+data.event.receivedMoney)
-      }else {
-
-        var receivedMoneyElm=$("[id='"+data.event.id+"'][name='receivedMoney']");
-        receivedMoneyElm.val(data.event.receivedMoney)
-
-        bootstrap_alert.warning(data.msg)
-        unreciveMoneyElm.val(unreciveMoney);
-      }
-    }
-
+  })();
   </r:script>
 
   <r:layoutResources />
