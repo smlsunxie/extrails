@@ -1,5 +1,9 @@
 <%@ page import="motoranger.User" %>
 
+
+<g:hiddenField name="product.id"  value="${params?.product?.id}" />
+
+
 <div class="form-group">
   
   <label for="inputEmail3" class="col-sm-2 control-label">
@@ -11,6 +15,8 @@
   </div>
 
 </div>
+
+
 
 <div class="form-group">
   
@@ -24,39 +30,10 @@
 
 </div>
 
-<div class="form-group">
-  
-  <label for="inputEmail3" class="col-sm-2 control-label">
-    <g:message code="user.store.label" default="Store" />
-    <span class="required-indicator">*</span>
-  </label>
-  <div class="col-sm-10">
-    <g:select id="store" name="store.id" from="${storeList}" optionKey="id" value="${userInstance?.store?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
-  </div>
 
-</div>
 
-<div class="form-group">
-  <div class="col-sm-offset-2 col-sm-10">
-    <div class="checkbox">
-      <label>
-        <g:checkBox name="accountExpired" value="${userInstance?.accountExpired}"  /> 
-        <g:message code="user.accountExpired.label" default="Account Expired" />
-      </label>
-    </div>
-  </div>
-</div>
 
-<div class="form-group">
-  <div class="col-sm-offset-2 col-sm-10">
-    <div class="checkbox">
-      <label>
-        <g:checkBox name="accountLocked" value="${userInstance?.accountLocked}" /> 
-        <g:message code="user.accountLocked.label" default="Account Locked" />
-      </label>
-    </div>
-  </div>
-</div>
+
 
 
 
@@ -96,17 +73,6 @@
 </div>
 
 
-<div class="form-group">
-  <div class="col-sm-offset-2 col-sm-10">
-    <div class="checkbox">
-      <label>
-        <g:checkBox name="enabled" value="${userInstance?.enabled}" /> 
-        <g:message code="user.enabled.label" default="Enabled" />
-      </label>
-    </div>
-  </div>
-</div>
-
 
 
 
@@ -121,18 +87,6 @@
 
 </div>
 
-
-
-<div class="form-group">
-  <div class="col-sm-offset-2 col-sm-10">
-    <div class="checkbox">
-      <label>
-        <g:checkBox name="passwordExpired" value="${userInstance?.passwordExpired}" />
-        <g:message code="user.passwordExpired.label" default="Password Expired" />
-      </label>
-    </div>
-  </div>
-</div>
 
 
 
@@ -159,10 +113,66 @@
 </div>
 
 
-
+<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+    <div class="checkbox">
+      <label>
+        <g:checkBox name="enabled" value="${userInstance?.enabled}" /> 
+        <g:message code="user.enabled.label" default="Enabled" />
+      </label>
+    </div>
+  </div>
+</div>
 
 
 <sec:ifAnyGranted roles="ROLE_MANERGER,ROLE_ADMIN">
+
+<div class="form-group">
+  
+  <label for="inputEmail3" class="col-sm-2 control-label">
+    <g:message code="user.store.label" default="Store" />
+  </label>
+  <div class="col-sm-10">
+    <g:select id="store" name="store.id" from="${storeList}" optionKey="id" value="${userInstance?.store?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
+  </div>
+
+</div>
+
+<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+    <div class="checkbox">
+      <label>
+        <g:checkBox name="passwordExpired" value="${userInstance?.passwordExpired}" />
+        <g:message code="user.passwordExpired.label" default="Password Expired" />
+      </label>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+    <div class="checkbox">
+      <label>
+        <g:checkBox name="accountExpired" value="${userInstance?.accountExpired}"  /> 
+        <g:message code="user.accountExpired.label" default="Account Expired" />
+      </label>
+    </div>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="col-sm-offset-2 col-sm-10">
+    <div class="checkbox">
+      <label>
+        <g:checkBox name="accountLocked" value="${userInstance?.accountLocked}" /> 
+        <g:message code="user.accountLocked.label" default="Account Locked" />
+      </label>
+    </div>
+  </div>
+</div>
 
 
 <div class="form-group">

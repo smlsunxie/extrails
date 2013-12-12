@@ -4,7 +4,7 @@
     <g:message code="product.name.label" /><span class="required-mark">*</span>
   </label>
   <div class="col-sm-10">
-    <g:textField name="name" readonly value="${product?.name}" class="form-control" />
+    <g:textField name="name" value="${product?.name}" class="form-control" />
   </div>
 
 </div>
@@ -109,63 +109,7 @@
 
 <p></p>
 
-<div class="form-group">
-  
-  <label for="inputEmail3" class="col-sm-2 control-label">
-    <g:message code="user.username.label" />
-  </label>
-  <div class="col-sm-10">
-    <g:hiddenField name="user.id" value="${product.user.id}" />
-    <g:field class="form-control" name="user.username" value="${product.user.username}" />
-  </div>
 
-</div>
-
-<div class="form-group">
-  
-  <label for="inputEmail3" class="col-sm-2 control-label">
-    <g:message code="user.title.label" />
-  </label>
-  <div class="col-sm-10">
-    <g:field class="form-control" name="user.title" value="${product?.user?.title}" />
-  </div>
-
-</div>
-
-
-<div class="form-group">
-  
-  <label for="inputEmail3" class="col-sm-2 control-label">
-    <g:message code="user.telphone.label" />
-  </label>
-  <div class="col-sm-10">
-    <g:field class="form-control" type="number" name="user.telphone" value="${product?.user?.telphone}"  />
-  </div>
-
-</div>
-
-
-<div class="form-group">
-  
-  <label for="inputEmail3" class="col-sm-2 control-label">
-    <g:message code="user.mobile.label" />
-  </label>
-  <div class="col-sm-10">
-    <g:field class="form-control" type="number" name="user.mobile" value="${product?.user?.mobile}" />
-  </div>
-
-</div>
-
-<div class="form-group">
-  
-  <label for="inputEmail3" class="col-sm-2 control-label">
-    <g:message code="user.description.label" />
-  </label>
-  <div class="col-sm-10">
-    <g:field class="form-control" name="user.description" value="${product?.user?.description}" />
-  </div>
-
-</div>
 
 <div class="form-group">
   

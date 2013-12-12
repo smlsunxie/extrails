@@ -18,12 +18,25 @@ class UserController {
     }
 
     def create() {
+        def product = Product.findById(params?.product?.id)
+        def user = User.findByUsername(product.name)
 
-        [userInstance: new User(params),roles: Role.list(),storeList:storeList()]
+        if(!user){
+            user = new User(params)
+            user.username = product.name
+            user.password = product.name
+            user.enabled = true
+        }
+        
+
+        [userInstance: user,roles: Role.list(),storeList:storeList()]
     }
 
     def save() {
         def userInstance = new User(params)
+
+
+
         if (!userInstance.save(flush: true)) {
             render(view: "create", model: [userInstance: userInstance,roles: Role.list()])
             return
@@ -37,6 +50,15 @@ class UserController {
                     return                    
                 }
             }
+        }
+
+        def product = Product.findById(params?.product?.id)
+
+        if(product){
+            product.user=userInstance
+            product.save(failOnError: true)
+            redirect(controller: "product", action: "show", id: product.id)
+            return
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])

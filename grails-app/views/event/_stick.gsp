@@ -22,15 +22,19 @@
                       </p>
                       
                       <p>
-                        <i class="icon-user"></i> 
-                        維修人員：${event?.user}
+                        <i class="icon-user"></i>
+                        維修人員：
+                        <g:link controller="user" action="show" id="${event?.user.id}" > 
+                          ${event?.user}
+                        </g:link>
                       </p>
 
                       <p>
                         <i class="icon-user"></i> 
-                        維修店家：<g:link controller="store" action="show" id="${event?.user.store.id}" >
-                        ${event?.user.store.title}
-                      </g:link> 
+                        維修店家：
+                        <g:link controller="store" action="show" id="${event?.user.store.id}" >
+                          ${event?.user.store.title}
+                        </g:link> 
 
 
                       </p>

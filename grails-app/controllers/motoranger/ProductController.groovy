@@ -18,19 +18,7 @@ class ProductController {
 
 
         if(!params.name)
-            product.name = "product-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
-        else {
             product.title=product.name
-        }
-
-
-        product.user=User.findByUsername(product.name)
-        if(!product?.user){
-            product.user=new User()
-            product.user.username=product.name
-            product.user.title=product.name
-        }
-
 
 
         [ product: product ]
@@ -41,30 +29,15 @@ class ProductController {
     @Secured(['ROLE_OPERATOR'])
     def save(){
         
-        def user=User.findById(params["user.id"])
-        if(!user){
+        def product = new Product(params);
 
-            params.user.password=params.user.username
-            user=new User(params.user)
-            user.save(flush: true,failOnError:true)      
-            params["user.id"]=user.id
-        }
-
-        def product = Product.findByName(params.name);
-
-
-        if(!product) 
-            product = new Product(params);
-        else 
-            product.properties = params
-
-
-
-        
-
-
-        //set current user as creator
         product.creator = springSecurityService.currentUser.username
+
+        def user = User.findByUsername(params.name)
+
+        if(user){
+            product.user = user
+        }
 
         if (!product.validate()) {
             if(product.hasErrors())
@@ -76,10 +49,6 @@ class ProductController {
         }
 
         product.save(flush: true)
-
-        // if(params.tags instanceof String)
-        //     product.tags=[params.tags];
-        // else product.tags = params.tags
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'product.label', default: 'product'), product.id])
         redirect(action: "show", id:product.id)
@@ -95,22 +64,9 @@ class ProductController {
     @Secured(['ROLE_OPERATOR'])
     def edit(){ 
         
-
-
         def product = Product.findByIdOrName(params.id, params.name)
         if(!product?.user)product.user=User.findByUsername(product.name)
         
-        if(!product?.user){
-            def user=new User()
-            user.username=product.name
-            user.title=product.name
-            user.password=user.username
-            user.save()
-            product.user=user
-            product.save(flush:true)
-        }
-
-
         [ 
             product: product
         ]
@@ -118,25 +74,7 @@ class ProductController {
     @Secured(['ROLE_OPERATOR'])
     def update(){ 
 
-        // def user=User.findByUsername(params.username)
-
-
-        // user.title=params.userTitle
-        // user.telphone=params.userTelphone
-        // user.mobile=params.userMobile
-        // user.description=params.userDescription
-
-
-
-        // params.user=user
-
         def product = Product.findByIdOrName(params.id,params.name)
-
-
-
-        // if(params.tags instanceof String)
-        //     product.tags=[params.tags];
-        // else product.tags = params.tags
 
 
 

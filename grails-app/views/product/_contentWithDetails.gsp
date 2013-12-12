@@ -11,6 +11,6 @@
   </div>
   <div class="contact-info col-sm-4 col-md-4">
     <h2>車主資料</h2>
-    <g:render template="/user/content" model="[user: product.user]" />
+    <g:render template="/user/content" model="[user: product.user, product: product]" />
   </div>
 </div>

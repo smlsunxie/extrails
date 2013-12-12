@@ -33,6 +33,8 @@ class Product {
     Date lastUpdated    //修改日期
 
     static constraints = {
+        
+        // product unique: 'user'
         creator nullable: true
         name blank: false, unique: true
         title blank: false
