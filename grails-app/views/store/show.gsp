@@ -28,7 +28,7 @@
             <div class="col-sm-12 col-md-12">
               <div class="row show-grid">
                 
-                <g:render template="/event/stick" model="['stickName':'alert']"
+                <g:render template="/event/stickWithImage" model="['stickName':'alert']"
                   collection="${unfinEvents}" var="event"  />
               
               </div>
@@ -44,7 +44,7 @@
       <div class="row show-grid clear-both">
         <div class="col-sm-12 col-md-12">
           <div class="row show-grid">
-            <g:render template="/event/stick" model="['stickName':'success']"
+            <g:render template="/event/stickWithImage" model="['stickName':'success']"
               collection="${endEvents}" var="event"  />
         </div>
       </div>
