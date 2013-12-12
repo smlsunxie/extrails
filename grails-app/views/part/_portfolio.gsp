@@ -25,11 +25,12 @@
 
 
                  
-    <div class="portfolio-grid-1 main-block">
-      <ul id="portfolio" class="row thumbnails">                  
-        
+    <div class="portfolio-grid-1 main-block row">
+      <ul id="gallery" class="thumbnails">
+             
         <g:each var="part" in="${parts}">
-          <li class="col-sm-3 col-md-3 large hp-wrapper element ${part.tags.join(' ')}">        
+          <li class="col-md-3 col-sm-3 small hp-wrapper ${part.tags.join(' ')}">  
+       
             <div id="${part.name}" class="thumbnail">
   %{--                           <g:img alt="" uri="/attachment/show?name=${part.name}&file=${part.mainImage}" style='height:100px' />  --}%
 
@@ -39,6 +40,7 @@
                   <p>${part.description}</p>
 
                   <g:if test="${event}">
+
                     <g:form action="save" controller="eventDetail" class="form-thumbnail" params="['part.id':part.id, 'part.name':part.name, 'head.id':event.id]"> 
                       <p>
 

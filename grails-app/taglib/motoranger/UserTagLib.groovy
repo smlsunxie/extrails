@@ -42,4 +42,59 @@ class UserTagLib {
         out << body() << render(template:'/component/actionbar'
             , model:[actionName:actionName, nextActionName:nextActionName ,domain:attrs?.domain])
     }
+
+    def switchUser={attrs, body ->
+
+        def currentUser = springSecurityService.currentUser
+
+        def operators=[]
+        if(currentUser?.store 
+            && currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_MANERGER'))){
+
+            def users=User.findAllByStore(springSecurityService?.currentUser?.store)
+
+            users.each(){
+                if(it.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_OPERATOR'))){
+                    operators << it
+                }
+
+            }
+            out << body() << render(template:'/component/swichUser'
+            , model:[operators:operators])
+        }else {
+            out << body() << ""
+        }
+    }
+    def footer={attrs, body ->
+
+        def currentUser = springSecurityService.currentUser
+        
+        def store = currentUser?.store
+
+        if(store){
+
+            out << body() << g.applyLayout(name: "inc_footer_store", 
+                model:[store: store])
+
+        }else {
+            out << body() << g.applyLayout(name: "inc_footer")
+        }
+    }
+
+    def homeNav={ attrs, body ->
+        def currentUser = springSecurityService.currentUser
+        def store = currentUser?.store
+
+        if(store){
+            out << body() << link(controller:'home'){
+                store.title+"<i>store</i>"
+            }        
+        }else {
+            out << body() << link(controller:'home'){
+                g.message(code:"store.navbar.label")+"<i>store</i>"
+            }
+        }   
+
+    }
+
 }

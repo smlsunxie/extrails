@@ -9,11 +9,7 @@
 	</head>
 	<body>
 
-		<div class="nav" role="navigation">
-			<ul>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
+
 		
 		<div id="list-store" class="container" role="main">
 			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
@@ -31,6 +27,7 @@
 							<g:sortableColumn property="telphone" title="${message(code: 'store.telphone.label', default: 'Telphone')}" />
 						
 							<g:sortableColumn property="title" title="${message(code: 'store.title.label', default: 'Title')}" />
+							<g:sortableColumn property="title" title="${message(code: 'store.description.label', default: 'description')}" />
 						
 						</tr>
 					</thead>
@@ -47,6 +44,8 @@
 							<td>${fieldValue(bean: storeInstance, field: "telphone")}</td>
 						
 							<td>${fieldValue(bean: storeInstance, field: "title")}</td>
+
+							<td>${fieldValue(bean: storeInstance, field: "description")}</td>
 						
 						</tr>
 					</g:each>

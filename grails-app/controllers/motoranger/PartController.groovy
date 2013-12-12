@@ -111,14 +111,10 @@ class PartController {
         ]
     } 
     def show(){ 
-
-
         def part = Part.findByIdOrName(params.id, params.name)
 
-
         [
-            part: part,
-            files: s3Service.getObjectList("${grailsApplication.config.grails.aws.root}/${part?.name}")
+            part: part
         ]
     }
 

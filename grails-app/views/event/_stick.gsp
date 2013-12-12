@@ -1,4 +1,4 @@
-                  <div class="col-sm-3 col-md-3">
+                  <div id="productStick" class="col-sm-3 col-md-3">
 
                     <a class="block-stick-img">
 
@@ -28,7 +28,7 @@
 
                       <p>
                         <i class="icon-user"></i> 
-                        維修店家：<g:link  url="/store/${event?.user.store.name}">
+                        維修店家：<g:link controller="store" action="show" id="${event?.user.store.id}" >
                         ${event?.user.store.title}
                       </g:link> 
 
@@ -58,11 +58,12 @@
                     </div>
                     <sec:ifAnyGranted roles="ROLE_OPERATOR">
                       <div class="row stick_outside">
-                       
 
+                        <div class="col-sm-10 col-md-10 col-md-offset-1 col-sm-offset-1">
                           <g:render template="/event/updateReceivedMoney" model="[event: event]" />
 
                           <g:render template="/event/updateUnreceiveMoney" model="[event: event]" />
+                        </div>
 
 
                       </div>

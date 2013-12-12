@@ -13,10 +13,7 @@
 
 <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">
   <li class="single">
-    <g:link controller="home">
-      <g:message code="store.navbar.label" />
-      <i>store</i>
-    </g:link>
+    <g:homeNav />
   </li>
 
 </sec:ifAnyGranted>

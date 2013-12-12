@@ -188,3 +188,7 @@ form.form-thumbnail {
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
+#productStick {
+  margin-bottom: 20px;
+}
+

@@ -7,6 +7,8 @@ class StoreController {
     static layout = 'bootstrap'
     def springSecurityService
 
+    
+
     def show() {
 
         def currentUser = springSecurityService.currentUser
@@ -18,24 +20,11 @@ class StoreController {
             , store,[max:8,order:"desc",sort:"lastUpdated"])
 
 
-        def operators=[]
-        if(currentUser?.store 
-            && currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_MANERGER'))){
 
-            def users=User.findAllByStore(springSecurityService?.currentUser?.store)
-
-            users.each(){
-                if(it.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_OPERATOR'))){
-                    operators << it
-                }
-
-            }
-        }
 
         [
             unfinEvents: unfinEvents,
             endEvents: endEvents,
-            operators: operators,
             store: store
         ]
 

@@ -13,7 +13,7 @@
             <address class="address">
               <p>
                 <i class="icon-map-marker icon-large"></i>
-                ${store.address}
+                ${store?.address}
               </p>
 
             </address>
@@ -23,11 +23,11 @@
 
           <div class="col-sm-4 col-md-4 footer-center">
             <h4 class="center-title">聯絡我們</h4>
-            <p><i class="icon-phone"></i>Phone: ${store.telphone}</p>
-            <p><i class="icon-mobile-phone icon-large"></i>mobile: ${store.mobile}</p>
-            <p><i class="icon-print"></i>Fax: ${store.fax}</p>
+            <p><i class="icon-phone"></i>Phone: ${store?.telphone}</p>
+            <p><i class="icon-mobile-phone icon-large"></i>mobile: ${store?.mobile}</p>
+            <p><i class="icon-print"></i>Fax: ${store?.fax}</p>
             <p><i class="icon-envelope"></i>
-              Mail:<a class="btn btn-inverse btn-mini" href="${store.email}"> ${store.email}</a></p>
+              Mail:<a class="btn btn-inverse btn-mini" href="${store?.email}"> ${store?.email}</a></p>
           </div>
 
           <div class="col-sm-4 col-md-4 footer-right">

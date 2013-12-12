@@ -120,7 +120,7 @@
     <g:message code="user.label" default="Store" />
   </label>
   <div class="col-sm-10">
-    <g:select id="user" name="user.id" from="${motoranger.User.list()}" optionKey="id" value="${params.user.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
+    <g:select id="user" name="user.id" from="${motoranger.User.list()}" optionKey="id" value="${params?.user?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
   </div>
 
 </div> 
