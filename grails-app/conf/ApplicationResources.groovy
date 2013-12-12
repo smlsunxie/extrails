@@ -39,7 +39,7 @@ modules = {
     }
 
     bizstrap {   
-        dependsOn 'jquery'   
+        dependsOn 'jquery, tagit'   
         defaultBundle __bundleName
 
         
@@ -65,7 +65,7 @@ modules = {
         resource url: 'bizstrap/js/jquery.fancybox.pack.js?v=2.1.0' 
    
         resource url: 'bizstrap/rs-plugin/js/jquery.themepunch.plugins.min.js'       
-        resource url: 'bizstrap/rs-plugin/js/jquery.themepunch.revolution.min.js'    
+        resource url: 'bizstrap/rs-plugin/js/jquery.themepunch.revolution.js'    
         resource url: 'bizstrap/js/revolution.custom.js'            
         resource url: 'bizstrap/js/custom.js'
 
