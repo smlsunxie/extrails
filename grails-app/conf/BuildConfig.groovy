@@ -11,13 +11,7 @@ grails.project.source.level = 1.6
 grails.project.war.file = "target/${appName}.war"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
-grails.war.resources = { stagingDir ->
-    if(new File("${stagingDir}/development").exists())
-        delete(includeEmptyDirs: true) { fileset dir: "${stagingDir}/development" }
-        
-    delete(includeEmptyDirs: true) { fileset dir: "${stagingDir}/art sample" }
-    delete(includeEmptyDirs: true) { fileset dir: "${stagingDir}/xmlSample" }
-}
+
 
 
 grails.project.fork = [
