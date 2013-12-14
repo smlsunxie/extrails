@@ -30,7 +30,7 @@ environments {
     production {
 
         dataSource {
-            dbCreate = "update"
+            // dbCreate = "update"
             pooled = true
             driverClassName = "com.mysql.jdbc.Driver"
             //dialect = org.hibernate.dialect.MySQL5InnoDBDialect
