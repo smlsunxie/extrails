@@ -13,7 +13,7 @@
         <tbody>        
           
             <tr>
-              <td data-title='<g:message code="eventDetail.id.label" />'>
+              <td data-title='<g:message code="eventDetail.name.label" />'>
                 <g:link controller="eventDetail" action="show" id="${detail?.id}">${detail?.id}</g:link>
               </td>
               <td data-title='<g:message code="part.label" />'>
