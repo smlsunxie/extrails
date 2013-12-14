@@ -76,8 +76,12 @@ loglink:
 	- ln ~/projects/motoranger/target/test.log ~/Library/Logs/motoranger/test.log
 
 db-changelog-init:
-	grails dbm-generate-gorm-changelog changelog.groovy #dbCreate = "none" 必須使用實體 db ex:mysql
+	#dbCreate = "create" 必須使用實體 db ex:mysql
+	grails dbm-generate-gorm-changelog changelog.groovy 
+	#remove dbCreate = "create"
 	grails dbm-changelog-sync
+	#make change
+	grails dbm-update
 	grails dbm-gorm-diff 1.0.0.groovy -add
 	grails dbm-update
 	grails dbm-gorm-diff 1.0.1.groovy -add

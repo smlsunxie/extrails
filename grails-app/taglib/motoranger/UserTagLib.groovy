@@ -54,7 +54,8 @@ class UserTagLib {
             def users=User.findAllByStore(springSecurityService?.currentUser?.store)
 
             users.each(){
-                if(it.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_OPERATOR'))){
+                if(it.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_OPERATOR'))
+                    && it != currentUser){
                     operators << it
                 }
 

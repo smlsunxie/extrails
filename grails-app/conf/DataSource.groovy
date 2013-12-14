@@ -19,7 +19,7 @@ environments {
     }
     test {
         dataSource {
-            dbCreate = "update"
+            // dbCreate = "update"
             url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
             pooled = true
             driverClassName = "org.h2.Driver"

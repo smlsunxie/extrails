@@ -22,6 +22,7 @@ class User {
 	boolean passwordExpired
 	Store store
 
+
 	static hasMany=[products:Product]
 	
 	static transients = ['springSecurityService']
