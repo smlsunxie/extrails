@@ -170,7 +170,10 @@ class EventController {
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'event'), event.id])
         
-        if(request.getHeader('referer').indexOf("event/pickPartAddDetail") != -1
+
+        if(params?.status == 'END')
+            redirect(controller: "home", action: "index")
+        else if(request.getHeader('referer').indexOf("event/pickPartAddDetail") != -1
             || request.getHeader('referer').indexOf("/store/") != -1){
              redirect(uri: request.getHeader('referer') )
         }else {
