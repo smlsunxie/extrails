@@ -5,6 +5,7 @@
           <th><g:message code="part.label" /></th>
           <th><g:message code="part.price.label" /></th>
           <th><g:message code="default.description.label" /></th>
+          <th></th>
 
         </tr>
       </thead>
@@ -28,6 +29,12 @@
 
               </td>
               <td data-title='<g:message code="default.description.label" />'>${detail?.description}&nbsp;</td>
+
+              <sec:ifAllGranted roles="ROLE_OPERATOR">  
+                <td>
+                  <g:link  class="btn btn-danger btn-xs" controller="eventDetail" action="delete" id="${detail?.id}"><g:message code="default.button.delete.label" /></g:link>
+                </td>
+              </sec:ifAllGranted>&nbsp;
  
             </tr>
         </tbody>

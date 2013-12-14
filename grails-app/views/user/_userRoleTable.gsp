@@ -13,7 +13,7 @@
   <div class="col-sm-offset-2 col-sm-10">
     <div class="checkbox">
       <label>
-        <g:checkBox name="passwordExpired" value="${userInstance?.passwordExpired}" />
+        <g:checkBox readonly='${readonly}' name="passwordExpired" value="${userInstance?.passwordExpired}" />
         <g:message code="user.passwordExpired.label" default="Password Expired" />
       </label>
     </div>
@@ -27,7 +27,7 @@
   <div class="col-sm-offset-2 col-sm-10">
     <div class="checkbox">
       <label>
-        <g:checkBox name="accountExpired" value="${userInstance?.accountExpired}"  /> 
+        <g:checkBox readonly='${readonly}' name="accountExpired" value="${userInstance?.accountExpired}"  /> 
         <g:message code="user.accountExpired.label" default="Account Expired" />
       </label>
     </div>
@@ -38,7 +38,7 @@
   <div class="col-sm-offset-2 col-sm-10">
     <div class="checkbox">
       <label>
-        <g:checkBox name="accountLocked" value="${userInstance?.accountLocked}" /> 
+        <g:checkBox readonly='${readonly}' name="accountLocked" value="${userInstance?.accountLocked}" /> 
         <g:message code="user.accountLocked.label" default="Account Locked" />
       </label>
     </div>
@@ -59,7 +59,7 @@
 
           <tr>
 
-            <td><g:checkBox name="userRoles" value="${role.authority}" checked="${userRoles?.role?.contains(role)}" /></td>
+            <td><g:checkBox readonly='${readonly}' name="userRoles" value="${role.authority}" checked="${userRoles?.role?.contains(role)}" /></td>
             <td>${role.authority}</td>
 
             </tr>
