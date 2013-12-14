@@ -119,8 +119,9 @@ class UserController {
         }
 
         // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER")){
-            UserRole.removeAll(userInstance)    
+
+        if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
+            UserRole.removeAll(userInstance)
             params.list('userRoles').each(){
                 if(!UserRole.create(userInstance,Role.findByAuthority(it),true)){
                     render(view: "edit", model: [userInstance: userInstance])

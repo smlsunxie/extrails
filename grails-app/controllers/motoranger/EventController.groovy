@@ -81,7 +81,7 @@ class EventController {
             args: [message(code: 'event.label', default: 'event'), event.id])
 
 
-        redirect(action: "show", id: event.id)
+        redirect(controller:"event", action:"pickPartAddDetail", id:event.id)
 
 
     }

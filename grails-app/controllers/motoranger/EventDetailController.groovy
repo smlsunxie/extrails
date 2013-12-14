@@ -133,11 +133,9 @@ class EventDetailController {
         eventDetail.delete(flush:true)
 
 
-
-
-
-        redirect(action: "show", controller:"event"
-            , id:headId)
+        if(request.getHeader('referer').indexOf("/eventDetail/show") != -1)
+            redirect(action: "show", controller:"event", id:headId)
+        else redirect(uri: request.getHeader('referer') )
 
     }
 
