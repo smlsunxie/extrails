@@ -85,5 +85,5 @@ db-changelog-sync:
 	grails -Dgrails.env=dbdiff dbm-changelog-sync
 db-update:
 	grails -Dgrails.env=dbdiff dbm-update
-db-update:
+db-diff:
 	grails -Dgrails.env=dbdiff dbm-gorm-diff temp.groovy -add
