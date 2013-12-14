@@ -75,16 +75,15 @@ loglink:
 	- ln ~/projects/motoranger/target/stacktrace.log ~/Library/Logs/motoranger/stacktrace.log
 	- ln ~/projects/motoranger/target/test.log ~/Library/Logs/motoranger/test.log
 
+#dbCreate = "create" 必須使用實體 db ex:mysql
 db-changelog-init:
-	#dbCreate = "create" 必須使用實體 db ex:mysql
 	grails dbm-generate-gorm-changelog changelog.groovy 
-	#remove dbCreate = "create"
-	grails dbm-changelog-sync
-	#make change
-	grails dbm-update
-	grails dbm-gorm-diff 1.0.0.groovy -add
-	grails dbm-update
-	grails dbm-gorm-diff 1.0.1.groovy -add
+	
 
-
-
+#remove dbCreate = "create"
+db-changelog-sync:
+	grails -Dgrails.env=dbdiff dbm-changelog-sync
+db-update:
+	grails -Dgrails.env=dbdiff dbm-update
+db-update:
+	grails -Dgrails.env=dbdiff dbm-gorm-diff temp.groovy -add
