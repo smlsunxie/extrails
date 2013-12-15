@@ -26,8 +26,8 @@
   <p>
     <i class="icon-user"></i> 
     維修店家：
-    <g:link controller="store" action="show" id="${event?.user.store.id}" >
-      ${event?.user.store.title}
+    <g:link controller="store" action="show" id="${event?.user?.store?.id}" >
+      ${event?.user?.store?.title}
     </g:link> 
 
 
