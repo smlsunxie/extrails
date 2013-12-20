@@ -113,27 +113,15 @@
 </div>
 
 
-<div class="form-group">
-  <div class="col-sm-offset-2 col-sm-10">
-    <div class="checkbox">
-      <label>
-        <g:checkBox name="enabled" value="${userInstance?.enabled}" /> 
-        <g:message code="user.enabled.label" default="Enabled" />
-      </label>
-    </div>
-  </div>
-</div>
-
-
 <sec:ifAnyGranted roles="ROLE_ADMIN">
 
-  <g:render template="userRoleTable" model="[user:user, readonly:false]" />
+  <g:render template="userRoleTable"  model="[hidden: '']" />
 
 </sec:ifAnyGranted>
 
 <sec:ifNotGranted roles="ROLE_ADMIN">
 
-  <g:render template="userRoleTable" model="[user:user, readonly:true]" />
+  <g:render template="userRoleTable"  model="[hidden: 'hidden']" />
 
 </sec:ifNotGranted>
 
