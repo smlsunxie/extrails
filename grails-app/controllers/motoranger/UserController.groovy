@@ -20,11 +20,12 @@ class UserController {
 
     def create() {
         def product = Product.findById(params?.product?.id)
-        def user = User.findByUsername(product.name)
+        def user = User.findByUsername(product?.name)
 
         if(!user){
             user = new User(params)
             user.username = product.name
+            user.title = product.name
             user.password = product.name
             user.enabled = true
         }
@@ -34,7 +35,9 @@ class UserController {
     }
 
     def save() {
-        def userInstance = new User(params)
+        def userInstance = User.findByUsername(params.username);
+        
+        if(!userInstance) userInstance = new User(params)
 
 
 
@@ -43,12 +46,28 @@ class UserController {
             return
         }
 
-        // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles 的儲存
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER")){    
-            params.list('userRoles').each(){
-                if(!UserRole.create(userInstance,Role.findByAuthority(it),true)){
-                    render(view: "create", model: [userInstance: userInstance,roles: Role.list()])
-                    return                    
+        // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
+        if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
+            
+            def defRoles = Role.list()*.authority;
+            def userRoleParams = params.list('userRoles');
+
+            defRoles.each(){ defRole ->
+            
+                def addRoule =false;
+                userRoleParams.each(){ userRole ->
+                    if(userRole == defRole){
+                        addRoule = true;
+                    }
+                }
+
+                def roleInstance = Role.findByAuthority(defRole)
+                def userRoleInstance = UserRole.get(userInstance?.id,roleInstance?.id)
+
+                if(addRoule && !userRoleInstance){
+                    UserRole.create(userInstance,roleInstance,true)
+                }else if(!addRoule && userRoleInstance) {
+                    UserRole.remove(userInstance,roleInstance)
                 }
             }
         }
@@ -95,7 +114,6 @@ class UserController {
 
     @Secured(['ROLE_OPERATOR','ROLE_ADMIN','ROLE_MANAGER','ROLE_CUSTOMER'])
     def update(Long id, Long version) {
-        println "user update"
         def userInstance = User.get(id)
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), id])

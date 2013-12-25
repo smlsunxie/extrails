@@ -7,13 +7,12 @@ class SearchController {
     def query(){
 
         def productSearchResult
-        def userSearch
+        def userSearchResult
 
         params.max= 6
 
         if(params.q && params.q != ''){
-            productSearchResult = Product.search('*'+params.q+'*',params)
-
+            productSearchResult = Product.search(params.q+" OR *"+params.q+"*",params)
         }
 
 
