@@ -139,6 +139,34 @@ class SummaryController {
 
     	[resultList:resultList]
 
+}
+
+    def storeTodaySummary(){
+
+        def nowDate = new Date()
+        params.year=nowDate.year
+        params.month=nowDate.month
+        params.dayOfMonth=nowDate.getAt(Calendar.DAY_OF_MONTH)
+
+        println params
+
+        def currentUser = springSecurityService.currentUser
+
+        def query = Event.where {
+            year(date) == params.year
+            month(date) == params.month
+            day(date) == params.dayOfMonth
+
+
+            // store == currentUser.store
+            // status == motoranger.ProductStatus.END
+        }
+
+        def results = query.list()
+
+        println "results = "+results
+
+        [results:results]
     }
 
 

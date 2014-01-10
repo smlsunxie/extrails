@@ -6,13 +6,12 @@
   </head>
   <body>
 
-    <sec:ifAllGranted roles="ROLE_MANERGER">
+    <sec:ifAllGranted roles="ROLE_MANERGER, ROLE_OPERATOR">
       <div class="row" id="actionbar">
 
-        <div class="col-sm-12 col-md-12">           
+        <div class="col-sm-12 col-md-6">           
           <g:link  class="btn btn-primary" controller="store" action="edit" id="${store.id}" >修改店家資料</g:link>
-
-
+          <g:link  class="btn btn-primary" controller="summary" action="storeTodaySummary" id="${store.id}" >今日維修總覽</g:link>
         </div>
 
       </div>

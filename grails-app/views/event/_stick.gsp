@@ -15,6 +15,10 @@
   </g:link> 
   </p>
   
+
+
+
+
   <p>
     <i class="icon-user"></i>
     維修人員：
@@ -23,18 +27,17 @@
     </g:link>
   </p>
 
-  <p>
-    <i class="icon-user"></i> 
-    維修店家：
-    <g:link controller="store" action="show" id="${event?.user?.store?.id}" >
-      ${event?.user?.store?.title}
-    </g:link> 
 
-
-  </p>
 
   
   <sec:ifAnyGranted roles="ROLE_OPERATOR">
+    <p>
+      <i class="icon-user"></i>
+      客戶名稱：
+      <g:link controller="user" action="show" id="${event?.product?.user?.id}" > 
+        ${event?.product?.user}
+      </g:link>
+    </p>  
     <p class="date">
       <i class="icon-calendar"></i>
       維修總額： ${event.totalPrice}
