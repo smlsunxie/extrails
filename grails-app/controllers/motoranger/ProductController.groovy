@@ -71,7 +71,17 @@ class ProductController {
     def edit(){ 
         
         def product = Product.findByIdOrName(params.id, params.name)
-        if(!product?.user)product.user=User.findByUsername(product.name)
+
+
+        if(params?.user?.id){
+            product?.user = User.findByUsername(params?.user?.id)
+        }
+        
+        if(!product?.user){
+            product.user=User.findByUsername(product.name)
+        }
+
+        println "product?.user = "+ product?.user
         
         [ 
             product: product

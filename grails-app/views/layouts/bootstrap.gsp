@@ -71,7 +71,9 @@
 
   <r:script>
   (function () {
-    if('${flash.message}'!=='') bootstrap_alert.warning('${flash.message}');
+    if('${flash.message}'!=='') {
+      bootstrap_alert.warning('${flash.message}');
+    }
   })();
   </r:script>
 

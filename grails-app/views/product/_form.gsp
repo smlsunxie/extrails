@@ -67,7 +67,7 @@
     <g:message code="product.user.label" />
   </label>
   <div class="col-sm-10">
-    <g:select id="user" name="user.id" from="${motoranger.User.findById(params?.user?.id)}" optionKey="id" value="${params?.user?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
+    <g:select id="user" name="user.id" from="${motoranger.User.findById(product?.user?.id)}" optionKey="id" value="${product?.user?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
   </div>
 
 </div>

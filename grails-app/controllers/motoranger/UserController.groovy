@@ -9,6 +9,7 @@ class UserController {
     static layout = 'bootstrap'
 
     def springSecurityService
+    def userService
 
 
 
@@ -19,21 +20,20 @@ class UserController {
 
 
     def create() {
-        def product = Product.findById(params?.product?.id)
-        def user = User.findByUsername(product?.name)
+        
 
-        if(!user){
-            user = new User(params)
-            if(product?.name){
-                user.username = product.name
-                user.title = product.name
-                user.password = product.name 
-            }else {
-                log.warn "create user no product.name. params= ${params}"
-            }
-
-            user.enabled = true
+        
+        def user = new User(params)
+        
+        if(params?.product?.id){
+            def product = Product.findById(params?.product?.id)
+            user.username = product?.name
+            user.title = product?.name
+            user.password = product?.name 
         }
+
+        user.enabled = true
+
         
 
         [userInstance: user,roles: Role.list(),storeList:storeList()]
@@ -53,36 +53,13 @@ class UserController {
 
         // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
         if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
-            
-            def defRoles = Role.list()*.authority;
-            def userRoleParams = params.list('userRoles');
+            userService.modifyUserRole(userInstance, params)
 
-            defRoles.each(){ defRole ->
-            
-                def addRoule =false;
-                userRoleParams.each(){ userRole ->
-                    if(userRole == defRole){
-                        addRoule = true;
-                    }
-                }
-
-                def roleInstance = Role.findByAuthority(defRole)
-                def userRoleInstance = UserRole.get(userInstance?.id,roleInstance?.id)
-
-                if(addRoule && !userRoleInstance){
-                    UserRole.create(userInstance,roleInstance,true)
-                }else if(!addRoule && userRoleInstance) {
-                    UserRole.remove(userInstance,roleInstance)
-                }
-            }
         }
 
-        def product = Product.findById(params?.product?.id)
-
-        if(product){
-            product.user=userInstance
-            product.save(failOnError: true)
-            redirect(controller: "product", action: "show", id: product.id)
+        if(params?.product?.id){
+            userService.addProduct(userInstance, params)
+            redirect(controller: "product", action: "show", id: params?.product?.id)
             return
         }
 
@@ -146,35 +123,22 @@ class UserController {
 
         // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
         if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
-            
-            def defRoles = Role.list()*.authority;
-            def userRoleParams = params.list('userRoles');
+            userService.modifyUserRole(userInstance, params)
 
-            defRoles.each(){ defRole ->
-            
-                def addRoule =false;
-                userRoleParams.each(){ userRole ->
-                    if(userRole == defRole){
-                        addRoule = true;
-                    }
-                }
-
-                def roleInstance = Role.findByAuthority(defRole)
-                def userRoleInstance = UserRole.get(userInstance?.id,roleInstance?.id)
-
-                if(addRoule && !userRoleInstance){
-                    UserRole.create(userInstance,roleInstance,true)
-                }else if(!addRoule && userRoleInstance) {
-                    UserRole.remove(userInstance,roleInstance)
-                }
-            }
         }
 
-
+        if(params?.product?.id){
+            userService.addProduct(userInstance, params)
+            redirect(controller: "product", action: "show", id: params?.product?.id)
+            return
+        }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
         redirect(action: "show", id: userInstance.id)
     }
+
+
+
     @Secured(['ROLE_OPERATOR','ROLE_ADMIN','ROLE_MANAGER','ROLE_CUSTOMER'])
     def delete(Long id) {
         def userInstance = User.get(id)
@@ -200,7 +164,16 @@ class UserController {
 
             userInstance.delete(flush: true,failOnError:true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), id])
-            redirect(action: "list")
+            
+            def currentUser = springSecurityService?.currentUser
+            if(userInstance.id == currentUser?.id){
+                redirect(action: "index", controller: "home")
+            }else {
+                def store = currentUser.store
+                redirect(action: "show", controller: "store", id: store.id)
+            }
+
+            
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), id])

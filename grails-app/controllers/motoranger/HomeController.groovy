@@ -14,12 +14,6 @@ class HomeController {
         def store = currentUser?.store
         
         if(currentUser){
-            def currentUserRoles = currentUser.getAuthorities()
-
-            def roleManarger = Role.findByAuthority 'ROLE_MANARGER'
-            def roleCustomer = Role.findByAuthority 'ROLE_CUSTOMER'
-            def roleOperator = Role.findByAuthority 'ROLE_OPERATOR'
-
 
             if(store){
                 redirect uri: "/store/show/${store.id}"
