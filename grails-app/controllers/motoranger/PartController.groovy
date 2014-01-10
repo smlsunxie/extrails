@@ -193,7 +193,7 @@ class PartController {
         }
 
 
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), id])
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), params.id])
 
         redirect(action: "portfolio")
     }

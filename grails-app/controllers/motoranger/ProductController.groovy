@@ -17,7 +17,7 @@ class ProductController {
     	def product = new Product(params)
 
 
-        if(!params.name)
+        if(!product.name)
             product.title=product.name
 
 
@@ -123,7 +123,7 @@ class ProductController {
         def product = Product.findByIdOrName(params.id, params.name)
         product.delete(flush: true)
 
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), id])
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), params.id])
 
         redirect(action: "list")
     }

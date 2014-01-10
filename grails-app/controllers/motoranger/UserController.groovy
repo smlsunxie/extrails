@@ -24,9 +24,14 @@ class UserController {
 
         if(!user){
             user = new User(params)
-            user.username = product.name
-            user.title = product.name
-            user.password = product.name
+            if(product?.name){
+                user.username = product.name
+                user.title = product.name
+                user.password = product.name 
+            }else {
+                log.warn "create user no product.name. params= ${params}"
+            }
+
             user.enabled = true
         }
         
