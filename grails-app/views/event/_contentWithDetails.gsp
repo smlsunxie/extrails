@@ -1,7 +1,7 @@
 <g:set var="stickName" value="${event.status == motoranger.ProductStatus.UNFIN? 'alert' : 'success'}" />
 
 <div class="row">
-  <div class="contact-info col-sm-3 col-md-3"> 
+  <div id="eventStick" class="contact-info col-sm-3 col-md-3"> 
 
   	<g:render template="/event/stick" model="['event': event, 'stickName': stickName]" /> 
   

@@ -156,10 +156,8 @@ class SummaryController {
             year(date) == params.year
             month(date) == params.month
             day(date) == params.dayOfMonth
-
-
-            // store == currentUser.store
-            // status == motoranger.ProductStatus.END
+            store == currentUser.store
+            status == motoranger.ProductStatus.END
         }
 
         def results = query.list()

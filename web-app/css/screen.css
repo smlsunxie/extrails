@@ -194,6 +194,11 @@ form.form-thumbnail {
   padding-right: 5px;
 }
 
+#eventStick {
+  padding-left: 0px;
+  padding-right: 5px;
+}
+
 #eventContentTable{
   margin-top: 7px; 
 }

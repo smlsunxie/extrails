@@ -45,12 +45,11 @@
 
         </div>
       </div>
-
-
+      
       <footer id="footer">
         
         <g:footer /> 
-      	
+        
 
         <div class="footer-bottom">
           <div class="container">
@@ -64,7 +63,10 @@
         </div>
       </footer>
 
+
+
     </div>
+
   </div>
 
 
