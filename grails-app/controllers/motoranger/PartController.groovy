@@ -111,7 +111,7 @@ class PartController {
         ]
     } 
     def show(){ 
-        def part = Part.findByIdOrName(params.id, params.name)
+        def part = Part.findById(params.id)
 
         [
             part: part
@@ -120,7 +120,7 @@ class PartController {
 
     @Secured(['ROLE_OPERATOR'])
     def edit(){ 
-        def part = Part.findByIdOrName(params.id, params.name)
+        def part = Part.findById(params.id)
 
         def eventDetails= EventDetail.findAllByPart(part)
 
@@ -181,7 +181,7 @@ class PartController {
     }
     @Secured(['ROLE_OPERATOR'])
     def delete(){ 
-        def part = Part.findByIdOrName(params.id, params.name)
+        def part = Part.findById(params.id)
 
         
         try{

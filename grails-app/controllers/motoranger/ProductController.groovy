@@ -55,7 +55,7 @@ class ProductController {
     }
 
     def show(){ 
-        def product = Product.findByIdOrName(params.id, params.name)
+        def product = Product.findById(params.id)
 
         def eventUnFin = Event.findByProductAndStatus(product, motoranger.ProductStatus.UNFIN)
 
@@ -70,7 +70,7 @@ class ProductController {
     @Secured(['ROLE_OPERATOR'])
     def edit(){ 
         
-        def product = Product.findByIdOrName(params.id, params.name)
+        def product = Product.findById(params.id)
 
 
         if(params?.user?.id){
@@ -90,7 +90,7 @@ class ProductController {
     @Secured(['ROLE_OPERATOR'])
     def update(){ 
 
-        def product = Product.findByIdOrName(params.id,params.name)
+        def product = Product.findById(params.id)
 
 
 
@@ -98,7 +98,7 @@ class ProductController {
 
         
         if (!product) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), params.id])
             redirect(action: "list")
             return
         }
@@ -130,7 +130,7 @@ class ProductController {
     }
     @Secured(['ROLE_OPERATOR'])
     def delete(){ 
-        def product = Product.findByIdOrName(params.id, params.name)
+        def product = Product.findById(params.id)
         product.delete(flush: true)
 
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), params.id])

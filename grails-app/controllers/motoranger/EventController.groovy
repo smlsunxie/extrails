@@ -162,7 +162,7 @@ class EventController {
             event.product.mileage=params.mileage.toLong()
         }
 
-        if (!event.save(failOnError: true, flush: true)) {
+        if (!event.save(flush: true)) {
             render(view: "edit", model: [event: event])
             return
         }
@@ -328,14 +328,42 @@ class EventController {
         ]
     }
 
-    def show() { 
+    def endListOfStore(){
 
-        def event=Event.findById(params.id)
+        params.max=12
+        params.order="desc"
+        params.sort="date"
 
-        [
-            event: event
-        ]
+
+        def store = Store.findById(params.store.id)
+
+        def query = Event.where {
+            store == store
+            status == motoranger.ProductStatus.END
+        }
+
+        def results = query.list(params)
+
+
+        render view:'list', model: [events:results, title: "最近維修完成"]
     }
+    def unfinListOfStore(){
 
+        params.order="desc"
+        params.sort="date"
+
+
+        def store = Store.findById(params.store.id)
+
+        def query = Event.where {
+            store == store
+            status == motoranger.ProductStatus.UNFIN
+        }
+
+        def results = query.list(params)
+
+
+        render view:'list', model: [events:results, title: "所有維修中"]
+    }
 
 }

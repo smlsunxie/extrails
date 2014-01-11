@@ -110,7 +110,7 @@ class EventDetailController {
 
 
 
-        if (!eventDetail.save(failOnError: true, flush: true)) {
+        if (!eventDetail.save(flush: true)) {
             render(view: "edit", model: [eventDetail: eventDetail])
             return
         }

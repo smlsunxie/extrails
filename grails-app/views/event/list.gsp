@@ -11,15 +11,10 @@
 </head>
 <body>
 
-  <g:if test="${!events}">
-      <g:render template="/component/emptyList"/>
-  </g:if>
-
-  <g:each in="${events}" var="event" status="i">
-    <g:render template='headList' model="[event:event]" />
-  </g:each>
-
-	<g:render template="/component/pagination"/>
+  <div class="contact-info" >
+    <h2>${title}</h2>
+    <g:render template="/event/contentWithDetails" collection="${events}" var="event" />
+  </div>
 
 </body>
 </html>

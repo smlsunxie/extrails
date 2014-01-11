@@ -1,3 +1,14 @@
+<g:hasErrors bean="${part}">
+  <ul class="errors" role="alert">
+    <g:eachError bean="${part}" var="error">
+      <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+    </g:eachError>
+  </ul>
+</g:hasErrors>
+
+<g:hiddenField name="id" value="${part?.id}" />
+
+
 <div class="form-group">
   
   <label for="inputEmail3" class="col-sm-2 control-label">
