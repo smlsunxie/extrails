@@ -1,6 +1,6 @@
-<div class="form-group">
+<div class="form-group ${hasErrors(bean: product, field: 'name', 'has-error')}">
   
-  <label for="inputEmail3" class="col-sm-2 control-label">
+  <label for="name" class="col-sm-2 control-label">
     <g:message code="product.name.label" /><span class="required-mark">*</span>
   </label>
   <div class="col-sm-10">
@@ -10,9 +10,9 @@
 </div>
 
 
-<div class="form-group">
+<div class="form-group ${hasErrors(bean: product, field: 'title', 'has-error')}">
   
-  <label for="inputEmail3" class="col-sm-2 control-label">
+  <label for="title" class="col-sm-2 control-label">
     <g:message code="product.title.label" /><span class="required-mark">*</span>
   </label>
   <div class="col-sm-10">
@@ -23,9 +23,9 @@
 
 
 
-<div class="form-group">
+<div class="form-group ${hasErrors(bean: product, field: 'description', 'has-error')}">
   
-  <label for="inputEmail3" class="col-sm-2 control-label">
+  <label for="description" class="col-sm-2 control-label">
     <g:message code="default.description.label" />
   </label>
   <div class="col-sm-10">
@@ -35,9 +35,9 @@
 </div>
 
 
-<div class="form-group">
+<div class="form-group ${hasErrors(bean: product, field: 'mileage', 'has-error')}">
   
-  <label for="inputEmail3" class="col-sm-2 control-label">
+  <label for="mileage" class="col-sm-2 control-label">
     <g:message code="product.mileage.label" />
   </label>
   <div class="col-sm-10">
@@ -47,9 +47,9 @@
 </div>
 
 
-<div class="form-group">
+<div class="form-group ${hasErrors(bean: product, field: 'brand', 'has-error')}">
   
-  <label for="inputEmail3" class="col-sm-2 control-label">
+  <label for="brand.id" class="col-sm-2 control-label">
     <g:message code="product.brand.label" />
   </label>
   <div class="col-sm-10">
@@ -61,9 +61,9 @@
 
 
 
-<div class="form-group">
+<div class="form-group ${hasErrors(bean: product, field: 'user', 'has-error')}">
   
-  <label for="inputEmail3" class="col-sm-2 control-label">
+  <label for="user.id" class="col-sm-2 control-label">
     <g:message code="product.user.label" />
   </label>
   <div class="col-sm-10">
@@ -72,9 +72,9 @@
 
 </div>
 
-<div class="form-group">
+<div class="form-group ${hasErrors(bean: product, field: 'years', 'has-error')}">
   
-  <label for="inputEmail3" class="col-sm-2 control-label">
+  <label for="years" class="col-sm-2 control-label">
     <g:message code="product.years.label" />
   </label>
   <div class="col-sm-10">
@@ -85,9 +85,9 @@
 </div>
 
 
-<div class="form-group">
+<div class="form-group ${hasErrors(bean: product, field: 'cc', 'has-error')}">
   
-  <label for="inputEmail3" class="col-sm-2 control-label">
+  <label for="cc" class="col-sm-2 control-label">
     <g:message code="product.cc.label" />  
   </label>
   <div class="col-sm-10">
@@ -97,9 +97,9 @@
 </div>
 
 
-<div class="form-group">
+<div class="form-group ${hasErrors(bean: product, field: 'cost', 'has-error')}">
   
-  <label for="inputEmail3" class="col-sm-2 control-label">
+  <label for="cost" class="col-sm-2 control-label">
     <g:message code="product.cost.label" />
   </label>
   <div class="col-sm-10">
@@ -109,9 +109,9 @@
 </div>
 
 
-<div class="form-group">
+<div class="form-group ${hasErrors(bean: product, field: 'price', 'has-error')}">
   
-  <label for="inputEmail3" class="col-sm-2 control-label">
+  <label for="price" class="col-sm-2 control-label">
     <g:message code="product.price.label" />
   </label>
   <div class="col-sm-10">
@@ -126,7 +126,7 @@
 
 <div class="form-group">
   
-  <label for="inputEmail3" class="col-sm-2 control-label">
+  <label class="col-sm-2 control-label">
     <g:message code="default.imageUpload.label" />
   </label>
   <div class="col-sm-10">

@@ -120,7 +120,7 @@ class ProductController {
 
         product.properties = params
 
-        if (!product.save(failOnError: true, flush: true)) {
+        if (!product.save(flush: true)) {
             render(view: "edit", model: [product: product])
             return
         }
