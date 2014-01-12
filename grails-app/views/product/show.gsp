@@ -6,7 +6,7 @@
 </head>
 <body>
 
-  <sec:ifAllGranted roles="ROLE_OPERATOR">
+  <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_CUSTOMER">
     <div class="row" id="actionbar">
 
       <div class="col-sm-12 col-md-12">           
@@ -19,7 +19,9 @@
       </div>
 
     </div>
-  </sec:ifAllGranted>
+  </sec:ifAnyGranted>
+
+
 
                       
   <g:render template="contentWithDetails" model="[product: product]" />

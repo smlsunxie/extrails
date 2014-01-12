@@ -13,17 +13,17 @@
 
       <g:link  class="btn btn-primary"  action="edit" id="${user?.id}"><g:message code="default.button.edit.label" /></g:link>
 
-      <sec:ifAllGranted roles="ROLE_ADMIN">  
+      <sec:ifAnyGranted roles="ROLE_ADMIN">  
         <g:link  class="btn btn-primary" controller="store" action="create" params="['user.id': user.id]">新增店家</g:link>
-      </sec:ifAllGranted>
+      </sec:ifAnyGranted>
 
-      <sec:ifAllGranted roles="ROLE_OPERATOR, ROLE_MANERGER">  
+      <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER, ROLE_CUSTOMER">  
         <g:link  class="btn btn-primary" controller="product" action="create" params="['user.id': user.id]">新增產品</g:link>
-      </sec:ifAllGranted>
+      </sec:ifAnyGranted>
 
-      <sec:ifAllGranted roles="ROLE_CUSTOMER">          
+      <sec:ifAnyGranted roles="ROLE_CUSTOMER">          
         <g:link  class="btn btn-primary" controller="part" action="create" params="['user.id': user.id]">新增零件</g:link>
-      </sec:ifAllGranted>
+      </sec:ifAnyGranted>
 
       <g:link  class="btn btn-danger" action="delete" id="${user?.id}"><g:message code="default.button.delete.label" /></g:link>
 
@@ -40,7 +40,7 @@
       <g:render template="/user/content" model="[user: user]" />
     </div>
 
-    <g:each in="${user.products}" var="product" status="i" >
+    <g:each in="${products}" var="product" status="i" >
 
 
 

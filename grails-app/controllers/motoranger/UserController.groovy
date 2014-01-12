@@ -32,9 +32,10 @@ class UserController {
             user.password = product?.name 
         }
 
+
+
         user.enabled = true
 
-        
 
         [userInstance: user,roles: Role.list(),storeList:storeList()]
     }
@@ -55,6 +56,9 @@ class UserController {
         if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
             userService.modifyUserRole(userInstance, params)
 
+        }else {
+            def cusRole = Role.findByAuthority('ROLE_CUSTOMER')
+            UserRole.create(userInstance,cusRole,true)
         }
 
         if(params?.product?.id){
@@ -75,7 +79,7 @@ class UserController {
             return
         }
 
-        [user: user]
+        [user: user, products: Product.findAllByUser(user)]
     }
 
     @Secured(['ROLE_OPERATOR','ROLE_ADMIN','ROLE_MANAGER','ROLE_CUSTOMER'])
@@ -95,16 +99,16 @@ class UserController {
     }
 
     @Secured(['ROLE_OPERATOR','ROLE_ADMIN','ROLE_MANAGER','ROLE_CUSTOMER'])
-    def update(Long id, Long version) {
-        def userInstance = User.get(id)
+    def update() {
+        def userInstance = User.get(params.id)
         if (!userInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
             redirect(action: "list")
             return
         }
 
-        if (version != null) {
-            if (userInstance.version > version) {
+        if (params.version != null) {
+            if (userInstance.version >params.version) {
                 userInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                           [message(code: 'user.label', default: 'User')] as Object[],
                           "Another user has updated this User while you were editing")
@@ -167,7 +171,7 @@ class UserController {
             
             def currentUser = springSecurityService?.currentUser
             if(userInstance.id == currentUser?.id){
-                redirect(action: "index", controller: "home")
+                redirect(action: "show", controller: "user", id: currentUser.id)
             }else {
                 def store = currentUser.store
                 redirect(action: "show", controller: "store", id: store.id)

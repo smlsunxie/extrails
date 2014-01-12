@@ -10,15 +10,18 @@ class ProductController {
     def imageModiService
     def springSecurityService
     def messageSource
+    def userService
 
-	@Secured(['ROLE_OPERATOR'])
+	@Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def create(){ 
 
     	def product = new Product(params)
 
 
-        if(!product.name)
+        if(product?.name)
             product.title=product.name
+
+
 
 
         [ product: product ]
@@ -26,7 +29,7 @@ class ProductController {
     }
 
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def save(){
         
         def product = new Product(params);
@@ -54,6 +57,7 @@ class ProductController {
         redirect(action: "show", id:product.id)
     }
 
+
     def show(){ 
         def product = Product.findById(params.id)
 
@@ -67,7 +71,7 @@ class ProductController {
             statusEnd :statusEnd
         ]
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def edit(){ 
         
         def product = Product.findById(params.id)
@@ -87,7 +91,7 @@ class ProductController {
             product: product
         ]
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def update(){ 
 
         def product = Product.findById(params.id)
@@ -120,7 +124,7 @@ class ProductController {
 
         product.properties = params
 
-        if (!product.save(flush: true)) {
+        if (!product.validate() && !product.save()) {
             render(view: "edit", model: [product: product])
             return
         }
@@ -128,14 +132,35 @@ class ProductController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'product.label', default: 'Product'), product.id])
         redirect(action: "show", id: product.id)
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def delete(){ 
         def product = Product.findById(params.id)
-        product.delete(flush: true)
+        
+        
+        try{
+        
 
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), params.id])
+            product.delete(flush: true,failOnError:true)
 
-        redirect(action: "list")
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), params.id])
+
+            def currentUser = springSecurityService?.currentUser
+
+            println "userService.currentUserIsCustomer() = "+ userService.currentUserIsCustomer()
+
+            if(userService.currentUserIsCustomer()){
+                redirect(action: "show", controller: "user", id: currentUser.id)
+                return
+            }else {
+                def store = currentUser.store
+                redirect(action: "show", controller: "store", id: store.id)
+                return
+            }
+
+        }catch (Exception e) {
+            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), product.id])
+            redirect(action: "show", id: product.id)
+        }
     }
 
 

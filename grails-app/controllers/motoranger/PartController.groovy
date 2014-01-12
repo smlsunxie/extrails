@@ -12,13 +12,24 @@ class PartController {
     def springSecurityService
     def messageSource
     def tagQueryService
+    def userService
 
     def index(){
 
         def parts
+        def currentUser = springSecurityService.currentUser
 
         if(params?.tag){
-            parts=Part.findAllByTag(params.tag,[sort: 'title', order: 'asc'])
+            if(userService.currentUserIsOperator()){
+                parts=Part.findAllByTagWithCriteria(params.tag) {
+                    eq('store', currentUser.store)
+                }
+            }else {
+
+                parts=Part.findAllByTagWithCriteria(params.tag) {
+                    eq('user', currentUser)
+                }
+            }
         }
 
         [
@@ -27,13 +38,18 @@ class PartController {
 
     }
 
-	@Secured(['ROLE_OPERATOR'])
+	@Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def create(){
 
     	def part = new Part(params)
+        boolean isCusRole = false
+        def currentUser = springSecurityService.currentUser
 
-        log.info "part.mainImage ="+part.mainImage
-        part.store=springSecurityService.currentUser.store
+        if(currentUser?.store){
+            part.store=currentUser.store
+        }else if(userService.currentUserIsCustomer()){
+            part.user=currentUser
+        }
 
         if(!params.name)
     	   part.name = "part-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
@@ -67,7 +83,7 @@ class PartController {
 
     }
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def save(){
 
         if(!params?.price)params.price=0
@@ -82,10 +98,6 @@ class PartController {
         part.creator = springSecurityService.currentUser.username
 
         if (!part.validate()) {
-            if(part.hasErrors())
-                part.errors?.allErrors?.each{ 
-                    flash.message=  messageSource.getMessage(it, null)
-                };
             render(view: "create", model: [part: part])
             return
         }
@@ -118,7 +130,7 @@ class PartController {
         ]
     }
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def edit(){ 
         def part = Part.findById(params.id)
 
@@ -130,7 +142,7 @@ class PartController {
             historyPrice: eventDetails*.price.unique().sort()
         ]
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def update(){
 
         def part = Part.findByIdOrName(params.id,params.name)
@@ -171,7 +183,7 @@ class PartController {
 
 
 
-        if (!part.save(flush: true)) {
+        if (!part.save()) {
             render(view: "edit", model: [part: part])
             return
         }
@@ -179,13 +191,13 @@ class PartController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'part.label', default: 'Part'), part.id])
         redirect(action: "show", id: part.id)
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def delete(){ 
         def part = Part.findById(params.id)
 
         
         try{
-            !part.delete(flush: true)
+            !part.delete()
         }catch(Exception e){
             flash.message = "維修記錄使用到該維修項目：${part.title}，無法刪除。請修正標籤，例如：不使用"
             redirect(action: "show" ,id:part.id)

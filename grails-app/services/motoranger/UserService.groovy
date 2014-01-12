@@ -34,4 +34,25 @@ class UserService {
             }
         }
     }
+
+    def currentUserIsCustomer(){
+        def currentUser = springSecurityService.currentUser
+        def isCusRole =false
+
+        if(currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_CUSTOMER')))
+            isCusRole = true
+
+        return isCusRole
+    }
+
+    def currentUserIsOperator(){
+        def currentUser = springSecurityService.currentUser
+        def isOperatorRole =false
+
+        if(currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_OPERATOR')))
+            isOperatorRole = true
+
+        return isOperatorRole
+    }
+
 }

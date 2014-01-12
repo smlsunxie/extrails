@@ -6,7 +6,7 @@
   </head>
   <body>
 
-    <sec:ifAllGranted roles="ROLE_MANERGER, ROLE_OPERATOR">
+    <sec:ifAnyGranted roles="ROLE_MANERGER, ROLE_OPERATOR">
       <div class="row" id="actionbar">
 
         <div class="col-sm-12 col-md-6">           
@@ -21,7 +21,7 @@
 
 
       </div>
-    </sec:ifAllGranted>
+    </sec:ifAnyGranted>
 
 
 

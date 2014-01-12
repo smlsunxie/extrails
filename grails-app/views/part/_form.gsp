@@ -130,9 +130,10 @@
   <label for="inputEmail3" class="col-sm-2 control-label">
     <g:message code="user.label" default="Store" />
   </label>
+  
   <div class="col-sm-10">
-    <g:select id="user" name="user.id" from="${motoranger.User.list()}" optionKey="id" value="${params?.user?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
-  </div>
+    <g:select id="user" name="user.id" from="${motoranger.User.findById(part?.user?.id)}" optionKey="id" value="${part?.user?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
+  </div>  
 
 </div> 
 <div class="form-group">
@@ -140,9 +141,11 @@
   <label for="inputEmail3" class="col-sm-2 control-label">
     <g:message code="user.store.label" default="Store" />
   </label>
+
   <div class="col-sm-10">
-    <g:select id="store" name="store.id" from="${motoranger.Store.list()}" optionKey="id" value="${part?.store?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
-  </div>
+    <g:select id="user" name="store.id" from="${motoranger.Store.findById(part?.store?.id)}" optionKey="id" value="${part?.store?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
+  </div>  
+
 
 </div>       
 

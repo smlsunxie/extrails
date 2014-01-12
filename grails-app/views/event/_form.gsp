@@ -20,7 +20,7 @@
 
 </div>
 
-<div class="form-group">
+<div hidden class="form-group">
   
   <label for="" class="col-sm-2 control-label">
    <g:message code="user.username.label" />
@@ -78,7 +78,7 @@
 </div>
 
 
-<div class="form-group">
+<div hidden class="form-group">
   
   <label for="" class="col-sm-2 control-label">
    <g:message code="user.store.label" default="Store" />

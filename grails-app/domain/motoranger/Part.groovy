@@ -20,7 +20,7 @@ class Part implements Taggable {
     Date lastUpdated    //修改日期
 
     Store store
-    Store user
+    User user
 
     static constraints = {
     	name blank: false, unique: true
