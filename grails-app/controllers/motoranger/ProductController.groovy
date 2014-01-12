@@ -10,15 +10,18 @@ class ProductController {
     def imageModiService
     def springSecurityService
     def messageSource
+    def userService
 
-	@Secured(['ROLE_OPERATOR'])
+	@Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def create(){ 
 
     	def product = new Product(params)
 
 
-        if(!params.name)
+        if(product?.name)
             product.title=product.name
+
+
 
 
         [ product: product ]
@@ -26,7 +29,7 @@ class ProductController {
     }
 
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def save(){
         
         def product = new Product(params);
@@ -54,8 +57,9 @@ class ProductController {
         redirect(action: "show", id:product.id)
     }
 
+
     def show(){ 
-        def product = Product.findByIdOrName(params.id, params.name)
+        def product = Product.findById(params.id)
 
         def eventUnFin = Event.findByProductAndStatus(product, motoranger.ProductStatus.UNFIN)
 
@@ -67,20 +71,30 @@ class ProductController {
             statusEnd :statusEnd
         ]
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def edit(){ 
         
-        def product = Product.findByIdOrName(params.id, params.name)
-        if(!product?.user)product.user=User.findByUsername(product.name)
+        def product = Product.findById(params.id)
+
+
+        if(params?.user?.id){
+            product?.user = User.findByUsername(params?.user?.id)
+        }
+        
+        if(!product?.user){
+            product.user=User.findByUsername(product.name)
+        }
+
+        println "product?.user = "+ product?.user
         
         [ 
             product: product
         ]
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def update(){ 
 
-        def product = Product.findByIdOrName(params.id,params.name)
+        def product = Product.findById(params.id)
 
 
 
@@ -88,7 +102,7 @@ class ProductController {
 
         
         if (!product) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), params.id])
             redirect(action: "list")
             return
         }
@@ -110,7 +124,7 @@ class ProductController {
 
         product.properties = params
 
-        if (!product.save(failOnError: true, flush: true)) {
+        if (!product.validate() && !product.save()) {
             render(view: "edit", model: [product: product])
             return
         }
@@ -118,14 +132,35 @@ class ProductController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'product.label', default: 'Product'), product.id])
         redirect(action: "show", id: product.id)
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def delete(){ 
-        def product = Product.findByIdOrName(params.id, params.name)
-        product.delete(flush: true)
+        def product = Product.findById(params.id)
+        
+        
+        try{
+        
 
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), id])
+            product.delete(flush: true,failOnError:true)
 
-        redirect(action: "list")
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), params.id])
+
+            def currentUser = springSecurityService?.currentUser
+
+            println "userService.currentUserIsCustomer() = "+ userService.currentUserIsCustomer()
+
+            if(userService.currentUserIsCustomer()){
+                redirect(action: "show", controller: "user", id: currentUser.id)
+                return
+            }else {
+                def store = currentUser.store
+                redirect(action: "show", controller: "store", id: store.id)
+                return
+            }
+
+        }catch (Exception e) {
+            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), product.id])
+            redirect(action: "show", id: product.id)
+        }
     }
 
 

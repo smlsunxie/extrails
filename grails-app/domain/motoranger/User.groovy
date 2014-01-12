@@ -22,8 +22,6 @@ class User {
 	boolean passwordExpired
 	Store store
 
-
-	static hasMany=[products:Product]
 	
 	static transients = ['springSecurityService']
 
@@ -31,7 +29,6 @@ class User {
 		username blank: false, unique: true
 		password blank: false
 		store nullable: true
-		products nullable: true
 		
 		title nullable: true
 		telphone nullable: true

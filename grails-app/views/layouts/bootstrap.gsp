@@ -45,12 +45,11 @@
 
         </div>
       </div>
-
-
+      
       <footer id="footer">
         
         <g:footer /> 
-      	
+        
 
         <div class="footer-bottom">
           <div class="container">
@@ -64,14 +63,19 @@
         </div>
       </footer>
 
+
+
     </div>
+
   </div>
 
 
 
   <r:script>
   (function () {
-    if('${flash.message}'!=='') bootstrap_alert.warning('${flash.message}');
+    if('${flash.message}'!=='') {
+      bootstrap_alert.warning('${flash.message}');
+    }
   })();
   </r:script>
 

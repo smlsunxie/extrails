@@ -62,7 +62,7 @@
 </sec:ifAnyGranted>
 
 
-<sec:ifAnyGranted roles="ROLE_MANERGER">
+<sec:ifAnyGranted roles="ROLE_MANERGER, ROLE_OPERATOR">
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
       <g:message code="summary.label"/>
@@ -70,17 +70,21 @@
     </a>
  
     <ul class="dropdown-menu">
+
       <li>
         <g:link controller="summary" action="unreceiveMoneyList">
           <g:message code="summary.unreceiveMoney.label"/>
         </g:link>
       </li>
-      <li>
-        <g:link controller="summary" action="turnoverYearList">
-          <g:message code="summary.turnover.label"/>
-        </g:link>
-      </li>
 
+      <sec:ifAnyGranted roles="ROLE_MANERGER">
+        <li>
+          <g:link controller="summary" action="turnoverYearList">
+            <g:message code="summary.turnover.label"/>
+          </g:link>
+        </li>
+      </sec:ifAnyGranted>
+      
     </ul>
   </li>
 </sec:ifAnyGranted>

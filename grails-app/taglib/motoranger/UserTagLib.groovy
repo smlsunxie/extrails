@@ -46,10 +46,15 @@ class UserTagLib {
     def switchUser={attrs, body ->
 
         def currentUser = springSecurityService.currentUser
+        def isManager = false
+        def isOperator = false
 
+        if(currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_MANERGER')))
+            isManager = true
+        if(currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_OPERATOR')))
+            isOperator = true
         def operators=[]
-        if(currentUser?.store 
-            && currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_MANERGER'))){
+        if(currentUser?.store && (isManager || isOperator)){
 
             def users=User.findAllByStore(springSecurityService?.currentUser?.store)
 

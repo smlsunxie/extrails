@@ -87,3 +87,6 @@ db-update:
 	grails -Dgrails.env=dbdiff dbm-update
 db-diff:
 	grails -Dgrails.env=dbdiff dbm-gorm-diff temp.groovy -add
+
+db-rollback:
+	grails dbm-rollback-count 1

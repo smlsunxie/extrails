@@ -85,7 +85,7 @@ class PostController {
         def post = Post.findByIdOrName(params.id, params.name)
         post.delete(flush: true)
 
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'post.label', default: 'post'), id])
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'post.label', default: 'post'), params.id])
 
         redirect(action: "list")
     }

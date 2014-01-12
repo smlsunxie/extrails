@@ -109,7 +109,7 @@ form select{
 }
 
 .stick {
-    padding: 20px 50px 25px 30px;
+    padding: 20px 30px 25px 30px;
     width: 188px;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
@@ -190,6 +190,13 @@ form.form-thumbnail {
 
 #productStick {
   margin-bottom: 20px;
+  padding-left: 0px;
+  padding-right: 5px;
+}
+
+#eventStick {
+  padding-left: 0px;
+  padding-right: 5px;
 }
 
 #eventContentTable{

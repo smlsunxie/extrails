@@ -110,7 +110,7 @@ class EventDetailController {
 
 
 
-        if (!eventDetail.save(failOnError: true, flush: true)) {
+        if (!eventDetail.save(flush: true)) {
             render(view: "edit", model: [eventDetail: eventDetail])
             return
         }
@@ -119,6 +119,8 @@ class EventDetailController {
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'eventDetail.label', default: 'EventDetail'), eventDetail.id])
         redirect(action: "show", controller:"event", id: eventDetail.head.id)
+
+
     }
     @Secured(['ROLE_OPERATOR'])
     def delete(){ 

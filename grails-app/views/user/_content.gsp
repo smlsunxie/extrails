@@ -3,7 +3,7 @@
 <table class="table">
   <tbody>
 	<tr>
-		<td class="small"><g:message code="user.title.label" /></td>
+		<td class="small"><g:message code="user.username.label" /></td>
 		<td class="bold"><g:link controller="user" action="show" id="${user.id}" >${user.username}</g:link></td>
 
 	</tr> 

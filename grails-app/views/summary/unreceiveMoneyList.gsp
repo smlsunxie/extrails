@@ -13,40 +13,40 @@
 
 <div class="container">
 
-                  <div class="row">
-                    <table class="table">
-                        <thead>
-                          <tr>
-                            <th><g:message code="event.name.label" /></th>
-                            <th><g:message code="default.dateCreated.label" /></th>
-                            <th><g:message code="product.name.label" /></th>
-                            <th><g:message code="user.title.label" /></th>
-                            <th><g:message code="user.telphone.label" /></th>
-                            <th><g:message code="user.mobile.label" /></th>
-                            <th><g:message code="summary.unreceiveMoney.label" /></th>
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+        <th><g:message code="event.name.label" /></th>
+        <th><g:message code="default.dateCreated.label" /></th>
+        <th><g:message code="product.name.label" /></th>
+        <th><g:message code="user.title.label" /></th>
+        <th><g:message code="user.telphone.label" /></th>
+        <th><g:message code="user.mobile.label" /></th>
+        <th><g:message code="summary.unreceiveMoney.label" /></th>
 
 
-                          </tr>
-                        </thead>
-                        <tbody>
-                            <g:each in="${events}" var="event" status="i">
+        </tr>
+      </thead>
+      <tbody>
+        <g:each in="${events}" var="event" status="i">
 
-                                <tr>
-                                    <td><g:link action="show" controller="event" id='${event.id}'>${event.id}</g:link></td>
-                                    <td><g:formatDate date="${event.date}" type="date" style="SHOROT" /></td>
-                                    <td><g:link action="show" controller="product" id='${event.product.id}'>${event.product.name}</g:link></td>
-                                    <td>${event.product.user.title}</td>
-                                    <td>${event.product.user.telphone}</td>
-                                    <td>${event.product.user.mobile}</td>
+          <tr>
+            <td><g:link action="show" controller="event" id='${event.id}'>${event.id}</g:link></td>
+            <td><g:formatDate date="${event.date}" type="date" style="SHOROT" /></td>
+            <td><g:link action="show" controller="product" id='${event.product.id}'>${event.product.name}</g:link></td>
+            <td>${event.product?.user?.title}</td>
+            <td>${event.product?.user?.telphone}</td>
+            <td>${event.product?.user?.mobile}</td>
 
-                                    <td>${event.totalPrice-event.receivedMoney}</td> 
-                                  </tr>
+            <td>${event.totalPrice-event.receivedMoney-event.discountMoney}</td> 
+            </tr>
 
-                            </g:each>
+        </g:each>
 
-                        </tbody>
-                    </table>                    
-                  </div>
+      </tbody>
+    </table>                    
+  </div>
 
 
 

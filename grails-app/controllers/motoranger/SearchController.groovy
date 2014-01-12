@@ -7,13 +7,12 @@ class SearchController {
     def query(){
 
         def productSearchResult
-        def userSearch
+        def userSearchResult
 
         params.max= 6
 
         if(params.q && params.q != ''){
-            productSearchResult = Product.search('*'+params.q+'*',params)
-
+            productSearchResult = Product.search(params.q+" OR *"+params.q+"*",params)
         }
 
 
@@ -27,6 +26,19 @@ class SearchController {
         }
 
 
-    } 
+    }
+
+    def createOrLinkProductOwner(){
+        println "params?.product?.id=" + params?.product?.id
+
+        def product = Product.findById(params?.product?.id)
+        def user = User.findByUsername(product?.name)
+
+        if(!user){
+            redirect controller: 'user', action: 'create', params: ['product.id': params?.product?.id]
+        }else {
+            redirect controller: 'user', action: 'edit', id: user.id, params: ['product.id': params?.product?.id]
+        }
+    }
 
 }

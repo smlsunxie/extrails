@@ -14,8 +14,8 @@
     
     <g:if test="${!product.user}">
       <div class="text-center">
-        <g:link  class="btn btn-primary" controller="user" action="create" params="['product.id':product?.id]">
-          <g:message code="product.user.create.label" />
+        <g:link  class="btn btn-primary" controller="search" action="createOrLinkProductOwner" params="['product.id':product?.id]">
+          <g:message code="search.createOrLinkProductOwner.label" />
         </g:link>
       </div>
     </g:if>

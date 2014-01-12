@@ -1,5 +1,12 @@
-<%@ page import="motoranger.User" %>
+<g:hasErrors bean="${user}">
+  <ul class="errors" role="alert">
+    <g:eachError bean="${user}" var="error">
+      <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+    </g:eachError>
+  </ul>
+</g:hasErrors>
 
+<g:hiddenField name="id" value="${user?.id}" />
 
 <g:hiddenField name="product.id"  value="${params?.product?.id}" />
 
@@ -17,7 +24,6 @@
 </div>
 
 
-
 <div class="form-group">
   
   <label for="inputEmail3" class="col-sm-2 control-label">
@@ -29,14 +35,6 @@
   </div>
 
 </div>
-
-
-
-
-
-
-
-
 
 
 <div class="form-group">
@@ -73,9 +71,6 @@
 </div>
 
 
-
-
-
 <div class="form-group">
   
   <label for="inputEmail3" class="col-sm-2 control-label">
@@ -86,8 +81,6 @@
   </div>
 
 </div>
-
-
 
 
 <div class="form-group">
@@ -113,27 +106,15 @@
 </div>
 
 
-<div class="form-group">
-  <div class="col-sm-offset-2 col-sm-10">
-    <div class="checkbox">
-      <label>
-        <g:checkBox name="enabled" value="${userInstance?.enabled}" /> 
-        <g:message code="user.enabled.label" default="Enabled" />
-      </label>
-    </div>
-  </div>
-</div>
-
-
 <sec:ifAnyGranted roles="ROLE_ADMIN">
 
-  <g:render template="userRoleTable" model="[user:user, readonly:false]" />
+  <g:render template="userRoleTable"  model="[hidden: '']" />
 
 </sec:ifAnyGranted>
 
 <sec:ifNotGranted roles="ROLE_ADMIN">
 
-  <g:render template="userRoleTable" model="[user:user, readonly:true]" />
+  <g:render template="userRoleTable"  model="[hidden: 'hidden']" />
 
 </sec:ifNotGranted>
 

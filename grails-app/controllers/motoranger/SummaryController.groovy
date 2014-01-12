@@ -16,7 +16,13 @@ class SummaryController {
         	totalPrice!=receivedMoney
         }
 
-        def results = query.list(sort:"date", order:"desc")
+        def results = []
+
+        query.list(sort:"date", order:"desc").each(){
+            if(it.totalPrice != it.receivedMoney+it.discountMoney){
+                results << it
+            }
+        }
 
         [events:results]
 
@@ -134,6 +140,4 @@ class SummaryController {
     	[resultList:resultList]
 
     }
-
-
 }

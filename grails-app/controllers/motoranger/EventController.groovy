@@ -12,8 +12,19 @@ class EventController {
 	static layout="bootstrap"
     def springSecurityService
     def messageSource
+    def userService
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    def show() { 
+
+        def event=Event.findById(params.id)
+
+        [
+            event: event
+        ]
+    }
+
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def create() { 
 
         def unfinEvent
@@ -31,8 +42,13 @@ class EventController {
         } 
 
         def event = new Event(params);
-        event.user=springSecurityService.currentUser
-        event.store=springSecurityService.currentUser.store
+
+        def currentUser = springSecurityService.currentUser
+        
+        event.user=currentUser
+        if(currentUser?.store){
+            event.store=currentUser.store
+        }
 
         event.name = "event-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
@@ -43,7 +59,7 @@ class EventController {
     }
 
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def save() {
         
 
@@ -85,7 +101,7 @@ class EventController {
 
 
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def pickPartAddDetail(){
 
         def parts
@@ -110,7 +126,7 @@ class EventController {
     }
 
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def delete() { 
 
         def event=Event.findById(params.id)
@@ -135,7 +151,7 @@ class EventController {
 
 
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def edit() { 
         def event = Event.findByIdOrName(params.id, params.name)
 
@@ -143,7 +159,7 @@ class EventController {
             event: event
         ]
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
     def update() {
 
         def event = Event.findByIdOrName(params.id, params.name)
@@ -162,7 +178,7 @@ class EventController {
             event.product.mileage=params.mileage.toLong()
         }
 
-        if (!event.save(failOnError: true, flush: true)) {
+        if (!event.save(flush: true)) {
             render(view: "edit", model: [event: event])
             return
         }
@@ -328,14 +344,45 @@ class EventController {
         ]
     }
 
-    def show() { 
+    @Secured(['ROLE_OPERATOR'])
+    def endListOfStore(){
 
-        def event=Event.findById(params.id)
+        params.max=12
+        params.order="desc"
+        params.sort="date"
 
-        [
-            event: event
-        ]
+
+        def store = Store.findById(params.store.id)
+
+        def query = Event.where {
+            store == store
+            status == motoranger.ProductStatus.END
+        }
+
+        def results = query.list(params)
+
+
+        render view:'list', model: [events:results, title: "最近維修完成"]
     }
 
+    @Secured(['ROLE_OPERATOR'])
+    def unfinListOfStore(){
+
+        params.order="desc"
+        params.sort="date"
+
+
+        def store = Store.findById(params.store.id)
+
+        def query = Event.where {
+            store == store
+            status == motoranger.ProductStatus.UNFIN
+        }
+
+        def results = query.list(params)
+
+
+        render view:'list', model: [events:results, title: "所有維修中"]
+    }
 
 }
