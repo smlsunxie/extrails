@@ -11,7 +11,7 @@
 
 
 
-<sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">
+<sec:ifAnyGranted roles="ROLE_CUSTOMER">
   <li class="single">
     <g:homeNav />
   </li>
@@ -19,23 +19,7 @@
 </sec:ifAnyGranted>
 
 
-<sec:ifAnyGranted roles="ROLE_CUSTOMER, ROLE_OPERATOR, ROLE_MANERGER">
-
-
-  <li class="dropdown">
-    <g:link controller="product" action="create" class="dropdown-toggle" data-toggle="dropdown">
-      <g:message code="product.label" />
-      <i>product</i>
-    </g:link>
- 
-    <ul class="dropdown-menu">
-      <li>
-        <g:link controller="product" action="create">
-          <g:message code="product.create.label"/>
-        </g:link>
-      </li>
-    </ul>
-  </li>
+<sec:ifAnyGranted roles="ROLE_CUSTOMER">
 
 
   <li class="dropdown">
@@ -47,7 +31,7 @@
     <ul class="dropdown-menu">
       <li>
         <g:link controller="part" action="index">
-          <g:message code="part.view.label"/>
+          <g:message code="part.index.label"/>
         </g:link>
       </li>
       <li>

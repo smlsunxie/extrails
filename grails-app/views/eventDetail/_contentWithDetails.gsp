@@ -22,19 +22,21 @@
                 
 
               <td data-title='<g:message code="part.price.label" />'>
-                <sec:ifAllGranted roles="ROLE_MANERGER">  
+                <sec:ifAllGranted roles="ROLE_CUSTOMER">  
                   ${detail?.part?.price}*${detail?.qty}=${detail?.part?.price*detail?.qty}
                 </sec:ifAllGranted>&nbsp;
 
               </td>
 
 
-              <sec:ifAllGranted roles="ROLE_OPERATOR">  
+              
                 <td>
+                  <sec:ifAllGranted roles="ROLE_CUSTOMER">  
                   <g:link  class="btn btn-primary btn-xs" controller="eventDetail" action="edit" id="${detail?.id}"><g:message code="default.button.edit.label" /></g:link>
                   <g:link  class="btn btn-danger btn-xs" controller="eventDetail" action="delete" id="${detail?.id}"><g:message code="default.button.delete.label" /></g:link>
+                  </sec:ifAllGranted>&nbsp;
                 </td>
-              </sec:ifAllGranted>
+              
  
             </tr>
         </tbody>

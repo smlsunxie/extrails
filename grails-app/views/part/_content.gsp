@@ -22,7 +22,7 @@
   </sec:ifAllGranted>
 
   <tr>
-    <td class="small"><g:message code="part.description.label" /></td>
+    <td class="small"><g:message code="default.description.label" /></td>
     <td class="bold">${part.description}</td>
   </tr>
 

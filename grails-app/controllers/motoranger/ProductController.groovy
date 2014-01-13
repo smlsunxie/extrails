@@ -12,7 +12,7 @@ class ProductController {
     def messageSource
     def userService
 
-	@Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+	@Secured(['ROLE_CUSTOMER'])
     def create(){ 
 
     	def product = new Product(params)
@@ -29,7 +29,7 @@ class ProductController {
     }
 
 
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def save(){
         
         def product = new Product(params);
@@ -71,7 +71,7 @@ class ProductController {
             statusEnd :statusEnd
         ]
     }
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def edit(){ 
         
         def product = Product.findById(params.id)
@@ -91,7 +91,7 @@ class ProductController {
             product: product
         ]
     }
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def update(){ 
 
         def product = Product.findById(params.id)
@@ -132,7 +132,7 @@ class ProductController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'product.label', default: 'Product'), product.id])
         redirect(action: "show", id: product.id)
     }
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def delete(){ 
         def product = Product.findById(params.id)
         
@@ -145,8 +145,6 @@ class ProductController {
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), params.id])
 
             def currentUser = springSecurityService?.currentUser
-
-            println "userService.currentUserIsCustomer() = "+ userService.currentUserIsCustomer()
 
             if(userService.currentUserIsCustomer()){
                 redirect(action: "show", controller: "user", id: currentUser.id)

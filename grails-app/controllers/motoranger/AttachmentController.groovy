@@ -26,7 +26,7 @@ class AttachmentController {
 
     }
 
-    @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
+    @Secured(['ROLE_CUSTOMER'])
     def save(){
 
 
@@ -58,7 +58,7 @@ class AttachmentController {
     /**
      * 附件上傳及清單（顯示在 iframe 頁框內）
      */
-    @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
+    @Secured(['ROLE_CUSTOMER'])
     def list(){
         // File dir = new File("${fileLocation}/${params.name}");
 
@@ -103,7 +103,7 @@ class AttachmentController {
         }
     }
 
-    @Secured(['ROLE_OPERATOR','ROLE_MANERGER'])
+    @Secured(['ROLE_CUSTOMER'])
     def delete(){
 
         // def file = new File(params.file);

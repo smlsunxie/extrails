@@ -9,7 +9,7 @@ class EventDetailController {
     def messageSource
     def tagQueryService
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_CUSTOMER'])
     def create(){
 
     	def eventDetail=new EventDetail(params)
@@ -35,7 +35,7 @@ class EventDetailController {
 
     }
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_CUSTOMER'])
     def save(){
 
         if(!params?.name)
@@ -83,7 +83,7 @@ class EventDetailController {
 
     }
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_CUSTOMER'])
     def edit(){ 
         def eventDetail = EventDetail.findByIdOrName(params.id, params.name)
 
@@ -91,7 +91,7 @@ class EventDetailController {
             eventDetail: eventDetail
         ]
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_CUSTOMER'])
     def update(){
 
         def eventDetail = EventDetail.get(params.id)
@@ -122,7 +122,7 @@ class EventDetailController {
 
 
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_CUSTOMER'])
     def delete(){ 
 
         def eventDetail = EventDetail.findById(params.id)

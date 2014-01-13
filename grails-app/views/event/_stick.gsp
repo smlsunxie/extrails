@@ -17,16 +17,15 @@
   
 
 
-
-
-  <p>
-    <i class="icon-user"></i>
-    維修人員：
-    <g:link controller="user" action="show" id="${event?.user.id}" > 
-      ${event?.user}
-    </g:link>
-  </p>
-
+  <sec:ifAnyGranted roles="ROLE_OPERATOR">
+    <p>
+      <i class="icon-user"></i>
+      維修人員：
+      <g:link controller="user" action="show" id="${event?.user.id}" > 
+        ${event?.user}
+      </g:link>
+    </p>
+  </sec:ifAnyGranted>
 
 
   
@@ -45,7 +44,7 @@
   </sec:ifAnyGranted>
 
 
-  <sec:ifAnyGranted roles="ROLE_OPERATOR">
+  <sec:ifAnyGranted roles="ROLE_CUSTOMER">
     <g:if test="${actionName != 'pickPartAddDetail' }" >
       <g:link class="btn btn-primary" controller="event" action="pickPartAddDetail" id="${event?.id}">新增維修</g:link>
 

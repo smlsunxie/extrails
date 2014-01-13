@@ -14,7 +14,7 @@ class EventController {
     def messageSource
     def userService
 
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def show() { 
 
         def event=Event.findById(params.id)
@@ -24,7 +24,7 @@ class EventController {
         ]
     }
 
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def create() { 
 
         def unfinEvent
@@ -59,7 +59,7 @@ class EventController {
     }
 
 
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def save() {
         
 
@@ -101,7 +101,7 @@ class EventController {
 
 
     }
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def pickPartAddDetail(){
 
         def parts
@@ -126,7 +126,7 @@ class EventController {
     }
 
 
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def delete() { 
 
         def event=Event.findById(params.id)
@@ -151,7 +151,7 @@ class EventController {
 
 
     }
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def edit() { 
         def event = Event.findByIdOrName(params.id, params.name)
 
@@ -159,7 +159,7 @@ class EventController {
             event: event
         ]
     }
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def update() {
 
         def event = Event.findByIdOrName(params.id, params.name)

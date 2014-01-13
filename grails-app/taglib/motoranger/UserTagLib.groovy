@@ -2,6 +2,7 @@ package motoranger
 
 class UserTagLib {
     def springSecurityService
+    def userService
     
     def emoticon = { attrs, body ->
        out << body() << (attrs.happy == 'true' ? " :-)" : " :-(")
@@ -91,7 +92,12 @@ class UserTagLib {
         def currentUser = springSecurityService.currentUser
         def store = currentUser?.store
 
-        if(store){
+        if(userService.currentUserIsCustomer()){
+            out << body() << link(controller:'home'){
+                currentUser.title+"<i>User</i>"
+            } 
+        }
+        else if(store){
             out << body() << link(controller:'home'){
                 store.title+"<i>store</i>"
             }        

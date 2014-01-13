@@ -27,12 +27,11 @@ class TagQueryService {
            and tagLink.tagRef in (:partIds)
         """
 
-        if(userService.currentUserIsCustomer()){
-            partIds = Part.findAllByUser(currentUser)*.id
-        }else if(userService.currentUserIsOperator()){
+        if(userService.currentUserIsOperator()){
             partIds = Part.findAllByStore(currentUser.store)*.id
+        }else if(userService.currentUserIsCustomer()){
+            partIds = Part.findAllByUser(currentUser)*.id
         }
-
 
         allTagIds = TagLink.executeQuery(domainTagsHQL,
                 [domainName:domainName, partIds: partIds])
