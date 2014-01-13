@@ -7,7 +7,7 @@ class EventDetailController {
 
     def springSecurityService
     def messageSource
-    def tagQueryService
+
 
     @Secured(['ROLE_CUSTOMER'])
     def create(){

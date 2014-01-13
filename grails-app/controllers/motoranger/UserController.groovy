@@ -72,7 +72,6 @@ class UserController {
         redirect(action: "show", id: userInstance.id)
     }
 
-    @Secured(['ROLE_CUSTOMER'])
     def show() {
         
         def user 
@@ -183,11 +182,12 @@ class UserController {
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), id])
             
             def currentUser = springSecurityService?.currentUser
-            if(userInstance.id == currentUser?.id){
-                redirect(action: "show", controller: "user", id: currentUser.id)
-            }else {
+
+            if(userService.currentUserIsOperator()){
                 def store = currentUser.store
                 redirect(action: "show", controller: "store", id: store.id)
+            }else if(userService.currentUserIsCustomer()){
+                redirect(action: "show", controller: "user", id: currentUser.id)
             }
 
             
@@ -198,7 +198,7 @@ class UserController {
         }
     }
 
-    def storeList(){
+    private def storeList(){
         def storeList=[]
         if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER") 
             && springSecurityService?.currentUser?.store){  

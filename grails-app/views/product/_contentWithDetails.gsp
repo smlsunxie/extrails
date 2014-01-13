@@ -10,7 +10,7 @@
     <g:render template="/product/content" model="[product: product]" />
   </div>
 
-  <sec:ifAnyGranted roles="ROLE_OPERATOR">
+  <sec:ifAnyGranted roles="ROLE_CUSTOMER">
 
 
     <div class="contact-info col-sm-4 col-md-4">

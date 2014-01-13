@@ -31,7 +31,7 @@
 
 </div>
 
-<div class="form-group">
+<div hidden class="form-group">
   
   <label for="" class="col-sm-2 control-label">
    <g:message code="event.product.label" />

@@ -202,3 +202,6 @@ form.form-thumbnail {
 #eventContentTable{
   margin-top: 7px; 
 }
+#tagGroup.nav-pills > .active > a, .nav-pills > .active > a:hover {
+    background-color: green;
+}

@@ -15,26 +15,23 @@ class PartController {
     def userService
 
     def index(){
+        if(!params?.group)params.group = "recent"
 
-        def parts
-        def currentUser = springSecurityService.currentUser
 
-        if(params?.tag){
-            if(userService.currentUserIsOperator()){
-                parts=Part.findAllByTagWithCriteria(params.tag) {
-                    eq('store', currentUser.store)
-                }
-            }else {
-
-                parts=Part.findAllByTagWithCriteria(params.tag) {
-                    eq('user', currentUser)
-                }
-            }
+        if(params.group == "recent" && !session?.recentPartIds ){
+            session.recentPartIds = tagQueryService.getRecentPartIds()
         }
 
+        params.recentPartIds = session.recentPartIds
+
+        def tags = tagQueryService.getUniTag(params)
+        def parts = tagQueryService.getCurrentUserPartsWithTag(params)
+
         [
+            tags: tags, 
             parts: parts
         ]
+        
 
     }
 

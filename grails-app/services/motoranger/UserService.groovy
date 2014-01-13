@@ -38,8 +38,11 @@ class UserService {
     def currentUserIsCustomer(){
         def currentUser = springSecurityService.currentUser
         def isCusRole =false
+        def authorities = currentUser.getAuthorities()
 
-        if(currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_CUSTOMER')))
+        if(authorities.contains(motoranger.Role.findByAuthority('ROLE_CUSTOMER'))
+            && !authorities.contains(motoranger.Role.findByAuthority('ROLE_OPERATOR'))
+            && !authorities.contains(motoranger.Role.findByAuthority('ROLE_MANERGER')))
             isCusRole = true
 
         return isCusRole

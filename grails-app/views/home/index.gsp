@@ -51,7 +51,7 @@
                     <a class="block-post-img" href="#">
 
 
-                      <g:render template="/post/mainImg" model="[post:recentPost]" />
+                      <g:render template="/post/mainImg" class="img-rounded img-responsive" model="[post:recentPost]" />
 
                     </a>
                     <g:link controller='post' action='show' id='${recentPost.id}' class="block-post-title">${recentPost?.title}</g:link>

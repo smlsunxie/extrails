@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<g:render template="portfolio" model="['event': event, tag: tag, part: part]" />
+	<g:render template="portfolio" model="[tag: tag]" />
 
 </body>
 </html>
