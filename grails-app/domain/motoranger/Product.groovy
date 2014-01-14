@@ -35,7 +35,7 @@ class Product {
     static constraints = {
 
         user nullable: true
-        name blank: false, unique: ['user'], matches: "[a-zA-Z0-9]+"
+        name blank: false, unique: ['user'], matches: "[a-zA-Z0-9]+", size: 4..10
 
         creator nullable: true
         title blank: false
