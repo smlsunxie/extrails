@@ -21,10 +21,6 @@
       <td class="bold">${product.cc}</td>
     </tr>      
     <tr>
-      <td class="small"><g:message code="product.cc.label" /></td>
-      <td class="bold">${product.cc}</td>
-    </tr>
-    <tr>
       <td class="small"><g:message code="product.mileage.label" /></td>
       <td class="bold">${product.mileage}</td>
     </tr>
