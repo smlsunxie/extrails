@@ -18,7 +18,7 @@ class UserController {
         [userInstanceList: User.list(params), userInstanceTotal: User.count()]
     }
 
-
+    @Secured(['ROLE_CUSTOMER'])
     def create() {
         
 
@@ -40,6 +40,7 @@ class UserController {
         [userInstance: user,roles: Role.list(),storeList:storeList()]
     }
 
+    @Secured(['ROLE_CUSTOMER'])
     def save() {
         def userInstance = User.findByUsername(params.username);
         
@@ -71,10 +72,17 @@ class UserController {
         redirect(action: "show", id: userInstance.id)
     }
 
-    def show(Long id) {
-        def user = User.get(id)
+    def show() {
+        
+        def user 
+
+        if(params.id)
+            user = User.get(params.id)
+        else user = springSecurityService.currentUser
+
+
         if (!user) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), user.id])
             redirect(action: "list")
             return
         }
@@ -82,13 +90,17 @@ class UserController {
         [user: user, products: Product.findAllByUser(user)]
     }
 
-    @Secured(['ROLE_OPERATOR','ROLE_ADMIN','ROLE_MANAGER','ROLE_CUSTOMER'])
-    def edit(Long id) {
-        def userInstance = User.get(id)
+    @Secured(['ROLE_CUSTOMER'])
+    def edit() {
 
+        def userInstance
+
+        if(params.id)
+            userInstance = User.get(params.id)
+        else userInstance = springSecurityService.currentUser
 
         if (!userInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
             redirect(action: "list")
             return
         }
@@ -98,7 +110,7 @@ class UserController {
         ,storeList:storeList()]
     }
 
-    @Secured(['ROLE_OPERATOR','ROLE_ADMIN','ROLE_MANAGER','ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def update() {
         def userInstance = User.get(params.id)
         if (!userInstance) {
@@ -143,7 +155,7 @@ class UserController {
 
 
 
-    @Secured(['ROLE_OPERATOR','ROLE_ADMIN','ROLE_MANAGER','ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def delete(Long id) {
         def userInstance = User.get(id)
         if (!userInstance) {
@@ -170,11 +182,12 @@ class UserController {
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), id])
             
             def currentUser = springSecurityService?.currentUser
-            if(userInstance.id == currentUser?.id){
-                redirect(action: "show", controller: "user", id: currentUser.id)
-            }else {
+
+            if(userService.currentUserIsOperator()){
                 def store = currentUser.store
                 redirect(action: "show", controller: "store", id: store.id)
+            }else if(userService.currentUserIsCustomer()){
+                redirect(action: "show", controller: "user", id: currentUser.id)
             }
 
             
@@ -185,7 +198,7 @@ class UserController {
         }
     }
 
-    def storeList(){
+    private def storeList(){
         def storeList=[]
         if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER") 
             && springSecurityService?.currentUser?.store){  

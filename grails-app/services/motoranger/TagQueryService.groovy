@@ -12,40 +12,92 @@ class TagQueryService {
         return Tag.findAllByNameIlike("%${query}%").name
     }
 
-    def getUniTag ={ domainName ->
+    def getUniTag ={ params ->
 
         def currentUser = springSecurityService.currentUser
 
         def allTagIds
 
-        def partIds
+        def partIds = []
 
-		String domainTagsHQL= """
+
+        if(params.group == 'recent'){
+
+                partIds = params.recentPartIds
+
+        }else if(params.group == 'customized'){
+
+            if(userService.currentUserIsOperator()){
+
+                partIds = Part.findAllByStore(currentUser.store)*.id
+
+            }else if(userService.currentUserIsCustomer()){
+                
+                partIds = Part.findAllByUser(currentUser)*.id
+
+            }
+
+        }else if(params.group == 'universal'){
+            def store = Store.findByName('store-default-motocycle')
+            partIds = Part.findAllByStore(store)*.id
+        }
+
+
+        String domainTagsHQL= """
            SELECT distinct tagLink.tag.id
            FROM TagLink tagLink 
            where tagLink.type=:domainName
            and tagLink.tagRef in (:partIds)
         """
+        def allTags =[]
+        if(partIds){
+            allTagIds = TagLink.executeQuery(domainTagsHQL,
+                    [domainName:'part', partIds: partIds])
 
-        if(userService.currentUserIsCustomer()){
-            partIds = Part.findAllByUser(currentUser)*.id
-        }else if(userService.currentUserIsOperator()){
-            partIds = Part.findAllByStore(currentUser.store)*.id
+        	allTags=Tag.withCriteria{
+                if(allTagIds)
+        		  "in" ("id", allTagIds)
+                else eq("id",-1L)
+        	}
         }
-
-
-        allTagIds = TagLink.executeQuery(domainTagsHQL,
-                [domainName:domainName, partIds: partIds])
-
-    	def allTags=Tag.withCriteria{
-            if(allTagIds)
-    		  "in" ("id", allTagIds)
-            else eq("id",-1L)
-    	}
 
 		return allTags?.name
     }
+    def getCurrentUserPartsWithTag = { params ->
 
+        def parts
+        
+
+        if(params.tag){
+
+            def currentUser = springSecurityService.currentUser
+            parts = Part.findAllByTagWithCriteria(params.tag) {
+
+                if(params.group == 'customized'){
+                    if(userService.currentUserIsOperator()){
+                        eq('store', currentUser.store)
+                    }
+                    else{
+                        eq('user', currentUser)
+                    }
+
+                }else if(params.group == 'recent'){
+
+                    'in'('id', params.recentPartIds)
+
+                }else if(params.group == 'universal'){
+                    def store = Store.findByName('store-default-motocycle')
+                    eq('store', store)
+                }
+
+
+
+            }
+
+        }     
+        
+        return parts
+    }
 
     def getUniTagByList ={ domainList ->
 
@@ -62,5 +114,32 @@ class TagQueryService {
         return tags.unique()
 
         
+    }
+
+    def getRecentPartIds(){
+
+        def partIds =[]
+        def params= [:]
+        params.max = 400
+        params.sort = "date"
+        params.order = "desc"
+
+        def currentUser = springSecurityService.currentUser
+        def recentEvents 
+
+        if(userService.currentUserIsOperator()){
+            recentEvents =Event.findAllByStore(currentUser.store, params)
+        }else {
+            recentEvents =Event.findAllByUser(currentUser, params)
+        }
+
+        recentEvents.each(){ recentEvent ->
+            recentEvent.details.each(){ detail ->
+                partIds << detail.part.id
+            }
+            
+        }
+
+        return partIds
     }
 }

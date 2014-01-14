@@ -24,7 +24,7 @@
 <sec:ifLoggedIn>
 
 
-    <sec:ifAnyGranted roles="ROLE_MANERGER, ROLE_OPERATOR">
+    <sec:ifAnyGranted roles="ROLE_OPERATOR">
         <g:switchUser />
     </sec:ifAnyGranted>
 
@@ -50,11 +50,23 @@
 
       <sec:ifNotSwitched>
         <li>
+          <g:link controller="user" action="show">
+            <g:message code="user.show.label" />
+          </g:link>
+        </li>
+        <li>
+          <g:link controller="user" action="edit">
+            <g:message code="user.edit.label" />
+          </g:link>
+        </li>
+        <li>
           <g:link uri="/j_spring_security_logout">
             <%--登出--%>
             <g:message code="default.logout.text" />
           </g:link>
         </li>
+
+
       </sec:ifNotSwitched>
 
     </ul>

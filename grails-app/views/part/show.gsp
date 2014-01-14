@@ -6,7 +6,7 @@
 <title>${part?.title}</title>
 </head>
 <body>
-  <sec:ifAllGranted roles="ROLE_OPERATOR">
+  <sec:ifAllGranted roles="ROLE_CUSTOMER">
     <div class="row" id="actionbar">
 
       <div class="col-sm-12 col-md-12">           

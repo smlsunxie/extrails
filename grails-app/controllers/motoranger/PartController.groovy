@@ -15,30 +15,27 @@ class PartController {
     def userService
 
     def index(){
+        if(!params?.group)params.group = "recent"
 
-        def parts
-        def currentUser = springSecurityService.currentUser
 
-        if(params?.tag){
-            if(userService.currentUserIsOperator()){
-                parts=Part.findAllByTagWithCriteria(params.tag) {
-                    eq('store', currentUser.store)
-                }
-            }else {
-
-                parts=Part.findAllByTagWithCriteria(params.tag) {
-                    eq('user', currentUser)
-                }
-            }
+        if(params.group == "recent" && !session?.recentPartIds ){
+            session.recentPartIds = tagQueryService.getRecentPartIds()
         }
 
+        params.recentPartIds = session.recentPartIds
+
+        def tags = tagQueryService.getUniTag(params)
+        def parts = tagQueryService.getCurrentUserPartsWithTag(params)
+
         [
+            tags: tags, 
             parts: parts
         ]
+        
 
     }
 
-	@Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+	@Secured(['ROLE_CUSTOMER'])
     def create(){
 
     	def part = new Part(params)
@@ -83,7 +80,7 @@ class PartController {
 
     }
 
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def save(){
 
         if(!params?.price)params.price=0
@@ -130,7 +127,7 @@ class PartController {
         ]
     }
 
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def edit(){ 
         def part = Part.findById(params.id)
 
@@ -142,7 +139,7 @@ class PartController {
             historyPrice: eventDetails*.price.unique().sort()
         ]
     }
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def update(){
 
         def part = Part.findByIdOrName(params.id,params.name)
@@ -191,13 +188,23 @@ class PartController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'part.label', default: 'Part'), part.id])
         redirect(action: "show", id: part.id)
     }
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def delete(){ 
         def part = Part.findById(params.id)
 
         
         try{
             !part.delete()
+
+            def currentUser = springSecurityService?.currentUser
+            if(userService.currentUserIsCustomer()){
+                redirect(action: "show", controller: "user", id: currentUser.id)
+                return
+            }else {
+                def store = currentUser.store
+                redirect(action: "show", controller: "store", id: store.id)
+                return
+            }
         }catch(Exception e){
             flash.message = "維修記錄使用到該維修項目：${part.title}，無法刪除。請修正標籤，例如：不使用"
             redirect(action: "show" ,id:part.id)

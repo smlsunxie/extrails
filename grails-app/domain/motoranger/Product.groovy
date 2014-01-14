@@ -34,9 +34,9 @@ class Product {
 
     static constraints = {
         
-        // product unique: 'user'
+        name blank: false, unique: ['user']
+
         creator nullable: true
-        name blank: false, unique: true
         title blank: false
         mainImage nullable: true, empty: true   
         description nullable: true, empty: true

@@ -1,5 +1,4 @@
-<g:set var="tagQueryService" bean="tagQueryService"/>
-<g:set var="nowTag" value="${params.tag}" />
+
 
 <html>
 <head>
@@ -10,14 +9,32 @@
 <body>
 
   <div class="col-wrapper">
-              
+    
+    <div class="portfolio-nav">
+                  
+      <ul id="tagGroup" class="nav nav-pills nav-pills-portfolio">
+          
+          <li class="${ params.group == 'recent' ? 'active' : '' }">
+            <g:link action="${actionName}" id="${event?.id}" params="[group: 'recent']" >常用</g:link>
+          </li>
+
+          <li class="${ params.group == 'customized' ? 'active' : '' }">
+            <g:link action="${actionName}" id="${event?.id}" params="[group: 'customized']" >自定</g:link>
+          </li>
+
+          <li class="${ params.group == 'universal' ? 'active' : '' }">
+            <g:link action="${actionName}" id="${event?.id}" params="[group: 'universal']" >通用</g:link>
+          </li>
+      </ul>
+    </div>
+
     <div class="portfolio-nav">
                   
       <ul data-option-key="filter" class="nav nav-pills nav-pills-portfolio">
-        <g:each var="tag" in="${tagQueryService.getUniTag('part')}">
+        <g:each var="tag" in="${tags}">
 
-          <li class="${ nowTag == tag.toString() ? 'active' : '' }">
-            <g:link action="${actionName}" id="${event?.id}" params="[tag:tag]" >${tag}</g:link>
+          <li class="${ params.tag == tag.toString() ? 'active' : '' }">
+            <g:link action="${actionName}" id="${event?.id}" params="[tag: tag, group: params.group]" >${tag}</g:link>
           </li>
         </g:each>
       </ul>

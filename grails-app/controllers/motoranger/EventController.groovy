@@ -13,8 +13,9 @@ class EventController {
     def springSecurityService
     def messageSource
     def userService
+    def tagQueryService
 
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def show() { 
 
         def event=Event.findById(params.id)
@@ -24,7 +25,7 @@ class EventController {
         ]
     }
 
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def create() { 
 
         def unfinEvent
@@ -59,7 +60,7 @@ class EventController {
     }
 
 
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def save() {
         
 
@@ -101,32 +102,40 @@ class EventController {
 
 
     }
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def pickPartAddDetail(){
 
-        def parts
         def event
-        def tags
-        if(params?.id){
-            event=Event.findById(params?.id,[sort: 'dateCreated', order: 'desc'])
-        }
-
-        if(params?.tag){
-            parts=Part.findAllByTag(params.tag,[sort: 'title', order: 'asc'])
-        }
-
         
+        if(params?.id){
+            event=Event.findById(params.id,[sort: 'dateCreated', order: 'desc'])
+        }
 
+        if(!params?.group)params.group = "recent"
+
+
+        if(params.group == "recent" 
+            && (!session?.recentPartIds 
+                || request.getHeader('referer').indexOf("event/pickPartAddDetail") == -1)){
+
+            session.recentPartIds = tagQueryService.getRecentPartIds()
+        } 
+
+        params.recentPartIds = session.recentPartIds
+
+        def tags = tagQueryService.getUniTag(params)
+        def parts = tagQueryService.getCurrentUserPartsWithTag(params)
 
         [
-            parts: parts,
-            event:event
+            event: event,
+            tags: tags, 
+            parts: parts
         ]
 
     }
 
 
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def delete() { 
 
         def event=Event.findById(params.id)
@@ -151,7 +160,7 @@ class EventController {
 
 
     }
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def edit() { 
         def event = Event.findByIdOrName(params.id, params.name)
 
@@ -159,7 +168,7 @@ class EventController {
             event: event
         ]
     }
-    @Secured(['ROLE_OPERATOR', 'ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER'])
     def update() {
 
         def event = Event.findByIdOrName(params.id, params.name)

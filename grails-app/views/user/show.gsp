@@ -17,7 +17,7 @@
         <g:link  class="btn btn-primary" controller="store" action="create" params="['user.id': user.id]">新增店家</g:link>
       </sec:ifAnyGranted>
 
-      <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER, ROLE_CUSTOMER">  
+      <sec:ifAnyGranted roles="ROLE_CUSTOMER">  
         <g:link  class="btn btn-primary" controller="product" action="create" params="['user.id': user.id]">新增產品</g:link>
       </sec:ifAnyGranted>
 

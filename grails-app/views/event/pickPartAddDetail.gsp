@@ -10,6 +10,7 @@
 <body>
 
 
+
 <sec:ifAnyGranted roles="ROLE_OPERATOR">
 
 
@@ -41,7 +42,7 @@
 
 <g:render template="contentWithDetails"  model="[event: event]" />
 
-<g:render template="/part/portfolio" model="['event': event, tag:tag, part: part]" />
+<g:render template="/part/portfolio" model="['event': event]" />
                
   </body>
 </html>
