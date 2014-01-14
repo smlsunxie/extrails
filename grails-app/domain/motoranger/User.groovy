@@ -26,15 +26,14 @@ class User {
 	static transients = ['springSecurityService']
 
 	static constraints = {
-		username blank: false, unique: true
+		username blank: false, unique: true, matches: "[a-zA-Z0-9]+"
 		password blank: false
 		store nullable: true
-		
-		title nullable: true
-		telphone nullable: true
-		mobile nullable: true
+		title blank: false
+		telphone nullable: true, matches: "[0-9]+"
+		mobile nullable: true, matches: "[0-9]+"
 		address nullable: true
-		email nullable: true
+		email nullable: true, email: true, unique: true
 		description nullable: true
 	}
 

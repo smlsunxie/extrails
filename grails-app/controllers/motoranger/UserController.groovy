@@ -18,7 +18,6 @@ class UserController {
         [userInstanceList: User.list(params), userInstanceTotal: User.count()]
     }
 
-    @Secured(['ROLE_CUSTOMER'])
     def create() {
         
 
@@ -40,7 +39,7 @@ class UserController {
         [userInstance: user,roles: Role.list(),storeList:storeList()]
     }
 
-    @Secured(['ROLE_CUSTOMER'])
+
     def save() {
         def userInstance = User.findByUsername(params.username);
         
@@ -71,7 +70,8 @@ class UserController {
         flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
         redirect(action: "show", id: userInstance.id)
     }
-
+    
+    @Secured(['ROLE_CUSTOMER'])
     def show() {
         
         def user 
