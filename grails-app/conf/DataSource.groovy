@@ -7,6 +7,18 @@ hibernate {
 }
 // environment specific settings
 environments {
+    dbToUpdate {
+        dataSource {
+            dbCreate = ""
+            driverClassName = "com.mysql.jdbc.Driver"
+            dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+            username = "motoranger"
+            password = "mvagusta"
+            url = "jdbc:mysql://localhost/extrails?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull"
+        }
+    }
+
+
     development {
         // dataSource {
         //     dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
@@ -16,10 +28,31 @@ environments {
         //     username = "sa"
         //     password = ""
         // }
+        dataSource {
+            dbCreate = ""
+            pooled = true
+            driverClassName = "com.mysql.jdbc.Driver"
+            dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+            //dialect = org.hibernate.dialect.MySQLMyISAMDialect
+            // logSql = true
+            username = "motoranger"
+            password = "mvagusta"
+            url = "jdbc:mysql://localhost/motoranger?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull"
+            properties {
+                minEvictableIdleTimeMillis=1800000
+                timeBetweenEvictionRunsMillis=1800000
+                numTestsPerEvictionRun=3
+                testOnBorrow=true
+                testWhileIdle=true
+                testOnReturn=true
+                validationQuery="SELECT 1"
+            }
+        }
+
     }
     test {
         dataSource {
-            // dbCreate = "update"
+            dbCreate = "update"
             url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
             pooled = true
             driverClassName = "org.h2.Driver"
@@ -30,7 +63,7 @@ environments {
     production {
 
         dataSource {
-            // dbCreate = "update"
+            dbCreate = ""
             pooled = true
             driverClassName = "com.mysql.jdbc.Driver"
             //dialect = org.hibernate.dialect.MySQL5InnoDBDialect

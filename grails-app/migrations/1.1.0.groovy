@@ -1,7 +1,7 @@
 databaseChangeLog = {
 
 	changeSet(author: "Spooky (generated)", id: "1389514556181-1") {
-		dropForeignKeyConstraint(baseTableName: "part", baseTableSchemaName: "motoranger", constraintName: "FK3463F310475694")
+		dropForeignKeyConstraint(baseTableName: "part", constraintName: "FK3463F310475694")
 	}
 
 	changeSet(author: "Spooky (generated)", id: "1389514556181-2") {

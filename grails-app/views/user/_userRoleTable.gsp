@@ -70,7 +70,7 @@
 
           <tr>
 
-            <td><g:checkBox name="userRoles" value="${role.authority}" checked="${userRoles?.role?.contains(role)}" /></td>
+            <td><g:checkBox name="userRoles" value="${role.authority}" checked="${userRoles && userRoles.role.authority.contains(role.authority)}" /></td>
             <td>${role.authority}</td>
 
             </tr>

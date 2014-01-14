@@ -86,7 +86,11 @@ grails.exceptionresolver.params.exclude = ['password']
 grails.hibernate.cache.queries = false
 
 environments {
- 
+
+    dbToUpdate {
+        grails.plugin.databasemigration.changelogFileName = "upgradeChangelog.groovy"
+    }
+    
     development {
         grails.serverURL = "http://localhost:8080"
         grails.indexPath = "/development/app.html"
@@ -121,6 +125,8 @@ environments {
                 'grails.app.jobs'
             ]
         }
+        grails.plugin.databasemigration.updateOnStart = true
+        grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
     }
  
     test {
@@ -155,6 +161,9 @@ environments {
             ]
      
         }
+
+        grails.plugin.databasemigration.updateOnStart = false
+        grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
     }
     production {
         grails.logging.jul.usebridge = false
@@ -174,6 +183,10 @@ environments {
                 error()
             }
         }
+
+        grails.plugin.databasemigration.updateOnStart = true
+        grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
+
     }
 }
 
@@ -221,5 +234,4 @@ grails.plugin.springsecurity.rememberMe.alwaysRemember = true
 grails.plugin.springsecurity.rememberMe.persistent = true
 grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'motoranger.PersistentLogin'
 
-grails.plugin.databasemigration.updateOnStart = true
-grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
+

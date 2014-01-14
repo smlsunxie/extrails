@@ -108,6 +108,9 @@ class PartController {
             part.tags=[params.tags];
         else part.tags = params.tags
 
+        if(part?.tags)
+            part.tags="未分類"
+
         flash.message = message(code: 'default.created.message', args: [message(code: 'part.label', default: 'part'), part.id])
         redirect(action: "show", id:part.id)
     }

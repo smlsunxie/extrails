@@ -54,12 +54,12 @@
 
 
   <form class="form-signin" role="form" action='${postUrl}' method='POST' id='loginForm' autocomplete='off'>
-    <h2 class="form-signin-heading">Please sign in</h2>
-    <input name="j_username" type="text" class="form-control" placeholder="Email address" required autofocus />
-    <input name="j_password" type="password" class="form-control" placeholder="Password" required />
+    <h2 class="form-signin-heading">請輸入帳號密碼</h2>
+    <input name="j_username" type="text" class="form-control" placeholder="輸入帳號 或 EMAIL" required autofocus />
+    <input name="j_password" type="password" class="form-control" placeholder="輸入密碼" required />
     
     <label class="checkbox">
-      <input type="checkbox" name='${rememberMeParameter}' value="remember-me" id='remember_me' <g:if test='${hasCookie}'>checked='checked'</g:if> /> Remember me
+      <input type="checkbox" name='${rememberMeParameter}' value="remember-me" id='remember_me' <g:if test='${hasCookie}'>checked='checked'</g:if> /> 記住我
     </label>
 
     <button class="btn btn-lg btn-primary btn-block" type='submit' id="submit">${message(code: "springSecurity.login.button")}</button>
