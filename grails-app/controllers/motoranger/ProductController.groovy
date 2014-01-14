@@ -43,10 +43,7 @@ class ProductController {
         }
 
         if (!product.validate()) {
-            if(product.hasErrors())
-                product.errors?.allErrors?.each{ 
-                    flash.message=  messageSource.getMessage(it, null)
-                };
+
             render(view: "create", model: [product: product])
             return
         }

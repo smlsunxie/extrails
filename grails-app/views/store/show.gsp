@@ -9,9 +9,13 @@
     <sec:ifAnyGranted roles="ROLE_OPERATOR">
       <div class="row" id="actionbar">
 
-        <div class="col-sm-12 col-md-6">           
+        <div class="col-sm-12 col-md-12">           
           
-          <g:link  class="btn btn-primary" controller="store" action="edit" id="${store.id}" >修改店家資料</g:link>
+          <g:link  class="btn btn-primary" controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link>
+
+          <g:link  class="btn btn-primary" controller="product" action="create" params="['store.id': store.id]"><g:message code="product.create.label"/></g:link>
+
+          <g:link  class="btn btn-primary" controller="part" action="create" params="['store.id': store.id]"><g:message code="part.create.label"/></g:link>
 
           <g:link  class="btn btn-primary" controller="event" action="unfinListOfStore" params="['store.id': store.id]" >所有維修中</g:link>
 

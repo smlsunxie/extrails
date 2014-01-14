@@ -96,3 +96,8 @@ olddb-diff:
 
 clear-checksums:
 	grails dev dbm-clear-checksums
+
+
+db-done:
+	grails dev dbm-gorm-diff 1.1.1.groovy -add
+	grails dev dbm-update
