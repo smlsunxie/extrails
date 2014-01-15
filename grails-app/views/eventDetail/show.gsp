@@ -11,7 +11,7 @@
 </head>
 <body>
 
-  <sec:ifAnyGranted roles="ROLE_OPERATOR">
+  <sec:ifAnyGranted roles="ROLE_CUSTOMER">
 
     <div class="row" id="actionbar">
 

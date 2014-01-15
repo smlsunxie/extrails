@@ -57,33 +57,6 @@
 
 </div>
 
-<div class="form-group">
-  
-  <label for="inputEmail3" class="col-sm-2 control-label">
-    <g:message code="part.cost.label" />
-  </label>
-  <div class="col-sm-10">
-    <g:textField type="number" name="cost" value="${part?.cost}" class="form-control" />
-  </div>
-
-</div>
-
-<div class="form-group">
-  
-  <label for="inputEmail3" class="col-sm-2 control-label">
-    歷史成本
-  </label>
-  <div class="col-sm-10">
-    <h4>
-      <g:each var="it" in="${historyCost}">
-
-        <li class="btn btn-link" id='historyCost' data-historyCost='${it}' >${it}</li>
-
-      </g:each>
-    </h4>
-  </div>
-
-</div>
 
 <div class="form-group">
   
@@ -113,8 +86,42 @@
 
 </div>
 
+<sec:ifAnyGranted roles="ROLE_OPERATOR">
 
-<div class="form-group">
+
+
+  <div class="form-group">
+    
+    <label for="inputEmail3" class="col-sm-2 control-label">
+      <g:message code="part.cost.label" />
+    </label>
+    <div class="col-sm-10">
+      <g:textField type="number" name="cost" value="${part?.cost}" class="form-control" />
+    </div>
+
+  </div>
+
+  <div class="form-group">
+    
+    <label for="inputEmail3" class="col-sm-2 control-label">
+      歷史成本
+    </label>
+    <div class="col-sm-10">
+      <h4>
+        <g:each var="it" in="${historyCost}">
+
+          <li class="btn btn-link" id='historyCost' data-historyCost='${it}' >${it}</li>
+
+        </g:each>
+      </h4>
+    </div>
+
+  </div>
+
+</sec:ifAnyGranted>
+
+
+<div hidden class="form-group">
   
   <label for="inputEmail3" class="col-sm-2 control-label">
     <g:message code="part.stockCount.label" />
@@ -125,25 +132,25 @@
 
 </div>
 
- <div class="form-group">
+ <div hidden class="form-group">
   
   <label for="inputEmail3" class="col-sm-2 control-label">
-    <g:message code="user.label" default="Store" />
+    <g:message code="user.label" default="user" />
   </label>
   
   <div class="col-sm-10">
-    <g:select id="user" name="user.id" from="${motoranger.User.findById(part?.user?.id)}" optionKey="id" value="${part?.user?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
+    <g:select id="user" name="user.id" from="${motoranger.User.findById(part?.user?.id)}" optionKey="id" value="${part?.user?.id}" noSelection="['null': '']" class="form-control" />
   </div>  
 
 </div> 
-<div class="form-group">
+<div hidden class="form-group">
   
   <label for="inputEmail3" class="col-sm-2 control-label">
     <g:message code="user.store.label" default="Store" />
   </label>
 
   <div class="col-sm-10">
-    <g:select id="user" name="store.id" from="${motoranger.Store.findById(part?.store?.id)}" optionKey="id" value="${part?.store?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
+    <g:select id="user" name="store.id" from="${motoranger.Store.findById(part?.store?.id)}" optionKey="id" value="${part?.store?.id}" noSelection="['null': '']" class="form-control" />
   </div>  
 
 

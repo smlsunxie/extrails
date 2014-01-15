@@ -26,7 +26,7 @@
    <g:message code="user.username.label" />
   </label>
   <div class="col-sm-10">
-    <g:select class="form-control" name="user.id" from="${event?.user ?: motoranger.UserRole.findAllByRole(motoranger.Role.findByAuthority('ROLE_OPERATOR'))*.user}" optionValue="username" noSelection="${[null:'Select One...']}" optionKey="id" value="${event?.user?.id}" />
+    <g:select class="form-control" name="user.id" from="${event?.user ?: motoranger.UserRole.findAllByRole(motoranger.Role.findByAuthority('ROLE_OPERATOR'))*.user}" noSelection="${[null:'Select One...']}" optionKey="id" value="${event?.user?.id}" />
   </div>
 
 </div>
@@ -37,7 +37,7 @@
    <g:message code="event.product.label" />
   </label>
   <div class="col-sm-10">
-    <g:select class="form-control" name="product.id" from="${event?.product?:motoranger.Product.list()}" optionValue="name" noSelection="${[null:'Select One...']}" optionKey="id" value="${event?.product?.id}" />
+    <g:select class="form-control" name="product.id" from="${event?.product?:motoranger.Product.list()}" noSelection="${[null:'Select One...']}" optionKey="id" value="${event?.product?.id}" />
   </div>
 
 </div>

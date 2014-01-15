@@ -82,22 +82,22 @@ db-changelog-init:
 
 #remove dbCreate = "create"
 db-changelog-sync:
-	grails dev dbm-changelog-sync
+	grails dbm-changelog-sync
 db-update:
-	grails dev dbm-update
+	grails dbm-update
 db-diff:
-	grails dev dbm-gorm-diff 1.1.1.groovy -add
+	grails dbm-gorm-diff 1.1.1.groovy -add
 
 db-rollback:
 	grails dbm-rollback-count 1
 
 olddb-diff:
-	grails dev dbm-diff dbToUpdate upgradeChangelog.groovy
+	grails dbm-diff dbToUpdate upgradeChangelog.groovy
 
 clear-checksums:
-	grails dev dbm-clear-checksums
+	grails dbm-clear-checksums
 
 
 db-done:
-	grails dev dbm-gorm-diff 1.1.1.groovy -add
-	grails dev dbm-update
+	grails dbm-gorm-diff 1.1.1.groovy -add
+	grails dbm-update

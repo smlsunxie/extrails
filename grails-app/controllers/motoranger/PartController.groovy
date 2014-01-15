@@ -44,8 +44,7 @@ class PartController {
 
         if(currentUser?.store){
             part.store=currentUser.store
-        }else if(userService.currentUserIsCustomer()){
-            part.user=currentUser
+            part.user=null
         }
 
         if(!params.name)

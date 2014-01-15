@@ -3,6 +3,7 @@ package motoranger
 import org.springframework.dao.DataIntegrityViolationException
 import grails.plugin.springsecurity.annotation.Secured
 import grails.plugin.springsecurity.SpringSecurityUtils
+import org.springframework.transaction.annotation.*
 class UserController {
 
 
@@ -156,6 +157,7 @@ class UserController {
 
 
     @Secured(['ROLE_CUSTOMER'])
+    @Transactional
     def delete(Long id) {
         def userInstance = User.get(id)
         if (!userInstance) {
@@ -171,11 +173,23 @@ class UserController {
                 it.delete()
             }
 
-            def products = Product.findByUser(userInstance)
+            def products = Product.findAllByUser(userInstance)
 
             products?.each(){
                 products.user = null
                 products.save()
+            }
+
+            def parts = Part.findAllByUser(userInstance)
+
+            parts.each(){ part ->
+                if(EventDetail.findByPart(part)){
+                    part.user = null
+                    part.save()
+                }else {
+                    part.delete(flush: true,failOnError:true)
+                }
+
             }
 
             userInstance.delete(flush: true,failOnError:true)

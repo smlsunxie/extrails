@@ -34,7 +34,7 @@
 
 
                   <div class="controls">
-                    <g:select name="product.id" from="${motoranger.Product.list()}" optionValue="name" 
+                    <g:select name="product.id" from="${motoranger.Product.list()}" 
                     noSelection="${['null':'Select One...']}" optionKey="id"
                      value="${post?.product?.id}" />
                   </div>

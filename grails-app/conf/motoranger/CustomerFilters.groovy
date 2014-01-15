@@ -87,7 +87,7 @@ class CustomerFilters {
 
 
                             if(currentUser.id != Part.findById(params.id)?.user?.id){
-                                flash.message = "沒有權限維護不屬於自己產品的維修事件"
+                                flash.message = "沒有權限維護不屬於自己產品的維修項目"
                                 notAllow = true
 
                             }

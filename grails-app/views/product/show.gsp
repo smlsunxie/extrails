@@ -32,13 +32,15 @@
     <h2>維修記錄</h2>
 
     <sec:ifAnyGranted roles="ROLE_CUSTOMER">
+
       <g:if test="${statusEnd}">
-        <div class="text-center">
+        <div id="actionbar" class="text-center">
           <g:link  class="btn btn-primary" controller="event" action="create" params="['product.id':product?.id]">
             新增維修記錄
           </g:link>
         </div>
       </g:if>
+
     </sec:ifAnyGranted>
 
     <g:render template="/event/contentWithDetails" collection="${product?.events}" var="event" />

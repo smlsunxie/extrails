@@ -1,19 +1,14 @@
+<!DOCTYPE html>
 <html>
 
   <head>
-    <title><g:message code="${controllerName}.${actionName}.title"/></title>
+    <meta name="layout" content="bootstrap">
+    <g:set var="entityName" value="${message(code: 'eventDetail.label', default: 'eventDetail')}" />
+    <title><g:message code="default.edit.label" args="[entityName]" /></title>
   </head>
 
   <body>
-    <g:form action="update" class="form-horizontal">     
-
-      <g:actionbar actionName="${actionName}" domain="${eventDetail}" />
-      <div class="bs-docs-example">
-        <g:render template="form" />
-      </div>
-      <g:actionbar actionName="${actionName}" domain="${eventDetail}" />
-
-    </g:form>
+    <g:render template="/component/formEdit" model="[domainName: 'eventDetail', domainId: eventDetail.id]"/>
   </body>
 
 </html>

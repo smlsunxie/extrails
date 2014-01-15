@@ -23,7 +23,7 @@
 
               <td data-title='<g:message code="part.price.label" />'>
                 <sec:ifAllGranted roles="ROLE_CUSTOMER">  
-                  ${detail?.part?.price}*${detail?.qty}=${detail?.part?.price*detail?.qty}
+                  ${detail?.price}*${detail?.qty}=${detail?.price*detail?.qty}
                 </sec:ifAllGranted>&nbsp;
 
               </td>

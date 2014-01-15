@@ -1,19 +1,14 @@
+<!DOCTYPE html>
 <html>
+
   <head>
-    <title><g:message code="${controllerName}.${actionName}.title"/></title>
-
+    <meta name="layout" content="bootstrap">
+    <g:set var="entityName" value="${message(code: 'post.label', default: 'post')}" />
+    <title><g:message code="default.edit.label" args="[entityName]" /></title>
   </head>
+
   <body>
-
-    <g:form action="update" id="${post?.id}" params="[version:post?.version]" class="form-horizontal">
-
-
-      <g:actionbar actionName="${actionName}" domain="${post}" />
-      <div class="bs-docs-example">
-        <g:render template="tabs" />
-      </div>
-      <g:actionbar actionName="${actionName}" domain="${post}" />
-
-    </g:form>
+    <g:render template="/component/formEdit" model="[domainName: 'post', domainId: post.id]"/>
   </body>
+
 </html>

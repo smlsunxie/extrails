@@ -1,12 +1,14 @@
-<g:hasErrors bean="${user}">
+
+<g:hasErrors bean="${userInstance}">
   <ul class="errors" role="alert">
-    <g:eachError bean="${user}" var="error">
+    <g:eachError bean="${userInstance}" var="error">
       <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
     </g:eachError>
   </ul>
 </g:hasErrors>
 
-<g:hiddenField name="id" value="${user?.id}" />
+
+<g:hiddenField name="id" value="${userInstance?.id}" />
 
 <g:hiddenField name="product.id" value="${params?.product?.id}" />
 
@@ -40,9 +42,10 @@
   
   <label for="title" class="col-sm-2 control-label">
     <g:message code="user.title.label" default="Title" />
+    <span class="required-indicator">*</span>
   </label>
   <div class="col-sm-10">
-    <g:textField name="title" value="${userInstance?.title}" class="form-control"/>
+    <g:textField name="title" required="" value="${userInstance?.title}" class="form-control"/>
   </div>
 
 </div>

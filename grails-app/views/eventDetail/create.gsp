@@ -1,32 +1,14 @@
 <!DOCTYPE html>
 <html>
-	<head>
-    <title><g:message code="${controllerName}.${actionName}.title"/></title>
-	</head>
-	<body>
+  
+  <head>
+    <meta name="layout" content="bootstrap">
+    <g:set var="entityName" value="${message(code: 'eventDetail.label', default: 'eventDetail')}" />
+    <title><g:message code="default.create.label" args="[entityName]" /></title>
+  </head>
 
-      <g:form action="save" class="form-horizontal"> 
-          
-          <g:actionbar actionName="${actionName}" domain="${eventDetail}" />
-          <div class="bs-docs-example">
-            <g:render template="form" />
-          </div>
-          <g:actionbar actionName="${actionName}" domain="${eventDetail}" />
+  <body>
+    <g:render template="/component/formCreate" model="[domainName: 'eventDetail']"/>
+  </body>
 
- 
-      </g:form>
-
-
-%{--     <r:script>
-
-
-      $(function() {
-
-        $("#part").select2();
-      });
-
-
-
-    </r:script> --}%
-	</body>
 </html>

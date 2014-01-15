@@ -8,10 +8,10 @@
 
 <g:hiddenField name="id" value="${eventDetail?.id}" />
 
-<div class="form-group">
+<div hidden class="form-group">
   
   <label for="" class="col-sm-2 control-label">
-   <g:message code="default.name.label" />
+   <g:message code="eventDetail.name.label" />
   </label>
   <div class="col-sm-10">
     <g:textField name="name" readonly value="${eventDetail?.name}" class="form-control" />
@@ -20,10 +20,10 @@
 </div>
 
 
-<div class="form-group">
+<div hidden class="form-group">
   
   <label for="" class="col-sm-2 control-label">
-   <g:message code="eventDetail.head.label" />
+   <g:message code="event.name.label" />
   </label>
   <div class="col-sm-10">
     <g:select class="form-control" name="head.id" from="${eventDetail?.head ?: motoranger.Event.list()}" noSelection="${[null:'Select One...']}" optionKey="id" value="${eventDetail?.head?.id}" />
@@ -38,7 +38,7 @@
    <g:message code="part.name.label" />
   </label>
   <div class="col-sm-10">
-    <g:select class="form-control" name="part.id" from="${eventDetail?.part ?: motoranger.Part.list()}" optionValue="name" noSelection="${[null:'Select One...']}" optionKey="id" value="${eventDetail?.part?.id}" />
+    <g:select disabled class="form-control" name="part.id" from="${eventDetail?.part ?: motoranger.Part.list()}" noSelection="${[null:'Select One...']}" optionKey="id" value="${eventDetail?.part?.id}" />
   </div>
 
 </div>

@@ -33,6 +33,6 @@ class Part implements Taggable {
     }
 
     String toString(){
-      "${name}-${title}"
+      "${title}"
     }
 }
