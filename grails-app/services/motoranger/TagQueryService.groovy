@@ -21,11 +21,11 @@ class TagQueryService {
         def partIds = []
 
 
-        if(params.group == 'recent'){
+        if(params.group.toString() == motoranger.TagGroup.RECENT.toString()){
 
                 partIds = params.recentPartIds
 
-        }else if(params.group == 'customized'){
+        }else if(params.group.toString() == motoranger.TagGroup.CUSTOMIZED.toString()){
 
             if(userService.currentUserIsOperator()){
 
@@ -37,7 +37,7 @@ class TagQueryService {
 
             }
 
-        }else if(params.group == 'universal'){
+        }else if(params.group.toString() == motoranger.TagGroup.UNIVERSAL.toString()){
             def store = Store.findByName('store-default-motocycle')
             partIds = Part.findAllByStore(store)*.id
         }
@@ -73,7 +73,7 @@ class TagQueryService {
             def currentUser = springSecurityService.currentUser
             parts = Part.findAllByTagWithCriteria(params.tag) {
 
-                if(params.group == 'customized'){
+                if(params.group.toString() == motoranger.TagGroup.CUSTOMIZED.toString()){
                     if(userService.currentUserIsOperator()){
                         eq('store', currentUser.store)
                     }
@@ -81,11 +81,11 @@ class TagQueryService {
                         eq('user', currentUser)
                     }
 
-                }else if(params.group == 'recent'){
+                }else if(params.group.toString() == motoranger.TagGroup.RECENT.toString()){
 
                     'in'('id', params.recentPartIds)
 
-                }else if(params.group == 'universal'){
+                }else if(params.group.toString() == motoranger.TagGroup.UNIVERSAL.toString()){
                     def store = Store.findByName('store-default-motocycle')
                     eq('store', store)
                 }

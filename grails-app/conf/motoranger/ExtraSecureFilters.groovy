@@ -1,6 +1,6 @@
 package motoranger
 
-class CustomerFilters {
+class ExtraSecureFilters {
 
     def userService
     def springSecurityService
@@ -12,7 +12,19 @@ class CustomerFilters {
             before = {
                 def currentUser = springSecurityService.currentUser
 
-                
+                if(currentUser && userService.currentUserIsOperator()){
+                    if(controllerName == "user" && isFilterActionName(actionName)){
+
+                        def user = User.findById(params.id)
+
+                        if(user.enabled){
+                            flash.message = "已經啟用的使用者不可維護"
+                            redirect(action: "show", controller: "user", id: user.id)
+                            return false
+                        }
+
+                    }
+                }
 
                 if(currentUser && userService.currentUserIsCustomer()){
                     def notAllow = false

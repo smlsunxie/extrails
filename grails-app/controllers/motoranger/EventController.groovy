@@ -11,7 +11,6 @@ class EventController {
 
 	static layout="bootstrap"
     def springSecurityService
-    def messageSource
     def userService
     def tagQueryService
 
@@ -77,9 +76,6 @@ class EventController {
 
         if (!event.validate()) {
             if(event.hasErrors())
-                event.errors?.allErrors?.each{ 
-                    flash.message=  messageSource.getMessage(it, null)
-                };
             render(view: "create", model: [event: event])
             return
         }
@@ -111,12 +107,12 @@ class EventController {
             event=Event.findById(params.id,[sort: 'dateCreated', order: 'desc'])
         }
 
-        if(!params?.group)params.group = "recent"
+        if(!params?.group)params.group = motoranger.TagGroup.RECENT
 
 
-        if(params.group == "recent" 
+        if(params.group == motoranger.TagGroup.RECENT
             && (!session?.recentPartIds 
-                || request.getHeader('referer').indexOf("event/pickPartAddDetail") == -1)){
+                || request?.getHeader('referer')?.indexOf("event/pickPartAddDetail") == -1)){
 
             session.recentPartIds = tagQueryService.getRecentPartIds()
         } 
@@ -150,13 +146,22 @@ class EventController {
         event?.details?.each(){
             it.delete()
         }
-        // event.save()
         event.delete(flush:true)
 
-        flash.message = message(code: 'default.delete.message', 
-            args: [message(code: 'event.label', default: 'event'), event.id])
 
-        redirect(action: "index", controller:"home")
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'event.label', default: 'event'), event])
+
+        println "flash.message = "+ flash.message
+
+        def currentUser = springSecurityService?.currentUser
+
+        if(userService.currentUserIsOperator()){
+            def store = currentUser.store
+            redirect(action: "show", controller: "store", id: store.id)
+        }else if(userService.currentUserIsCustomer()){
+            redirect(action: "show", controller: "user", id: currentUser.id)
+        }
+
 
 
     }
@@ -175,7 +180,7 @@ class EventController {
 
         
         if (!event) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'event.label', default: 'Event'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'event.label', default: 'Event'), event])
             redirect(action: "index", controller:"home")
             return
         }
@@ -193,7 +198,7 @@ class EventController {
         }
 
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'event'), event.id])
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'event'), event])
         
 
         if(params?.status == 'END')

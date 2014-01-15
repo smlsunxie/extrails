@@ -15,10 +15,10 @@ class PartController {
     def userService
 
     def index(){
-        if(!params?.group)params.group = "recent"
+        if(!params?.group)params.group = motoranger.TagGroup.RECENT
 
 
-        if(params.group == "recent" && !session?.recentPartIds ){
+        if(params.group == motoranger.TagGroup.RECENT && !session?.recentPartIds ){
             session.recentPartIds = tagQueryService.getRecentPartIds()
         }
 
@@ -45,6 +45,8 @@ class PartController {
         if(currentUser?.store){
             part.store=currentUser.store
             part.user=null
+        }else if(!part.user){
+            part.user = currentUser
         }
 
         if(!params.name)
@@ -109,7 +111,7 @@ class PartController {
             part.tags = params.tags
         else part.tags=["未分類"]
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'part.label', default: 'part'), part.id])
+        flash.message = message(code: 'default.created.message', args: [message(code: 'part.label', default: 'part'), part])
         redirect(action: "show", id:part.id)
     }
 
@@ -186,13 +188,13 @@ class PartController {
             return
         }
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'part.label', default: 'Part'), part.id])
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'part.label', default: 'Part'), part])
         redirect(action: "show", id: part.id)
     }
     @Secured(['ROLE_CUSTOMER'])
     def delete(){ 
         def part = Part.findById(params.id)
-
+        
         
         try{
             !part.delete()
@@ -213,7 +215,7 @@ class PartController {
         }
 
 
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), params.id])
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), part])
 
         redirect(action: "portfolio")
     }

@@ -54,8 +54,8 @@ class EventDetailController {
             eventDetail.properties = params
 
 
-
-        eventDetail.creator=springSecurityService.currentUser.username
+        def creator = springSecurityService.currentUser.username
+        eventDetail.creator = creator
 
         if (!eventDetail.validate()) {
             if(eventDetail.hasErrors())
@@ -75,7 +75,8 @@ class EventDetailController {
 
         
         flash.message = message(code: 'default.created.message', 
-            args: [message(code: 'event.label', default: 'event'), eventDetail.id])
+            args: [message(code: 'event.label', default: 'event'), eventDetail])
+
 
 
         redirect(uri: request.getHeader('referer') )
@@ -98,7 +99,8 @@ class EventDetailController {
 
         
         if (!eventDetail) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
+            flash.message = message(code: 'default.not.found.message',
+                args: [message(code: 'part.label', default: 'part'), eventDetail])
             redirect(action: "list", controller:"product")
             return
         }
@@ -117,7 +119,7 @@ class EventDetailController {
 
 
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'eventDetail.label', default: 'EventDetail'), eventDetail.id])
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'eventDetail.label', default: 'EventDetail'), eventDetail])
         redirect(action: "show", controller:"event", id: eventDetail.head.id)
 
 
@@ -133,6 +135,9 @@ class EventDetailController {
         event.save()
 
         eventDetail.delete(flush:true)
+
+
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), eventDetail])
 
 
         if(request.getHeader('referer').indexOf("/eventDetail/show") != -1)

@@ -14,7 +14,7 @@
     <g:message code="product.name.label" /><span class="required-mark">*</span>
   </label>
   <div class="col-sm-10">
-    <g:textField name="name" value="${product?.name}" class="form-control" />
+    <g:textField name="name" value="${product?.name}" class="form-control" placeholder="請輸入你的車牌號嗎(不需要 '-' 符號)" />
   </div>
 
 </div>
@@ -26,7 +26,7 @@
     <g:message code="product.title.label" /><span class="required-mark">*</span>
   </label>
   <div class="col-sm-10">
-    <g:textField name="title" value="${product?.title}" class="form-control" />
+    <g:textField name="title" value="${product?.title}" class="form-control"  placeholder="請隨意輸入" />
   </div>
 
 </div>

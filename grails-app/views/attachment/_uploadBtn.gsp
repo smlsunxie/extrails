@@ -1,5 +1,22 @@
   <div class="controls">
     <div  class="row" >
+      <ul>
+        <li>
+          如果您是使用手機操作，你可以照相之後點選下方上傳檔案。
+        </li>
+        <li>
+          如果你是用電腦操作，你可點選按鈕新增，也可以拖拉多筆到按鈕上新增。
+        </li>
+        <li id="webcamCtrlDiv">
+          如果你有 Web Cam (電腦用攝影機)，點選瀏覽器上方允許使用相機後，按[攝影照相]會擷取影像， 確定沒問題在點選 [照片上傳]。
+        </li>
+        <li>
+          最後，你可以挑選你上傳的其中之一個照片作為主要顯示用。
+        </li>        
+      </ul>
+    </div>
+    <div  class="row" >
+      
 
       <div  class="col-sm-4 col-md-4" >
 

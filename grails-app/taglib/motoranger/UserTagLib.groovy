@@ -92,20 +92,66 @@ class UserTagLib {
         def currentUser = springSecurityService.currentUser
         def store = currentUser?.store
 
+        def nowActive = ""
+
+
+        if(controllerName=='product' || controllerName=='event' || controllerName=='eventDetail' || controllerName=='user'){
+            def title = message(code:"${controllerName}.label")
+            nowActive = """
+            <li class='active single'>
+                <a>
+                    ${title}
+                    <i>${controllerName}</i>
+                </a>
+            </li>
+            """
+        }
+
         if(userService.currentUserIsCustomer()){
-            out << body() << link(controller:'home'){
-                currentUser.title+"<i>User</i>"
-            } 
+
+            println controllerName == "user" && actionName=="show"
+
+            if(controllerName == "user" && actionName=="show")
+                nowActive = ""
+
+            def link = link(controller:'home'){"個人<i>index</i>"}
+            def active = (controllerName=='user' && actionName=='show' ? 'active':'')                
+            out << body() << """
+                <li class='${active} single'>
+                    ${link}
+                </li>
+                ${nowActive}
+                """
+
+            
         }
         else if(store){
-            out << body() << link(controller:'home'){
-                store.title+"<i>store</i>"
+            def link = link(controller:'home'){
+                store.title+"<i>index</i>"
             }        
+            def active = (controllerName=='store' && actionName=='show' ? 'active':'')
+
+            out << body() << 
+                """
+                  <li class='${active} single'>
+                    ${link}
+                  </li>
+                  ${nowActive}
+                """
         }else {
-            out << body() << link(controller:'home'){
-                g.message(code:"store.navbar.label")+"<i>store</i>"
+            def link = link(controller:'home'){
+                "首頁<i>index</i>"
             }
-        }   
+            def active = (controllerName=='home' ? 'active':'')
+            out << body() << 
+                """
+                  <li class='${active} single'>
+                    ${link}
+                  </li>
+                  ${nowActive}
+                """
+          
+        }           
 
     }
 

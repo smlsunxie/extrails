@@ -7,6 +7,15 @@
 </head>
 <body>
 
+    <div class="btn-group" id="actionbar">
+           
+
+      <sec:ifAnyGranted roles="ROLE_CUSTOMER">          
+        <g:link  class="btn btn-primary" controller="part" action="create">新增維修項目</g:link>
+      </sec:ifAnyGranted>
+
+
+    </div>
 	<g:render template="portfolio" model="[tag: tag]" />
 
 </body>

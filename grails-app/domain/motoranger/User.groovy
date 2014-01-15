@@ -30,8 +30,8 @@ class User {
 		password blank: false
 		store nullable: true
 		title blank: false
-		telphone nullable: true, matches: "[0-9]+"
-		mobile nullable: true, matches: "[0-9]+"
+		telphone nullable: true, matches: "[0-9-]+"
+		mobile nullable: true, matches: "[0-9-]+"
 		address nullable: true
 		email nullable: true, email: true, unique: true
 		description nullable: true

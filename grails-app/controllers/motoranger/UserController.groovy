@@ -33,8 +33,9 @@ class UserController {
         }
 
 
-
-        user.enabled = true
+        if(springSecurityService.isLoggedIn() && userService.currentUserIsOperator())
+            user.enabled = false
+        else user.enabled = true
 
 
         [userInstance: user,roles: Role.list(),storeList:storeList()]
@@ -68,8 +69,14 @@ class UserController {
             return
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
-        redirect(action: "show", id: userInstance.id)
+        flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance])
+
+        if(springSecurityService.isLoggedIn()){
+            redirect(action: "show", id: userInstance.id)
+        }else {
+            flash.message = flash.message + "可以開始登入使用！"
+            redirect(action: "auth", controller:"login")
+        }
     }
     
     @Secured(['ROLE_CUSTOMER'])
@@ -83,7 +90,7 @@ class UserController {
 
 
         if (!user) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), user.id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), user])
             redirect(action: "list")
             return
         }
@@ -101,7 +108,7 @@ class UserController {
         else userInstance = springSecurityService.currentUser
 
         if (!userInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), userInstance])
             redirect(action: "list")
             return
         }
@@ -115,7 +122,7 @@ class UserController {
     def update() {
         def userInstance = User.get(params.id)
         if (!userInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), userInstance])
             redirect(action: "list")
             return
         }
@@ -150,7 +157,7 @@ class UserController {
             return
         }
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance.id])
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance])
         redirect(action: "show", id: userInstance.id)
     }
 
@@ -161,7 +168,7 @@ class UserController {
     def delete(Long id) {
         def userInstance = User.get(id)
         if (!userInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), userInstance])
             redirect(action: "list")
             return
         }
@@ -175,9 +182,9 @@ class UserController {
 
             def products = Product.findAllByUser(userInstance)
 
-            products?.each(){
-                products.user = null
-                products.save()
+            products?.each(){ product ->
+                product.user = null
+                product.save()
             }
 
             def parts = Part.findAllByUser(userInstance)
@@ -193,7 +200,7 @@ class UserController {
             }
 
             userInstance.delete(flush: true,failOnError:true)
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), id])
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), userInstance])
             
             def currentUser = springSecurityService?.currentUser
 
@@ -207,7 +214,7 @@ class UserController {
             
         }
         catch (DataIntegrityViolationException e) {
-            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), id])
+            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), userInstance])
             redirect(action: "show", id: id)
         }
     }

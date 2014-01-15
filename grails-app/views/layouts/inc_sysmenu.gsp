@@ -1,6 +1,6 @@
 <sec:ifNotLoggedIn>
 
-  <li >
+  <li class="${controllerName=='store' && actionName=='list' ? 'active':''}">
     <g:link controller="store" action="list">
       <g:message code="store.label" />
       <i>store</i>
@@ -12,42 +12,25 @@
 
 
 <sec:ifAnyGranted roles="ROLE_CUSTOMER">
-  <li class="single">
+  
+  <sec:ifAnyGranted roles="ROLE_CUSTOMER">
+  <li class="${controllerName=='user' && actionName=='show' ? 'active':''} single">
     <g:homeNav />
   </li>
+  </sec:ifAnyGranted>
 
-</sec:ifAnyGranted>
-
-
-<sec:ifAnyGranted roles="ROLE_CUSTOMER">
-
-
-  <li class="dropdown">
-    <g:link controller="part" action="index" class="dropdown-toggle" data-toggle="dropdown">
+  <li class="${controllerName=='part' ? 'active':''} single">
+    <g:link controller="part" action="index">
       <g:message code="part.label" />
-      <i>part</i>
+      <i>store</i>
     </g:link>
- 
-    <ul class="dropdown-menu">
-      <li>
-        <g:link controller="part" action="index">
-          <g:message code="part.index.label"/>
-        </g:link>
-      </li>
-      <li>
-        <g:link controller="part" action="create">
-          <g:message code="part.create.label"/>
-        </g:link>
-      </li>
-    </ul>
   </li>
-
 
 </sec:ifAnyGranted>
 
 
 <sec:ifAnyGranted roles="ROLE_MANERGER, ROLE_OPERATOR">
-  <li class="dropdown">
+  <li class="${controllerName=='summary' ? 'active':''} dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
       <g:message code="summary.label"/>
       <i>SUMMARY</i>
@@ -98,3 +81,5 @@
   </li>
 
 </sec:ifAnyGranted>
+
+

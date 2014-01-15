@@ -4,7 +4,6 @@ package motoranger
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
-@EqualsAndHashCode
 class Event {
 	// static searchable = true
 	String name
@@ -43,6 +42,10 @@ class Event {
 
   static mapping = {
        sort date: "desc"
+  }
+
+  public String toString(){
+  	"維修 "+product+ "記錄"
   }
 
 

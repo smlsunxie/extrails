@@ -4,8 +4,7 @@
     <div class="col-sm-12 col-md-12">
         <div id="breadcrumb">
               <ul >
-                  <li class="home">${controllerName}</li>
-                  <li>${actionName}</li>
+                  <li class="home"><g:message code="default.${actionName}.label" args="[message(code:controllerName+'.label', default: controllerName )]" /></li>
 
                   <li id="alert_placeholder"></li>
               </ul>
