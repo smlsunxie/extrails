@@ -125,8 +125,8 @@ environments {
                 'grails.app.jobs'
             ]
         }
-        // grails.plugin.databasemigration.updateOnStart = true
-        // grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
+        grails.plugin.databasemigration.updateOnStart = true
+        grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
     }
  
     test {
@@ -183,10 +183,6 @@ environments {
                 error()
             }
         }
-
-        grails.plugin.databasemigration.updateOnStart = true
-        grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
-
     }
 }
 
@@ -233,5 +229,5 @@ grails.plugin.springsecurity.useSwitchUserFilter = true
 grails.plugin.springsecurity.rememberMe.alwaysRemember = true
 grails.plugin.springsecurity.rememberMe.persistent = true
 grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'motoranger.PersistentLogin'
-
+grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/login/success'
 

@@ -111,6 +111,17 @@ class PartController {
             part.tags = params.tags
         else part.tags=["未分類"]
 
+        if(params?.event?.id){
+            def newParams=[:]
+            newParams.qty=1
+            newParams.price = part.price
+            newParams.cost = part.cost
+            newParams["part.id"] = part.id
+            newParams["head.id"] = params.event.id
+            redirect(controller:"eventDetail", action: "save", params: newParams)
+            return 
+        }
+
         flash.message = message(code: 'default.created.message', args: [message(code: 'part.label', default: 'part'), part])
         redirect(action: "show", id:part.id)
     }

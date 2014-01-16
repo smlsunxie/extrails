@@ -7,6 +7,7 @@
 </g:hasErrors>
 
 <g:hiddenField name="id" value="${part?.id}" />
+<g:hiddenField name="event.id" value="${params['event.id']}" />
 
 
 <div class="form-group">

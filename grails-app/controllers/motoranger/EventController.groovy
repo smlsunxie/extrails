@@ -201,8 +201,17 @@ class EventController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'event'), event])
         
 
-        if(params?.status == 'END')
-            redirect(controller: "home", action: "index")
+        if(params?.status == 'END'){
+            
+            def currentUser = springSecurityService?.currentUser
+
+            if(userService.currentUserIsOperator()){
+                def store = currentUser.store
+                redirect(action: "show", controller: "store", id: store.id)
+            }else if(userService.currentUserIsCustomer()){
+                redirect(action: "show", controller: "user", id: currentUser.id)
+            }
+        }
         else if(request.getHeader('referer').indexOf("event/pickPartAddDetail") != -1
             || request.getHeader('referer').indexOf("/store/") != -1){
              redirect(uri: request.getHeader('referer') )

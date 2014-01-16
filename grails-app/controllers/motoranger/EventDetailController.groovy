@@ -38,6 +38,7 @@ class EventDetailController {
     @Secured(['ROLE_CUSTOMER'])
     def save(){
 
+        println params
         if(!params?.name)
             params.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
         
@@ -60,7 +61,7 @@ class EventDetailController {
         if (!eventDetail.validate()) {
             if(eventDetail.hasErrors())
                 eventDetail.errors?.allErrors?.each{ 
-                    flash.message=  messageSource.getMessage(it, null)
+                    println  messageSource.getMessage(it, null)
                 };
             redirect(uri: request.getHeader('referer') )
             return
@@ -78,8 +79,10 @@ class EventDetailController {
             args: [message(code: 'event.label', default: 'event'), eventDetail])
 
 
-
-        redirect(uri: request.getHeader('referer') )
+        if(request.getHeader('referer').indexOf("part/create?event.id")!=-1){
+            redirect(controller:"event", action:"pickPartAddDetail", id:params.head.id)
+        }else 
+            redirect(uri: request.getHeader('referer') )
 
 
     }

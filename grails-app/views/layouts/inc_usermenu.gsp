@@ -60,6 +60,11 @@
           </g:link>
         </li>
         <li>
+          <g:link controller="user" action="show" params="[tour: true]">
+            使用導覽
+          </g:link>
+        </li>        
+        <li>
           <g:link uri="/j_spring_security_logout">
             <%--登出--%>
             <g:message code="default.logout.text" />

@@ -11,30 +11,34 @@
 
 
 
-<sec:ifAnyGranted roles="ROLE_OPERATOR">
+<sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_CUSTOMER">
 
 
   <div class="row">
-    <div class="col-sm-3 col-md-3">
-      <g:link  class="btn btn-primary"  action="show" id="${event?.id}">新增完成</g:link>
-    </div>
-    
-
 
     <div class="col-sm-3 col-md-3">
-      <g:render template="/event/updateReceivedMoney" model="[event: event]" />
+      <div class="btn-group" id="actionbar">
+        <g:link  class="btn btn-primary" controller="part" action="create" params="['event.id': event.id]">新增並加入自定維修項目</g:link>
+      </div>
     </div>
+         
+    <sec:ifAnyGranted roles="ROLE_OPERATOR">
+      <div class="col-sm-3 col-md-3">
+        <g:render template="/event/updateReceivedMoney" model="[event: event]" />
+      </div>
 
 
-    <div class="col-sm-3 col-md-3">
-      <g:render template="/event/updateUnreceiveMoney" model="[event: event]" />
-    </div>
+      <div class="col-sm-3 col-md-3">
+        <g:render template="/event/updateUnreceiveMoney" model="[event: event]" />
+      </div>
 
 
 
-    <div class="col-sm-3 col-md-3">
-      <g:render template="/event/updateEventDate" model="[event: event]" /> 
-    </div>
+      <div class="col-sm-3 col-md-3">
+        <g:render template="/event/updateEventDate" model="[event: event]" /> 
+      </div>
+    </sec:ifAnyGranted>  
+
 
   </div>
 

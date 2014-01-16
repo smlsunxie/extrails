@@ -21,6 +21,7 @@ class User {
 	boolean accountLocked
 	boolean passwordExpired
 	Store store
+	TourStep tourStep = motoranger.TourStep.STEP1_START
 
 	
 	static transients = ['springSecurityService']

@@ -82,6 +82,10 @@ class UserController {
     @Secured(['ROLE_CUSTOMER'])
     def show() {
         
+        if(params?.tour){
+            session.tourStep=TourStep.STEP1_START
+        }
+
         def user 
 
         if(params.id)

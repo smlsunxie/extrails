@@ -99,5 +99,8 @@ clear-checksums:
 
 
 db-done:
-	grails dbm-gorm-diff 1.1.1.groovy -add
+	grails dbm-gorm-diff 1.1.2.groovy -add
 	grails dbm-update
+
+db-done-remote:
+	grails -Dgrails.env=motorangerDbUpdate dbm-update
