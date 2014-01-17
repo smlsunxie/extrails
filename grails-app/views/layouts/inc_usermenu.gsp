@@ -63,7 +63,16 @@
           <g:link controller="user" action="show" params="[tour: true]">
             使用導覽
           </g:link>
-        </li>        
+        </li>
+
+        <sec:ifAnyGranted roles="ROLE_ADMIN">
+          <li>
+            <g:link controller="post" action="create" >
+              建立文章
+            </g:link>
+          </li>
+        </sec:ifAnyGranted>      
+
         <li>
           <g:link uri="/j_spring_security_logout">
             <%--登出--%>

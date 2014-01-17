@@ -1,23 +1,9 @@
-<sec:ifNotLoggedIn>
-
-  <li class="${controllerName=='store' && actionName=='list' ? 'active':''}">
-    <g:link controller="store" action="list">
-      <g:message code="store.label" />
-      <i>store</i>
-    </g:link>
-  </li>
-
-</sec:ifNotLoggedIn>
-
-
+<li class="${controllerName=='user' && actionName=='show' ? 'active':''} single">
+  <g:homeNav />
+</li>
 
 <sec:ifAnyGranted roles="ROLE_CUSTOMER">
   
-  <sec:ifAnyGranted roles="ROLE_CUSTOMER">
-  <li class="${controllerName=='user' && actionName=='show' ? 'active':''} single">
-    <g:homeNav />
-  </li>
-  </sec:ifAnyGranted>
 
   <li class="${controllerName=='part' ? 'active':''} single">
     <g:link controller="part" action="index">
@@ -59,14 +45,14 @@
 
 <sec:ifAnyGranted roles="ROLE_ADMIN">
   
-  <li>
+  <li class="single">
     <g:link controller="brand">
       <g:message code="brand.label" />
       <i>brand</i>
     </g:link>
   </li>
 
-  <li>
+  <li class="single">
     <g:link controller="user" action="list">
       <g:message code="user.label" />
       <i>user</i>
@@ -81,5 +67,12 @@
   </li>
 
 </sec:ifAnyGranted>
+
+  <li class="single">
+    <g:link controller="home" action="question">
+      意見回饋
+      <i>suggest</i>
+    </g:link>
+  </li>
 
 

@@ -36,7 +36,7 @@
       </div>
     </div>
 
-
+%{-- 
     <hr>
 
     <div class="main-block block-posts">
@@ -65,6 +65,6 @@
         </div>
     </div>
 
-
+ --}%
 	</body>
 </html>

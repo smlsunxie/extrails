@@ -27,6 +27,7 @@
   <g:render template="contentWithDetails" model="[product: product]" />
 
   
+  <br />
 
   <div class="contact-info" >
     <h2>維修記錄</h2>

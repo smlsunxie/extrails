@@ -94,7 +94,6 @@ class UserTagLib {
 
         def nowActive = ""
 
-
         if(controllerName=='product' || controllerName=='event' || controllerName=='eventDetail' || controllerName=='user'){
             def title = message(code:"${controllerName}.label")
             nowActive = """
@@ -106,8 +105,21 @@ class UserTagLib {
             </li>
             """
         }
+        if(!springSecurityService.isLoggedIn()){
+            
+            def link = link(controller:'home'){
+                "首頁<i>index</i>"
+            }
+            def active = (controllerName=='home' ? 'active':'')
+            out << body() << 
+                """
+                  <li class='${active} single'>
+                    ${link}
+                  </li>
+                  ${nowActive}
+                """
 
-        if(userService.currentUserIsCustomer()){
+        }else if(userService.currentUserIsCustomer()){
 
             println controllerName == "user" && actionName=="show"
 
@@ -138,20 +150,7 @@ class UserTagLib {
                   </li>
                   ${nowActive}
                 """
-        }else {
-            def link = link(controller:'home'){
-                "首頁<i>index</i>"
-            }
-            def active = (controllerName=='home' ? 'active':'')
-            out << body() << 
-                """
-                  <li class='${active} single'>
-                    ${link}
-                  </li>
-                  ${nowActive}
-                """
-          
-        }           
+        }       
 
     }
 
