@@ -5,6 +5,46 @@
 
 	</head>
 	<body>
+<!-- MAIN CONTENT AREA: SLIDER BANNER (REVOLUTION SLIDER) -->
+    <div class="bannercontainer">
+        <div class="banner">
+            <ul>
+                <!-- MAIN CONTENT AREA: SLIDER BANNER (REVOLUTION SLIDER) - SLIDE 1 [SLIDE
+                STYLE=BOXFADE] -->
+                <li class="slide1 slide" data-transition="boxfade" data-slotamount="5"
+                    data-masterspeed="300">
+                    <img alt="" src="img/slider01.png" class="img-responsive" />
+                    <div class="caption sft carousel-caption" data-x="-60" data-y="70" data-speed="1000"
+                         data-start="1000" data-easing="easeInBack" style="background: none;">
+                        <p class="middle">立即註冊試用！</p>
+                    </div>
+                    <div class="caption sfl carousel-caption" data-x="98" data-y="101" data-speed="1000"
+                         data-start="1000" data-easing="easeOutBack" style="background: none;">
+                        <p class="big">MotoRanger</p>
+                    </div>                    
+                    <div class="caption sfl carousel-caption" data-x="98" data-y="151" data-speed="1000"
+                         data-start="1000" data-easing="easeOutBack" style="background: none;">
+                        <p class="big">線上摩托維修記錄</p>
+                    </div>
+                    <div class="caption sfl carousel-caption" data-x="98" data-y="201" data-speed="1000"
+                         data-start="1000" data-easing="easeOutBack" style="background: none;">
+                        <p class="big">不再忘記何時加機油！</p>
+                    </div>
+                    <div class="caption sfb carousel-caption" data-x="111" data-y="257" data-speed="1000"
+                         data-start="1000" data-easing="easeInBack" style="background: none; width: 436px;">
+                        <p class="middle">您可以自定維修項目，打造屬於你的機車行</p>
+                    </div>
+                </li>
+
+            </ul>
+            <div class="tp-bannertimer"></div>
+        </div>
+    </div>
+
+
+
+
+
 
     <div class="main-block block-posts">
       <div class="title-wrapper">
