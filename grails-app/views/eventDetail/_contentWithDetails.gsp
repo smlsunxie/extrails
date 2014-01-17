@@ -22,19 +22,26 @@
                 
 
               <td data-title='<g:message code="part.price.label" />'>
-                <sec:ifAllGranted roles="ROLE_CUSTOMER">  
-                  ${detail?.price}*${detail?.qty}=${detail?.price*detail?.qty}
-                </sec:ifAllGranted>&nbsp;
+
+                <g:if test="${!params?.notAllow}">
+                  <sec:ifAllGranted roles="ROLE_CUSTOMER">  
+                    ${detail?.price}*${detail?.qty}=${detail?.price*detail?.qty}
+                  </sec:ifAllGranted>
+                </g:if>
+                &nbsp;
 
               </td>
 
 
               
                 <td>
-                  <sec:ifAllGranted roles="ROLE_CUSTOMER">  
-                  <g:link  class="btn btn-primary btn-xs" controller="eventDetail" action="edit" id="${detail?.id}"><g:message code="default.button.edit.label" /></g:link>
-                  <g:link  class="btn btn-danger btn-xs" controller="eventDetail" action="delete" id="${detail?.id}"><g:message code="default.button.delete.label" /></g:link>
-                  </sec:ifAllGranted>&nbsp;
+                  <g:if test="${!params?.notAllow}">
+                    <sec:ifAllGranted roles="ROLE_CUSTOMER">  
+                      <g:link  class="btn btn-primary btn-xs" controller="eventDetail" action="edit" id="${detail?.id}"><g:message code="default.button.edit.label" /></g:link>
+                      <g:link  class="btn btn-danger btn-xs" controller="eventDetail" action="delete" id="${detail?.id}"><g:message code="default.button.delete.label" /></g:link>
+                    </sec:ifAllGranted>
+                  </g:if>
+                  &nbsp;
                 </td>
               
  

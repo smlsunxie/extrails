@@ -11,27 +11,29 @@
 </head>
 <body>
 
-  <sec:ifAnyGranted roles="ROLE_CUSTOMER">
+  <g:if test="${!params?.notAllow}">
+    <sec:ifAnyGranted roles="ROLE_CUSTOMER">
 
-    <div class="row" id="actionbar">
+      <div class="row" id="actionbar">
 
-      <div class="col-sm-4 col-md-4">
+        <div class="col-sm-4 col-md-4">
 
-        <g:link class="btn btn-primary btn-large "
-          action="edit" controller="eventDetail" id="${eventDetail.id}" >
-        <g:message code="default.button.edit.label" />
-        </g:link>
+          <g:link class="btn btn-primary btn-large "
+            action="edit" controller="eventDetail" id="${eventDetail.id}" >
+          <g:message code="default.button.edit.label" />
+          </g:link>
 
 
-        <g:link class="btn btn-danger"
-          action="delete" controller="eventDetail" id="${eventDetail.id}" >
-          <g:message code="default.button.delete.label" />
-        </g:link> 
-      </div>
+          <g:link class="btn btn-danger"
+            action="delete" controller="eventDetail" id="${eventDetail.id}" >
+            <g:message code="default.button.delete.label" />
+          </g:link> 
+        </div>
 
-    </div>  
+      </div>  
 
-  </sec:ifAnyGranted>
+    </sec:ifAnyGranted>
+  </g:if>
 
 
   <div class="row">

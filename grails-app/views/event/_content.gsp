@@ -23,17 +23,17 @@
       </g:if>
     </sec:ifAnyGranted>
 
-    <sec:ifAnyGranted roles="ROLE_CUSTOMER">
+    <g:if test="${!params?.notAllow}">
+
+      <sec:ifAnyGranted roles="ROLE_CUSTOMER">
+        <tr>
+          <td class="small"><g:message code="event.totalPrice.label" /></td>
+          <td class="bold">${event?.totalPrice}</td>
+        </tr>
+      </sec:ifAnyGranted>
+
+    </g:if>
     
-      <tr>
-        <td class="small"><g:message code="event.totalPrice.label" /></td>
-        <td class="bold">${event?.totalPrice}</td>
-      </tr>
-  
-
-
-    </sec:ifAnyGranted>
-
     <tr>
         <td class="small"><g:message code="default.dateCreated.label" /></td>
         <td class="bold">

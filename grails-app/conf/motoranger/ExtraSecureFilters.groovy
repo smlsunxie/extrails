@@ -87,6 +87,7 @@ class ExtraSecureFilters {
                             def productId = EventDetail.findById(params.id).head.product.id
 
                             if(isUserNotOwnProduct(currentUser.id, productId)){
+
                                 flash.message = "沒有權限維護不屬於自己產品的維修事件"
                                 notAllow = true
 
@@ -108,8 +109,17 @@ class ExtraSecureFilters {
                     }
 
                     if(notAllow){
-                        redirect(action: "show", controller: "user", id: currentUser.id)
-                        return false
+
+                        if(actionName == "show"){
+                            flash.message = "不是屬於您的資料，檢視受限"
+                            params.notAllow=true
+
+                        }else{
+                            redirect(action: "show", controller: "user", id: currentUser.id)
+                            return false
+                        }
+                    }else {
+
                     }
 
                 }
@@ -125,7 +135,7 @@ class ExtraSecureFilters {
             || actionName == "edit"
             || actionName == "update"
             || actionName == "save"
-            || actionName == "show"
+            || actionName == "delete"
             || actionName == "pickPartAddDetail"))
             return true
         else return false
