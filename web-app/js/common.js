@@ -11,9 +11,9 @@ var showConfirm=function(){
 
 // 全螢幕模式切換 Request FullScreen Mode
 var requestNativeFullScreen = function(element) {
-	if (!element) {
-		element = document.documentElement;
-	}
+  if (!element) {
+    element = document.documentElement;
+  }
     var result = null;
     if (element.requestFullscreen) {
         element.requestFullscreen();
@@ -30,9 +30,9 @@ var requestNativeFullScreen = function(element) {
 
 // 全螢幕模式切換 Cancel FullScreen Mode
 var cancelNativeFullScreen = function(element) {
-	if (!element) {
-		element = document.documentElement;
-	}
+  if (!element) {
+    element = document.documentElement;
+  }
     var result = null;
     if (document.cancelFullScreen) {
         result = document.fullscreenElement;
@@ -73,7 +73,28 @@ function winHeight() {
     return window.innerHeight || (document.documentElement || document.body).clientHeight;
 }
 
-function onUpdateUnreciveMoneyMoneySuccess(data){
+function recivedAllMoney(id){
+
+  var receivedMoneyElm=$("[id='"+id+"'][name='receivedMoney']");  
+  var unreciveMoneyElm=$("[id='"+id+"'][name='unreceiveMoney']");
+
+  receivedMoneyElm.val(unreciveMoneyElm.val());
+  receivedMoneyElm.keyup();
+
+}
+
+function discountAllMoney(id){
+  
+  var unreciveMoneyElm=$("[id='"+id+"'][name='unreceiveMoney']");
+
+  unreciveMoneyElm.val(0);
+  unreciveMoneyElm.keyup();
+
+
+}
+
+
+function onUpdateUnreciveMoneySuccess(data){
   
   var unreciveMoneyElm=$("[id='"+data.event.id+"'][name='unreceiveMoney']");
 
@@ -84,10 +105,6 @@ function onUpdateUnreciveMoneyMoneySuccess(data){
     bootstrap_alert.warning("未收金額已更新為："+unreciveMoney)
   }else {
     bootstrap_alert.warning(data.msg)
-
-    console.log(data.event.totalPrice);
-    console.log(data.event.discountMoney);
-    console.log(unreciveMoney);
 
     unreciveMoneyElm.val(unreciveMoney);
   }
@@ -229,18 +246,18 @@ bootstrap_alert.warning = function(message) {
         });
     }
 
-	//部份內容全螢幕
-	$('.element-request-fullscreen').click(function() {
-		if (requestNativeFullScreen) {
-			var elementId = $(this).data('element');
-			var element = document.getElementById(elementId);
-			if (element) {
-				if (requestNativeFullScreen(element)) {
-					return false;
-				}
-			}
-		}
-	});
+  //部份內容全螢幕
+  $('.element-request-fullscreen').click(function() {
+    if (requestNativeFullScreen) {
+      var elementId = $(this).data('element');
+      var element = document.getElementById(elementId);
+      if (element) {
+        if (requestNativeFullScreen(element)) {
+          return false;
+        }
+      }
+    }
+  });
 
     // Enable loadmask
     $('a.auto-loadmask, .auto-loadmask a').click(function() {
@@ -265,14 +282,14 @@ bootstrap_alert.warning = function(message) {
     //     $('.justfont').removeClass('smaller-font').addClass('larger-font');
     // });
 
-	// Hightlight.js only support MSIE 9+ and other modern browsers
-	// if (!$.browser.msie || ($.browser.msie && $.browser.version.slice(0,1)>8)) {
-	// 	//Pretty Code with Highlight.js
+  // Hightlight.js only support MSIE 9+ and other modern browsers
+  // if (!$.browser.msie || ($.browser.msie && $.browser.version.slice(0,1)>8)) {
+  //  //Pretty Code with Highlight.js
  //        if (hljs) {
  //            hljs.tabReplace = '    '; //4 spaces
  //            hljs.initHighlightingOnLoad();
  //        }
-	// }
+  // }
 
     //Affix Sidebar
     $('.bs-docs-sidenav').affix({
