@@ -1,4 +1,4 @@
-<div id="productStick" class="col-sm-3 col-md-3">
+<div id="productStick" class="col-sm-6 col-md-3">
 
   <a class="block-stick-img">
 
