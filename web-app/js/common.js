@@ -78,8 +78,16 @@ function recivedAllMoney(id){
   var receivedMoneyElm=$("[id='"+id+"'][name='receivedMoney']");  
   var unreciveMoneyElm=$("[id='"+id+"'][name='unreceiveMoney']");
 
-  receivedMoneyElm.val(unreciveMoneyElm.val());
-  receivedMoneyElm.keyup();
+  var unreciveMoney = parseInt(unreciveMoneyElm.val(), 10);
+  var receivedMoney = parseInt(receivedMoneyElm.val(), 10);
+
+
+  if(unreciveMoney>0){
+
+    receivedMoneyElm.val(unreciveMoney + receivedMoney);
+    receivedMoneyElm.keyup();
+  
+  }
 
 }
 

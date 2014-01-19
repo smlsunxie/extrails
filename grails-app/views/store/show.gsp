@@ -5,27 +5,62 @@
 
   </head>
   <body>
-  
 
 
-    <sec:ifAnyGranted roles="ROLE_OPERATOR">
-       <div class="btn-group" id="actionbar">
-         
-          
-        <g:link  class="btn btn-primary" controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link>
+    <!-- 手機畫面 action button -->
 
-        <g:link  class="btn btn-primary" controller="product" action="create" params="['store.id': store.id]"><g:message code="product.create.label"/></g:link>
+    <div class="visible-xs">
+      <div class="btn-group" id="actionbar">
 
-        <g:link  class="btn btn-primary" controller="part" action="create" params="['store.id': store.id]"><g:message code="part.create.label"/></g:link>
+        <button class="btn btn-default btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+          維護其他<span class="caret"></span>
+        </button>
+              
+        <ul class="dropdown-menu">
 
-        <g:link  class="btn btn-primary" controller="event" action="unfinListOfStore" params="['store.id': store.id]" >所有維修中</g:link>
+          <li><g:link controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link></li>
 
-        <g:link  class="btn btn-primary" controller="event" action="endListOfStore" params="['store.id': store.id]" >最近維修完成</g:link>
+          <li><g:link controller="part" action="create" params="['store.id': store.id]"><g:message code="part.create.label"/></g:link></li>
 
+          <li><g:link controller="product" action="create" params="['store.id': store.id]"><g:message code="product.create.label"/></g:link></li>
+
+        </ul>
+      </div>
+
+      <div class="btn-group" id="actionbar">
+
+        <button class="btn btn-default btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+          店家狀況<span class="caret"></span>
+        </button>    
+
+        <ul class="dropdown-menu">
+
+          <li><g:link controller="event" action="unfinListOfStore" params="['store.id': store.id]" >所有維修中</g:link></li>
+          <li><g:link controller="event" action="endListOfStore" params="['store.id': store.id]" >最近維修完成</g:link></li>
+
+        </ul>
 
       </div>
-    </sec:ifAnyGranted>
+    </div>  
 
+    <div class="hidden-xs">
+      <sec:ifAnyGranted roles="ROLE_OPERATOR">
+         <div class="btn-group" id="actionbar">
+                     
+          <g:link  class="btn btn-primary" controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link>
+
+          <g:link  class="btn btn-primary" controller="product" action="create" params="['store.id': store.id]"><g:message code="product.create.label"/></g:link>
+
+          <g:link  class="btn btn-primary" controller="part" action="create" params="['store.id': store.id]"><g:message code="part.create.label"/></g:link>
+
+          <g:link  class="btn btn-primary" controller="event" action="unfinListOfStore" params="['store.id': store.id]" >所有維修中</g:link>
+
+          <g:link  class="btn btn-primary" controller="event" action="endListOfStore" params="['store.id': store.id]" >最近維修完成</g:link>
+
+
+        </div>
+      </sec:ifAnyGranted>
+    </div>
 
 
     <div class="main-block block-posts">

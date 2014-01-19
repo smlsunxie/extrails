@@ -16,12 +16,8 @@ class ProductController {
 
     	def product = new Product(params)
 
-
         if(product?.name)
             product.title=product.name
-
-
-
 
         [ product: product ]
 

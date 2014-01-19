@@ -13,7 +13,7 @@
 </form>
 
 
-  <!-- Large button group -->
+  <!-- 手機畫面 action button -->
 
   <div class="visible-xs">
     <div class="btn-group" id="actionbar">
@@ -49,6 +49,7 @@
   </div>
 
 
+  <!-- PC 畫面 action button -->
 
   <div class="hidden-xs">
     <div class="btn-group" id="actionbar">
