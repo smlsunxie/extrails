@@ -92,14 +92,12 @@ environments {
     }
     
     development {
-        grails.serverURL = "http://localhost:8080"
+        grails.serverURL = "http://192.168.0.100:8080"
         grails.indexPath = "/development/app.html"
         grails.logging.jul.usebridge = true
         grails.resources.debug=true
         grails.converters.default.pretty.print = true
 
-        grails.foodpaint.service.server.url = "http://localhost:8180"
-        grails.foodpaint.service.api.url = "http://localhost:8180/api"
         grails.aws.root = 'test'
         google.analytics.enabled = false
 

@@ -68,11 +68,19 @@
 
 </sec:ifAnyGranted>
 
-  <li class="single">
-    <g:link controller="home" action="question">
-      意見回饋
-      <i>suggest</i>
-    </g:link>
-  </li>
+
+<li class="${controllerName=='store' && actionName=='list' ? 'active':''} single">
+  <g:link controller="store" action="list">
+    車行清單
+    <i>Stores</i>
+  </g:link>
+</li>
+
+<li class="${controllerName=='home' && actionName=='question' ? 'active':''} single">
+  <g:link controller="home" action="question">
+    意見回饋
+    <i>suggest</i>
+  </g:link>
+</li>
 
 

@@ -74,12 +74,15 @@ class UserTagLib {
     }
     def footer={attrs, body ->
 
-        def currentUser = springSecurityService.currentUser
-        
-        def store = currentUser?.store
+        def store
+
+        if(actionName == "show" && controllerName=="store" && params?.id){
+            store = Store.get(params?.id)
+        }else {
+            store = springSecurityService?.currentUser?.store
+        }
 
         if(store){
-
             out << body() << g.applyLayout(name: "inc_footer_store", 
                 model:[store: store])
 
@@ -95,6 +98,7 @@ class UserTagLib {
         def nowActive = ""
 
         if(controllerName=='product' || controllerName=='event' || controllerName=='eventDetail' || controllerName=='user'){
+            
             def title = message(code:"${controllerName}.label")
             nowActive = """
             <li class='active single'>
@@ -104,13 +108,25 @@ class UserTagLib {
                 </a>
             </li>
             """
+        }else if(controllerName=='store' && actionName!='list' && params?.id.toString() != store?.id.toString()){
+            def title = "檢視車行"
+            nowActive = """
+            <li class='active single'>
+                <a>
+                    ${title}
+                    <i>${controllerName}</i>
+                </a>
+            </li>
+            """
         }
+
+
         if(!springSecurityService.isLoggedIn()){
             
             def link = link(controller:'home'){
                 "首頁<i>index</i>"
             }
-            def active = (controllerName=='home' ? 'active':'')
+            def active = (controllerName=='home' && actionName=='index' ? 'active':'')
             out << body() << 
                 """
                   <li class='${active} single'>
@@ -120,8 +136,6 @@ class UserTagLib {
                 """
 
         }else if(userService.currentUserIsCustomer()){
-
-            println controllerName == "user" && actionName=="show"
 
             if(controllerName == "user" && actionName=="show")
                 nowActive = ""
@@ -141,7 +155,7 @@ class UserTagLib {
             def link = link(controller:'home'){
                 store.title+"<i>index</i>"
             }        
-            def active = (controllerName=='store' && actionName=='show' ? 'active':'')
+            def active = (controllerName=='store' && params?.id.toString() == store.id.toString() ? 'active':'')
 
             out << body() << 
                 """

@@ -9,20 +9,20 @@
   </p>
 
   <sec:ifNotLoggedIn>
-  <p>
-    <i class="icon-screenshot"></i> 
-    產品編號：<g:link controller="product" action="show" id="${event?.product?.id}">
-    ${event.product.name.replace(event.product.name.substring(2,4),"**")}
-  </g:link> 
-  </p>
+    <p>
+      <i class="icon-screenshot"></i> 
+      產品編號：<g:link controller="product" action="show" id="${event?.product?.id}">
+      ${event.product.name.replace(event.product.name.substring(2,4),"**")}
+    </g:link> 
+    </p>
   </sec:ifNotLoggedIn>
   <sec:ifAnyGranted roles="ROLE_CUSTOMER">
-  <p>
-    <i class="icon-screenshot"></i> 
-    產品編號：<g:link controller="product" action="show" id="${event?.product?.id}">
-    ${event.product.name}
-  </g:link> 
-  </p>  
+    <p>
+      <i class="icon-screenshot"></i> 
+      產品編號：<g:link controller="product" action="show" id="${event?.product?.id}">
+      ${params?.notAllow ? event.product.name.replace(event.product.name.substring(2,4),"**") : event.product.name}
+    </g:link> 
+    </p>  
   </sec:ifAnyGranted>
   
 

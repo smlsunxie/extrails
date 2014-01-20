@@ -2,7 +2,16 @@
     <tbody>
     <tr>
       <td class="small"><g:message code="product.name.label" /></td>
-      <td class="bold"><g:link action="show" controller="product" id="${product.id}">${product.name}</g:link></td>
+
+      <td class="bold"><g:link action="show" controller="product" id="${product.id}">
+        <sec:ifNotLoggedIn>
+          ${product.name.replace(product.name.substring(2,4),"**")}
+        </sec:ifNotLoggedIn>
+        <sec:ifAnyGranted roles="ROLE_CUSTOMER">
+          ${params?.notAllow ? product.name.replace(product.name.substring(2,4),"**") :product.name}
+        </sec:ifAnyGranted>
+      </g:link></td>
+
     </tr>
 
     <tr>

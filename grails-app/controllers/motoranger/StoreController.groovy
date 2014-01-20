@@ -25,7 +25,8 @@ class StoreController {
         [
             unfinEvents: unfinEvents,
             endEvents: endEvents,
-            store: store
+            store: store,
+            currentUserStore: currentUser?.store
         ]
 
 

@@ -5,27 +5,34 @@
 
   </head>
   <body>
-
+    <div class="title-wrapper">
+        <h1><i class="icon-home"></i> ${store.title}</h1>
+    </div>
 
     <!-- 手機畫面 action button -->
 
+
     <div class="visible-xs">
-      <div class="btn-group" id="actionbar">
+      <sec:ifAnyGranted roles="ROLE_OPERATOR">
+        <g:if test="${store.id == currentUserStore?.id}">
+          <div class="btn-group" id="actionbar">
 
-        <button class="btn btn-default btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-          維護其他<span class="caret"></span>
-        </button>
-              
-        <ul class="dropdown-menu">
+            <button class="btn btn-default btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+              維護其他<span class="caret"></span>
+            </button>
+                  
+            <ul class="dropdown-menu">
 
-          <li><g:link controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link></li>
+              <li><g:link controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link></li>
 
-          <li><g:link controller="part" action="create" params="['store.id': store.id]"><g:message code="part.create.label"/></g:link></li>
+              <li><g:link controller="part" action="create" params="['store.id': store.id]"><g:message code="part.create.label"/></g:link></li>
 
-          <li><g:link controller="product" action="create" params="['store.id': store.id]"><g:message code="product.create.label"/></g:link></li>
+              <li><g:link controller="product" action="create" params="['store.id': store.id]"><g:message code="product.create.label"/></g:link></li>
 
-        </ul>
-      </div>
+            </ul>
+          </div>
+        </g:if>
+      </sec:ifAnyGranted>
 
       <div class="btn-group" id="actionbar">
 
@@ -44,14 +51,17 @@
     </div>  
 
     <div class="hidden-xs">
-      <sec:ifAnyGranted roles="ROLE_OPERATOR">
+
          <div class="btn-group" id="actionbar">
-                     
-          <g:link  class="btn btn-primary" controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link>
+          <sec:ifAnyGranted roles="ROLE_OPERATOR">         
+            <g:if test="${store.id == currentUserStore?.id}">
+              <g:link  class="btn btn-primary" controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link>
 
-          <g:link  class="btn btn-primary" controller="product" action="create" params="['store.id': store.id]"><g:message code="product.create.label"/></g:link>
+              <g:link  class="btn btn-primary" controller="product" action="create" params="['store.id': store.id]"><g:message code="product.create.label"/></g:link>
 
-          <g:link  class="btn btn-primary" controller="part" action="create" params="['store.id': store.id]"><g:message code="part.create.label"/></g:link>
+              <g:link  class="btn btn-primary" controller="part" action="create" params="['store.id': store.id]"><g:message code="part.create.label"/></g:link>
+            </g:if>
+          </sec:ifAnyGranted>
 
           <g:link  class="btn btn-primary" controller="event" action="unfinListOfStore" params="['store.id': store.id]" >所有維修中</g:link>
 
@@ -59,7 +69,7 @@
 
 
         </div>
-      </sec:ifAnyGranted>
+
     </div>
 
 

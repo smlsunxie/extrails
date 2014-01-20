@@ -28,7 +28,20 @@
         <g:switchUser />
     </sec:ifAnyGranted>
 
-
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" >
+      導覽
+      <i>Tour</i>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <g:link controller="user" action="show" params="[tour: true]">
+          基本導覽
+        </g:link>
+      </li>
+    </ul>
+  </li>
+  
 
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#menu3">
@@ -59,11 +72,7 @@
             <g:message code="user.edit.label" />
           </g:link>
         </li>
-        <li>
-          <g:link controller="user" action="show" params="[tour: true]">
-            使用導覽
-          </g:link>
-        </li>
+
 
         <sec:ifAnyGranted roles="ROLE_ADMIN">
           <li>

@@ -43,24 +43,29 @@ class UserController {
 
 
     def save() {
-        def userInstance = User.findByUsername(params.username);
+        def userInstance 
+        if(SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR"))
+            userInstance = User.findByUsername(params.username);
         
         if(!userInstance) userInstance = new User(params)
 
 
 
-        if (!userInstance.save(flush: true)) {
+        if (!userInstance.validate()) {
             render(view: "create", model: [userInstance: userInstance,roles: Role.list()])
             return
         }
 
+        userInstance.save(flush: true)
         // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
         if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
             userService.modifyUserRole(userInstance, params)
 
         }else {
             def cusRole = Role.findByAuthority('ROLE_CUSTOMER')
-            UserRole.create(userInstance,cusRole,true)
+
+            if(!UserRole.get(userInstance?.id, cusRole.id))
+                UserRole.create(userInstance,cusRole,true)
         }
 
         if(params?.product?.id){
@@ -144,11 +149,12 @@ class UserController {
 
         userInstance.properties = params
 
-        if (!userInstance.save(flush: true)) {
+        if (!userInstance.validate()) {
             render(view: "edit", model: [userInstance: userInstance])
             return
         }
 
+        userInstance.save(flush: true)
         // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
         if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
             userService.modifyUserRole(userInstance, params)
@@ -207,6 +213,11 @@ class UserController {
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), userInstance])
             
             def currentUser = springSecurityService?.currentUser
+
+            if(!currentUser){
+                redirect(url: '/j_spring_security_logout')
+                return 
+            }
 
             if(userService.currentUserIsOperator()){
                 def store = currentUser.store

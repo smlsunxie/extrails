@@ -42,16 +42,14 @@ modules = {
         dependsOn 'jquery, tagit'   
         defaultBundle __bundleName
 
-        
-        
         resource url: 'bizstrap/rs-plugin/css/settings.css', attrs: [media: 'screen']
         resource url: 'bizstrap/css/rs-responsive.css', attrs: [media: 'screen']
-
         resource url: 'bizstrap/css/bootstrap.css'        
         resource url: 'bizstrap/css/custom.css'
-        resource url: 'bizstrap/css/styler.css'
         resource url: 'bizstrap/css/isotope.css'
-        resource url: 'bizstrap/css/color_scheme.css'
+
+        // resource url: 'bizstrap/css/styler.css'
+        // resource url: 'bizstrap/css/color_scheme.css'
 
         resource url: 'bizstrap/css/flexslider.css'
         resource url: 'bizstrap/css/jquery.fancybox.css?v=2.1.0', attrs: [media: 'screen']

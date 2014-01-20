@@ -23,6 +23,16 @@ class ExtraSecureFilters {
                             return false
                         }
                     }
+                    if(params.id.toLong() != currentUser?.store.id.toLong() && controllerName == "store" && isFilterActionName(actionName)){
+
+                        if(actionName=="show"){
+                            params.notAllow=true
+                        }else {
+                            flash.message = "只可維護自己的店家"
+                            redirect(action: "show", controller: "store", id: currentUser.store.id)
+                            return false
+                        }
+                    }                    
                 }
 
                 if(currentUser && userService.currentUserIsCustomer()){

@@ -14,7 +14,6 @@ class EventController {
     def userService
     def tagQueryService
 
-    @Secured(['ROLE_CUSTOMER'])
     def show() { 
 
         def event=Event.findById(params.id)
@@ -367,7 +366,6 @@ class EventController {
         ]
     }
 
-    @Secured(['ROLE_OPERATOR'])
     def endListOfStore(){
 
         params.max=12
@@ -388,7 +386,6 @@ class EventController {
         render view:'list', model: [events:results, title: "最近維修完成"]
     }
 
-    @Secured(['ROLE_OPERATOR'])
     def unfinListOfStore(){
 
         params.order="desc"
