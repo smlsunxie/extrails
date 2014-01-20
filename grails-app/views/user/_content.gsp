@@ -10,8 +10,11 @@
 	<tr>
 		<td class="small"><g:message code="user.title.label" /></td>
 		<td class="bold">${user.title}</td>
-
 	</tr> 
+	<tr>
+		<td class="small"><g:message code="user.email.label" /></td>
+		<td class="bold">${user.email}</td>
+	</tr> 	
 	<tr>
 		<td class="small"><g:message code="user.telphone.label" /></td>
 		<td class="bold">${user.telphone}</td>

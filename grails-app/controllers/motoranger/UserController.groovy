@@ -56,6 +56,12 @@ class UserController {
             return
         }
 
+        if(!springSecurityService.isLoggedIn() && !userInstance?.email ){
+            flash.message = "請輸入 email"
+            render(view: "create", model: [userInstance: userInstance,roles: Role.list()])
+            return            
+        }
+
         userInstance.save(flush: true)
         // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
         if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
