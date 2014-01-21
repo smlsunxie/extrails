@@ -23,7 +23,7 @@
 
       <div  class="col-sm-4 col-md-4" >
 
-        <uploader:uploader multiple="false" debug="true" id="fileupload" url="${[controller:'attachment', action:'save']}" params='[name:name]' >
+        <uploader:uploader multiple="false" debug="true" id="fileupload" url="${[controller:'attachment', action:'save']}" params='[name:name, domainName: domainName]' >
           <uploader:onComplete>
             displayList();
           </uploader:onComplete>
@@ -118,7 +118,7 @@
         // console.log("displayList function");
         // console.log("isMobile = "+ isMobile());
 
-        <g:remoteFunction controller='attachment' action="list" params="[name:name, mainImage: mainImage]" update="images" />
+        <g:remoteFunction controller='attachment' action="list" params="[name:name, mainImage: mainImage, domainName: domainName]" update="images" />
       }
 
       $(function() {

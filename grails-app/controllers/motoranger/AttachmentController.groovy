@@ -33,7 +33,11 @@ class AttachmentController {
         def result = [:]
         try {
             def inputStream = (InputStream)request.inputStream
-            def byteArrayOutputStream=imageModiService.sizeThumbnail(inputStream)
+            def byteArrayOutputStream
+
+            if(params?.domainName == "post")
+                byteArrayOutputStream = imageModiService.sizeNormal(inputStream)
+            else byteArrayOutputStream = imageModiService.sizeThumbnail(inputStream)
 
             def s3Location="${grailsApplication.config.grails.aws.root}/${params.name}/${params.qqfile}";
             ByteArrayInputStream inputStreamScaled = new ByteArrayInputStream(byteArrayOutputStream.toByteArray())

@@ -7,7 +7,7 @@ import org.imgscalr.*;
 class ImageModiService {
 
     def ByteArrayOutputStream sizeNormal(InputStream uploaded) {
-        return scale(uploaded, 640)
+        return scale(uploaded, 720)
     }
 
     def ByteArrayOutputStream sizeThumbnail(InputStream uploaded) {

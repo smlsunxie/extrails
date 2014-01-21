@@ -20,6 +20,8 @@ class PostController {
         def post = new Post(params)
         post.name = "post-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
+        post.type = PostType.NEWS
+
         // def products=Product.executeQuery(
         //    'from Product p where p not in ' +
         //        '(:products)',
@@ -73,7 +75,7 @@ class PostController {
 
     @Secured(['ROLE_ADMIN'])
     def edit(){
-        def post = Post.findByIdOrName(params.id, params.name)
+        def post = Post.get(params.id)
 
 
         [ 

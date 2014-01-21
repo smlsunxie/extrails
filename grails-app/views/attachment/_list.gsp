@@ -1,10 +1,10 @@
-
+${params.domainName}
         <table class="table" id="no-more-tables">
           <thead>
             <tr>
               <th width="10%"><g:message code="attachment.mainImage.label" /></th>
               <th width="20%"><g:message code="attachment.file.name" /></th>
-              <g:if test="${controllerName == 'post'}">
+              <g:if test="${params.domainName == 'post'}">
                 <th ><g:message code="attachment.file.link" /></th>
               </g:if>
               <th ></th>
@@ -24,7 +24,7 @@
                     <g:link action="show" params="[file: file.name, name:name]" target="_blank">${file.name}</g:link>
                   </td>
 
-                  <g:if test="${controllerName == 'post'}">
+                  <g:if test="${params.domainName == 'post'}">
                     <td data-title="${message(code: 'attachment.file.link"', default: 'link')}">
                       <g:if test="${['.jpg','.jpeg','.JPG','.JPEG','.gif','.GIF','.png','.PNG'].any{file.name.endsWith(it)}}">
                           ![${file.name}](${createLink(action:'show', params: [file: file.name, name:name])})

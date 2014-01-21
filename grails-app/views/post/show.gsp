@@ -7,14 +7,27 @@
 </head>
 <body>
 
+  <sec:ifAnyGranted roles="ROLE_ADMIN">
+    <div class="row" id="actionbar">
+
+      <div class="col-sm-12 col-md-12">           
+
+          <g:link  class="btn btn-primary"  action="edit" id="${post?.id}"><g:message code="default.button.edit.label" /></g:link>
+
+
+          <g:link  class="btn btn-danger" action="delete" id="${post?.id}"><g:message code="default.button.delete.label" /></g:link>
+
+      </div>
+
+    </div>
+  </sec:ifAnyGranted>
+
+
   <div class="row show-grid">
       <div class="col-sm-12 col-md-12">                        
           <div class="row show-grid clear-both">
               <div class="span9 main-column two-columns-right ">
 
-                  <sec:ifAllGranted roles="ROLE_ADMIN">
-                    <g:actionbar actionName="${actionName}" domain="${post}" />
-                  </sec:ifAllGranted>
 
                   <h1>${post?.title}</h1>
 
@@ -24,7 +37,7 @@
 
                   <div class="markdown-source">${post?.content?.encodeAsHTML()}</div>
 
-                  <disqus:comments bean="${post}" url="${request.scheme}://${request.serverName}${request.forwardURI}" />
+%{--                   <disqus:comments bean="${post}" url="${request.scheme}://${request.serverName}${request.forwardURI}" /> --}%
                   
                   <div class="post-item-panel">
                       <ul>
@@ -41,44 +54,12 @@
                           </li>
                       </ul>
                   </div>
-
-
-
               </div>
-              <div id="right-sidebar" class="col-sm-3 col-md-3 sidebar">
-                  <div class="sidebar-news-widget sidebar-block">
-                      <h2>最近的文章</h2>
-                      <ul>
-                          <g:each var='recentPost' in='${recentPosts}' >
-                            <li>
-                                <a class="photo" href="#">
-
-                                  <g:if test="${recentPost.mainImage}">
-                                    <g:img uri="attachment/show?name=${recentPost.name}&file=${recentPost.mainImage}" class="img-rounded" style="width:100px;" />
-                                  </g:if>
-                                  <g:elseif test="${recentPost?.product?.mainImage}">
-                                    <g:img uri="attachment/show?name=${recentPost.product.name}&file=${recentPost.product.mainImage}" class="img-rounded" style="width:100px;" />
-                                  </g:elseif>
-
-                                </a>
-                                <p>
-                                <g:link controller='post' action='show' id='${recentPost.id}' class="block-post-more">${recentPost.title}</g:link>
-                                </p>
-                                <p class="date"><i class="icon-calendar"></i><g:formatDate date="${recentPost?.lastUpdated}" type="date" style="MEDIUM" /></p>
-                            </li>
-                          </g:each>
-
-                      </ul>
-                  </div>
-
-
-              </div>
-
           </div>
       </div>
                                         
   </div>
   <hr>
-        
+  <g:render template="/component/recentPost" model="[recentPosts:recentPosts]"   />     
 </body>
 </html>
