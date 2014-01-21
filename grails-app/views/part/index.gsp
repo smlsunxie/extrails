@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta name="layout" content="bootstrap">
-<title>${product?.title}</title>
+<title><g:message code="part.index.label" /></title>
 </head>
 <body>
 

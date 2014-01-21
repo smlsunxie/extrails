@@ -3,7 +3,7 @@
 
 <html>
 <head>
-<title><g:message code="post.edit.title" defualt="修改文章"/></title>
+<title><g:message code="event.pickPartAddDetail.label" defualt="pickPartAddDetail" args="[event]"/></title>
 
 
 </head>
