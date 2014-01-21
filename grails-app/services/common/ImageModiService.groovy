@@ -11,7 +11,7 @@ class ImageModiService {
     }
 
     def ByteArrayOutputStream sizeThumbnail(InputStream uploaded) {
-        return scale(uploaded, 160)
+        return scale(uploaded, 240)
     }
 
     def private ByteArrayOutputStream scale (InputStream uploaded, Integer pix){

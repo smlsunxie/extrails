@@ -2,13 +2,16 @@
     <div  class="row" >
       <ul>
         <li>
-          如果您是使用手機操作，你可以照相之後點選下方 [上傳檔案]。
+          如果您是使用手機操作，你可以照相之後點選下方「上傳檔案」。
         </li>
         <li>
-          如果你是用電腦操作，你可點選 [上傳檔案] 選取照片，也可以拖拉多筆到 [上傳檔案] 按鈕上新增。
+          如果您是使用手機操作，並且使用 iOS7+ 以及 android 4.1+ 手機版 chrome，也可以點選「上傳檔案」直接拍照後上傳，注意：拍攝時請將手機橫置拍攝，使用說明請參考:<g:link action="show" controller="post" id="10">手機拍照上傳照片說明</g:link>。
+        </li>        
+        <li>
+          如果你是用電腦操作，你可點選「上傳檔案」選取照片，也可以拖拉多筆到「上傳檔案」按鈕上新增。
         </li>
         <li id="webcamCtrlDiv">
-          如果你有 Web Cam (電腦用攝影機)，點選瀏覽器上方允許使用相機後，按[攝影照相]會擷取影像， 確定沒問題在點選 [照片上傳]。
+          如果你有 Web Cam (電腦用攝影機)，點選瀏覽器上方允許使用相機後，按「攝影照相」會擷取影像， 確定沒問題在點選 「照片上傳」。
         </li>
         <li>
           最後，你可以挑選你上傳的其中之一個照片作為主要顯示。
@@ -20,7 +23,7 @@
 
       <div  class="col-sm-4 col-md-4" >
 
-        <uploader:uploader debug="true" id="fileupload" url="${[controller:'attachment', action:'save']}" params='[name:name]' >
+        <uploader:uploader multiple="false" debug="true" id="fileupload" url="${[controller:'attachment', action:'save']}" params='[name:name]' >
           <uploader:onComplete>
             displayList();
           </uploader:onComplete>
@@ -28,7 +31,7 @@
 
       </div>
 
-      <div id="webcamCtrlDiv"   >
+      <div id="webcamCtrlDiv"  class="hidden-xs hidden-sm"  >
         <div  class="col-sm-2 col-md-2" >
           <input type="button" style="height: 35px;" id="shapshot" name="shapshot" value="攝影照像">
         </div>
@@ -41,7 +44,7 @@
   </div>  
   <hr/>
 
-  <div id="webcamViewDiv" class="row" >
+  <div id="webcamViewDiv" class="row hidden-xs hidden-sm" >
     <video class="col-sm-6 col-md-6 thumbnail" autoplay></video>
     <canvas class="col-sm-6 col-md-6 thumbnail" height = '225'></canvas>    
   </div>
@@ -93,25 +96,28 @@
       $("#uploadShapshot").on('click', uploadShapshot);
 
       // Not showing vendor prefixes or code that works cross-browser.
-      navigator.webkitGetUserMedia({video: true}, function(stream) {
-        video.src = window.URL.createObjectURL(stream);
-        localMediaStream = stream;
-      },function(){ // success
-        console.log("false");
-        $("#webcamCtrlDiv").css( "display", "none" );
-        $("#webcamViewDiv").css( "display", "none" );
-        // $("#webcamCtrlDiv").css( "display", "block" );
-        // $("#webcamViewDiv").css( "display", "block" );
 
-      },
-      function(){
-        console.log("success");
-        $("#webcamCtrlDiv").css( "display", "block" );
-        $("#webcamViewDiv").css( "display", "block" );
-      });
+
+      if(navigator && navigator.webkitGetUserMedia){
+        navigator.webkitGetUserMedia({video: true}, function(stream) {
+          video.src = window.URL.createObjectURL(stream);
+          localMediaStream = stream;
+        },function(){ // success
+          $("#webcamCtrlDiv").css( "display", "none" );
+          $("#webcamViewDiv").css( "display", "none" );
+
+        },
+        function(){
+          $("#webcamCtrlDiv").css( "display", "block" );
+          $("#webcamViewDiv").css( "display", "block" );
+        });
+      }
 
 
       var displayList=function(){
+        // console.log("displayList function");
+        // console.log("isMobile = "+ isMobile());
+
         <g:remoteFunction controller='attachment' action="list" params="[name:name, mainImage: mainImage]" update="images" />
       }
 

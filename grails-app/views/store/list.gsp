@@ -33,13 +33,13 @@
           
             <td data-title="${message(code: 'store.title.label', default: 'title')}"><g:link action="show" id="${storeInstance.id}">${fieldValue(bean: storeInstance, field: "title")}</g:link>&nbsp</td>
             
-            <td data-title="${message(code: 'store.name.label', default: 'name')}">${fieldValue(bean: storeInstance, field: "address")}&nbsp</td>     
+            <td data-title="${message(code: 'store.address.label', default: 'address')}">${fieldValue(bean: storeInstance, field: "address")}&nbsp</td>     
             
-            <td data-title="${message(code: 'store.name.label', default: 'name')}">${fieldValue(bean: storeInstance, field: "mobile")}&nbsp</td>
+            <td data-title="${message(code: 'store.mobile.label', default: 'mobile')}">${fieldValue(bean: storeInstance, field: "mobile")}&nbsp</td>
           
-            <td data-title="${message(code: 'store.name.label', default: 'name')}">${fieldValue(bean: storeInstance, field: "telphone")}&nbsp</td>
+            <td data-title="${message(code: 'store.telphone.label', default: 'telphone')}">${fieldValue(bean: storeInstance, field: "telphone")}&nbsp</td>
 
-            <td data-title="${message(code: 'store.name.label', default: 'name')}">${fieldValue(bean: storeInstance, field: "description")}&nbsp</td>
+            <td data-title="${message(code: 'store.description.label', default: 'description')}">${fieldValue(bean: storeInstance, field: "description")}&nbsp</td>
           
           </tr>
         </g:each>

@@ -801,6 +801,10 @@ qq.UploadButton.prototype = {
                 
         input.setAttribute("type", "file");
         input.setAttribute("name", this._options.name);
+        input.setAttribute("capture", "camera");
+        input.setAttribute("accept", "image/*");
+
+
         
         qq.css(input, {
             position: 'absolute',

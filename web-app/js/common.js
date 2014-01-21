@@ -156,6 +156,19 @@ bootstrap_alert.warning = function(message) {
 
 };
 
+
+// var isMobile = function(){
+//   if (useragent.indexOf("iPhone") != -1 
+//     || useragent.indexOf("Android") != -1 
+//     || useragent.indexOf("Blackberry") != -1 
+//     || useragent.indexOf("Mobile") != -1 && useragent.indexOf("iPad") == -1) {
+//     return true;
+//   }else {
+//     return false;
+//   }
+
+// }
+
 (function () {
 
     //tags 處理

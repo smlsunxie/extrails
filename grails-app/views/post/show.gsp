@@ -12,7 +12,7 @@
           <div class="row show-grid clear-both">
               <div class="span9 main-column two-columns-right ">
 
-                  <sec:ifAllGranted roles="ROLE_MANERGER">
+                  <sec:ifAllGranted roles="ROLE_ADMIN">
                     <g:actionbar actionName="${actionName}" domain="${post}" />
                   </sec:ifAllGranted>
 
