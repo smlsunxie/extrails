@@ -33,7 +33,8 @@ class AttachmentController {
         def result = [:]
         try {
             def inputStream = (InputStream)request.inputStream
-            def byteArrayOutputStream
+            
+            ByteArrayOutputStream byteArrayOutputStream
 
             if(params?.domainName == "post")
                 byteArrayOutputStream = imageModiService.sizeNormal(inputStream)

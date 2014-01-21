@@ -1,4 +1,3 @@
-${params.domainName}
         <table class="table" id="no-more-tables">
           <thead>
             <tr>

@@ -25,38 +25,33 @@
 
   <div class="row show-grid">
       <div class="col-sm-12 col-md-12">                        
-          <div class="row show-grid clear-both">
-              <div class="span9 main-column two-columns-right ">
+        <h1>${post?.title}</h1>
 
+        <g:if test="${productShow}">
+          <g:render template="/product/content"  model="['product':productShow.product,'files':productShow.files]" />
+        </g:if>
 
-                  <h1>${post?.title}</h1>
-
-                  <g:if test="${productShow}">
-                    <g:render template="/product/content"  model="['product':productShow.product,'files':productShow.files]" />
-                  </g:if>
-
-                  <div class="markdown-source">${post?.content?.encodeAsHTML()}</div>
+        <div class="markdown-source">${post?.content?.encodeAsHTML()}</div>
 
 %{--                   <disqus:comments bean="${post}" url="${request.scheme}://${request.serverName}${request.forwardURI}" /> --}%
-                  
-                  <div class="post-item-panel">
-                      <ul>
-                          <li class="date">
-                            <p><i class="icon-calendar"></i><g:formatDate date="${post?.lastUpdated}" type="datetime" style="MEDIUM" /></p>
-                          </li>
-                          <li>
-                            <p><i class="icon-user"></i>by ${post.creator}</p>
-                          </li>
-                          <li>
-                            <p>
-                              <g:render template="/tag/links" model="['tags':post.tags]" />
-                            </p>
-                          </li>
-                      </ul>
-                  </div>
-              </div>
-          </div>
-      </div>
+        
+        <div class="post-item-panel">
+            <ul>
+                <li class="date">
+                  <p><i class="icon-calendar"></i><g:formatDate date="${post?.lastUpdated}" type="datetime" style="MEDIUM" /></p>
+                </li>
+                <li>
+                  <p><i class="icon-user"></i>by ${post.creator}</p>
+                </li>
+%{--                 <li>
+                  <p>
+                    <g:render template="/tag/links" model="['tags':post.tags]" />
+                  </p>
+                </li> --}%
+            </ul>
+        </div>
+    </div>
+
                                         
   </div>
   <hr>

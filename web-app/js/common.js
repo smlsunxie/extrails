@@ -182,6 +182,10 @@ bootstrap_alert.warning = function(message) {
             var _this = $(this);
             _this.html(converter.makeHtml(_this.text()));
             _this.show();
+
+            $(".markdown-source img").each(function(){
+              $(this).addClass('img-responsive');
+            });
         });
         
         //Markdown 編輯處理

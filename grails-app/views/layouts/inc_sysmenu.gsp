@@ -70,7 +70,7 @@
   </g:link>
 </li>
 
-<li class="${controllerName=='post' && actionName=='create' ? 'active':''} single">
+<li class="${controllerName=='post' ? 'active':''} single">
   <g:link controller="post" action="portfolio">
     文章
     <i>POST</i>
