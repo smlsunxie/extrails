@@ -59,12 +59,6 @@
     </g:link>
   </li>
 
-  <li class="${controllerName=='post' && actionName=='create' ? 'active':''} single">
-    <g:link controller="post" action="portfolio">
-      文章
-      <i>POST</i>
-    </g:link>
-  </li>
 
 </sec:ifAnyGranted>
 
@@ -73,6 +67,13 @@
   <g:link controller="store" action="list">
     車行清單
     <i>Stores</i>
+  </g:link>
+</li>
+
+<li class="${controllerName=='post' && actionName=='create' ? 'active':''} single">
+  <g:link controller="post" action="portfolio">
+    文章
+    <i>POST</i>
   </g:link>
 </li>
 

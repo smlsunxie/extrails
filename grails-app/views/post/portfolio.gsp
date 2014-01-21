@@ -26,31 +26,26 @@
 
     <!-- START PORTFOLIO GRID -->                
         <div class="portfolio-grid-1 main-block">
-            <div id="portfolio" class="row">                        
+            <div id="portfolio" class="row show-grid">                   
 
                 <g:each var="post" in="${posts}">
                     <div class="col-sm-6 col-md-6 large hp-wrapper element ${post.tags.join(' ')}">        
- 
-
                         <g:link controller="post" action="show" id="${post.id}"><g:img alt="" dir='img' file="460_arrow_2_hover.png" class="hover-shade" />
                         </g:link>
-                        <a href="#" style="width: 460px; height: 340px;" class="top-link">
-                            
-                            <g:render template="mainImg" model="[post:post]" />
+                        
+                         <g:link controller="post" action="show" id="${post.id}"  class="top-link">    
+                            <g:if test="${post.mainImage}">
+                              <g:img uri="/attachment/show?name=${post.name}&file=${post.mainImage}" style="width: 460px; height: 340px;"/>
+                            </g:if>
+                            <g:elseif test="${post?.product?.mainImage}">
+                              <g:img uri="/attachment/show?name=${post.product.name}&file=${post.product.mainImage}" style="width: 460px; height: 340px;" />
+                            </g:elseif>
+                        </g:link>
 
-
-                        </a>
-                        <div class="top-block">
-                            <g:link controller="post" action="show" id="${post.id}">${post.title}</g:link>
-                            <p>
-                                <g:render template="/tag/links" model="['tags':post.tags]" />
-                            </p>
-
-                        </div>  
                         <div class="bottom-block">
+                            <g:link controller="post" action="show" id="${post.id}">${post.title}</g:link>
                             <p>${post.description}</p>
                         </div>
-
                     </div>
                 </g:each>
             </div>
