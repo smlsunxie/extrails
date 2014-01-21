@@ -5,7 +5,7 @@
 <meta name="layout" content="bootstrap">
 
 <g:set var="entityName" value="${message(code: 'part.label', default: '文章')}" />
-<title><g:message code="default.list.label" args="[entityName]" /></title>
+<title>${eventDetail}</title>
 
 
 </head>

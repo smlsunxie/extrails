@@ -76,11 +76,13 @@
   </g:link>
 </li>
 
-<li class="${controllerName=='home' && actionName=='question' ? 'active':''} single">
-  <g:link controller="home" action="question">
-    意見回饋
-    <i>suggest</i>
-  </g:link>
-</li>
+<sec:ifNotGranted roles="ROLE_ADMIN">
+  <li class="${controllerName=='home' && actionName=='question' ? 'active':''} single">
+    <g:link controller="home" action="question">
+      意見回饋
+      <i>suggest</i>
+    </g:link>
+  </li>
+</sec:ifNotGranted>
 
 

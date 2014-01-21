@@ -2,7 +2,7 @@ package motoranger
 
 
 public enum TagGroup {
+	CUSTOMIZED,
     RECENT,
-    CUSTOMIZED,
     UNIVERSAL
 }

@@ -45,7 +45,7 @@ class Event {
   }
 
   public String toString(){
-  	"維修 "+product+ "記錄"
+  	"摩托 "+product+ " 維修記錄"
   }
 
 

@@ -55,7 +55,7 @@ class EventDetail {
 	}
 
 	public String toString(){
-		part
+		"維修細項 "+part
 	}
 
 
