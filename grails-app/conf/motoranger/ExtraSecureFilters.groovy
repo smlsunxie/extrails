@@ -12,17 +12,29 @@ class ExtraSecureFilters {
             before = {
 
 
+
                 def currentUser = springSecurityService?.currentUser
                 if(currentUser){
                     params.currentUserStoreId=currentUser?.store?.id
                     params.currentUserId=currentUser?.id
                 }
 
-                
+
                 // 店家防護
                 if(currentUser && userService.currentUserIsOperator()){
                     
                     def notAllow = false
+    
+                    if(controllerName=="login" && actionName=="swithUser"){
+                        def user = User.findByUsername(params.username)
+
+                        if(!user?.store || user.store.id != params.currentUserStoreId){
+                            notAllow = true
+                            flash.message = "無法切換到不屬於「${currentUser.store}」的使用者"
+
+                        }
+
+                    }
 
 
                     //User
@@ -50,7 +62,7 @@ class ExtraSecureFilters {
 
                     if(notAllow){
                         if(actionName != "show"){
-                            redirect(action: "show", controller: "store", id: currentUser.id)
+                            redirect(action: "show", controller: "store", id: currentUser.store.id)
                             return false
                         }
                     }

@@ -12,7 +12,7 @@
               <sec:ifAnyGranted roles="ROLE_OPERATOR">
 
                 <g:form action="query" controller="search" class="form-inline pull-right"> 
-                  <input type="text" name="q" class="form-control" placeholder="機車或使用者" value="${params.q}">
+                  <input type="text" name="q" class="form-control" placeholder="車牌或使用者" value="${params.q}">
                 </g:form>
               </sec:ifAnyGranted>
 

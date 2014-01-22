@@ -7,8 +7,8 @@
           <ul class="dropdown-menu">
             <g:each in="${operators}" var="operator">
               <li>
-                <g:link url="${request.contextPath}/j_spring_security_switch_user?j_username=${operator.username}" >
-                    ${operator?.title}
+                <g:link controller="login" action="swithUser" params="[username: operator.username]" >
+                    ${operator}
                 </g:link>
               </li>
 

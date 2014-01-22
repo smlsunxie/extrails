@@ -13,6 +13,8 @@ import org.springframework.security.authentication.LockedException
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 import org.springframework.security.web.WebAttributes
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import grails.plugin.springsecurity.annotation.Secured
+
 
 class LoginController {
 
@@ -143,5 +145,13 @@ class LoginController {
         session.tourStep=user.tourStep
 
         redirect controller: "home", action: "index"
+	}
+
+
+	@Secured(['ROLE_OPERATOR'])
+	def swithUser(){
+
+		redirect url: "${request.contextPath}/j_spring_security_switch_user?j_username=${params.username}"
+
 	}
 }
