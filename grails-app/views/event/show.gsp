@@ -14,7 +14,7 @@
 
     <div class="row" id="actionbar">
 
-      <g:if test="${params?.currentUserStoreId == event?.store?.id || params?.currentUserId == event?.user?.id}">
+      <g:if test="${currentUserIsEventOwner[event.id]}">
         <sec:ifAnyGranted roles="ROLE_CUSTOMER">
           <div class="col-sm-3 col-md-3">
             <g:link class="btn btn-primary btn-large "
@@ -30,9 +30,7 @@
             </g:link> 
           </div>
         </sec:ifAnyGranted>
-      </g:if>
 
-      <g:if test="${params?.currentUserStoreId == event?.store?.id}">
         <sec:ifAnyGranted roles="ROLE_OPERATOR">
           <div class="col-sm-3 col-md-3">
             <g:render template="/event/updateReceivedMoney" model="[event: event]" />

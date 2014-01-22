@@ -4,12 +4,7 @@
       <td class="small"><g:message code="product.name.label" /></td>
 
       <td class="bold"><g:link action="show" controller="product" id="${product.id}">
-        <sec:ifNotLoggedIn>
-          ${product.name.replace(product.name.substring(2,4),"**")}
-        </sec:ifNotLoggedIn>
-        <sec:ifAnyGranted roles="ROLE_CUSTOMER">
-          ${params?.currentUserStoreId || params?.currentUserId == product?.user.id ? product.name : product.name.replace(product.name.substring(2,4),"**")}
-        </sec:ifAnyGranted>
+        ${product.name}
       </g:link></td>
 
     </tr>

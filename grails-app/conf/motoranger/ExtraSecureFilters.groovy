@@ -60,6 +60,23 @@ class ExtraSecureFilters {
 
                     }
 
+                    //store
+                    if(controllerName == "event" && isFilterActionName(actionName) 
+                        && params?.id)
+                    {
+                        def event = Event.findById(params.id)
+
+                        if(event?.user == currentUser || event?.store == currentUser.store){
+
+
+                        }else {
+                            notAllow=true
+                            flash.message = "只可維護自己店家的維修事件" 
+                        }
+                        
+
+                    }
+
                     if(notAllow){
                         if(actionName != "show"){
                             redirect(action: "show", controller: "store", id: currentUser.store.id)
@@ -165,6 +182,40 @@ class ExtraSecureFilters {
 
 
             }
+
+            after = { Map model ->
+                def currentUser = springSecurityService?.currentUser
+
+
+                if(actionName == "show" || actionName == "index" || actionName == "pickPartAddDetail"){
+                    if(!model)model=[:]
+                    model.currentUserIsEventOwner=[:]
+                    model.eventDetailTotalPrice=[:]                    
+                    if(model?.part){
+                        setModelPartCostExtraCondiction(model.part, model)                   
+                    }
+
+                    if(model?.product){
+                        setModelProductNameExtraCondiction(model.product)
+                        setModelEventExtraCondiction(model.product?.events, model, true)
+                    }
+                    if(model?.unfinEvents){
+                        setModelEventExtraCondiction(model.unfinEvents, model)
+                    }
+                    if(model?.endEvents){
+                        setModelEventExtraCondiction(model.endEvents, model)
+                    }
+                    if(model?.eventDetail){
+                        setModelEventExtraCondiction([model.eventDetail.head], model)
+                        setModelPartCostExtraCondiction(model.eventDetail.part, model)
+                    }
+
+                    if(model?.event){
+                        setModelEventExtraCondiction([model.event], model)
+                    }
+                }
+
+            }
         }
 
     }
@@ -180,12 +231,65 @@ class ExtraSecureFilters {
 
     }
 
-    private isUserNotOwnProduct(userId, productId){
-        if(Product.findById(productId).user.id == userId){
-            return false
-        }else {
-            return true            
+    private setModelPartCostExtraCondiction(part, model){
+
+        def currentUser = springSecurityService?.currentUser
+        def isCustomerAndPartOwner = (userService.currentUserIsCustomer()
+            && currentUser.id == part?.user.id)
+        def isManergerAndPartOwner = (SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER")
+            && currentUser.store.id == part?.store.id)
+
+        println "isCustomerAndPartOwner = ${isCustomerAndPartOwner}"
+        println "isManergerAndPartOwner = ${isManergerAndPartOwner}"
+
+        model.userIsPartOwner = (isCustomerAndPartOwner 
+            || isManergerAndPartOwner 
+            || SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN"))
+
+        if(!model.userIsPartOwner){
+            part.cost = null
+        }  
+
+    }
+
+    private setModelProductNameExtraCondiction(product){
+
+        def isCustomerButNotProductOwner = (userService.currentUserIsCustomer() && currentUser.id != product?.user.id)
+        def isNotLoggedIn = !springSecurityService.isLoggedIn() 
+
+
+        if( isNotLoggedIn || isCustomerButNotProductOwner){
+            product.name = product.name.replace(product.name.substring(2,4),"**")
+            product.user = null
         }
 
+
+    }
+    private setModelEventExtraCondiction(events, model, withDetail = false){
+        def currentUser = springSecurityService?.currentUser
+
+        events.each(){ event ->
+            def userStoreOwnEvent = (currentUser?.store && currentUser?.store == event?.store)
+            def userOwnEvent = (currentUser && currentUser == event?.user)
+            if(userStoreOwnEvent || userOwnEvent){
+                model.currentUserIsEventOwner[event.id]=true
+
+                if(withDetail){
+                    event.details.each(){ detail ->
+                        model.eventDetailTotalPrice[detail.id] = "${detail?.price}*${detail?.qty}=${detail?.price*detail?.qty}"
+                    }
+                }
+
+            }else{
+                model.currentUserIsEventOwner[event.id]=false
+                if(withDetail){
+                    event.details.each(){ detail ->
+                        model.eventDetailTotalPrice[detail.id] = "****"
+                    }
+                }
+            }
+
+            setModelProductNameExtraCondiction(event.product)
+        }
     }
 }

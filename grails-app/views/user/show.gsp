@@ -54,16 +54,20 @@
       </sec:ifAnyGranted>
 
       <sec:ifAnyGranted roles="ROLE_MANERGER">
-        <g:link  class="btn btn-primary" controller="user" action="addToStore" params="['store.id': params?.currentUserStoreId]" id="${user.id}" >指定為作業員</g:link>
+        <g:if test="${!user?.store}">
+          <g:link  class="btn btn-primary" controller="user" action="addToStore" params="['store.id': params?.currentUserStoreId]" id="${user.id}" >指定為作業員</g:link>
+        </g:if>
       </sec:ifAnyGranted>
 
       <sec:ifAnyGranted roles="ROLE_CUSTOMER">  
         <g:link  class="btn btn-primary" controller="product" action="create" params="['user.id': user.id]">新增產品</g:link>
       </sec:ifAnyGranted>
 
-      <sec:ifAnyGranted roles="ROLE_CUSTOMER">          
-        <g:link  class="btn btn-primary" controller="part" action="create" params="['user.id': user.id]">新增維修項目</g:link>
-      </sec:ifAnyGranted>
+      <sec:ifNotGranted roles="ROLE_OPERATOR, ROLE_MANERGER">  
+        <sec:ifAnyGranted roles="ROLE_CUSTOMER">          
+          <g:link  class="btn btn-primary" controller="part" action="create" params="['user.id': user.id]">新增維修項目</g:link>
+        </sec:ifAnyGranted>
+      </sec:ifNotGranted>
 
       <g:link  class="btn btn-danger" action="delete" id="${user?.id}"><g:message code="default.button.delete.label" /></g:link>
 

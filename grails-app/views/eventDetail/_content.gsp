@@ -17,17 +17,14 @@
   </tr>
 
 
-  <g:if test="${params?.currentUserStoreId || params?.currentUserId == eventDetail.head?.user.id}">
+  <g:if test="${currentUserIsEventOwner[eventDetail.head.id]}">
     <sec:ifAnyGranted roles="ROLE_CUSTOMER">
       <tr>
         <td class="small"><g:message code="eventDetail.price.label" /></td>
         <td class="bold">${eventDetail.price}</td>
       </tr>
     </sec:ifAnyGranted>
-  </g:if>
 
-
-  <g:if test="${params?.currentUserStoreId == eventDetail.head?.store.id}">
     <sec:ifAnyGranted roles="ROLE_OPERATOR">
       <tr>
         <td class="small"><g:message code="eventDetail.cost.label" /></td>

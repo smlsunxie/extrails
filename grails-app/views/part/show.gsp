@@ -6,7 +6,7 @@
 <title>${part?.title}</title>
 </head>
 <body>
-  <sec:ifAllGranted roles="ROLE_CUSTOMER">
+  <g:if test="${userIsPartOwner}">
     <div class="row" id="actionbar">
 
       <div class="col-sm-12 col-md-12">           
@@ -18,7 +18,7 @@
       </div>
 
     </div>
-  </sec:ifAllGranted>
+  </g:if>
   <div class="row">
 
     <div class="contact-info col-sm-4 col-md-4">

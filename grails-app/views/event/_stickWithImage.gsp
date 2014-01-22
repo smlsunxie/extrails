@@ -9,7 +9,7 @@
   <g:render template="/event/stick" model="['event': event, 'stickName': stickName]" />
   
 
-  <g:if test="${params?.currentUserStoreId == event?.store?.id}">
+  <g:if test="${currentUserIsEventOwner[event.id]}">
     <sec:ifAnyGranted roles="ROLE_OPERATOR">
       <div class="row stick_outside">
 
