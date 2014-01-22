@@ -13,7 +13,7 @@ class UserController {
     def userService
 
 
-
+    @Secured(['ROLE_ADMIN'])
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         [userInstanceList: User.list(params), userInstanceTotal: User.count()]
@@ -32,26 +32,24 @@ class UserController {
             user.password = product?.name 
         }
 
-        println "springSecurityService.isLoggedIn() = "+springSecurityService.isLoggedIn()
-        
 
         if(springSecurityService.isLoggedIn() && SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR"))
             user.enabled = false
         else user.enabled = true
 
-        println "user.enabled =" + user.enabled 
-
 
         [userInstance: user,roles: Role.list(),storeList:storeList()]
     }
 
-
+    @Transactional
     def save() {
         def userInstance 
         if(SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR"))
             userInstance = User.findByUsername(params.username);
         
         if(!userInstance) userInstance = new User(params)
+
+
 
 
 
@@ -66,6 +64,14 @@ class UserController {
             return            
         }
 
+        if(userInstance.store){
+
+            Store store = userInstance.store
+
+            store.addToUsers(userInstance).save()
+        }
+
+
         userInstance.save(flush: true)
         // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
         if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
@@ -78,13 +84,17 @@ class UserController {
                 UserRole.create(userInstance,cusRole,true)
         }
 
+
+        flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance])
+
         if(params?.product?.id){
             userService.addProduct(userInstance, params)
             redirect(controller: "product", action: "show", id: params?.product?.id)
             return
+        }else if(params?.store?.id){
+            redirect(action: "addToStore", id: userInstance.id, params:['store.id': params.store.id])
+            return
         }
-
-        flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance])
 
         if(springSecurityService.isLoggedIn()){
             redirect(action: "show", id: userInstance.id)
@@ -242,6 +252,47 @@ class UserController {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), userInstance])
             redirect(action: "show", id: id)
         }
+    }
+
+    def addToStore(){
+        def user = User.get(params.id)
+        def store = Store.get(params.store.id)
+
+        if(user?.store && user.store != store){
+            flash.message = "此使用者已屬於「user.store」"
+            redirect(action: "show", id: params.id)
+            return
+        }
+
+
+        def admRole = Role.findByAuthority('ROLE_ADMIN')
+        def mngRole = Role.findByAuthority('ROLE_MANERGER')
+
+        if(UserRole.get(user.id, admRole.id) || UserRole.get(user.id, mngRole.id)){
+            flash.message = "不可指派「${admRole}」或「${mngRole}」為作業員"
+            redirect(action: "show", id: params.id)
+            return    
+        }
+
+        store.addToUsers(user).save()
+
+        def cusRole = Role.findByAuthority('ROLE_CUSTOMER')
+        def opRole = Role.findByAuthority('ROLE_OPERATOR')
+
+        if(!UserRole.get(user?.id, cusRole.id))
+            UserRole.create(user,cusRole,true)
+
+        if(!UserRole.get(user?.id, opRole.id))
+                UserRole.create(user,opRole,true)
+
+        user.enabled=true
+
+        user.save()
+
+        flash.message="${flash?.message ? flash.message: ''}:指定「${user}」為「${store}」作業員"
+
+        redirect action: "show", id: user.id
+
     }
 
     private def storeList(){

@@ -97,7 +97,8 @@ class UserTagLib {
 
         def nowActive = ""
 
-        if(controllerName=='product' || controllerName=='event' || controllerName=='eventDetail' || controllerName=='user'){
+        if(controllerName=='product' || controllerName=='event' || controllerName=='eventDetail' 
+            || (controllerName=='user' && actionName != 'list')){
             
             def title = message(code:"${controllerName}.label")
             nowActive = """

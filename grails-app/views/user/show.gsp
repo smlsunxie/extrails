@@ -53,6 +53,10 @@
         <g:link  class="btn btn-primary" controller="store" action="create" params="['user.id': user.id]">新增店家</g:link>
       </sec:ifAnyGranted>
 
+      <sec:ifAnyGranted roles="ROLE_MANERGER">
+        <g:link  class="btn btn-primary" controller="user" action="addToStore" params="['store.id': params?.currentUserStoreId]" id="${user.id}" >指定為作業員</g:link>
+      </sec:ifAnyGranted>
+
       <sec:ifAnyGranted roles="ROLE_CUSTOMER">  
         <g:link  class="btn btn-primary" controller="product" action="create" params="['user.id': user.id]">新增產品</g:link>
       </sec:ifAnyGranted>

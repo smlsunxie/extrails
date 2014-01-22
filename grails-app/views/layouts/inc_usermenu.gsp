@@ -53,6 +53,11 @@
 
       <sec:ifSwitched>
         <li>
+          <g:link controller="user" action="show">
+            <g:message code="user.show.label" />
+          </g:link>
+        </li>      
+        <li>
           <g:link url='${request.contextPath}/j_spring_security_exit_user' >
               恢復原使用者
           </g:link>

@@ -109,6 +109,33 @@
 
 </div>
 
+<sec:ifAnyGranted roles="ROLE_MANERGER, ROLE_ADMIN">
+  <div class="form-group">
+    
+    <label for="inputEmail3" class="col-sm-2 control-label">
+      <g:message code="user.store.label" default="Store" />
+    </label>
+    <div class="col-sm-10">
+      <g:select id="store" name="store.id" from="${storeList}" optionKey="id" value="${userInstance?.store?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
+    </div>
+
+  </div>
+</sec:ifAnyGranted>
+
+<sec:ifNotGranted roles="ROLE_MANERGER, ROLE_ADMIN">
+  <div hidden class="form-group">
+    
+    <label for="inputEmail3" class="col-sm-2 control-label">
+      <g:message code="user.store.label" default="Store" />
+    </label>
+    <div class="col-sm-10">
+      <g:select id="store" name="store.id" from="${storeList}" optionKey="id" value="${userInstance?.store?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
+    </div>
+
+  </div>
+</sec:ifNotGranted>
+
+
 
 <sec:ifAnyGranted roles="ROLE_ADMIN">
 

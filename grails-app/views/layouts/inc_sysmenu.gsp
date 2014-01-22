@@ -45,14 +45,14 @@
 
 <sec:ifAnyGranted roles="ROLE_ADMIN">
   
-  <li class="single">
+  <li class="${controllerName=='brand' ? 'active':''} single">
     <g:link controller="brand">
       <g:message code="brand.label" />
       <i>brand</i>
     </g:link>
   </li>
 
-  <li class="single">
+  <li class="${controllerName=='user' && actionName=='list' ? 'active':''} single">
     <g:link controller="user" action="list">
       <g:message code="user.label" />
       <i>user</i>

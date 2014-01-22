@@ -39,20 +39,20 @@ class ExtraSecureFilters {
 
                     //User
                     if(controllerName == "user" && isFilterActionName(actionName) 
-                        && params.id.toLong() != currentUser.id.toLong())
+                        && params?.id && params.id.toLong() != currentUser.id.toLong())
                     {
 
                         def user = User.get(params.id)
 
-                        if(user.enabled){
-                            flash.message = "已經啟用的使用者不可維護"
+                        if(user.store != currentUser.store && user.enabled){
+                            flash.message = "已經啟用或不屬於「${currentUser.store}」的使用者不可維護"
                             notAllow=true
                         }
                     }
 
                     //store
                     if(controllerName == "store" && isFilterActionName(actionName) 
-                        && params.id.toLong() != currentUser?.store.id.toLong())
+                        && params?.id && params.id.toLong() != currentUser?.store.id.toLong())
                     {
 
                         notAllow=true
