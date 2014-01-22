@@ -1,4 +1,5 @@
 package motoranger
+import grails.plugin.springsecurity.SpringSecurityUtils
 
 class ExtraSecureFilters {
 
@@ -7,39 +8,61 @@ class ExtraSecureFilters {
 
     def filters = {
 
-
         user(controller:'*', action:'*') {
             before = {
-                def currentUser = springSecurityService.currentUser
 
-                if(currentUser && userService.currentUserIsOperator() && params?.id && actionName != "show"){
-                    if(params.id.toLong() != currentUser.id.toLong() && controllerName == "user" && isFilterActionName(actionName)){
+
+                def currentUser = springSecurityService?.currentUser
+                if(currentUser){
+                    params.currentUserStoreId=currentUser?.store?.id
+                    params.currentUserId=currentUser?.id
+                }
+
+                
+                // 店家防護
+                if(currentUser && userService.currentUserIsOperator()){
+                    
+                    def notAllow = false
+
+
+                    //User
+                    if(controllerName == "user" && isFilterActionName(actionName) 
+                        && params.id.toLong() != currentUser.id.toLong())
+                    {
 
                         def user = User.get(params.id)
 
                         if(user.enabled){
                             flash.message = "已經啟用的使用者不可維護"
-                            redirect(action: "show", controller: "user", id: user.id)
+                            notAllow=true
+                        }
+                    }
+
+                    //store
+                    if(controllerName == "store" && isFilterActionName(actionName) 
+                        && params.id.toLong() != currentUser?.store.id.toLong())
+                    {
+
+                        notAllow=true
+                        flash.message = "只可維護自己的店家"
+
+                    }
+
+                    if(notAllow){
+                        if(actionName != "show"){
+                            redirect(action: "show", controller: "store", id: currentUser.id)
                             return false
                         }
                     }
-                    if(params.id.toLong() != currentUser?.store.id.toLong() && controllerName == "store" && isFilterActionName(actionName)){
-
-                        if(actionName=="show"){
-                            params.notAllow=true
-                        }else {
-                            flash.message = "只可維護自己的店家"
-                            redirect(action: "show", controller: "store", id: currentUser.store.id)
-                            return false
-                        }
-                    }                    
                 }
 
                 if(currentUser && userService.currentUserIsCustomer()){
                     def notAllow = false
 
                     if(controllerName == "event" && actionName == "create" && params?.product?.id){
-                        if(isUserNotOwnProduct(currentUser.id, params?.product?.id)){
+
+                        def product = Product.findById(params?.product?.id)
+                        if(!product?.user || product.user.id !=  currentUser.id){
                             flash.message = "沒有權限建立不屬於自己產品的維修事件"
                             notAllow = true
 
@@ -48,9 +71,9 @@ class ExtraSecureFilters {
 
                     if(controllerName == "eventDetail" && actionName == "create" && params?.head?.id){
 
-                        def productId = Event.findById(params.head.id).product.id
+                        def product = Event.findById(params.head.id).product
 
-                        if(isUserNotOwnProduct(currentUser.id, productId)){
+                        if(!product?.user || product.user.id !=  currentUser.id){
                             flash.message = "沒有權限建立不屬於自己產品的維修事件"
                             notAllow = true
 
@@ -72,7 +95,9 @@ class ExtraSecureFilters {
 
                         if(controllerName == "product" && isFilterActionName(actionName)){
 
-                            if(Product.findById(params.id).user.id != currentUser.id){
+                            def product = Product.findById(params.id)
+
+                            if(!product?.user || product.user.id !=  currentUser.id){
                                 flash.message = "沒有權限維護不屬於自己的產品"
                                 notAllow = true
 
@@ -82,9 +107,9 @@ class ExtraSecureFilters {
 
                         if(controllerName == "event" && isFilterActionName(actionName)){
 
-                            def productId = Event.findById(params.id).product.id
+                            def product = Event.findById(params.id).product
 
-                            if(isUserNotOwnProduct(currentUser.id, productId)){
+                            if(!product?.user || product.user.id !=  currentUser.id){
                                 flash.message = "沒有權限維護不屬於自己產品的維修事件"
                                 notAllow = true
 
@@ -94,9 +119,9 @@ class ExtraSecureFilters {
 
                         if(controllerName == "eventDetail" && isFilterActionName(actionName)){
 
-                            def productId = EventDetail.findById(params.id).head.product.id
+                            def product = EventDetail.findById(params.id).head.product
 
-                            if(isUserNotOwnProduct(currentUser.id, productId)){
+                            if(!product?.user || product.user.id !=  currentUser.id){
 
                                 flash.message = "沒有權限維護不屬於自己產品的維修事件"
                                 notAllow = true
@@ -120,16 +145,8 @@ class ExtraSecureFilters {
 
                     if(notAllow){
 
-                        if(actionName == "show"){
-                            flash.message = "不是屬於您的資料，檢視受限"
-                            params.notAllow=true
-
-                        }else{
-                            redirect(action: "show", controller: "user", id: currentUser.id)
-                            return false
-                        }
-                    }else {
-
+                        redirect(action: "show", controller: "user", id: currentUser.id)
+                        return false
                     }
 
                 }
@@ -141,8 +158,7 @@ class ExtraSecureFilters {
     }
 
     private isFilterActionName(actionName){
-        if((actionName == "show" 
-            || actionName == "edit"
+        if((actionName == "edit"
             || actionName == "update"
             || actionName == "save"
             || actionName == "delete"

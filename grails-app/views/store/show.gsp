@@ -54,7 +54,7 @@
 
          <div class="btn-group" id="actionbar">
           <sec:ifAnyGranted roles="ROLE_OPERATOR">         
-            <g:if test="${store.id == currentUserStore?.id}">
+            <g:if test="${store.id == currentUserStore?.id || currentUserIsAdmin}">
               <g:link  class="btn btn-primary" controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link>
 
               <g:link  class="btn btn-primary" controller="product" action="create" params="['store.id': store.id]"><g:message code="product.create.label"/></g:link>

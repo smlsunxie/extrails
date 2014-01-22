@@ -32,10 +32,14 @@ class UserController {
             user.password = product?.name 
         }
 
+        println "springSecurityService.isLoggedIn() = "+springSecurityService.isLoggedIn()
+        
 
-        if(springSecurityService.isLoggedIn() && userService.currentUserIsOperator())
+        if(springSecurityService.isLoggedIn() && SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR"))
             user.enabled = false
         else user.enabled = true
+
+        println "user.enabled =" + user.enabled 
 
 
         [userInstance: user,roles: Role.list(),storeList:storeList()]
@@ -225,7 +229,7 @@ class UserController {
                 return 
             }
 
-            if(userService.currentUserIsOperator()){
+            if(SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR")){
                 def store = currentUser.store
                 redirect(action: "show", controller: "store", id: store.id)
             }else if(userService.currentUserIsCustomer()){
@@ -242,13 +246,14 @@ class UserController {
 
     private def storeList(){
         def storeList=[]
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER") 
+        if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
+            storeList=Store.list()
+        }else if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER") 
             && springSecurityService?.currentUser?.store){  
             
             storeList << springSecurityService.currentUser.store
         
-        }else if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN"))
-            storeList=Store.list()
+        }
 
         log.debug storeList
         return storeList

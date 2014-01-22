@@ -11,7 +11,7 @@
 </head>
 <body>
 
-  <g:if test="${!params?.notAllow}">
+  <g:if test="${params?.currentUserStoreId == eventDetail.head?.store.id || params?.currentUserId == eventDetail.head?.user.id}">
     <sec:ifAnyGranted roles="ROLE_CUSTOMER">
 
       <div class="row" id="actionbar">

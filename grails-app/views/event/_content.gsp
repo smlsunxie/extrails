@@ -23,7 +23,7 @@
       </g:if>
     </sec:ifAnyGranted>
 
-    <g:if test="${!params?.notAllow}">
+    <g:if test="${params?.currentUserStoreId == event?.store?.id || params?.currentUserId == event?.user?.id}">
 
       <sec:ifAnyGranted roles="ROLE_CUSTOMER">
         <tr>
@@ -33,6 +33,15 @@
       </sec:ifAnyGranted>
 
     </g:if>
+
+    <tr>
+        <td class="small"><g:message code="event.store.label" /></td>
+        <td class="bold">
+          <g:link controller="store" action="show" id="${event?.store.id}">${event?.store}</g:link>
+
+        </td>
+    </tr>
+
     
     <tr>
         <td class="small"><g:message code="default.dateCreated.label" /></td>

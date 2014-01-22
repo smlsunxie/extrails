@@ -10,41 +10,48 @@
 </head>
 <body>
 
-  <sec:ifAnyGranted roles="ROLE_CUSTOMER">
+
 
     <div class="row" id="actionbar">
 
-      <div class="col-sm-3 col-md-3">
-
-        <g:link class="btn btn-primary btn-large "
-          action="edit" controller="event" id="${event.id}" >
-        <g:message code="default.button.edit.label" />
-        </g:link>  
-
-
-
-        <g:link class="btn btn-danger"
-          action="delete" controller="event" id="${event.id}" >
-          <g:message code="default.button.delete.label" />
-        </g:link> 
-      </div>
-
-      <div class="col-sm-3 col-md-3">
-        <g:render template="/event/updateReceivedMoney" model="[event: event]" />
-      </div>
+      <g:if test="${params?.currentUserStoreId == event?.store?.id || params?.currentUserId == event?.user?.id}">
+        <sec:ifAnyGranted roles="ROLE_CUSTOMER">
+          <div class="col-sm-3 col-md-3">
+            <g:link class="btn btn-primary btn-large "
+              action="edit" controller="event" id="${event.id}" >
+            <g:message code="default.button.edit.label" />
+            </g:link>  
 
 
-      <div class="col-sm-3 col-md-3">
-        <g:render template="/event/updateUnreceiveMoney" model="[event: event]" />
-      </div>
 
-      <div class="col-sm-3 col-md-3">
-        <g:render template="/event/updateEventDate" model="[event: event]" />
-      </div>
+            <g:link class="btn btn-danger"
+              action="delete" controller="event" id="${event.id}" >
+              <g:message code="default.button.delete.label" />
+            </g:link> 
+          </div>
+        </sec:ifAnyGranted>
+      </g:if>
+
+      <g:if test="${params?.currentUserStoreId == event?.store?.id}">
+        <sec:ifAnyGranted roles="ROLE_OPERATOR">
+          <div class="col-sm-3 col-md-3">
+            <g:render template="/event/updateReceivedMoney" model="[event: event]" />
+          </div>
+
+
+          <div class="col-sm-3 col-md-3">
+            <g:render template="/event/updateUnreceiveMoney" model="[event: event]" />
+          </div>
+
+          <div class="col-sm-3 col-md-3">
+            <g:render template="/event/updateEventDate" model="[event: event]" />
+          </div>
+        </sec:ifAnyGranted>
+      </g:if>
 
 
     </div>            
-  </sec:ifAnyGranted>
+
 
 
   <div class="contact-info" >

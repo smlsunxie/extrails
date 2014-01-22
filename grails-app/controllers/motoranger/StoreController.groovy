@@ -1,6 +1,7 @@
 package motoranger
 
 import org.springframework.dao.DataIntegrityViolationException
+import grails.plugin.springsecurity.SpringSecurityUtils
 
 class StoreController {
 
@@ -26,7 +27,8 @@ class StoreController {
             unfinEvents: unfinEvents,
             endEvents: endEvents,
             store: store,
-            currentUserStore: currentUser?.store
+            currentUserStore: currentUser?.store,
+            currentUserIsAdmin: SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")
         ]
 
 

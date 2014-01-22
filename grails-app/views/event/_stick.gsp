@@ -20,7 +20,7 @@
     <p>
       <i class="icon-screenshot"></i> 
       產品編號：<g:link controller="product" action="show" id="${event?.product?.id}">
-      ${params?.notAllow ? event.product.name.replace(event.product.name.substring(2,4),"**") : event.product.name}
+      ${params?.currentUserStoreId || params?.currentUserId == event?.user.id.toString() ? event.product.name : event.product.name.replace(event.product.name.substring(2,4),"**")}
     </g:link> 
     </p>  
   </sec:ifAnyGranted>
@@ -53,16 +53,19 @@
     </p>
   </sec:ifAnyGranted>
 
+  <g:if test="${params?.currentUserStoreId == event?.store?.id || params?.currentUserId == event?.user?.id}">
 
-  <sec:ifAnyGranted roles="ROLE_CUSTOMER">
-    <g:if test="${actionName != 'pickPartAddDetail' }" >
-      <g:link class="btn btn-primary" controller="event" action="pickPartAddDetail" id="${event?.id}">新增維修</g:link>
 
-    </g:if>
+    <sec:ifAnyGranted roles="ROLE_CUSTOMER">
+      <g:if test="${actionName != 'pickPartAddDetail'}" >
+        <g:link class="btn btn-primary" controller="event" action="pickPartAddDetail" id="${event?.id}">新增維修</g:link>
 
-    <g:render template="/event/statusChangeBtn" model="[event: event]" />
+      </g:if>
 
-  </sec:ifAnyGranted>
+      <g:render template="/event/statusChangeBtn" model="[event: event]" />
 
+    </sec:ifAnyGranted>
+
+  </g:if>
 </div>
 

@@ -23,7 +23,7 @@
 
               <td data-title='<g:message code="part.price.label" />'>
 
-                <g:if test="${!params?.notAllow}">
+                <g:if test="${params?.currentUserStoreId == event?.store?.id || params?.currentUserId == event?.user?.id}">
                   <sec:ifAllGranted roles="ROLE_CUSTOMER">  
                     ${detail?.price}*${detail?.qty}=${detail?.price*detail?.qty}
                   </sec:ifAllGranted>
@@ -35,7 +35,7 @@
 
               
                 <td>
-                  <g:if test="${!params?.notAllow}">
+                  <g:if test="${params?.currentUserStoreId == event?.store?.id || params?.currentUserId == event?.user?.id}">
                     <sec:ifAllGranted roles="ROLE_CUSTOMER">  
                       <g:link  class="btn btn-primary btn-xs" controller="eventDetail" action="edit" id="${detail?.id}"><g:message code="default.button.edit.label" /></g:link>
                       <g:link  class="btn btn-danger btn-xs" controller="eventDetail" action="delete" id="${detail?.id}"><g:message code="default.button.delete.label" /></g:link>
