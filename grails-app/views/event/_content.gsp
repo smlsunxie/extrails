@@ -8,20 +8,21 @@
     </tr> 
 
     
+      <g:if test = "${actionName != 'pickPartAddDetail' && params?.currentUserStoreId == event?.store?.id }">
 
-    <sec:ifAnyGranted roles="ROLE_OPERATOR">
-      <g:if test = "${actionName != 'pickPartAddDetail'}">
-
-        <tr>
-            <td class="small">已收</td>
-            <td class="bold">${event?.receivedMoney.toString()}</td>
-        </tr> 
-        <tr>
-            <td class="small">未收</td>
-            <td class="bold">${event?.totalPrice-event?.receivedMoney}</td>
-        </tr> 
+        <sec:ifAnyGranted roles="ROLE_OPERATOR">
+          <tr>
+              <td class="small">已收</td>
+              <td class="bold">${event?.receivedMoney.toString()}</td>
+          </tr> 
+          <tr>
+              <td class="small">未收</td>
+              <td class="bold">${event?.totalPrice-event?.receivedMoney}</td>
+          </tr> 
+        </sec:ifAnyGranted>
+        
       </g:if>
-    </sec:ifAnyGranted>
+
 
     <g:if test="${params?.currentUserStoreId == event?.store?.id || params?.currentUserId == event?.user?.id}">
 

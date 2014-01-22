@@ -8,7 +8,7 @@
           ${product.name.replace(product.name.substring(2,4),"**")}
         </sec:ifNotLoggedIn>
         <sec:ifAnyGranted roles="ROLE_CUSTOMER">
-          ${params?.currentUserStoreId || params?.currentUserId == product?.user.id ? product.name.replace(product.name.substring(2,4),"**") :product.name}
+          ${params?.currentUserStoreId || params?.currentUserId == product?.user.id ? product.name : product.name.replace(product.name.substring(2,4),"**")}
         </sec:ifAnyGranted>
       </g:link></td>
 

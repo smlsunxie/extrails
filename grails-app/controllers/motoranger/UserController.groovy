@@ -104,7 +104,7 @@ class UserController {
         }
     }
     
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_ADMIN'])
     def show() {
         
         if(params?.tour){
@@ -127,7 +127,7 @@ class UserController {
         [user: user, products: Product.findAllByUser(user)]
     }
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_ADMIN'])
     def edit() {
 
         def userInstance
@@ -147,7 +147,7 @@ class UserController {
         ,storeList:storeList()]
     }
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_ADMIN'])
     def update() {
         def userInstance = User.get(params.id)
         if (!userInstance) {
@@ -193,7 +193,7 @@ class UserController {
 
 
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_ADMIN'])
     @Transactional
     def delete(Long id) {
         def userInstance = User.get(id)
