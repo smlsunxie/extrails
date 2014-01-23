@@ -34,7 +34,7 @@
     <tr>
         <td class="small"><g:message code="event.store.label" /></td>
         <td class="bold">
-          <g:link controller="store" action="show" id="${event?.store.id}">${event?.store}</g:link>
+          <g:link controller="store" action="show" id="${event?.store?.id}">${event?.store}</g:link>
 
         </td>
     </tr>
