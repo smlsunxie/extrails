@@ -37,10 +37,12 @@ dbinit:
 
 
 done:
-	make clean war deployWar
+	make clean war deploy
 	
+done-local:
+	make clean war deploy-local
 
-deployWar:
+deploy:
 	scp target/motoranger.war ${remote_user}@${remote_addr}:~/ROOT.war
 	ssh -t ${remote_user}@${remote_addr} \
 	'cd ~/ \
@@ -48,6 +50,12 @@ deployWar:
 	&& sudo cp ROOT.war /var/lib/tomcat7/webapps/ \
 	&& sudo cp motoranger-config.groovy /usr/share/tomcat7/.grails/ \
 	&& sudo service tomcat7 restart'
+
+deploy-local:
+	mv target/motoranger.war ~/ROOT.war
+	sudo rm -rf /var/lib/tomcat7/webapps/ROOT \
+	&& sudo cp ~/ROOT.war /var/lib/tomcat7/webapps/ \
+	&& sudo service tomcat7 restart'	
 
 log:
 	ssh -t ${remote_user}@${remote_addr} 'sudo tail -f /var/lib/tomcat7/logs/catalina.out'
