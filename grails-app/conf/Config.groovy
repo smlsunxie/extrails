@@ -159,9 +159,6 @@ environments {
             ]
      
         }
-
-        grails.plugin.databasemigration.updateOnStart = false
-        grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
     }
     production {
         grails.logging.jul.usebridge = false

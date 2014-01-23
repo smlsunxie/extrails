@@ -8,12 +8,53 @@ class ExtraSecureFilters {
 
     def filters = {
 
-        user(controller:'*', action:'*') {
+        storeFilter(controller:'store', action:'*') {
+
+
+            before = {
+                def currentUser = springSecurityService?.currentUser
+
+                if(actionName != 'show' && params?.id && currentUser && currentUser?.store
+                        && userService.currentUserIsOperator())
+                {
+
+                    if(params.id.toLong() != currentUser.store.id){
+
+                        flash.message = "只可維護自己的店家"
+                        redirect(action: "show", controller: "store", id: currentUser.store.id)
+                        return false
+
+                    }
+                }
+            }
+            after = { Map model ->
+                def currentUser = springSecurityService?.currentUser
+
+
+                if(actionName == "show"){
+
+                    if(!model)model=[:]
+                    model.currentUserIsEventOwner=[:]
+                    model.eventDetailTotalPrice=[:]  
+
+                    if(model?.unfinEvents){
+                        setModelEventExtraCondiction(model.unfinEvents, model)
+                    }
+                    if(model?.endEvents){
+                        setModelEventExtraCondiction(model.endEvents, model)
+                    }
+ 
+                }
+
+            }
+
+        }
+
+        user(controller: 'store', invert: true) {
             before = {
 
-
-
                 def currentUser = springSecurityService?.currentUser
+
                 if(currentUser){
                     params.currentUserStoreId=currentUser?.store?.id
                     params.currentUserId=currentUser?.id
@@ -50,15 +91,7 @@ class ExtraSecureFilters {
                         }
                     }
 
-                    //store
-                    if(controllerName == "store" && isFilterActionName(actionName) 
-                        && params?.id && params.id.toLong() != currentUser?.store.id.toLong())
-                    {
 
-                        notAllow=true
-                        flash.message = "只可維護自己的店家"
-
-                    }
 
                     //store
                     if(controllerName == "event" && isFilterActionName(actionName) 
@@ -187,10 +220,18 @@ class ExtraSecureFilters {
                 def currentUser = springSecurityService?.currentUser
 
 
-                if(actionName == "show" || actionName == "index" || actionName == "pickPartAddDetail"){
+                if(actionName == "show" 
+                    || actionName == "index" 
+                    || actionName == "pickPartAddDetail" 
+                    || actionName == "unfinListOfStore"
+                    || actionName == "endListOfStore"){
+
                     if(!model)model=[:]
                     model.currentUserIsEventOwner=[:]
-                    model.eventDetailTotalPrice=[:]                    
+                    model.eventDetailTotalPrice=[:]  
+                    if(model?.events){
+                        setModelEventExtraCondiction(model.events, model)                   
+                    }                  
                     if(model?.part){
                         setModelPartCostExtraCondiction(model.part, model)                   
                     }
