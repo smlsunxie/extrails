@@ -1,4 +1,4 @@
-<div id="productStick" class="col-sm-3 col-md-3">
+<div id="productStick" class="col-sm-6 col-md-3">
 
   <a class="block-stick-img">
 
@@ -8,18 +8,21 @@
 
   <g:render template="/event/stick" model="['event': event, 'stickName': stickName]" />
   
-  <sec:ifAnyGranted roles="ROLE_OPERATOR">
-    <div class="row stick_outside">
 
-      <div class="col-sm-10 col-md-10 col-md-offset-1 col-sm-offset-1">
-        <g:render template="/event/updateReceivedMoney" model="[event: event]" />
+  <g:if test="${currentUserIsEventOwner[event.id]}">
+    <sec:ifAnyGranted roles="ROLE_OPERATOR">
+      <div class="row stick_outside">
 
-        <g:render template="/event/updateUnreceiveMoney" model="[event: event]" />
+        <div class="col-sm-10 col-md-10 col-md-offset-1 col-sm-offset-1">
+          <g:render template="/event/updateReceivedMoney" model="[event: event]" />
+
+          <g:render template="/event/updateUnreceiveMoney" model="[event: event]" />
+        </div>
+
+
       </div>
 
-
-    </div>
-
-  </sec:ifAnyGranted>
+    </sec:ifAnyGranted>
+  </g:if>
 
 </div>

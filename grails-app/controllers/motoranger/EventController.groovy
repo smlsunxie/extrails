@@ -11,11 +11,9 @@ class EventController {
 
 	static layout="bootstrap"
     def springSecurityService
-    def messageSource
     def userService
     def tagQueryService
 
-    @Secured(['ROLE_CUSTOMER'])
     def show() { 
 
         def event=Event.findById(params.id)
@@ -77,9 +75,6 @@ class EventController {
 
         if (!event.validate()) {
             if(event.hasErrors())
-                event.errors?.allErrors?.each{ 
-                    flash.message=  messageSource.getMessage(it, null)
-                };
             render(view: "create", model: [event: event])
             return
         }
@@ -111,12 +106,9 @@ class EventController {
             event=Event.findById(params.id,[sort: 'dateCreated', order: 'desc'])
         }
 
-        if(!params?.group)params.group = "recent"
-
-
-        if(params.group == "recent" 
-            && (!session?.recentPartIds 
-                || request.getHeader('referer').indexOf("event/pickPartAddDetail") == -1)){
+        if(!params?.group)params.group = motoranger.TagGroup.CUSTOMIZED
+        
+        if(params?.group.toString() == motoranger.TagGroup.RECENT.toString() && !params?.tag){
 
             session.recentPartIds = tagQueryService.getRecentPartIds()
         } 
@@ -150,13 +142,21 @@ class EventController {
         event?.details?.each(){
             it.delete()
         }
-        // event.save()
         event.delete(flush:true)
 
-        flash.message = message(code: 'default.delete.message', 
-            args: [message(code: 'event.label', default: 'event'), event.id])
 
-        redirect(action: "index", controller:"home")
+        flash.message = message(code: 'default.deleted.message'
+            , args: [message(code: 'event.label', default: 'event'), event])
+
+        def currentUser = springSecurityService?.currentUser
+
+        if(userService.currentUserIsOperator()){
+            def store = currentUser.store
+            redirect(action: "show", controller: "store", id: store.id)
+        }else if(userService.currentUserIsCustomer()){
+            redirect(action: "show", controller: "user", id: currentUser.id)
+        }
+
 
 
     }
@@ -175,7 +175,7 @@ class EventController {
 
         
         if (!event) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'event.label', default: 'Event'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'event.label', default: 'Event'), event])
             redirect(action: "index", controller:"home")
             return
         }
@@ -193,11 +193,20 @@ class EventController {
         }
 
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'event'), event.id])
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'event'), event])
         
 
-        if(params?.status == 'END')
-            redirect(controller: "home", action: "index")
+        if(params?.status == 'END'){
+            
+            def currentUser = springSecurityService?.currentUser
+
+            if(userService.currentUserIsOperator()){
+                def store = currentUser.store
+                redirect(action: "show", controller: "store", id: store.id)
+            }else if(userService.currentUserIsCustomer()){
+                redirect(action: "show", controller: "user", id: currentUser.id)
+            }
+        }
         else if(request.getHeader('referer').indexOf("event/pickPartAddDetail") != -1
             || request.getHeader('referer').indexOf("/store/") != -1){
              redirect(uri: request.getHeader('referer') )
@@ -353,7 +362,6 @@ class EventController {
         ]
     }
 
-    @Secured(['ROLE_OPERATOR'])
     def endListOfStore(){
 
         params.max=12
@@ -374,7 +382,6 @@ class EventController {
         render view:'list', model: [events:results, title: "最近維修完成"]
     }
 
-    @Secured(['ROLE_OPERATOR'])
     def unfinListOfStore(){
 
         params.order="desc"

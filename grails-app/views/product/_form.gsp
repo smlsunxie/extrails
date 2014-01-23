@@ -14,7 +14,7 @@
     <g:message code="product.name.label" /><span class="required-mark">*</span>
   </label>
   <div class="col-sm-10">
-    <g:textField name="name" value="${product?.name}" class="form-control" />
+    <g:textField name="name" value="${product?.name}" class="form-control" placeholder="請輸入你的車牌號嗎(不需要 '-' 符號)" />
   </div>
 
 </div>
@@ -26,7 +26,7 @@
     <g:message code="product.title.label" /><span class="required-mark">*</span>
   </label>
   <div class="col-sm-10">
-    <g:textField name="title" value="${product?.title}" class="form-control" />
+    <g:textField name="title" value="${product?.title}" class="form-control"  placeholder="請隨意輸入" />
   </div>
 
 </div>
@@ -71,7 +71,7 @@
 
 
 
-<div class="form-group ${hasErrors(bean: product, field: 'user', 'has-error')}">
+<div hidden class="form-group ${hasErrors(bean: product, field: 'user', 'has-error')}">
   
   <label for="user.id" class="col-sm-2 control-label">
     <g:message code="product.user.label" />
@@ -107,33 +107,36 @@
 </div>
 
 
-<div class="form-group ${hasErrors(bean: product, field: 'cost', 'has-error')}">
-  
-  <label for="cost" class="col-sm-2 control-label">
-    <g:message code="product.cost.label" />
-  </label>
-  <div class="col-sm-10">
-    <g:field class="form-control" type="number" name="cost" value="${product?.cost}" />
+
+<sec:ifAnyGranted roles="ROLE_OPERATOR">
+
+  <div class="form-group ${hasErrors(bean: product, field: 'cost', 'has-error')}">
+    
+    <label for="cost" class="col-sm-2 control-label">
+      <g:message code="product.cost.label" />
+    </label>
+    <div class="col-sm-10">
+      <g:field class="form-control" type="number" name="cost" value="${product?.cost}" />
+    </div>
+
   </div>
 
-</div>
 
+  <div class="form-group ${hasErrors(bean: product, field: 'price', 'has-error')}">
+    
+    <label for="price" class="col-sm-2 control-label">
+      <g:message code="product.price.label" />
+    </label>
+    <div class="col-sm-10">
+      <g:field class="form-control" type="number" name="price" value="${product?.price}" />
+    </div>
 
-<div class="form-group ${hasErrors(bean: product, field: 'price', 'has-error')}">
-  
-  <label for="price" class="col-sm-2 control-label">
-    <g:message code="product.price.label" />
-  </label>
-  <div class="col-sm-10">
-    <g:field class="form-control" type="number" name="price" value="${product?.price}" />
   </div>
 
-</div>
+
+</sec:ifAnyGranted>
 
 <p></p>
-
-
-
 <div class="form-group">
   
   <label class="col-sm-2 control-label">
@@ -144,3 +147,4 @@
   </div>
 
 </div>
+

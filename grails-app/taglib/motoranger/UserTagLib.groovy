@@ -74,12 +74,15 @@ class UserTagLib {
     }
     def footer={attrs, body ->
 
-        def currentUser = springSecurityService.currentUser
-        
-        def store = currentUser?.store
+        def store
+
+        if(actionName == "show" && controllerName=="store" && params?.id){
+            store = Store.get(params?.id)
+        }else {
+            store = springSecurityService?.currentUser?.store
+        }
 
         if(store){
-
             out << body() << g.applyLayout(name: "inc_footer_store", 
                 model:[store: store])
 
@@ -92,20 +95,77 @@ class UserTagLib {
         def currentUser = springSecurityService.currentUser
         def store = currentUser?.store
 
-        if(userService.currentUserIsCustomer()){
-            out << body() << link(controller:'home'){
-                currentUser.title+"<i>User</i>"
-            } 
+        def nowActive = ""
+
+        if(controllerName=='product' || controllerName=='event' || controllerName=='eventDetail' 
+            || (controllerName=='user' && actionName != 'list')){
+            
+            def title = message(code:"${controllerName}.label")
+            nowActive = """
+            <li class='active single'>
+                <a>
+                    ${title}
+                    <i>${controllerName}</i>
+                </a>
+            </li>
+            """
+        }else if(controllerName=='store' && actionName!='list' && params?.id.toString() != store?.id.toString()){
+            def title = "檢視車行"
+            nowActive = """
+            <li class='active single'>
+                <a>
+                    ${title}
+                    <i>${controllerName}</i>
+                </a>
+            </li>
+            """
+        }
+
+
+        if(!springSecurityService.isLoggedIn()){
+            
+            def link = link(controller:'home'){
+                "首頁<i>index</i>"
+            }
+            def active = (controllerName=='home' && actionName=='index' ? 'active':'')
+            out << body() << 
+                """
+                  <li class='${active} single'>
+                    ${link}
+                  </li>
+                  ${nowActive}
+                """
+
+        }else if(userService.currentUserIsCustomer()){
+
+            if(controllerName == "user" && actionName=="show")
+                nowActive = ""
+
+            def link = link(controller:'home'){"個人<i>index</i>"}
+            def active = (controllerName=='user' && actionName=='show' ? 'active':'')                
+            out << body() << """
+                <li class='${active} single'>
+                    ${link}
+                </li>
+                ${nowActive}
+                """
+
+            
         }
         else if(store){
-            out << body() << link(controller:'home'){
-                store.title+"<i>store</i>"
+            def link = link(controller:'home'){
+                store.title+"<i>index</i>"
             }        
-        }else {
-            out << body() << link(controller:'home'){
-                g.message(code:"store.navbar.label")+"<i>store</i>"
-            }
-        }   
+            def active = (controllerName=='store' && params?.id.toString() == store.id.toString() ? 'active':'')
+
+            out << body() << 
+                """
+                  <li class='${active} single'>
+                    ${link}
+                  </li>
+                  ${nowActive}
+                """
+        }       
 
     }
 

@@ -1,3 +1,13 @@
+<g:hasErrors bean="${storeInstance}">
+  <ul class="errors" role="alert">
+    <g:eachError bean="${storeInstance}" var="error">
+      <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+    </g:eachError>
+  </ul>
+</g:hasErrors>
+
+<g:hiddenField name="id" value="${storeInstance?.id}" class="form-control" />
+
 <div class="form-group">
   
   <label for="inputEmail3" class="col-sm-2 control-label">
@@ -5,6 +15,39 @@
   </label>
   <div class="col-sm-10">
     <g:textField name="name" value="${storeInstance?.name}" class="form-control" />
+  </div>
+
+</div>
+
+<div class="form-group">
+  
+  <label for="inputEmail3" class="col-sm-2 control-label">
+   <g:message code="store.title.label" default="Title" />
+  </label>
+  <div class="col-sm-10">
+    <g:textField name="title" value="${storeInstance?.title}" class="form-control" />
+  </div>
+
+</div>
+
+<div class="form-group">
+  
+  <label for="inputEmail3" class="col-sm-2 control-label">
+    <g:message code="store.address.label" default="Address" />
+  </label>
+  <div class="col-sm-10">
+    <g:textField name="address" value="${storeInstance?.address}" class="form-control" />
+  </div>
+
+</div>
+
+<div class="form-group">
+  
+  <label for="inputEmail3" class="col-sm-2 control-label">
+    <g:message code="store.email.label" default="email" />
+  </label>
+  <div class="col-sm-10">
+    <g:textField name="email" value="${storeInstance?.email}" class="form-control" />
   </div>
 
 </div>
@@ -21,16 +64,7 @@
 </div>
 
 
-<div class="form-group">
-  
-  <label for="inputEmail3" class="col-sm-2 control-label">
-    <g:message code="store.address.label" default="Address" />
-  </label>
-  <div class="col-sm-10">
-    <g:textField name="address" value="${storeInstance?.address}" class="form-control" />
-  </div>
 
-</div>
 
 <div class="form-group">
   
@@ -53,36 +87,19 @@
 
 </div>
 
-<div class="form-group">
-  
-  <label for="inputEmail3" class="col-sm-2 control-label">
-    <g:message code="store.email.label" default="email" />
-  </label>
-  <div class="col-sm-10">
-    <g:textField name="email" value="${storeInstance?.email}" class="form-control" />
-  </div>
 
-</div>
 
-<div class="form-group">
-  
-  <label for="inputEmail3" class="col-sm-2 control-label">
-   <g:message code="store.title.label" default="Title" />
-  </label>
-  <div class="col-sm-10">
-    <g:textField name="title" value="${storeInstance?.title}" class="form-control" />
-  </div>
 
-</div>
 
 <div class="form-group">
   
   <label for="inputEmail3" class="col-sm-2 control-label">
    <g:message code="store.users.label" default="Users" class="form-control" />
   </label>
-  <div class="col-sm-10">
-    <ul class="one-to-many">
-      <g:each in="${storeInstance?.users?}" var="u">
+  <div class="col-sm-10 portfolio-nav">
+
+    <ul class="nav nav-pills nav-pills-portfolio" >
+      <g:each in="${storeInstance?.users}" var="u">
         <li><g:link controller="user" action="show" id="${u.id}">${u?.encodeAsHTML()}</g:link></li>
       </g:each>
 

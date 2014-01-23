@@ -6,7 +6,7 @@
 <title>${part?.title}</title>
 </head>
 <body>
-  <sec:ifAllGranted roles="ROLE_CUSTOMER">
+  <g:if test="${userIsPartOwner}">
     <div class="row" id="actionbar">
 
       <div class="col-sm-12 col-md-12">           
@@ -18,12 +18,14 @@
       </div>
 
     </div>
-  </sec:ifAllGranted>
+  </g:if>
   <div class="row">
 
     <div class="contact-info col-sm-4 col-md-4">
       <h2>外觀</h2>
-      <g:render template="/component/slider" model='[files: s3Service.getObjectList("${grailsApplication.config.grails.aws.root}/${part.name}"), name: part.name]'/>
+
+      <g:img uri="/attachment/show?name=${part.name}&file=${part.mainImage}"  class="img-thumbnail" />
+    
     </div>
     <div class="contact-info col-sm-8 col-md-8">
       <h2>維修項目</h2>

@@ -486,7 +486,7 @@ qq.FileUploader = function(o){
                 
         template: '<div class="qq-uploader">' + 
                 '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-                '<div class="qq-upload-button">Upload a file</div>' +
+                '<div class="qq-upload-button">上傳檔案</div>' +
                 '<ul class="qq-upload-list"></ul>' + 
              '</div>',
 
@@ -801,6 +801,10 @@ qq.UploadButton.prototype = {
                 
         input.setAttribute("type", "file");
         input.setAttribute("name", this._options.name);
+        input.setAttribute("capture", "camera");
+        input.setAttribute("accept", "image/*");
+
+
         
         qq.css(input, {
             position: 'absolute',

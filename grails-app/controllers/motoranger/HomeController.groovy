@@ -46,6 +46,8 @@ class HomeController {
 
     }
     def question={
+
+        flash.message = "留下您的建議，或者您也可以點選下方「意見回饋」按鈕寄送 mail"
         
     }
 
@@ -53,5 +55,6 @@ class HomeController {
     def selectIndex= {
 
     }
+
     
 }

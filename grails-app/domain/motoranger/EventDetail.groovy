@@ -5,9 +5,6 @@ import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
 
-
-@ToString(includeNames = true, includeFields = true, excludes = 'dateCreated,lastUpdated,metaClass')
-@EqualsAndHashCode
 class EventDetail {
 	// static searchable = true
 	static belongsTo=[head:Event, part:Part]
@@ -55,6 +52,10 @@ class EventDetail {
 
         // 在加上此次更新的維修記錄
         head.totalPrice += qty * price
+	}
+
+	public String toString(){
+		"維修細項 "+part
 	}
 
 

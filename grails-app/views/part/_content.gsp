@@ -13,13 +13,10 @@
     <td class="bold">${part.price}</td>
   </tr> 
 
-
-  <sec:ifAllGranted roles="ROLE_MANERGER">  
-    <tr>
-      <td class="small"><g:message code="part.cost.label" /></td>
-      <td class="bold">${part.cost}</td>
-    </tr>
-  </sec:ifAllGranted>
+  <tr>
+    <td class="small"><g:message code="part.cost.label" /></td>
+    <td class="bold">${part.cost}</td>
+  </tr>
 
   <tr>
     <td class="small"><g:message code="default.description.label" /></td>

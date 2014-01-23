@@ -3,15 +3,15 @@
 
   <div class="contact-info col-sm-4 col-md-4">
     <h2>外觀</h2>
-    <g:render template="/component/slider" model='[files: s3Service.getObjectList("${grailsApplication.config.grails.aws.root}/${product.name}"), name: product.name]'/>
+    <g:img uri="/attachment/show?name=${product.name}&file=${product.mainImage}"  class="img-thumbnail" />
   </div>
   <div class="contact-info col-sm-4 col-md-4">
     <h2>產品資料</h2>
     <g:render template="/product/content" model="[product: product]" />
   </div>
 
-  <sec:ifAnyGranted roles="ROLE_CUSTOMER">
 
+  <sec:ifAnyGranted roles="ROLE_CUSTOMER">
 
     <div class="contact-info col-sm-4 col-md-4">
       <h2>車主資料</h2>
@@ -29,4 +29,5 @@
     </div>
 
   </sec:ifAnyGranted>
+
 </div>

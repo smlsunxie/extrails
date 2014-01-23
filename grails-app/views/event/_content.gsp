@@ -8,32 +8,38 @@
     </tr> 
 
     
+    <g:if test = "${currentUserIsEventOwner[event.id]}">
 
-    <sec:ifAnyGranted roles="ROLE_OPERATOR">
-      <g:if test = "${actionName != 'pickPartAddDetail'}">
+      <tr>
+          <td class="small">已收</td>
+          <td class="bold">${event?.receivedMoney.toString()}</td>
+      </tr> 
+      <tr>
+          <td class="small">未收</td>
+          <td class="bold">${event?.totalPrice-event?.receivedMoney}</td>
+      </tr> 
+      
+    </g:if>
 
-        <tr>
-            <td class="small">已收</td>
-            <td class="bold">${event?.receivedMoney.toString()}</td>
-        </tr> 
-        <tr>
-            <td class="small">未收</td>
-            <td class="bold">${event?.totalPrice-event?.receivedMoney}</td>
-        </tr> 
-      </g:if>
-    </sec:ifAnyGranted>
 
-    <sec:ifAnyGranted roles="ROLE_CUSTOMER">
-    
+    <g:if test="${currentUserIsEventOwner[event.id]}">
+
       <tr>
         <td class="small"><g:message code="event.totalPrice.label" /></td>
         <td class="bold">${event?.totalPrice}</td>
       </tr>
-  
 
+    </g:if>
 
-    </sec:ifAnyGranted>
+    <tr>
+        <td class="small"><g:message code="event.store.label" /></td>
+        <td class="bold">
+          <g:link controller="store" action="show" id="${event?.store.id}">${event?.store}</g:link>
 
+        </td>
+    </tr>
+
+    
     <tr>
         <td class="small"><g:message code="default.dateCreated.label" /></td>
         <td class="bold">

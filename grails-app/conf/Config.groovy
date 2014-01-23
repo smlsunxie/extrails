@@ -86,16 +86,18 @@ grails.exceptionresolver.params.exclude = ['password']
 grails.hibernate.cache.queries = false
 
 environments {
- 
+
+    dbToUpdate {
+        grails.plugin.databasemigration.changelogFileName = "upgradeChangelog.groovy"
+    }
+    
     development {
-        grails.serverURL = "http://localhost:8080"
+        grails.serverURL = "http://192.168.0.100:8080"
         grails.indexPath = "/development/app.html"
         grails.logging.jul.usebridge = true
         grails.resources.debug=true
         grails.converters.default.pretty.print = true
 
-        grails.foodpaint.service.server.url = "http://localhost:8180"
-        grails.foodpaint.service.api.url = "http://localhost:8180/api"
         grails.aws.root = 'test'
         google.analytics.enabled = false
 
@@ -121,6 +123,8 @@ environments {
                 'grails.app.jobs'
             ]
         }
+        grails.plugin.databasemigration.updateOnStart = true
+        grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
     }
  
     test {
@@ -201,7 +205,7 @@ grails.plugin.springsecurity.userLookup.userDomainClassName = 'motoranger.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'motoranger.UserRole'
 grails.plugin.springsecurity.authority.className = 'motoranger.Role'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
-    '/j_spring_security_switch_user': ['ROLE_MANERGER', 'ROLE_OPERATOR'],
+    '/j_spring_security_switch_user': ['ROLE_OPERATOR', 'ROLE_ADMIN'],
     '/':                              ['permitAll'],
     '/index':                         ['permitAll'],
     '/index.gsp':                     ['permitAll'],
@@ -220,6 +224,5 @@ grails.plugin.springsecurity.useSwitchUserFilter = true
 grails.plugin.springsecurity.rememberMe.alwaysRemember = true
 grails.plugin.springsecurity.rememberMe.persistent = true
 grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'motoranger.PersistentLogin'
+grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/login/success'
 
-grails.plugin.databasemigration.updateOnStart = true
-grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']

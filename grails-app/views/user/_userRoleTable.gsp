@@ -9,16 +9,7 @@
   </div>
 </div>
 
-<div ${hidden} class="form-group">
-  
-  <label for="inputEmail3" class="col-sm-2 control-label">
-    <g:message code="user.store.label" default="Store" />
-  </label>
-  <div class="col-sm-10">
-    <g:select id="store" name="store.id" from="${storeList}" optionKey="id" value="${userInstance?.store?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
-  </div>
 
-</div>
 
 <div ${hidden} class="form-group">
   <div class="col-sm-offset-2 col-sm-10">
@@ -70,7 +61,7 @@
 
           <tr>
 
-            <td><g:checkBox name="userRoles" value="${role.authority}" checked="${userRoles?.role?.contains(role)}" /></td>
+            <td><g:checkBox name="userRoles" value="${role.authority}" checked="${userRoles && userRoles.role.authority.contains(role.authority)}" /></td>
             <td>${role.authority}</td>
 
             </tr>

@@ -90,6 +90,7 @@ form select{
     display: block;
     margin-bottom: 10px;
     margin-left: 15px;
+    width: 222px;
 }
 
 .event{
@@ -204,4 +205,8 @@ form.form-thumbnail {
 }
 #tagGroup.nav-pills > .active > a, .nav-pills > .active > a:hover {
     background-color: green;
+}
+
+#alert_placeholder{
+  color: #2773ae;
 }

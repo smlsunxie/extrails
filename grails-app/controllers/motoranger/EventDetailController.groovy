@@ -38,6 +38,7 @@ class EventDetailController {
     @Secured(['ROLE_CUSTOMER'])
     def save(){
 
+        println params
         if(!params?.name)
             params.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
         
@@ -54,13 +55,13 @@ class EventDetailController {
             eventDetail.properties = params
 
 
-
-        eventDetail.creator=springSecurityService.currentUser.username
+        def creator = springSecurityService.currentUser.username
+        eventDetail.creator = creator
 
         if (!eventDetail.validate()) {
             if(eventDetail.hasErrors())
                 eventDetail.errors?.allErrors?.each{ 
-                    flash.message=  messageSource.getMessage(it, null)
+                    println  messageSource.getMessage(it, null)
                 };
             redirect(uri: request.getHeader('referer') )
             return
@@ -75,10 +76,13 @@ class EventDetailController {
 
         
         flash.message = message(code: 'default.created.message', 
-            args: [message(code: 'event.label', default: 'event'), eventDetail.id])
+            args: [message(code: 'event.label', default: 'event'), eventDetail])
 
 
-        redirect(uri: request.getHeader('referer') )
+        if(request.getHeader('referer').indexOf("part/create?event.id")!=-1){
+            redirect(controller:"event", action:"pickPartAddDetail", id:params.head.id)
+        }else 
+            redirect(uri: request.getHeader('referer') )
 
 
     }
@@ -98,7 +102,8 @@ class EventDetailController {
 
         
         if (!eventDetail) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
+            flash.message = message(code: 'default.not.found.message',
+                args: [message(code: 'part.label', default: 'part'), eventDetail])
             redirect(action: "list", controller:"product")
             return
         }
@@ -117,7 +122,7 @@ class EventDetailController {
 
 
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'eventDetail.label', default: 'EventDetail'), eventDetail.id])
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'eventDetail.label', default: 'EventDetail'), eventDetail])
         redirect(action: "show", controller:"event", id: eventDetail.head.id)
 
 
@@ -133,6 +138,9 @@ class EventDetailController {
         event.save()
 
         eventDetail.delete(flush:true)
+
+
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), eventDetail])
 
 
         if(request.getHeader('referer').indexOf("/eventDetail/show") != -1)

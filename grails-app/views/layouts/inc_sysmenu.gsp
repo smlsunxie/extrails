@@ -1,53 +1,22 @@
-<sec:ifNotLoggedIn>
+<li class="${controllerName=='user' && actionName=='show' ? 'active':''} single">
+  <g:homeNav />
+</li>
 
-  <li >
-    <g:link controller="store" action="list">
-      <g:message code="store.label" />
+<sec:ifAnyGranted roles="ROLE_CUSTOMER">
+  
+
+  <li class="${controllerName=='part' ? 'active':''} single">
+    <g:link controller="part" action="index">
+      <g:message code="part.label" />
       <i>store</i>
     </g:link>
   </li>
-
-</sec:ifNotLoggedIn>
-
-
-
-<sec:ifAnyGranted roles="ROLE_CUSTOMER">
-  <li class="single">
-    <g:homeNav />
-  </li>
-
-</sec:ifAnyGranted>
-
-
-<sec:ifAnyGranted roles="ROLE_CUSTOMER">
-
-
-  <li class="dropdown">
-    <g:link controller="part" action="index" class="dropdown-toggle" data-toggle="dropdown">
-      <g:message code="part.label" />
-      <i>part</i>
-    </g:link>
- 
-    <ul class="dropdown-menu">
-      <li>
-        <g:link controller="part" action="index">
-          <g:message code="part.index.label"/>
-        </g:link>
-      </li>
-      <li>
-        <g:link controller="part" action="create">
-          <g:message code="part.create.label"/>
-        </g:link>
-      </li>
-    </ul>
-  </li>
-
 
 </sec:ifAnyGranted>
 
 
 <sec:ifAnyGranted roles="ROLE_MANERGER, ROLE_OPERATOR">
-  <li class="dropdown">
+  <li class="${controllerName=='summary' ? 'active':''} dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#menu2">
       <g:message code="summary.label"/>
       <i>SUMMARY</i>
@@ -76,25 +45,45 @@
 
 <sec:ifAnyGranted roles="ROLE_ADMIN">
   
-  <li>
+  <li class="${controllerName=='brand' ? 'active':''} single">
     <g:link controller="brand">
       <g:message code="brand.label" />
       <i>brand</i>
     </g:link>
   </li>
 
-  <li>
+  <li class="${controllerName=='user' && actionName=='list' ? 'active':''} single">
     <g:link controller="user" action="list">
       <g:message code="user.label" />
       <i>user</i>
     </g:link>
   </li>
 
-  <li class="${controllerName=='post' && actionName=='create' ? 'active':''} single">
-    <g:link controller="post" action="portfolio">
-      文章
-      <i>POST</i>
-    </g:link>
-  </li>
 
 </sec:ifAnyGranted>
+
+
+<li class="${controllerName=='store' && actionName=='list' ? 'active':''} single">
+  <g:link controller="store" action="list">
+    車行清單
+    <i>Stores</i>
+  </g:link>
+</li>
+
+<li class="${controllerName=='post' ? 'active':''} single">
+  <g:link controller="post" action="portfolio">
+    文章
+    <i>POST</i>
+  </g:link>
+</li>
+
+<sec:ifNotGranted roles="ROLE_ADMIN">
+  <li class="${controllerName=='home' && actionName=='question' ? 'active':''} single">
+    <g:link controller="home" action="question">
+      意見回饋
+      <i>suggest</i>
+    </g:link>
+  </li>
+</sec:ifNotGranted>
+
+

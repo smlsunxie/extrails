@@ -1,12 +1,14 @@
-<g:hasErrors bean="${user}">
+
+<g:hasErrors bean="${userInstance}">
   <ul class="errors" role="alert">
-    <g:eachError bean="${user}" var="error">
+    <g:eachError bean="${userInstance}" var="error">
       <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
     </g:eachError>
   </ul>
 </g:hasErrors>
 
-<g:hiddenField name="id" value="${user?.id}" />
+
+<g:hiddenField name="id" value="${userInstance?.id}" />
 
 <g:hiddenField name="product.id" value="${params?.product?.id}" />
 
@@ -40,9 +42,10 @@
   
   <label for="title" class="col-sm-2 control-label">
     <g:message code="user.title.label" default="Title" />
+    <span class="required-indicator">*</span>
   </label>
   <div class="col-sm-10">
-    <g:textField name="title" value="${userInstance?.title}" class="form-control"/>
+    <g:textField name="title" required="" value="${userInstance?.title}" class="form-control"/>
   </div>
 
 </div>
@@ -105,6 +108,33 @@
   </div>
 
 </div>
+
+<sec:ifAnyGranted roles="ROLE_MANERGER, ROLE_ADMIN">
+  <div class="form-group">
+    
+    <label for="inputEmail3" class="col-sm-2 control-label">
+      <g:message code="user.store.label" default="Store" />
+    </label>
+    <div class="col-sm-10">
+      <g:select id="store" name="store.id" from="${storeList}" optionKey="id" value="${userInstance?.store?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
+    </div>
+
+  </div>
+</sec:ifAnyGranted>
+
+<sec:ifNotGranted roles="ROLE_MANERGER, ROLE_ADMIN">
+  <div hidden class="form-group">
+    
+    <label for="inputEmail3" class="col-sm-2 control-label">
+      <g:message code="user.store.label" default="Store" />
+    </label>
+    <div class="col-sm-10">
+      <g:select id="store" name="store.id" from="${storeList}" optionKey="id" value="${userInstance?.store?.id}" class="many-to-one" noSelection="['null': '']" class="form-control" />
+    </div>
+
+  </div>
+</sec:ifNotGranted>
+
 
 
 <sec:ifAnyGranted roles="ROLE_ADMIN">

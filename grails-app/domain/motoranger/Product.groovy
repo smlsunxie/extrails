@@ -33,14 +33,15 @@ class Product {
     Date lastUpdated    //修改日期
 
     static constraints = {
-        
-        name blank: false, unique: ['user']
+
+        user nullable: true
+        name blank: false, unique: ['user'], matches: "[a-zA-Z0-9]+", size: 4..10
 
         creator nullable: true
         title blank: false
         mainImage nullable: true, empty: true   
         description nullable: true, empty: true
-        user nullable: true
+        
         years nullable: true
         brand nullable: true
 

@@ -5,24 +5,75 @@
 
   </head>
   <body>
+    <div class="title-wrapper">
+        <h1><i class="icon-home"></i> ${store.title}</h1>
+    </div>
 
-    <sec:ifAnyGranted roles="ROLE_OPERATOR">
-      <div class="row" id="actionbar">
+    <!-- 手機畫面 action button -->
 
-        <div class="col-sm-12 col-md-6">           
-          
-          <g:link  class="btn btn-primary" controller="store" action="edit" id="${store.id}" >修改店家資料</g:link>
+
+    <div class="visible-xs">
+      <sec:ifAnyGranted roles="ROLE_OPERATOR">
+        <g:if test="${store.id == currentUserStore?.id}">
+          <div class="btn-group" id="actionbar">
+
+            <button class="btn btn-default btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+              維護其他<span class="caret"></span>
+            </button>
+                  
+            <ul class="dropdown-menu">
+
+              <li><g:link controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link></li>
+
+              <li><g:link controller="part" action="create" params="['store.id': store.id]"><g:message code="part.create.label"/></g:link></li>
+
+              <li><g:link controller="product" action="create" params="['store.id': store.id]"><g:message code="product.create.label"/></g:link></li>
+
+            </ul>
+          </div>
+        </g:if>
+      </sec:ifAnyGranted>
+
+      <div class="btn-group" id="actionbar">
+
+        <button class="btn btn-default btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+          店家狀況<span class="caret"></span>
+        </button>    
+
+        <ul class="dropdown-menu">
+
+          <li><g:link controller="event" action="unfinListOfStore" params="['store.id': store.id]" >所有維修中</g:link></li>
+          <li><g:link controller="event" action="endListOfStore" params="['store.id': store.id]" >最近維修完成</g:link></li>
+
+        </ul>
+
+      </div>
+    </div>  
+
+    <div class="hidden-xs">
+
+         <div class="btn-group" id="actionbar">
+          <sec:ifAnyGranted roles="ROLE_OPERATOR">         
+            <g:if test="${store.id == currentUserStore?.id || currentUserIsAdmin}">
+              <sec:ifAnyGranted roles="ROLE_MANERGER">
+                <g:link  class="btn btn-primary" controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link>
+                <g:link  class="btn btn-primary" controller="user" action="create" params="['store.id': store.id]" >建立作業員</g:link>
+              </sec:ifAnyGranted>
+
+              <g:link  class="btn btn-primary" controller="product" action="create" params="['store.id': store.id]"><g:message code="product.create.label"/></g:link>
+
+              <g:link  class="btn btn-primary" controller="part" action="create" params="['store.id': store.id]"><g:message code="part.create.label"/></g:link>
+            </g:if>
+          </sec:ifAnyGranted>
 
           <g:link  class="btn btn-primary" controller="event" action="unfinListOfStore" params="['store.id': store.id]" >所有維修中</g:link>
 
           <g:link  class="btn btn-primary" controller="event" action="endListOfStore" params="['store.id': store.id]" >最近維修完成</g:link>
 
+
         </div>
 
-
-      </div>
-    </sec:ifAnyGranted>
-
+    </div>
 
 
     <div class="main-block block-posts">

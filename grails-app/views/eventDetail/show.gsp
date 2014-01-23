@@ -5,33 +5,35 @@
 <meta name="layout" content="bootstrap">
 
 <g:set var="entityName" value="${message(code: 'part.label', default: '文章')}" />
-<title><g:message code="default.list.label" args="[entityName]" /></title>
+<title>${eventDetail}</title>
 
 
 </head>
 <body>
 
-  <sec:ifAnyGranted roles="ROLE_OPERATOR">
+  <g:if test="${currentUserIsEventOwner[eventDetail.head.id]}">
+    <sec:ifAnyGranted roles="ROLE_CUSTOMER">
 
-    <div class="row" id="actionbar">
+      <div class="row" id="actionbar">
 
-      <div class="col-sm-4 col-md-4">
+        <div class="col-sm-4 col-md-4">
 
-        <g:link class="btn btn-primary btn-large "
-          action="edit" controller="eventDetail" id="${eventDetail.id}" >
-        <g:message code="default.button.edit.label" />
-        </g:link>
+          <g:link class="btn btn-primary btn-large "
+            action="edit" controller="eventDetail" id="${eventDetail.id}" >
+          <g:message code="default.button.edit.label" />
+          </g:link>
 
 
-        <g:link class="btn btn-danger"
-          action="delete" controller="eventDetail" id="${eventDetail.id}" >
-          <g:message code="default.button.delete.label" />
-        </g:link> 
-      </div>
+          <g:link class="btn btn-danger"
+            action="delete" controller="eventDetail" id="${eventDetail.id}" >
+            <g:message code="default.button.delete.label" />
+          </g:link> 
+        </div>
 
-    </div>  
+      </div>  
 
-  </sec:ifAnyGranted>
+    </sec:ifAnyGranted>
+  </g:if>
 
 
   <div class="row">
