@@ -24,7 +24,7 @@ remote-init:
 	&& sudo chgrp -R tomcat7 /usr/share/tomcat7 \
 	&& sudo chmod -R 770 /usr/share/tomcat7'
 
-deployConfig:
+deploy-Config:
 	scp ~/.grails/motoranger-config.groovy ${remote_user}@${remote_addr}:~/
 	ssh -t ${remote_user}@${remote_addr} \
 	'sudo cp motoranger-config.groovy /usr/share/tomcat7/.grails/ \
@@ -38,9 +38,13 @@ dbinit:
 
 done:
 	make clean war deploy
-	
+
+
+update:
+	git pull
+
 done-local:
-	make clean war deploy-local
+	make update clean war deploy-local
 
 deploy:
 	scp target/motoranger.war ${remote_user}@${remote_addr}:~/ROOT.war
