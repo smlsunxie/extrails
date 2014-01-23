@@ -15,7 +15,7 @@ class ExtraSecureFilters {
                 def currentUser = springSecurityService?.currentUser
 
                 if(actionName != 'show' && params?.id && currentUser && currentUser?.store
-                        && userService.currentUserIsOperator())
+                        && userService.currentUserIsManerger())
                 {
 
                     if(params.id.toLong() != currentUser.store.id){
@@ -26,6 +26,8 @@ class ExtraSecureFilters {
 
                     }
                 }
+
+
             }
             after = { Map model ->
                 def currentUser = springSecurityService?.currentUser
@@ -61,7 +63,6 @@ class ExtraSecureFilters {
                 }
 
 
-                // 店家防護
                 if(currentUser && userService.currentUserIsOperator()){
                     
                     def notAllow = false
