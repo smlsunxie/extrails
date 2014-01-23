@@ -26,9 +26,9 @@ class HomeController {
             def recentPosts = Post.list(max: 4, sort: 'dateCreated', order: 'desc')
 
             def unfinEvents= Event.findAllByStatus(motoranger.ProductStatus.UNFIN
-                ,[max:4, order:"desc", sort:"lastUpdated"])
+                ,[max:4, order:"desc", sort:"date"])
             def endEvents= Event.findAllByStatus(motoranger.ProductStatus.END
-                ,[max:4, order:"desc", sort:"lastUpdated"])
+                ,[max:4, order:"desc", sort:"date"])
 
 
             [ 
