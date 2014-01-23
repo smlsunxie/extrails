@@ -59,7 +59,7 @@ deploy-local:
 	mv target/motoranger.war ~/ROOT.war
 	sudo rm -rf /var/lib/tomcat7/webapps/ROOT \
 	&& sudo cp ~/ROOT.war /var/lib/tomcat7/webapps/ \
-	&& sudo service tomcat7 restart'	
+	&& sudo service tomcat7 restart
 
 log:
 	ssh -t ${remote_user}@${remote_addr} 'sudo tail -f /var/lib/tomcat7/logs/catalina.out'
