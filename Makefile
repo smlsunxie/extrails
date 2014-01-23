@@ -56,7 +56,7 @@ deploy:
 	&& sudo service tomcat7 restart'
 
 deploy-local:
-	mv target/motoranger.war ~/ROOT.war
+	cp target/motoranger.war ~/ROOT.war
 	sudo rm -rf /var/lib/tomcat7/webapps/ROOT \
 	&& sudo cp ~/ROOT.war /var/lib/tomcat7/webapps/ \
 	&& sudo service tomcat7 restart

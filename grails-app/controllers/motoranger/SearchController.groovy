@@ -40,7 +40,7 @@ class SearchController {
         render "reindex 執行完成"
     }
 
-    def doindex(){
+    def doIndex(){
         Product.index()
         render "index 執行完成"
     }
