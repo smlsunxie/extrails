@@ -87,12 +87,13 @@ class UserController {
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance])
 
+
         if(params?.product?.id){
             userService.addProduct(userInstance, params)
             redirect(controller: "product", action: "show", id: params?.product?.id)
             return
-        }else if(params?.store?.id){
-            redirect(action: "addToStore", id: userInstance.id, params:['store.id': params.store.id])
+        }else if(userInstance?.store){
+            redirect(action: "addToStore", id: userInstance.id, params:['store.id': userInstance.store.id])
             return
         }
 

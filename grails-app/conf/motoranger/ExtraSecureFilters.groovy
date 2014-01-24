@@ -276,7 +276,7 @@ class ExtraSecureFilters {
 
         def currentUser = springSecurityService?.currentUser
         def isCustomerAndPartOwner = (userService.currentUserIsCustomer()
-            && currentUser.id == part?.user.id)
+            && currentUser.id == part?.user?.id)
         def isManergerAndPartOwner = (SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER")
             && currentUser.store.id == part?.store.id)
 
