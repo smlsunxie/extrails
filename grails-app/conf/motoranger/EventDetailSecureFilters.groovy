@@ -30,6 +30,7 @@ class EventDetailSecureFilters {
                     def event = EventDetail.findById(params.id).head
 
                     if(event?.user == currentUser || (event?.store && event.store == currentUser?.store)){
+                        return true                        
  
                     }else {
                         flash.message = "只可維護自己或所屬店家的維修事件"

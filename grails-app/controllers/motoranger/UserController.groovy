@@ -31,7 +31,7 @@ class UserController {
         }
 
 
-        if(userService.isLoggedIn() && SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR"))
+        if(userService.isLoggedIn() && userService.isOperator)
             user.enabled = false
         else user.enabled = true
 
@@ -42,7 +42,7 @@ class UserController {
     @Transactional
     def save() {
         def userInstance 
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR"))
+        if(userService.isOperator)
             userInstance = User.findByUsername(params.username);
         
         if(!userInstance) userInstance = new User(params)
@@ -237,7 +237,7 @@ class UserController {
                 return 
             }
 
-            if(SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR")){
+            if(userService.isOperator){
                 def store = currentUser.store
                 redirect(action: "show", controller: "store", id: store.id)
             }else if(userService.isCustomer()){
