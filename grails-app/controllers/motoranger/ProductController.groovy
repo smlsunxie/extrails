@@ -77,7 +77,6 @@ class ProductController {
             product.user=User.findByUsername(product.name)
         }
 
-        println "product?.user = "+ product?.user
         
         [ 
             product: product

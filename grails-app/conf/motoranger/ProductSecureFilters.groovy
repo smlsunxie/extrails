@@ -10,25 +10,28 @@ class ProductSecureFilters {
         all(controller:'product', action:'*') {
             before = {
                 def currentUser = userService.currentUser()
-                if(userService.isCustomer() && params?.id
-                 && (actionName == "edit" || actionName == "update" || actionName == "delete")){
 
-                    def product = Product.findById(params.id)
+                if(actionName == "edit" || actionName == "update" || actionName == "delete" || actionName == "*"){
 
-                    if(!product?.user || product.user.id !=  currentUser.id){
-                        redirect(action: "user", controller: "store", id: currentUser.id)
+                    if(currentUser && userService.isCustomer()){
+
+                        def product = Product.findById(params.id)
+
+                        if(!product?.user || product.user.id !=  currentUser.id){
+                            flash.message = "已啟用使用者之產品不可維護"
+                            redirect(action: "show", controller: "user", id: currentUser.id)
+                        }
+
+                    }else if(currentUser && (userService.isOperator() || userService.isManerger())){
+
+                        def product = Product.findById(params.id)
+
+                        if(product.user.enabled && product.user!=currentUser){
+                            flash.message = "已啟用使用者之產品不可維護"
+                            redirect(action: "show", controller: "store", id: currentUser.store.id)
+                        }
+
                     }
-
-                }else if(params?.id && currentUser
-                    && (actionName == "edit" || actionName == "update" || actionName == "delete")){
-
-                    def product = Product.findById(params.id)
-
-                    if(product.user.enabled && product.user!=currentUser){
-                        flash.message = "已啟用使用者之產品不可維護"
-                        redirect(action: "user", controller: "store", id: currentUser.id)
-                    }
-
                 }
 
             }
