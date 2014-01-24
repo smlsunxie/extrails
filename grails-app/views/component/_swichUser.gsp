@@ -7,7 +7,7 @@
           <ul class="dropdown-menu">
             <g:each in="${operators}" var="operator">
               <li>
-                <g:link controller="login" action="swithUser" params="[username: operator.username]" >
+                <g:link controller="login" action="switchUser" params="[username: operator.username]" >
                     ${operator}
                 </g:link>
               </li>

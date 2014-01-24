@@ -3,6 +3,7 @@ package motoranger
 class StoreSecureFilters {
 
     def userService
+    def secureFiltersService
 
     def filters = {
 
@@ -35,10 +36,10 @@ class StoreSecureFilters {
                     model.eventDetailTotalPrice=[:]  
 
                     if(model?.unfinEvents){
-                        setModelEventExtraCondiction(model.unfinEvents, model)
+                        secureFiltersService.setModelEventExtraCondiction(model.unfinEvents, model)
                     }
                     if(model?.endEvents){
-                        setModelEventExtraCondiction(model.endEvents, model)
+                        secureFiltersService.setModelEventExtraCondiction(model.endEvents, model)
                     }
 
                     

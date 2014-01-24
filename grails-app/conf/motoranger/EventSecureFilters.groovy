@@ -4,6 +4,8 @@ class EventSecureFilters {
 
     def userService
 
+    def secureFiltersService
+
     def filters = {
 
         all(controller:'event', action:'*') {
@@ -57,7 +59,7 @@ class EventSecureFilters {
                     model.eventDetailTotalPrice=[:]  
 
                     if(model?.events){
-                        setModelEventExtraCondiction(model.events, model)                   
+                        secureFiltersService.setModelEventExtraCondiction(model.events, model)                   
                     } 
                 }else if(actionName == "show" || actionName == "pickPartAddDetail" ){
 
@@ -65,7 +67,7 @@ class EventSecureFilters {
                     model.eventDetailTotalPrice=[:]  
 
                     if(model?.event){
-                        setModelEventExtraCondiction([model.event], model)
+                        secureFiltersService.setModelEventExtraCondiction([model.event], model)
                     }
                 }
 

@@ -148,7 +148,7 @@ class LoginController {
 	}
 
 	@Secured(['ROLE_OPERATOR', 'ROLE_MANERGER', 'ROLE_ADMIN'])
-	def swithUser(){
+	def switchUser(){
 
 		redirect url: "${request.contextPath}/j_spring_security_switch_user?j_username=${params.username}"
 
