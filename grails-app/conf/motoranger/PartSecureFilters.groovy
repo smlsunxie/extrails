@@ -10,32 +10,36 @@ class PartSecureFilters {
             before = {
                 def currentUser = userService.currentUser()
 
-                if(userService.isCustomer() && params?.id 
-                     && (actionName == "edit" || actionName == "update" || actionName == "delete")){
+                if(actionName == "edit" || actionName == "update" || actionName == "delete" || actionName == "*"){
 
-                    def part = Part.findById(params.id)
 
-                    if(Part?.user || currentUser != Part.user){
-                        flash.message = "沒有權限維護不屬於自己的維修項目"
-                        redirect(action: "user", controller: "store", id: currentUser.id)
+                    if(currentUser && userService.isCustomer()){
+                        def part = Part.findById(params.id)
 
-                    }
+                        if(part?.user || currentUser != part.user){
+                            flash.message = "沒有權限維護不屬於自己的維修項目"
+                            redirect(action: "show", controller: "user", id: currentUser.id)
 
-                }else if(actionName != 'show' && params?.id && currentUser){
+                        }
 
-                    def part = Part.findById(params.id)
-                    if(part?.user == currentUser || (part?.store && part.store == currentUser?.store)){
-                    }else {
-                        flash.message = "只可維護自己或所屬店家的維修項目"
-                        if(currentUser?.store)
+                    }else if(currentUser && (userService.isOperator() || userService.isManerger())){
+
+                        def part = Part.findById(params.id)
+                        if(part?.user == currentUser || (part?.store && part.store == currentUser?.store)){
+                        
+                            return true
+                        }else {
+
+                            flash.message = "只可維護自己或所屬店家的維修項目"
                             redirect(action: "show", controller: "store", id: currentUser.store.id)
-                        else redirect(action: "user", controller: "store", id: currentUser.id)
+                            
+                            return false                        
 
-                        return false                        
+                        }
 
-                    }
+                    } 
 
-                }         
+                }        
             }
 
             after = {
