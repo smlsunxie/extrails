@@ -12,12 +12,12 @@ class SecureFiltersService {
         def currentUser = userService.currentUser()
         def isCustomerAndPartOwner = (userService.isCustomer()
             && currentUser.id == part?.user.id)
-        def isManergerAndPartOwner = (SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER")
+        def isManergerAndPartOwner = (userService.isManerger()
             && currentUser.store.id == part?.store.id)
 
         model.userIsPartOwner = (isCustomerAndPartOwner 
             || isManergerAndPartOwner 
-            || SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN"))
+            || userService.isAdmin())
 
         if(!model.userIsPartOwner){
             part.cost = null

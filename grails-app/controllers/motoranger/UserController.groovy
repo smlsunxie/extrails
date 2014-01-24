@@ -72,7 +72,7 @@ class UserController {
 
         userInstance.save(flush: true)
         // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
+        if(userService.isAdmin()){
             userService.modifyUserRole(userInstance, params)
 
         }else {
@@ -175,7 +175,7 @@ class UserController {
 
         userInstance.save(flush: true)
         // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
+        if(userService.isAdmin()){
             userService.modifyUserRole(userInstance, params)
 
         }
@@ -295,9 +295,9 @@ class UserController {
 
     private def storeList(){
         def storeList=[]
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
+        if(userService.isAdmin()){
             storeList=Store.list()
-        }else if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER") 
+        }else if(userService.isManerger() 
             && userService.currentUser()?.store){  
             
             storeList << userService.currentUser().store

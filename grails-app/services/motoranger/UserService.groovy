@@ -47,7 +47,7 @@ class UserService {
         return SpringSecurityUtils.ifAnyGranted("ROLE_CUSTOMER")
     }
     def isOperator(){
-        return userService.isOperator
+        return SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR")
     }    
 
     def isManerger(){
