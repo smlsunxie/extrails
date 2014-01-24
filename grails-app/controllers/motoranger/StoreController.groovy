@@ -14,7 +14,6 @@ class StoreController {
 
     def show() {
 
-        def currentUser = springSecurityService.currentUser
         def store = Store.findById(params.id)
         
         def unfinEvents= Event.findAllByStatusAndStore(motoranger.ProductStatus.UNFIN
@@ -26,9 +25,7 @@ class StoreController {
         [
             unfinEvents: unfinEvents,
             endEvents: endEvents,
-            store: store,
-            currentUserStore: currentUser?.store,
-            currentUserIsAdmin: SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")
+            store: store
         ]
 
 
@@ -58,7 +55,7 @@ class StoreController {
         redirect(action: "show", id: storeInstance.id)
     }
 
-
+    @Secured(['ROLE_ADMIN'])
     def edit(Long id) {
         def storeInstance = Store.get(id)
         if (!storeInstance) {
@@ -70,6 +67,7 @@ class StoreController {
         [storeInstance: storeInstance]
     }
 
+    @Secured(['ROLE_ADMIN'])
     def update(Long id, Long version) {
         println params
         def storeInstance = Store.get(id)

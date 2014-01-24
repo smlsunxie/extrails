@@ -27,15 +27,12 @@
           <li><g:link controller="store" action="create" params="['user.id': user.id]">新增店家</g:link></li>
         </sec:ifAnyGranted>
 
-        <sec:ifNotGranted roles="ROLE_OPERATOR"> 
-          <sec:ifAnyGranted roles="ROLE_CUSTOMER">  
-            <li><g:link controller="product" action="create" params="['user.id': user.id]">新增產品</g:link></li>
-          </sec:ifAnyGranted>
+        <sec:ifAnyGranted roles="ROLE_CUSTOMER">  
+          <li><g:link controller="product" action="create" params="['user.id': user.id]">新增產品</g:link></li>
+         
+          <li><g:link controller="part" action="create" params="['user.id': user.id]">新維修項目</g:link></li>
+        </sec:ifAnyGranted>
 
-          <sec:ifAnyGranted roles="ROLE_CUSTOMER">          
-            <li><g:link controller="part" action="create" params="['user.id': user.id]">新維修項目</g:link></li>
-          </sec:ifAnyGranted>
-        </sec:ifNotGranted>
       </ul>
     </div>
   </div>
@@ -59,15 +56,15 @@
         </g:if>
       </sec:ifAnyGranted>
 
-      <sec:ifAnyGranted roles="ROLE_CUSTOMER">  
+      <sec:ifAnyGranted roles="ROLE_CUSTOMER, ROLE_OPERATOR, ROLE_MANERGER">  
         <g:link  class="btn btn-primary" controller="product" action="create" params="['user.id': user.id]">新增產品</g:link>
       </sec:ifAnyGranted>
 
-      <sec:ifNotGranted roles="ROLE_OPERATOR, ROLE_MANERGER">  
-        <sec:ifAnyGranted roles="ROLE_CUSTOMER">          
-          <g:link  class="btn btn-primary" controller="part" action="create" params="['user.id': user.id]">新增維修項目</g:link>
-        </sec:ifAnyGranted>
-      </sec:ifNotGranted>
+
+      <sec:ifAnyGranted roles="ROLE_CUSTOMER">          
+        <g:link  class="btn btn-primary" controller="part" action="create" params="['user.id': user.id]">新增維修項目</g:link>
+      </sec:ifAnyGranted>
+
 
       <g:link  class="btn btn-danger" action="delete" id="${user?.id}"><g:message code="default.button.delete.label" /></g:link>
 

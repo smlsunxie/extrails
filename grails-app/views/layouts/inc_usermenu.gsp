@@ -24,7 +24,7 @@
 <sec:ifLoggedIn>
 
 
-    <sec:ifAnyGranted roles="ROLE_OPERATOR">
+    <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">
         <g:switchUser />
     </sec:ifAnyGranted>
 

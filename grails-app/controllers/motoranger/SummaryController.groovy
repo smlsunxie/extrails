@@ -28,7 +28,7 @@ class SummaryController {
 
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_MANERGER'])
     def turnoverYearList(){
         def currentUser = springSecurityService.currentUser
     	def thisYear=(new Date()).getAt(Calendar.YEAR)
@@ -84,7 +84,7 @@ class SummaryController {
 
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_MANERGER'])
     def turnoverMonthList(){
 
         def currentUser = springSecurityService.currentUser

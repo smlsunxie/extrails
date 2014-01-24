@@ -35,7 +35,7 @@ class PartController {
 
     }
 
-	@Secured(['ROLE_CUSTOMER'])
+	@Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def create(){
 
     	def part = new Part(params)
@@ -55,7 +55,7 @@ class PartController {
         [ part: part ]
 
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
     def query(){
 
         def part = Part.findByName(params.name)
@@ -68,7 +68,7 @@ class PartController {
 
     }
     
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def addEvent(){
 
         def part = Part.findByName(params.name)
@@ -81,7 +81,7 @@ class PartController {
 
     }
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def save(){
 
         if(!params?.price)params.price=0
@@ -127,7 +127,7 @@ class PartController {
     }
 
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def list(){
         [
             parts: Part.list()
@@ -141,7 +141,7 @@ class PartController {
         ]
     }
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def edit(){ 
         def part = Part.findById(params.id)
 
@@ -153,7 +153,7 @@ class PartController {
             historyPrice: eventDetails*.price.unique().sort()
         ]
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def update(){
 
         def part = Part.findByIdOrName(params.id,params.name)
@@ -202,7 +202,7 @@ class PartController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'part.label', default: 'Part'), part])
         redirect(action: "show", id: part.id)
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def delete(){ 
         def part = Part.findById(params.id)
         

@@ -69,5 +69,14 @@ class UserService {
 
         return isManergerRole
     }
+    def currentUserIsAdmin(){
+        def currentUser = springSecurityService?.currentUser
+        def isAdminRole =false
+        def authorities = currentUser.getAuthorities()
 
+        if(currentUser && authorities.contains(motoranger.Role.findByAuthority('ROLE_ADMIN')))
+            isAdminRole = true
+
+        return isAdminRole
+    }
 }

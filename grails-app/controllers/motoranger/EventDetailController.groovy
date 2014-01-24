@@ -9,7 +9,7 @@ class EventDetailController {
     def messageSource
 
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def create(){
 
     	def eventDetail=new EventDetail(params)
@@ -35,7 +35,7 @@ class EventDetailController {
 
     }
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def save(){
 
         println params
@@ -87,7 +87,7 @@ class EventDetailController {
 
     }
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def edit(){ 
         def eventDetail = EventDetail.findByIdOrName(params.id, params.name)
 
@@ -95,7 +95,7 @@ class EventDetailController {
             eventDetail: eventDetail
         ]
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def update(){
 
         def eventDetail = EventDetail.get(params.id)
@@ -127,7 +127,7 @@ class EventDetailController {
 
 
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def delete(){ 
 
         def eventDetail = EventDetail.findById(params.id)

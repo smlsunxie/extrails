@@ -23,7 +23,7 @@ class EventController {
         ]
     }
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def create() { 
 
         def unfinEvent
@@ -58,7 +58,7 @@ class EventController {
     }
 
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def save() {
         
 
@@ -97,7 +97,7 @@ class EventController {
 
 
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def pickPartAddDetail(){
 
         def event
@@ -127,7 +127,7 @@ class EventController {
     }
 
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def delete() { 
 
         def event=Event.findById(params.id)
@@ -160,7 +160,7 @@ class EventController {
 
 
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def edit() { 
         def event = Event.findByIdOrName(params.id, params.name)
 
@@ -168,7 +168,7 @@ class EventController {
             event: event
         ]
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def update() {
 
         def event = Event.findByIdOrName(params.id, params.name)
@@ -215,7 +215,7 @@ class EventController {
         }
     }
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
     def updateReceivedMoney() { 
 
         def event=Event.findById(params.id)
@@ -255,7 +255,7 @@ class EventController {
 
 
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
     def updateDiscountMoney() { 
 
         def event=Event.findById(params.id)
@@ -296,7 +296,7 @@ class EventController {
 
     }
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
     def updateDate() { 
 
 

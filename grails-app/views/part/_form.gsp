@@ -87,7 +87,7 @@
 
 </div>
 
-<sec:ifAnyGranted roles="ROLE_OPERATOR">
+<sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">
 
 
 

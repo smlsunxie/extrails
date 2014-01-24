@@ -33,9 +33,8 @@ class ExtraSecureFilters {
                 def currentUser = springSecurityService?.currentUser
 
 
-                if(actionName == "show"){
+                if(model?.unfinEvents || model?.endEvents){
 
-                    if(!model)model=[:]
                     model.currentUserIsEventOwner=[:]
                     model.eventDetailTotalPrice=[:]  
 
@@ -45,6 +44,60 @@ class ExtraSecureFilters {
                     if(model?.endEvents){
                         setModelEventExtraCondiction(model.endEvents, model)
                     }
+
+                    
+ 
+                }
+
+                if(params?.id && currentUser){
+                    model.currentUserBelongsStore = 
+                        (currentUser?.store?.id == params.id || userService.currentUserIsAdmin)
+                }
+
+                println model
+
+            }
+
+        }
+
+
+        storeFilter(controller:'event', action:'*') {
+
+
+            before = {
+                def currentUser = springSecurityService?.currentUser
+
+                if(actionName != 'show' && params?.id && currentUser && currentUser?.store
+                        && userService.currentUserIsOperator() )
+                {
+
+                    def event = Event.findById(params.id)
+
+                    if(event?.user != currentUser && event?.store != currentUser.store){
+                        notAllow=true
+                        flash.message = "只可維護自己店家的維修事件" 
+                    }
+                }
+
+
+
+
+            }
+            after = { Map model ->
+                def currentUser = springSecurityService?.currentUser
+
+
+                if(actionName == "show"
+                    || actionName == "unfinListOfStore"
+                    || actionName == "endListOfStore"){
+
+                    if(!model)model=[:]
+                    model.currentUserIsEventOwner=[:]
+                    model.eventDetailTotalPrice=[:]  
+
+                    if(model?.event){
+                        setModelEventExtraCondiction([model.event], model)
+                    }
  
                 }
 
@@ -52,7 +105,7 @@ class ExtraSecureFilters {
 
         }
 
-        user(controller: 'store', invert: true) {
+        user(controller: 'store|event', invert: true) {
             before = {
 
                 def currentUser = springSecurityService?.currentUser
@@ -295,9 +348,9 @@ class ExtraSecureFilters {
     }
 
     private setModelProductNameExtraCondiction(product){
-
+        def currentUser = springSecurityService?.currentUser
         def isCustomerButNotProductOwner = (userService.currentUserIsCustomer() && currentUser.id != product?.user.id)
-        def isNotLoggedIn = !springSecurityService.isLoggedIn() 
+        def isNotLoggedIn = !currentUser
 
 
         if( isNotLoggedIn || isCustomerButNotProductOwner){

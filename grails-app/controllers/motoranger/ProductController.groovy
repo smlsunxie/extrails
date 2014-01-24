@@ -11,7 +11,7 @@ class ProductController {
     def springSecurityService
     def userService
 
-	@Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def create(){ 
 
     	def product = new Product(params)
@@ -24,7 +24,7 @@ class ProductController {
     }
 
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def save(){
         
         def product = new Product(params);
@@ -64,7 +64,7 @@ class ProductController {
             statusEnd :statusEnd
         ]
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def edit(){ 
         
         def product = Product.findById(params.id)
@@ -84,7 +84,7 @@ class ProductController {
             product: product
         ]
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def update(){ 
 
         def product = Product.findById(params.id)
@@ -125,7 +125,7 @@ class ProductController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'product.label', default: 'Product'), product])
         redirect(action: "show", id: product.id)
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def delete(){ 
         def product = Product.findById(params.id)
         

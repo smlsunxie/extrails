@@ -23,7 +23,7 @@ class PartSpec extends Specification {
 
     void "Part.name unque with user and store"() {
     	setup: "建立 user、store 以及 part"
-    		def user = new User(username: 'user', password: 'user').save(failOnError: true)
+    		def user = new User(username: 'user', password: 'user', title: "user").save(failOnError: true)
     		def store =new Store(name: 'store', title: 'store').save(failOnError: true)
     	when: "part 名稱一樣，但屬於不同的 user、store"
     		def part1 = new Part(name: 'part', title: 'part', store: store).save(failOnError: true)

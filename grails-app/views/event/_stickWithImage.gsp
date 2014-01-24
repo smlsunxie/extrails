@@ -10,18 +10,15 @@
   
 
   <g:if test="${currentUserIsEventOwner[event.id]}">
-    <sec:ifAnyGranted roles="ROLE_OPERATOR">
+    <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">
       <div class="row stick_outside">
 
         <div class="col-sm-10 col-md-10 col-md-offset-1 col-sm-offset-1">
           <g:render template="/event/updateReceivedMoney" model="[event: event]" />
-
           <g:render template="/event/updateUnreceiveMoney" model="[event: event]" />
         </div>
 
-
       </div>
-
     </sec:ifAnyGranted>
   </g:if>
 

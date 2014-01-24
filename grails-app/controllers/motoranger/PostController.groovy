@@ -167,7 +167,7 @@ class PostController {
         ]
     }
 
-    @Secured(['ROLE_MANERGER'])
+    @Secured(['ROLE_ADMIN'])
     def update(){ 
 
 

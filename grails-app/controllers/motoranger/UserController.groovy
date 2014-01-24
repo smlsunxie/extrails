@@ -92,8 +92,12 @@ class UserController {
             redirect(controller: "product", action: "show", id: params?.product?.id)
             return
         }else if(params?.store?.id){
-            redirect(action: "addToStore", id: userInstance.id, params:['store.id': params.store.id])
-            return
+            if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER, ROLE_ADMIN")){
+                redirect(action: "addToStore", id: userInstance.id, params:['store.id': params.store.id])
+                return
+            }else {
+                flash.message+= "：沒有權限將使用者加入店家"
+            }
         }
 
         if(springSecurityService.isLoggedIn()){
@@ -104,7 +108,6 @@ class UserController {
         }
     }
     
-    @Secured(['ROLE_CUSTOMER', 'ROLE_ADMIN'])
     def show() {
         
         if(params?.tour){
@@ -127,7 +130,6 @@ class UserController {
         [user: user, products: Product.findAllByUser(user)]
     }
 
-    @Secured(['ROLE_CUSTOMER', 'ROLE_ADMIN'])
     def edit() {
 
         def userInstance
@@ -147,7 +149,6 @@ class UserController {
         ,storeList:storeList()]
     }
 
-    @Secured(['ROLE_CUSTOMER', 'ROLE_ADMIN'])
     def update() {
         def userInstance = User.get(params.id)
         if (!userInstance) {
@@ -193,7 +194,6 @@ class UserController {
 
 
 
-    @Secured(['ROLE_CUSTOMER', 'ROLE_ADMIN'])
     @Transactional
     def delete(Long id) {
         def userInstance = User.get(id)
@@ -253,7 +253,7 @@ class UserController {
             redirect(action: "show", id: id)
         }
     }
-
+    @Secured(['ROLE_MANERGER', 'ROLE_ADMIN'])
     def addToStore(){
         def user = User.get(params.id)
         def store = Store.get(params.store.id)

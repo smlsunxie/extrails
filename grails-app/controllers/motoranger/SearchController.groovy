@@ -3,7 +3,7 @@ import grails.plugin.springsecurity.annotation.Secured
 class SearchController {
 	static layout="bootstrap"
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
     def query(){
 
         def productSearchResult
@@ -28,6 +28,7 @@ class SearchController {
 
     }
 
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def createOrLinkProductOwner(){
         println "params?.product?.id=" + params?.product?.id
 
