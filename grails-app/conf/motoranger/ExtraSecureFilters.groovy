@@ -4,78 +4,43 @@ import grails.plugin.springsecurity.SpringSecurityUtils
 class ExtraSecureFilters {
 
     def userService
-    def springSecurityService
 
     def filters = {
 
-        storeFilter(controller:'store', action:'*') {
+        eventFilter(controller:'event', action:'*') {
 
 
             before = {
-                def currentUser = springSecurityService?.currentUser
+                def currentUser = userService.currentUser()
 
-                if(actionName != 'show' && params?.id && currentUser && currentUser?.store
-                        && userService.currentUserIsManerger())
+
+
+                if(userService.isCustomer() && (actionName == "create" || actionName == "save") 
+                    && params?.product?.id)
                 {
 
-                    if(params.id.toLong() != currentUser.store.id){
+                    def product = Product.findById(params.product.id)
 
-                        flash.message = "只可維護自己的店家"
-                        redirect(action: "show", controller: "store", id: currentUser.store.id)
-                        return false
+                    if(!product?.user || product.user.id !=  currentUser.id){
+                        flash.message = "沒有權限建立不屬於自己產品的維修事件"
+                        redirect(action: "user", controller: "store", id: currentUser.id)
+                        return false 
 
-                    }
-                }
-
-
-            }
-            after = { Map model ->
-                def currentUser = springSecurityService?.currentUser
-
-
-                if(model?.unfinEvents || model?.endEvents){
-
-                    model.currentUserIsEventOwner=[:]
-                    model.eventDetailTotalPrice=[:]  
-
-                    if(model?.unfinEvents){
-                        setModelEventExtraCondiction(model.unfinEvents, model)
-                    }
-                    if(model?.endEvents){
-                        setModelEventExtraCondiction(model.endEvents, model)
-                    }
-
-                    
- 
-                }
-
-                if(params?.id && currentUser){
-                    model.currentUserBelongsStore = 
-                        (currentUser?.store?.id == params.id || userService.currentUserIsAdmin)
-                }
-
-                println model
-
-            }
-
-        }
-
-
-        storeFilter(controller:'event', action:'*') {
-
-
-            before = {
-                def currentUser = springSecurityService?.currentUser
-
-                if(actionName != 'show' && params?.id && currentUser && currentUser?.store
-                        && userService.currentUserIsOperator() )
-                {
+                    }                        
+                }else if((userService.isOperator() || userService.isManerger) 
+                     && (actionName == "edit" || actionName == "update" || actionName == "delete")){
 
                     def event = Event.findById(params.id)
 
-                    if(event?.user != currentUser && event?.store != currentUser.store){
-                        notAllow=true
-                        flash.message = "只可維護自己店家的維修事件" 
+                    if(event?.user == currentUser || (event?.store && event.store == currentUser?.store)){
+ 
+                    }else {
+                        flash.message = "只可維護自己或所屬店家的維修事件"
+                        if(currentUser?.store)
+                            redirect(action: "show", controller: "store", id: currentUser.store.id)
+                        else redirect(action: "user", controller: "store", id: currentUser.id)
+
+                        return false                        
                     }
                 }
 
@@ -84,233 +49,216 @@ class ExtraSecureFilters {
 
             }
             after = { Map model ->
-                def currentUser = springSecurityService?.currentUser
+                def currentUser = userService.currentUser()
 
 
-                if(actionName == "show"
-                    || actionName == "unfinListOfStore"
-                    || actionName == "endListOfStore"){
+                if(actionName == "unfinListOfStore" || actionName == "endListOfStore" ){
 
-                    if(!model)model=[:]
+                    model.currentUserIsEventOwner=[:]
+                    model.eventDetailTotalPrice=[:]  
+
+                    if(model?.events){
+                        setModelEventExtraCondiction(model.events, model)                   
+                    } 
+                }else if(actionName == "show" || actionName == "pickPartAddDetail" ){
+
                     model.currentUserIsEventOwner=[:]
                     model.eventDetailTotalPrice=[:]  
 
                     if(model?.event){
                         setModelEventExtraCondiction([model.event], model)
                     }
- 
                 }
 
             }
 
         }
 
-        user(controller: 'store|event', invert: true) {
+        eventDetailFilter(controller:'eventDetail', action:'*') {
             before = {
 
-                def currentUser = springSecurityService?.currentUser
+                if(userService.isCustomer() && (actionName == "create" || actionName == "save") 
+                    && params?.head?.id)
+                {
 
-                if(currentUser){
-                    params.currentUserStoreId=currentUser?.store?.id
-                    params.currentUserId=currentUser?.id
-                }
+                    def product = Event.findById(params.head.id).product
 
+                    if(!product?.user || product.user.id !=  currentUser.id){
+                        flash.message = "沒有權限建立不屬於自己產品的維修事件"
+                        redirect(action: "user", controller: "store", id: currentUser.id)
+                        return false 
 
-                if(currentUser && userService.currentUserIsOperator()){
-                    
-                    def notAllow = false
-    
-                    if(controllerName=="login" && actionName=="swithUser"){
-                        def user = User.findByUsername(params.username)
+                    }                        
+                }else if(actionName != 'show' && params?.id && currentUser)
+                {
 
-                        if(!user?.store || user.store.id != params.currentUserStoreId){
-                            notAllow = true
-                            flash.message = "無法切換到不屬於「${currentUser.store}」的使用者"
+                    def event = EventDetail.findById(params.id).head
 
-                        }
-
-                    }
-
-
-                    //User
-                    if(controllerName == "user" && isFilterActionName(actionName) 
-                        && params?.id && params.id.toLong() != currentUser.id.toLong())
-                    {
-
-                        def user = User.get(params.id)
-
-                        if(user.store != currentUser.store && user.enabled){
-                            flash.message = "已經啟用或不屬於「${currentUser.store}」的使用者不可維護"
-                            notAllow=true
-                        }
-                    }
-
-
-
-                    //store
-                    if(controllerName == "event" && isFilterActionName(actionName) 
-                        && params?.id)
-                    {
-                        def event = Event.findById(params.id)
-
-                        if(event?.user == currentUser || event?.store == currentUser.store){
-
-
-                        }else {
-                            notAllow=true
-                            flash.message = "只可維護自己店家的維修事件" 
-                        }
-                        
-
-                    }
-
-                    if(notAllow){
-                        if(actionName != "show"){
+                    if(event?.user == currentUser || (event?.store && event.store == currentUser?.store)){
+ 
+                    }else {
+                        flash.message = "只可維護自己或所屬店家的維修事件"
+                        if(currentUser?.store)
                             redirect(action: "show", controller: "store", id: currentUser.store.id)
-                            return false
-                        }
+                        else redirect(action: "user", controller: "store", id: currentUser.id)
+
+                        return false                        
                     }
-                }
-
-                if(currentUser && userService.currentUserIsCustomer()){
-                    def notAllow = false
-
-                    if(controllerName == "event" && actionName == "create" && params?.product?.id){
-
-                        def product = Product.findById(params?.product?.id)
-                        if(!product?.user || product.user.id !=  currentUser.id){
-                            flash.message = "沒有權限建立不屬於自己產品的維修事件"
-                            notAllow = true
-
-                        }                        
-                    }
-
-                    if(controllerName == "eventDetail" && actionName == "create" && params?.head?.id){
-
-                        def product = Event.findById(params.head.id).product
-
-                        if(!product?.user || product.user.id !=  currentUser.id){
-                            flash.message = "沒有權限建立不屬於自己產品的維修事件"
-                            notAllow = true
-
-                        }                        
-                    }
-
-
-                    if(params.id){
-
-                        if(controllerName == "user" && isFilterActionName(actionName)){
-
-                            if(currentUser.id.toLong() != params.id.toLong()){
-                                flash.message = "沒有權限維護其他使用者"
-                                notAllow = true
-
-                            }
-
-                        }
-
-                        if(controllerName == "product" && isFilterActionName(actionName)){
-
-                            def product = Product.findById(params.id)
-
-                            if(!product?.user || product.user.id !=  currentUser.id){
-                                flash.message = "沒有權限維護不屬於自己的產品"
-                                notAllow = true
-
-                            }
-
-                        }
-
-                        if(controllerName == "event" && isFilterActionName(actionName)){
-
-                            def product = Event.findById(params.id).product
-
-                            if(!product?.user || product.user.id !=  currentUser.id){
-                                flash.message = "沒有權限維護不屬於自己產品的維修事件"
-                                notAllow = true
-
-                            }
-
-                        }
-
-                        if(controllerName == "eventDetail" && isFilterActionName(actionName)){
-
-                            def product = EventDetail.findById(params.id).head.product
-
-                            if(!product?.user || product.user.id !=  currentUser.id){
-
-                                flash.message = "沒有權限維護不屬於自己產品的維修事件"
-                                notAllow = true
-
-                            }
-
-                        }
-
-                        if(controllerName == "part" && isFilterActionName(actionName)){
-
-
-                            if(currentUser.id != Part.findById(params.id)?.user?.id){
-                                flash.message = "沒有權限維護不屬於自己產品的維修項目"
-                                notAllow = true
-
-                            }
-
-                        }
-
-                    }
-
-                    if(notAllow){
-
-                        redirect(action: "show", controller: "user", id: currentUser.id)
-                        return false
-                    }
-
-                }
-
-
+                }        
             }
 
-            after = { Map model ->
-                def currentUser = springSecurityService?.currentUser
 
+            after = {
 
-                if(actionName == "show" 
-                    || actionName == "index" 
-                    || actionName == "pickPartAddDetail" 
-                    || actionName == "unfinListOfStore"
-                    || actionName == "endListOfStore"){
-
-                    if(!model)model=[:]
+                if(actionName == "show" && model?.eventDetail){
                     model.currentUserIsEventOwner=[:]
-                    model.eventDetailTotalPrice=[:]  
-                    if(model?.events){
-                        setModelEventExtraCondiction(model.events, model)                   
-                    }                  
-                    if(model?.part){
-                        setModelPartCostExtraCondiction(model.part, model)                   
+                    model.eventDetailTotalPrice=[:] 
+                    setModelEventExtraCondiction([model.eventDetail.head], model)
+                    setModelPartCostExtraCondiction(model.eventDetail.part, model)
+                }
+
+            }
+        }
+        productFilter(controller:'product', action:'*') {
+            before = {
+                if(userService.isCustomer() && params?.id
+                 && (actionName == "edit" || actionName == "update" || actionName == "delete")){
+
+                    def product = Product.findById(params.id)
+
+                    if(!product?.user || product.user.id !=  currentUser.id){
+                        redirect(action: "user", controller: "store", id: currentUser.id)
                     }
 
-                    if(model?.product){
-                        setModelProductNameExtraCondiction(model.product)
-                        setModelEventExtraCondiction(model.product?.events, model, true)
-                    }
-                    if(model?.unfinEvents){
-                        setModelEventExtraCondiction(model.unfinEvents, model)
-                    }
-                    if(model?.endEvents){
-                        setModelEventExtraCondiction(model.endEvents, model)
-                    }
-                    if(model?.eventDetail){
-                        setModelEventExtraCondiction([model.eventDetail.head], model)
-                        setModelPartCostExtraCondiction(model.eventDetail.part, model)
+                }else if(params?.id && currentUser
+                    && (actionName == "edit" || actionName == "update" || actionName == "delete")){
+
+                    def product = Product.findById(params.id)
+
+                    if(product.user.enabled && product.user!=currentUser){
+                        flash.message = "已啟用使用者之產品不可維護"
+                        redirect(action: "user", controller: "store", id: currentUser.id)
                     }
 
-                    if(model?.event){
-                        setModelEventExtraCondiction([model.event], model)
+                }
+
+            }
+
+            after = {
+
+                if(actionName=="show" && model?.product){
+
+                    model.currentUserIsEventOwner=[:]
+                    model.eventDetailTotalPrice=[:]                     
+                    setModelProductNameExtraCondiction(model.product)
+                    setModelEventExtraCondiction(model.product?.events, model, true)
+                }
+
+            }
+
+        }
+        partFilter(controller:'part', action:'*') {
+            before = {
+                if(userService.isCustomer() && params?.id 
+                     && (actionName == "edit" || actionName == "update" || actionName == "delete")){
+
+                    def part = Part.findById(params.id)
+
+                    if(Part?.user || currentUser != Part.user){
+                        flash.message = "沒有權限維護不屬於自己的維修項目"
+                        redirect(action: "user", controller: "store", id: currentUser.id)
+
+                    }
+
+                }else if(actionName != 'show' && params?.id && currentUser){
+
+                    def part = Part.findById(params.id)
+                    if(part?.user == currentUser || (part?.store && part.store == currentUser?.store)){
+                    }else {
+                        flash.message = "只可維護自己或所屬店家的維修項目"
+                        if(currentUser?.store)
+                            redirect(action: "show", controller: "store", id: currentUser.store.id)
+                        else redirect(action: "user", controller: "store", id: currentUser.id)
+
+                        return false                        
+
+                    }
+
+                }         
+            }
+
+            after = {
+                if(actionName == "show" && model?.part){
+                    setModelPartCostExtraCondiction(model.part, model)                   
+                }
+            }
+
+        }
+        loginFilter(controller:'login', action:'swithUser') {
+            before = {
+                def user = User.findByUsername(params.username)
+
+                if((userService.isOperator() || userService.isManerger())
+                    && (!user?.store || user.store.id != currentUser.store.id))
+                {
+
+                    flash.message = "無法切換到不屬於「${currentUser.store}」的使用者"
+                    redirect(action: "show", controller: "store", id: currentUser.store.id)
+                    return false
+
+                }
+            }            
+        }
+
+        homeFilter(controller:'home', action:'index') {
+
+
+            after = {
+                model.currentUserIsEventOwner=[:]
+                model.eventDetailTotalPrice=[:]                 
+                
+                if(model?.unfinEvents){
+                    setModelEventExtraCondiction(model.unfinEvents, model)
+                }
+                if(model?.endEvents){
+                    setModelEventExtraCondiction(model.endEvents, model)
+                }
+            }
+
+        }        
+        userFilter(controller: 'user') {
+            before = {
+                if(currentUser && userService.isCustomer()
+                    && (actionName == "edit" || actionName == "update" || actionName == "delete")){
+                    if(params?.id != currentUser.id){
+                        flash.message = "不可維護其他使用者的資料"
+                        redirect(action: "show", controller: "user", id: currentUser.id)
+
+
+                    }
+
+                }else if(currentUser && userService.isOperator() && userService.isManerger()
+                    && (actionName == "edit" || actionName == "update" || actionName == "delete")){
+                    
+
+                    def user = User.get(params.id)
+
+                    if(user.store == currentUser.store || !user.enabled ){ 
+                        return true
+
+                    }else {
+                        flash.message = "已經啟用或不屬於「${currentUser.store}」的使用者不可維護"
+
+                        if(currentUser?.store)
+                            redirect(action: "show", controller: "store", id: currentUser.store.id)
+                        else redirect(action: "user", controller: "store", id: currentUser.id)
+
+                        return false  
                     }
                 }
 
             }
+
         }
 
     }
@@ -328,8 +276,8 @@ class ExtraSecureFilters {
 
     private setModelPartCostExtraCondiction(part, model){
 
-        def currentUser = springSecurityService?.currentUser
-        def isCustomerAndPartOwner = (userService.currentUserIsCustomer()
+        def currentUser = userService.currentUser()
+        def isCustomerAndPartOwner = (userService.isCustomer()
             && currentUser.id == part?.user.id)
         def isManergerAndPartOwner = (SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER")
             && currentUser.store.id == part?.store.id)
@@ -348,8 +296,8 @@ class ExtraSecureFilters {
     }
 
     private setModelProductNameExtraCondiction(product){
-        def currentUser = springSecurityService?.currentUser
-        def isCustomerButNotProductOwner = (userService.currentUserIsCustomer() && currentUser.id != product?.user.id)
+        def currentUser = userService.currentUser()
+        def isCustomerButNotProductOwner = (userService.isCustomer() && currentUser.id != product?.user.id)
         def isNotLoggedIn = !currentUser
 
 
@@ -361,7 +309,7 @@ class ExtraSecureFilters {
 
     }
     private setModelEventExtraCondiction(events, model, withDetail = false){
-        def currentUser = springSecurityService?.currentUser
+        def currentUser = userService.currentUser()
 
         events.each(){ event ->
             def userStoreOwnEvent = (currentUser?.store && currentUser?.store == event?.store)

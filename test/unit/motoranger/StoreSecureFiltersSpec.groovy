@@ -1,4 +1,4 @@
-package motoranger
+	package motoranger
 
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
@@ -8,21 +8,23 @@ import org.junit.*
  * See the API for {@link grails.test.mixin.support.GrailsUnitTestMixin} for usage instructions
  */
 @TestFor(StoreController)
-@Mock([User, Store, Product, Event, UserService, ExtraSecureFilters])
-class ExtraSecureFiltersWithStoreControllerSpec extends Specification {
+@Mock([User, Store, Product, Event, UserService, StoreSecureFilters])
+class StoreSecureFiltersSpec extends Specification {
 
     def setup() {
 		User.metaClass.encodePassword = {
 			password = 'password'
 		}
 
-	    UserService.metaClass.currentUserIsCustomer = {
+	    UserService.metaClass.isCustomer = {
         	false
         }	
-	    UserService.metaClass.currentUserIsManerger = {
+	    UserService.metaClass.isManerger = {
         	true
         }
-
+	    UserService.metaClass.isAdmin = {
+        	false
+        }
 		def storeA = new Store(name: "storeA", title: "storeA").save(failOnError: true)
 		def userA = new User(username: 'userA', title: 'userA', password:'pass'
 			, enabled: true, store: storeA).save(failOnError: true)
@@ -35,14 +37,9 @@ class ExtraSecureFiltersWithStoreControllerSpec extends Specification {
 		def eventB = new Event(name: 'eventB', date: new Date(), product: productB, user: userA, store: storeA
 			, status: motoranger.ProductStatus.END).save(failOnError: true)
 
-
-
-
-		ExtraSecureFilters.metaClass.springSecurityService = [ 
-	    	currentUser: userA
-    	]
-
-   	
+	    UserService.metaClass.currentUser = {
+        	userA
+        }
     	
     }
 
@@ -146,7 +143,7 @@ class ExtraSecureFiltersWithStoreControllerSpec extends Specification {
 			並且 filter 加入另外兩個 model 分別為 currentUserIsEventOwner 以及 eventDetailTotalPrice
 			"""
 
-			assert model.usernfinEvents
+			assert model.unfinEvents
 			assert model.endEvents
 			// assert model.currentUserIsEventOwner
 			// assert model.eventDetailTotalPrice

@@ -8,7 +8,6 @@ class ProductController {
 	static layout="bootstrap"
     def s3Service
     def imageModiService
-    def springSecurityService
     def userService
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
@@ -29,7 +28,7 @@ class ProductController {
         
         def product = new Product(params);
 
-        product.creator = springSecurityService.currentUser.username
+        product.creator = userService.currentUser().username
 
         def user = User.findByUsername(params.name)
 
@@ -137,9 +136,9 @@ class ProductController {
 
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), product])
 
-            def currentUser = springSecurityService?.currentUser
+            def currentUser = userService.currentUser()
 
-            if(userService.currentUserIsCustomer()){
+            if(userService.isCustomer()){
                 redirect(action: "show", controller: "user", id: currentUser.id)
                 return
             }else {

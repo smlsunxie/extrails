@@ -8,8 +8,6 @@ class UserController {
 
 
     static layout = 'bootstrap'
-
-    def springSecurityService
     def userService
 
 
@@ -33,7 +31,7 @@ class UserController {
         }
 
 
-        if(springSecurityService.isLoggedIn() && SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR"))
+        if(userService.isLoggedIn() && SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR"))
             user.enabled = false
         else user.enabled = true
 
@@ -58,7 +56,7 @@ class UserController {
             return
         }
 
-        if(!springSecurityService.isLoggedIn() && !userInstance?.email ){
+        if(!userService.isLoggedIn() && !userInstance?.email ){
             flash.message = "請輸入 email"
             render(view: "create", model: [userInstance: userInstance,roles: Role.list()])
             return            
@@ -100,7 +98,7 @@ class UserController {
             }
         }
 
-        if(springSecurityService.isLoggedIn()){
+        if(userService.isLoggedIn()){
             redirect(action: "show", id: userInstance.id)
         }else {
             flash.message = flash.message + "可以開始登入使用！"
@@ -118,7 +116,7 @@ class UserController {
 
         if(params.id)
             user = User.get(params.id)
-        else user = springSecurityService.currentUser
+        else user = userService.currentUser()
 
 
         if (!user) {
@@ -136,7 +134,7 @@ class UserController {
 
         if(params.id)
             userInstance = User.get(params.id)
-        else userInstance = springSecurityService.currentUser
+        else userInstance = userService.currentUser()
 
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), userInstance])
@@ -232,7 +230,7 @@ class UserController {
             userInstance.delete(flush: true,failOnError:true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), userInstance])
             
-            def currentUser = springSecurityService?.currentUser
+            def currentUser = userService.currentUser()
 
             if(!currentUser){
                 redirect(url: '/j_spring_security_logout')
@@ -242,7 +240,7 @@ class UserController {
             if(SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR")){
                 def store = currentUser.store
                 redirect(action: "show", controller: "store", id: store.id)
-            }else if(userService.currentUserIsCustomer()){
+            }else if(userService.isCustomer()){
                 redirect(action: "show", controller: "user", id: currentUser.id)
             }
 
@@ -300,9 +298,9 @@ class UserController {
         if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
             storeList=Store.list()
         }else if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER") 
-            && springSecurityService?.currentUser?.store){  
+            && userService.currentUser()?.store){  
             
-            storeList << springSecurityService.currentUser.store
+            storeList << userService.currentUser().store
         
         }
 

@@ -5,9 +5,9 @@ import grails.plugin.springsecurity.annotation.Secured
 class PostController {
 
 	static layout="bootstrap"
-	def springSecurityService
     def messageSource
     def tagQueryService
+    def userService
 
 
 
@@ -48,7 +48,7 @@ class PostController {
 
 
         //set current user as creator
-        post.creator = springSecurityService.currentUser.username
+        post.creator = userService.currentUser().username
 
         if (!post.validate()) {
             if(post.hasErrors())

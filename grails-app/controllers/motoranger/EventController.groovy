@@ -11,7 +11,6 @@ class EventController {
 
 	static layout="bootstrap"
     def springSecurityService
-    def userService
     def tagQueryService
 
     def show() { 
@@ -42,7 +41,7 @@ class EventController {
 
         def event = new Event(params);
 
-        def currentUser = springSecurityService.currentUser
+        def currentUser = userService.currentUser()
         
         event.user=currentUser
         if(currentUser?.store){
@@ -68,7 +67,7 @@ class EventController {
             event = new Event(params);
         else event.properties = params
         
-        event.creator=springSecurityService.currentUser.username
+        event.creator=userService.currentUser().username
 
 
 
@@ -148,12 +147,12 @@ class EventController {
         flash.message = message(code: 'default.deleted.message'
             , args: [message(code: 'event.label', default: 'event'), event])
 
-        def currentUser = springSecurityService?.currentUser
+        def currentUser = userService.currentUser()
 
-        if(userService.currentUserIsOperator()){
+        if(userService.isOperator()){
             def store = currentUser.store
             redirect(action: "show", controller: "store", id: store.id)
-        }else if(userService.currentUserIsCustomer()){
+        }else if(userService.isCustomer()){
             redirect(action: "show", controller: "user", id: currentUser.id)
         }
 
@@ -198,12 +197,12 @@ class EventController {
 
         if(params?.status == 'END'){
             
-            def currentUser = springSecurityService?.currentUser
+            def currentUser = userService.currentUser()
 
-            if(userService.currentUserIsOperator()){
+            if(userService.isOperator()){
                 def store = currentUser.store
                 redirect(action: "show", controller: "store", id: store.id)
-            }else if(userService.currentUserIsCustomer()){
+            }else if(userService.isCustomer()){
                 redirect(action: "show", controller: "user", id: currentUser.id)
             }
         }
@@ -337,7 +336,7 @@ class EventController {
         params.sort= 'lastUpdated'
         params.order= 'desc'
 
-        def currentUser=springSecurityService.currentUser
+        def currentUser=userService.currentUser()
         if(params?.product?.id){
             if(!currentUser)params.max=1
             events=Event.findAllByProduct(Product.findById(params.product.id),params)

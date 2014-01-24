@@ -9,7 +9,6 @@ class PartController {
 	static layout="bootstrap"
     def s3Service
     def imageModiService
-    def springSecurityService
     def messageSource
     def tagQueryService
     def userService
@@ -40,7 +39,7 @@ class PartController {
 
     	def part = new Part(params)
         boolean isCusRole = false
-        def currentUser = springSecurityService.currentUser
+        def currentUser = userService.currentUser()
 
         if(currentUser?.store){
             part.store=currentUser.store
@@ -93,7 +92,7 @@ class PartController {
         else part.properties = params
 
         //set current user as creator
-        part.creator = springSecurityService.currentUser.username
+        part.creator = userService.currentUser().username
 
         if (!part.validate()) {
             render(view: "create", model: [part: part])
@@ -210,8 +209,8 @@ class PartController {
         try{
             !part.delete()
 
-            def currentUser = springSecurityService?.currentUser
-            if(userService.currentUserIsCustomer()){
+            def currentUser = userService.currentUser()
+            if(userService.isCustomer()){
                 redirect(action: "show", controller: "user", id: currentUser.id)
                 return
             }else {

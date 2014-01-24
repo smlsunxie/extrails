@@ -5,8 +5,7 @@ import grails.converters.JSON
 class EventDetailController {
     static layout="bootstrap"
 
-    def springSecurityService
-    def messageSource
+    def userService
 
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
@@ -55,14 +54,10 @@ class EventDetailController {
             eventDetail.properties = params
 
 
-        def creator = springSecurityService.currentUser.username
+        def creator = userService.currentUser().username
         eventDetail.creator = creator
 
         if (!eventDetail.validate()) {
-            if(eventDetail.hasErrors())
-                eventDetail.errors?.allErrors?.each{ 
-                    println  messageSource.getMessage(it, null)
-                };
             redirect(uri: request.getHeader('referer') )
             return
         }

@@ -1,7 +1,6 @@
 package motoranger
 
 class UserTagLib {
-    def springSecurityService
     def userService
     
     def emoticon = { attrs, body ->
@@ -13,7 +12,7 @@ class UserTagLib {
         def output = ''
         
         try {
-            def user = springSecurityService.currentUser
+            def user = userService.currentUser()
             
             def display =  user?.title
             
@@ -46,7 +45,7 @@ class UserTagLib {
 
     def switchUser={attrs, body ->
 
-        def currentUser = springSecurityService.currentUser
+        def currentUser = userService.currentUser()
         def isManager = false
         def isOperator = false
 
@@ -57,7 +56,7 @@ class UserTagLib {
         def operators=[]
         if(currentUser?.store && (isManager || isOperator)){
 
-            def users=User.findAllByStore(springSecurityService?.currentUser?.store)
+            def users=User.findAllByStore(userService.currentUser()?.store)
 
             users.each(){
                 if(it.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_OPERATOR'))
@@ -79,7 +78,7 @@ class UserTagLib {
         if(actionName == "show" && controllerName=="store" && params?.id){
             store = Store.get(params?.id)
         }else {
-            store = springSecurityService?.currentUser?.store
+            store = userService.currentUser()?.store
         }
 
         if(store){
@@ -92,7 +91,7 @@ class UserTagLib {
     }
 
     def homeNav={ attrs, body ->
-        def currentUser = springSecurityService.currentUser
+        def currentUser = userService.currentUser()
         def store = currentUser?.store
 
         def nowActive = ""
@@ -122,7 +121,7 @@ class UserTagLib {
         }
 
 
-        if(!springSecurityService.isLoggedIn()){
+        if(!userService.isLoggedIn()){
             
             def link = link(controller:'home'){
                 "首頁<i>index</i>"
@@ -136,7 +135,7 @@ class UserTagLib {
                   ${nowActive}
                 """
 
-        }else if(userService.currentUserIsCustomer()){
+        }else if(userService.isCustomer()){
 
             if(controllerName == "user" && actionName=="show")
                 nowActive = ""

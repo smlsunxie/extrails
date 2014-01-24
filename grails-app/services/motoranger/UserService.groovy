@@ -1,5 +1,6 @@
 package motoranger
 
+import grails.plugin.springsecurity.SpringSecurityUtils
 class UserService {
 	def springSecurityService
 
@@ -35,48 +36,25 @@ class UserService {
         }
     }
 
-    def currentUserIsCustomer(){
-        def currentUser = springSecurityService.currentUser
-        def isCusRole =false
-        def authorities = currentUser?.getAuthorities()
-
-        if(currentUser && authorities.contains(motoranger.Role.findByAuthority('ROLE_CUSTOMER'))
-            && !currentUserIsManerger() && !currentUserIsOperator())
-            isCusRole = true
-
-        return isCusRole
+    def currentUser(){
+        return springSecurityService?.currentUser
+    }
+    def isLoggedIn(){
+        return springSecurityService.isLoggedIn()
     }
 
-    def currentUserIsOperator(){
-        def currentUser = springSecurityService?.currentUser
-        def isOperatorRole =false
-        def authorities = currentUser.getAuthorities()
-
-        if(currentUser && authorities.contains(motoranger.Role.findByAuthority('ROLE_OPERATOR'))
-            && !currentUserIsManerger())
-            isOperatorRole = true
-
-        return isOperatorRole
+    def isCustomer(){
+        return SpringSecurityUtils.ifAnyGranted("ROLE_CUSTOMER")
     }
+    def isOperator(){
+        return SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR")
+    }    
 
-    def currentUserIsManerger(){
-        def currentUser = springSecurityService?.currentUser
-        def isManergerRole =false
-        def authorities = currentUser.getAuthorities()
-
-        if(currentUser && authorities.contains(motoranger.Role.findByAuthority('ROLE_MANERGER')))
-            isManergerRole = true
-
-        return isManergerRole
+    def isManerger(){
+        return SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER")
     }
-    def currentUserIsAdmin(){
-        def currentUser = springSecurityService?.currentUser
-        def isAdminRole =false
-        def authorities = currentUser.getAuthorities()
+    def isAdmin(){
+        return SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")
 
-        if(currentUser && authorities.contains(motoranger.Role.findByAuthority('ROLE_ADMIN')))
-            isAdminRole = true
-
-        return isAdminRole
     }
 }

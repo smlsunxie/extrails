@@ -5,12 +5,12 @@ import org.grails.plugins.csv.CSVMapReader
 
 class HomeController {
 	static layout = 'bootstrap'
-	def springSecurityService
+	def userService
 
 
     def index= {
 
-        def currentUser = springSecurityService.currentUser
+        def currentUser = userService.currentUser()
         def store = currentUser?.store
         
         if(currentUser){

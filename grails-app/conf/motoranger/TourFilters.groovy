@@ -2,7 +2,7 @@ package motoranger
 
 class TourFilters {
 
-    def springSecurityService
+    def userService
 
     def filters = {
         all(controller:'*', action:'*') {
@@ -11,7 +11,7 @@ class TourFilters {
             }
             after = { Map model ->
 
-                if(springSecurityService.isLoggedIn()){
+                if(userService.isLoggedIn()){
 
 
                     if(session.tourStep.toString().contains("STEP1")){
@@ -54,7 +54,7 @@ class TourFilters {
 
                             flash.message = "${flash?.message ? flash.message: ''}:太棒了！您完成了一筆維修記錄，可以點選下方的產品連結看看結果或「新增維修項目」，讓 MotoRanger 跟著您的摩托一起成長！"
                             session?.tourStep = TourStep.STEP2_START
-                            def user = User.get(springSecurityService.currentUser.id)
+                            def user = User.get(userService.currentUser().id)
                             user.tourStep = session?.tourStep
                             user.save()
 
