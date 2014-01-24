@@ -16,9 +16,9 @@ class StoreController {
         def store = Store.findById(params.id)
         
         def unfinEvents= Event.findAllByStatusAndStore(motoranger.ProductStatus.UNFIN
-            , store,[max:4, order:"desc", sort:"date"])
+            , store,[max:4, order:"desc", sort:"lastUpdated"])
         def endEvents= Event.findAllByStatusAndStore(motoranger.ProductStatus.END
-            , store,[max:4, order:"desc", sort:"date"])
+            , store,[max:4, order:"desc", sort:"lastUpdated"])
 
 
 
