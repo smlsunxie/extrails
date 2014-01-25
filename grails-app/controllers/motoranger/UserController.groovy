@@ -91,7 +91,7 @@ class UserController {
             redirect(controller: "product", action: "show", id: params?.product?.id)
             return
         }else if(params?.store?.id){
-            if(userService.isOperator() || userService.isManerger()){
+            if(userService.isAdmin() || userService.isManerger()){
                 redirect(action: "addToStore", id: userInstance.id, params:['store.id': params.store.id])
                 return
             }else {
