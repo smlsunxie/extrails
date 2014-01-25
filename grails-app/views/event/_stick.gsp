@@ -18,15 +18,13 @@
   
 
 
-  <sec:ifAnyGranted roles="ROLE_OPERATOR">
-    <p>
-      <i class="icon-user"></i>
-      維修人員：
-      <g:link controller="user" action="show" id="${event?.user.id}" > 
-        ${event?.user}
-      </g:link>
-    </p>
-  </sec:ifAnyGranted>
+  <p>
+    <i class="icon-user"></i>
+    維修人員：
+    <g:link controller="user" action="show" id="${event?.user.id}" > 
+      ${event?.user}
+    </g:link>
+  </p>
 
 
   <p>

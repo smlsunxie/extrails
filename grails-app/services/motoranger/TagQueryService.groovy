@@ -4,7 +4,6 @@ import org.grails.taggable.*
 
 class TagQueryService {
 
-    def springSecurityService
     def userService
 
 
@@ -14,7 +13,7 @@ class TagQueryService {
 
     def getUniTag ={ params ->
 
-        def currentUser = springSecurityService.currentUser
+        def currentUser = userService.currentUser()
 
         def allTagIds
 
@@ -27,11 +26,11 @@ class TagQueryService {
 
         }else if(params.group.toString() == motoranger.TagGroup.CUSTOMIZED.toString()){
 
-            if(userService.currentUserIsOperator()){
+            if(userService.isOperator() || userService.isManerger()){
 
                 partIds = Part.findAllByStore(currentUser.store)*.id
 
-            }else if(userService.currentUserIsCustomer()){
+            }else if(userService.isCustomer()){
                 
                 partIds = Part.findAllByUser(currentUser)*.id
 
@@ -70,11 +69,11 @@ class TagQueryService {
 
         if(params.tag){
 
-            def currentUser = springSecurityService.currentUser
+            def currentUser = userService.currentUser()
             parts = Part.findAllByTagWithCriteria(params.tag) {
 
                 if(params.group.toString() == motoranger.TagGroup.CUSTOMIZED.toString()){
-                    if(userService.currentUserIsOperator()){
+                    if(userService.isOperator() || userService.isManerger()){
                         eq('store', currentUser.store)
                     }
                     else{
@@ -124,10 +123,10 @@ class TagQueryService {
         params.sort = "date"
         params.order = "desc"
 
-        def currentUser = springSecurityService.currentUser
+        def currentUser = userService.currentUser()
         def recentEvents 
 
-        if(userService.currentUserIsOperator()){
+        if(userService.isOperator() || userService.isManerger()){
             recentEvents =Event.findAllByStore(currentUser.store, params)
         }else {
             recentEvents =Event.findAllByUser(currentUser, params)

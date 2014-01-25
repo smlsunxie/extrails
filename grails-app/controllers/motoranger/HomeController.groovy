@@ -5,20 +5,22 @@ import org.grails.plugins.csv.CSVMapReader
 
 class HomeController {
 	static layout = 'bootstrap'
-	def springSecurityService
+	def userService
 
 
     def index= {
 
-        def currentUser = springSecurityService.currentUser
+        def currentUser = userService.currentUser()
         def store = currentUser?.store
         
         if(currentUser){
 
             if(store){
-                redirect uri: "/store/show/${store.id}"
+                redirect action: 'show', controller:'store', id: store.id
+                return 
             }else {
-                redirect uri: "/user/show/${currentUser.id}"
+                redirect action: 'show', controller:'user', id: currentUser.id
+                return
             }
         }else {
 

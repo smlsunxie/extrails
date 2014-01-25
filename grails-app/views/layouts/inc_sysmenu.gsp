@@ -2,7 +2,7 @@
   <g:homeNav />
 </li>
 
-<sec:ifAnyGranted roles="ROLE_CUSTOMER">
+<sec:ifAnyGranted roles="ROLE_CUSTOMER, ROLE_OPERATOR, ROLE_MANERGER">
   
 
   <li class="${controllerName=='part' ? 'active':''} single">

@@ -12,7 +12,6 @@
 <body>
 
   <g:if test="${currentUserIsEventOwner[eventDetail.head.id]}">
-    <sec:ifAnyGranted roles="ROLE_CUSTOMER">
 
       <div class="row" id="actionbar">
 
@@ -32,7 +31,6 @@
 
       </div>  
 
-    </sec:ifAnyGranted>
   </g:if>
 
 

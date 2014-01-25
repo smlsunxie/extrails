@@ -10,7 +10,6 @@ import grails.plugin.springsecurity.annotation.Secured
 class EventController {
 
 	static layout="bootstrap"
-    def springSecurityService
     def userService
     def tagQueryService
 
@@ -23,7 +22,7 @@ class EventController {
         ]
     }
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def create() { 
 
         def unfinEvent
@@ -42,7 +41,7 @@ class EventController {
 
         def event = new Event(params);
 
-        def currentUser = springSecurityService.currentUser
+        def currentUser = userService.currentUser()
         
         event.user=currentUser
         if(currentUser?.store){
@@ -58,7 +57,7 @@ class EventController {
     }
 
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def save() {
         
 
@@ -68,7 +67,7 @@ class EventController {
             event = new Event(params);
         else event.properties = params
         
-        event.creator=springSecurityService.currentUser.username
+        event.creator=userService.currentUser().username
 
 
 
@@ -97,7 +96,7 @@ class EventController {
 
 
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def pickPartAddDetail(){
 
         def event
@@ -127,7 +126,7 @@ class EventController {
     }
 
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def delete() { 
 
         def event=Event.findById(params.id)
@@ -148,19 +147,19 @@ class EventController {
         flash.message = message(code: 'default.deleted.message'
             , args: [message(code: 'event.label', default: 'event'), event])
 
-        def currentUser = springSecurityService?.currentUser
+        def currentUser = userService.currentUser()
 
-        if(userService.currentUserIsOperator()){
+        if(userService.isOperator()|| userService.isManerger()){
             def store = currentUser.store
             redirect(action: "show", controller: "store", id: store.id)
-        }else if(userService.currentUserIsCustomer()){
+        }else if(userService.isCustomer()){
             redirect(action: "show", controller: "user", id: currentUser.id)
         }
 
 
 
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def edit() { 
         def event = Event.findByIdOrName(params.id, params.name)
 
@@ -168,10 +167,11 @@ class EventController {
             event: event
         ]
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def update() {
 
         def event = Event.findByIdOrName(params.id, params.name)
+        println "update = "+ event
 
         
         if (!event) {
@@ -198,24 +198,28 @@ class EventController {
 
         if(params?.status == 'END'){
             
-            def currentUser = springSecurityService?.currentUser
+            def currentUser = userService.currentUser()
 
-            if(userService.currentUserIsOperator()){
+            if(userService.isOperator() || userService.isManerger()){
                 def store = currentUser.store
                 redirect(action: "show", controller: "store", id: store.id)
-            }else if(userService.currentUserIsCustomer()){
+                return
+            }else if(userService.isCustomer()){
                 redirect(action: "show", controller: "user", id: currentUser.id)
+                return
             }
         }
         else if(request.getHeader('referer').indexOf("event/pickPartAddDetail") != -1
             || request.getHeader('referer').indexOf("/store/") != -1){
              redirect(uri: request.getHeader('referer') )
+             return
         }else {
             redirect(action: "show", id:event.id)
+            return
         }
     }
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
     def updateReceivedMoney() { 
 
         def event=Event.findById(params.id)
@@ -255,7 +259,7 @@ class EventController {
 
 
     }
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
     def updateDiscountMoney() { 
 
         def event=Event.findById(params.id)
@@ -296,7 +300,7 @@ class EventController {
 
     }
 
-    @Secured(['ROLE_OPERATOR'])
+    @Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
     def updateDate() { 
 
 
@@ -337,7 +341,7 @@ class EventController {
         params.sort= 'lastUpdated'
         params.order= 'desc'
 
-        def currentUser=springSecurityService.currentUser
+        def currentUser=userService.currentUser()
         if(params?.product?.id){
             if(!currentUser)params.max=1
             events=Event.findAllByProduct(Product.findById(params.product.id),params)

@@ -68,7 +68,7 @@
               <sec:ifAnyGranted roles="ROLE_ADMIN">
                 <td data-title="">
                   <g:if test="${userInstance.enabled}">
-                    <g:link controller="login" action="swithUser" params="[username: userInstance.username]" >
+                    <g:link controller="login" action="switchUser" params="[username: userInstance.username]" >
                             切換使用者
                     </g:link>
                   </g:if>&nbsp

@@ -13,8 +13,8 @@
 
 
     <div class="visible-xs">
-      <sec:ifAnyGranted roles="ROLE_OPERATOR">
-        <g:if test="${store.id == currentUserStore?.id}">
+      <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">
+        <g:if test="${currentUserIsStoreOwnerOrAdmin}">
           <div class="btn-group" id="actionbar">
 
             <button class="btn btn-default btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
@@ -53,8 +53,8 @@
     <div class="hidden-xs">
 
          <div class="btn-group" id="actionbar">
-          <sec:ifAnyGranted roles="ROLE_OPERATOR">         
-            <g:if test="${store.id == currentUserStore?.id || currentUserIsAdmin}">
+          <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">         
+            <g:if test="${currentUserIsStoreOwnerOrAdmin}">
               <sec:ifAnyGranted roles="ROLE_MANERGER">
                 <g:link  class="btn btn-primary" controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link>
                 <g:link  class="btn btn-primary" controller="user" action="create" params="['store.id': store.id]" >建立作業員</g:link>

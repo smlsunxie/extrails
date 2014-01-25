@@ -2,6 +2,8 @@ package motoranger
 
 import org.springframework.dao.DataIntegrityViolationException
 import grails.plugin.springsecurity.SpringSecurityUtils
+import grails.plugin.springsecurity.annotation.Secured
+import org.springframework.transaction.annotation.*
 
 class StoreController {
 
@@ -12,7 +14,6 @@ class StoreController {
 
     def show() {
 
-        def currentUser = springSecurityService.currentUser
         def store = Store.findById(params.id)
         
         def unfinEvents= Event.findAllByStatusAndStore(motoranger.ProductStatus.UNFIN
@@ -21,14 +22,10 @@ class StoreController {
             , store,[max:4, order:"desc", sort:"lastUpdated"])
 
 
-
-
         [
             unfinEvents: unfinEvents,
             endEvents: endEvents,
-            store: store,
-            currentUserStore: currentUser?.store,
-            currentUserIsAdmin: SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")
+            store: store
         ]
 
 
@@ -39,22 +36,26 @@ class StoreController {
         [storeInstanceList: Store.list(params), storeInstanceTotal: Store.count()]
     }
 
+    @Secured(['ROLE_ADMIN'])
     def create() {
         [storeInstance: new Store(params)]
     }
 
+    @Secured(['ROLE_ADMIN'])
     def save() {
         def storeInstance = new Store(params)
-        if (!storeInstance.save(flush: true)) {
+        if (!storeInstance.validate()) {
             render(view: "create", model: [storeInstance: storeInstance])
             return
         }
+        
+        storeInstance.save(flush: true)
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'store.label', default: 'Store'), storeInstance.id])
+        flash.message = message(code: 'default.created.message', args: [message(code: 'store.label', default: 'Store'), storeInstance])
         redirect(action: "show", id: storeInstance.id)
     }
 
-
+    @Secured(['ROLE_MANERGER', 'ROLE_ADMIN'])
     def edit(Long id) {
         def storeInstance = Store.get(id)
         if (!storeInstance) {
@@ -66,8 +67,8 @@ class StoreController {
         [storeInstance: storeInstance]
     }
 
+    @Secured(['ROLE_MANERGER', 'ROLE_ADMIN'])
     def update(Long id, Long version) {
-        println params
         def storeInstance = Store.get(id)
         if (!storeInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'store.label', default: 'Store'), id])
@@ -89,32 +90,41 @@ class StoreController {
 
         storeInstance.properties = params
 
-        if (!storeInstance.save(flush: true)) {
+        if (!storeInstance.validate() && !storeInstance.save()) {
             render(view: "edit", model: [storeInstance: storeInstance])
             return
         }
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'store.label', default: 'Store'), storeInstance.id])
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'store.label', default: 'Store'), storeInstance])
         redirect(action: "show", id: storeInstance.id)
     }
 
-    def delete(Long id) {
-        def storeInstance = Store.get(id)
+
+    @Transactional
+    @Secured(['ROLE_ADMIN'])
+    def delete() {
+        def storeInstance = Store.get(params.id)
+
         if (!storeInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'store.label', default: 'Store'), id])
-            redirect(action: "list")
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'store.label', default: 'Store'), storeInstance])
+            redirect(action: "show", id: storeInstance.id)
             return
         }
 
+
         try {
-            storeInstance.delete(flush: true)
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'store.label', default: 'Store'), id])
+            storeInstance.delete(failOnError: true)
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'store.label', default: 'Store'), storeInstance])
             redirect(action: "list")
         }
-        catch (DataIntegrityViolationException e) {
-            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'store.label', default: 'Store'), id])
-            redirect(action: "show", id: id)
+        catch (Exception e) {
+            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'store.label', default: 'Store'), storeInstance])
+            redirect(action: "show", id: params.id)
         }
+
+
     }
+
+
 
 }
