@@ -17,9 +17,13 @@ class PartSecureFilters {
                     if(currentUser && userService.isCustomer()){
                         def part = Part.findById(params.id)
 
-                        if(part?.user || currentUser != part.user){
+                        if(part?.user && currentUser == part.user){
+                            return true
+
+                        }else {
                             flash.message = "沒有權限維護不屬於自己的維修項目"
                             redirect(action: "show", controller: "user", id: currentUser.id)
+                            return false
 
                         }
 

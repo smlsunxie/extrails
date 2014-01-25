@@ -12,11 +12,12 @@ class SecureFiltersService {
         def currentUser = userService.currentUser()
         def isCustomerAndPartOwner = (userService.isCustomer()
             && currentUser.id == part?.user?.id)
-        def isManergerAndPartOwner = (userService.isManerger()
-            && currentUser?.store?.id == part?.store?.id)
+        def isManergerOrIsOperatorAndPartOwner = 
+            ((userService.isManerger()|| userService.isOperator())
+                && currentUser?.store?.id == part?.store?.id)
 
         model.userIsPartOwner = (isCustomerAndPartOwner 
-            || isManergerAndPartOwner 
+            || isManergerOrIsOperatorAndPartOwner 
             || userService.isAdmin())
 
         if(!model.userIsPartOwner){

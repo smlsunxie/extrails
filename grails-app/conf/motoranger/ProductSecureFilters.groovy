@@ -19,7 +19,7 @@ class ProductSecureFilters {
                         def product = Product.findById(params.id)
 
                         if(!product?.user || product.user.id !=  currentUser.id){
-                            flash.message = "已啟用使用者之產品不可維護"
+                            flash.message = "不屬於自己的摩托不可維護"
                             redirect(action: "show", controller: "user", id: currentUser.id)
                         }
 
@@ -27,7 +27,7 @@ class ProductSecureFilters {
 
                         def product = Product.findById(params.id)
 
-                        if(product.user.enabled && product.user!=currentUser){
+                        if(product?.user && product.user.enabled && product.user!=currentUser){
                             flash.message = "已啟用使用者之產品不可維護"
                             redirect(action: "show", controller: "store", id: currentUser.store.id)
                         }
