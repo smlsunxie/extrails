@@ -9,7 +9,7 @@
                   <li id="alert_placeholder"></li>
               </ul>
               
-              <sec:ifAnyGranted roles="ROLE_OPERATOR">
+              <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">
 
                 <g:form action="query" controller="search" class="form-inline pull-right"> 
                   <input type="text" name="q" class="form-control" placeholder="車牌或使用者" value="${params.q}">

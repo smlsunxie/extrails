@@ -8,10 +8,9 @@ class ProductController {
 	static layout="bootstrap"
     def s3Service
     def imageModiService
-    def springSecurityService
     def userService
 
-	@Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def create(){ 
 
     	def product = new Product(params)
@@ -24,12 +23,12 @@ class ProductController {
     }
 
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def save(){
         
         def product = new Product(params);
 
-        product.creator = springSecurityService.currentUser.username
+        product.creator = userService.currentUser().username
 
         def user = User.findByUsername(params.name)
 
@@ -64,7 +63,7 @@ class ProductController {
             statusEnd :statusEnd
         ]
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def edit(){ 
         
         def product = Product.findById(params.id)
@@ -78,13 +77,12 @@ class ProductController {
             product.user=User.findByUsername(product.name)
         }
 
-        println "product?.user = "+ product?.user
         
         [ 
             product: product
         ]
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def update(){ 
 
         def product = Product.findById(params.id)
@@ -125,7 +123,7 @@ class ProductController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'product.label', default: 'Product'), product])
         redirect(action: "show", id: product.id)
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def delete(){ 
         def product = Product.findById(params.id)
         
@@ -137,9 +135,9 @@ class ProductController {
 
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), product])
 
-            def currentUser = springSecurityService?.currentUser
+            def currentUser = userService.currentUser()
 
-            if(userService.currentUserIsCustomer()){
+            if(userService.isCustomer()){
                 redirect(action: "show", controller: "user", id: currentUser.id)
                 return
             }else {

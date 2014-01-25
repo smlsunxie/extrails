@@ -8,8 +8,6 @@ class UserController {
 
 
     static layout = 'bootstrap'
-
-    def springSecurityService
     def userService
 
 
@@ -33,7 +31,7 @@ class UserController {
         }
 
 
-        if(springSecurityService.isLoggedIn() && SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR"))
+        if(userService.isLoggedIn() && (userService.isOperator() || userService.isManerger()))
             user.enabled = false
         else user.enabled = true
 
@@ -44,8 +42,8 @@ class UserController {
     @Transactional
     def save() {
         def userInstance 
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR"))
-            userInstance = User.findByUsername(params.username);
+        if(userService.isOperator() || userService.isManerger())
+            userInstance = User.findByUsername(params.username)
         
         if(!userInstance) userInstance = new User(params)
 
@@ -58,7 +56,7 @@ class UserController {
             return
         }
 
-        if(!springSecurityService.isLoggedIn() && !userInstance?.email ){
+        if(!userService.isLoggedIn() && !userInstance?.email ){
             flash.message = "請輸入 email"
             render(view: "create", model: [userInstance: userInstance,roles: Role.list()])
             return            
@@ -74,7 +72,7 @@ class UserController {
 
         userInstance.save(flush: true)
         // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
+        if(userService.isAdmin()){
             userService.modifyUserRole(userInstance, params)
 
         }else {
@@ -92,12 +90,16 @@ class UserController {
             userService.addProduct(userInstance, params)
             redirect(controller: "product", action: "show", id: params?.product?.id)
             return
-        }else if(userInstance?.store){
-            redirect(action: "addToStore", id: userInstance.id, params:['store.id': userInstance.store.id])
-            return
+        }else if(params?.store?.id){
+            if(userService.isOperator() || userService.isManerger()){
+                redirect(action: "addToStore", id: userInstance.id, params:['store.id': params.store.id])
+                return
+            }else {
+                flash.message+= "：沒有權限將使用者加入店家"
+            }
         }
 
-        if(springSecurityService.isLoggedIn()){
+        if(userService.isLoggedIn()){
             redirect(action: "show", id: userInstance.id)
         }else {
             flash.message = flash.message + "可以開始登入使用！"
@@ -105,7 +107,6 @@ class UserController {
         }
     }
     
-    @Secured(['ROLE_CUSTOMER', 'ROLE_ADMIN'])
     def show() {
         
         if(params?.tour){
@@ -116,7 +117,7 @@ class UserController {
 
         if(params.id)
             user = User.get(params.id)
-        else user = springSecurityService.currentUser
+        else user = userService.currentUser()
 
 
         if (!user) {
@@ -128,14 +129,13 @@ class UserController {
         [user: user, products: Product.findAllByUser(user)]
     }
 
-    @Secured(['ROLE_CUSTOMER', 'ROLE_ADMIN'])
     def edit() {
 
         def userInstance
 
         if(params.id)
             userInstance = User.get(params.id)
-        else userInstance = springSecurityService.currentUser
+        else userInstance = userService.currentUser()
 
         if (!userInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), userInstance])
@@ -148,7 +148,6 @@ class UserController {
         ,storeList:storeList()]
     }
 
-    @Secured(['ROLE_CUSTOMER', 'ROLE_ADMIN'])
     def update() {
         def userInstance = User.get(params.id)
         if (!userInstance) {
@@ -177,7 +176,7 @@ class UserController {
 
         userInstance.save(flush: true)
         // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
+        if(userService.isAdmin()){
             userService.modifyUserRole(userInstance, params)
 
         }
@@ -194,7 +193,6 @@ class UserController {
 
 
 
-    @Secured(['ROLE_CUSTOMER', 'ROLE_ADMIN'])
     @Transactional
     def delete(Long id) {
         def userInstance = User.get(id)
@@ -233,17 +231,17 @@ class UserController {
             userInstance.delete(flush: true,failOnError:true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), userInstance])
             
-            def currentUser = springSecurityService?.currentUser
+            def currentUser = userService.currentUser()
 
             if(!currentUser){
                 redirect(url: '/j_spring_security_logout')
                 return 
             }
 
-            if(SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR")){
+            if(userService.isOperator() || userService.isManerger()){
                 def store = currentUser.store
                 redirect(action: "show", controller: "store", id: store.id)
-            }else if(userService.currentUserIsCustomer()){
+            }else if(userService.isCustomer()){
                 redirect(action: "show", controller: "user", id: currentUser.id)
             }
 
@@ -254,10 +252,11 @@ class UserController {
             redirect(action: "show", id: id)
         }
     }
-
+    @Secured(['ROLE_MANERGER', 'ROLE_ADMIN'])
     def addToStore(){
+        def currentUser = userService.currentUser()
         def user = User.get(params.id)
-        def store = Store.get(params.store.id)
+        def store = Store.get(currentUser.store.id)
 
         if(user?.store && user.store != store){
             flash.message = "此使用者已屬於「user.store」"
@@ -277,11 +276,8 @@ class UserController {
 
         store.addToUsers(user).save()
 
-        def cusRole = Role.findByAuthority('ROLE_CUSTOMER')
         def opRole = Role.findByAuthority('ROLE_OPERATOR')
 
-        if(!UserRole.get(user?.id, cusRole.id))
-            UserRole.create(user,cusRole,true)
 
         if(!UserRole.get(user?.id, opRole.id))
                 UserRole.create(user,opRole,true)
@@ -298,12 +294,12 @@ class UserController {
 
     private def storeList(){
         def storeList=[]
-        if(SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")){
+        if(userService.isAdmin()){
             storeList=Store.list()
-        }else if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER") 
-            && springSecurityService?.currentUser?.store){  
+        }else if(userService.isManerger() 
+            && userService.currentUser()?.store){  
             
-            storeList << springSecurityService.currentUser.store
+            storeList << userService.currentUser().store
         
         }
 

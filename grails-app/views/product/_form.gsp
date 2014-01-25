@@ -108,7 +108,7 @@
 
 
 
-<sec:ifAnyGranted roles="ROLE_OPERATOR">
+<sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">
 
   <div class="form-group ${hasErrors(bean: product, field: 'cost', 'has-error')}">
     

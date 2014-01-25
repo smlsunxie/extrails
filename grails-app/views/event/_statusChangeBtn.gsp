@@ -1,6 +1,6 @@
         <g:if test="${event.status == motoranger.ProductStatus.UNFIN}">
           <g:link  
-            class="btn btn-success" action="update" controller="event" id="${event.id}" params="[status:motoranger.ProductStatus.END.name(), controllerName:controllerName]" >
+            class="btn btn-success" action="update" controller="event" id="${event.id}" params="[status:motoranger.ProductStatus.END.name()]" >
             <g:message code="ProductStatus.END" />
           </g:link>
         </g:if>

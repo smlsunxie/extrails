@@ -6,7 +6,6 @@ beans = {
 	}
 
 	tagQueryService(TagQueryService){
-		springSecurityService = ref("springSecurityService")
 		userService = ref("userService")
 	}
 }

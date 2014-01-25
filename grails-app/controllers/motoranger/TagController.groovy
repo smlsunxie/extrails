@@ -5,7 +5,7 @@ import grails.converters.JSON
 
 class TagController {
 
-		def tagQueryService
+	def tagQueryService
 
     def listAsJson = {
         render tagQueryService.getlikeTag(params.term) as JSON

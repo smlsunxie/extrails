@@ -26,10 +26,8 @@
         
         <td>
           <g:if test="${currentUserIsEventOwner[event.id]}">
-            <sec:ifAllGranted roles="ROLE_CUSTOMER">  
               <g:link  class="btn btn-primary btn-xs" controller="eventDetail" action="edit" id="${detail.id}"><g:message code="default.button.edit.label" /></g:link>
               <g:link  class="btn btn-danger btn-xs" controller="eventDetail" action="delete" id="${detail.id}"><g:message code="default.button.delete.label" /></g:link>
-            </sec:ifAllGranted>
           </g:if>
           &nbsp;
         </td>

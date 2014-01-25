@@ -1,5 +1,6 @@
 package motoranger
 
+import grails.plugin.springsecurity.SpringSecurityUtils
 class UserService {
 	def springSecurityService
 
@@ -35,33 +36,25 @@ class UserService {
         }
     }
 
-    def currentUserIsCustomer(){
-        def currentUser = springSecurityService.currentUser
-        def isCusRole =false
-        def authorities = currentUser?.getAuthorities()
-
-        if(currentUser && authorities.contains(motoranger.Role.findByAuthority('ROLE_CUSTOMER'))
-            && !authorities.contains(motoranger.Role.findByAuthority('ROLE_OPERATOR'))
-            && !authorities.contains(motoranger.Role.findByAuthority('ROLE_MANERGER'))
-            && !authorities.contains(motoranger.Role.findByAuthority('ROLE_ADMIN')))
-            isCusRole = true
-
-        return isCusRole
+    def currentUser(){
+        return springSecurityService?.currentUser
+    }
+    def isLoggedIn(){
+        return springSecurityService.isLoggedIn()
     }
 
-    def currentUserIsOperator(){
-        def currentUser = springSecurityService?.currentUser
-        def isOperatorRole =false
-        def authorities = currentUser.getAuthorities()
-
-        if(currentUser && authorities.contains(motoranger.Role.findByAuthority('ROLE_OPERATOR'))
-            && !authorities.contains(motoranger.Role.findByAuthority('ROLE_ADMIN'))
-
-            )
-            isOperatorRole = true
-
-        return isOperatorRole
+    def isCustomer(){
+        return SpringSecurityUtils.ifAnyGranted("ROLE_CUSTOMER")
     }
+    def isOperator(){
+        return SpringSecurityUtils.ifAnyGranted("ROLE_OPERATOR")
+    }    
 
+    def isManerger(){
+        return SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER")
+    }
+    def isAdmin(){
+        return SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN")
 
+    }
 }

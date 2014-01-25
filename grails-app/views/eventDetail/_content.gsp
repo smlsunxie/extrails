@@ -17,21 +17,17 @@
   </tr>
 
 
-  <g:if test="${currentUserIsEventOwner[eventDetail.head.id]}">
-    <sec:ifAnyGranted roles="ROLE_CUSTOMER">
-      <tr>
-        <td class="small"><g:message code="eventDetail.price.label" /></td>
-        <td class="bold">${eventDetail.price}</td>
-      </tr>
-    </sec:ifAnyGranted>
 
-    <sec:ifAnyGranted roles="ROLE_OPERATOR">
-      <tr>
-        <td class="small"><g:message code="eventDetail.cost.label" /></td>
-        <td class="bold">${eventDetail.cost}</td>
-      </tr>
-    </sec:ifAnyGranted>
-  </g:if>
+  <tr>
+    <td class="small"><g:message code="eventDetail.price.label" /></td>
+    <td class="bold">${eventDetail.price}</td>
+  </tr>
+
+  <tr>
+    <td class="small"><g:message code="eventDetail.cost.label" /></td>
+    <td class="bold">${(eventDetail.cost == -1 ?'****':eventDetail.cost)}</td>
+  </tr>
+    
 
 
   <tr>

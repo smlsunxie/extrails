@@ -6,7 +6,7 @@
 </head>
 <body>
 
-  <sec:ifAnyGranted roles="ROLE_CUSTOMER">
+  <sec:ifAnyGranted roles="ROLE_CUSTOMER, ROLE_OPERATOR, ROLE_MANERGER">
     <div class="row" id="actionbar">
 
       <div class="col-sm-12 col-md-12">           
@@ -32,7 +32,7 @@
   <div class="contact-info" >
     <h2>維修記錄</h2>
 
-    <sec:ifAnyGranted roles="ROLE_CUSTOMER">
+    <sec:ifAnyGranted roles="ROLE_CUSTOMER, ROLE_OPERATOR, ROLE_MANERGER">
 
       <g:if test="${statusEnd}">
         <div id="actionbar" class="text-center">

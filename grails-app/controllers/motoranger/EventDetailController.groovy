@@ -5,11 +5,10 @@ import grails.converters.JSON
 class EventDetailController {
     static layout="bootstrap"
 
-    def springSecurityService
-    def messageSource
+    def userService
 
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def create(){
 
     	def eventDetail=new EventDetail(params)
@@ -35,7 +34,7 @@ class EventDetailController {
 
     }
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def save(){
 
         println params
@@ -55,14 +54,10 @@ class EventDetailController {
             eventDetail.properties = params
 
 
-        def creator = springSecurityService.currentUser.username
+        def creator = userService.currentUser().username
         eventDetail.creator = creator
 
         if (!eventDetail.validate()) {
-            if(eventDetail.hasErrors())
-                eventDetail.errors?.allErrors?.each{ 
-                    println  messageSource.getMessage(it, null)
-                };
             redirect(uri: request.getHeader('referer') )
             return
         }
@@ -87,7 +82,7 @@ class EventDetailController {
 
     }
 
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def edit(){ 
         def eventDetail = EventDetail.findByIdOrName(params.id, params.name)
 
@@ -95,7 +90,7 @@ class EventDetailController {
             eventDetail: eventDetail
         ]
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def update(){
 
         def eventDetail = EventDetail.get(params.id)
@@ -127,7 +122,7 @@ class EventDetailController {
 
 
     }
-    @Secured(['ROLE_CUSTOMER'])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def delete(){ 
 
         def eventDetail = EventDetail.findById(params.id)

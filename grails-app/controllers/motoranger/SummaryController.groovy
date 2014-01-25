@@ -4,12 +4,12 @@ import java.util.Calendar
 import grails.plugin.springsecurity.annotation.Secured
 class SummaryController {
 
-    def springSecurityService
+    def userService
 
 	@Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
     def unreceiveMoneyList(){
 
-        def currentUser = springSecurityService.currentUser
+        def currentUser = userService.currentUser()
 
         def query = Event.where{
             store == currentUser.store
@@ -28,9 +28,9 @@ class SummaryController {
 
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_MANERGER'])
     def turnoverYearList(){
-        def currentUser = springSecurityService.currentUser
+        def currentUser = userService.currentUser()
     	def thisYear=(new Date()).getAt(Calendar.YEAR)
     	def years=thisYear..thisYear-2
 
@@ -84,10 +84,10 @@ class SummaryController {
 
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_MANERGER'])
     def turnoverMonthList(){
 
-        def currentUser = springSecurityService.currentUser
+        def currentUser = userService.currentUser()
     	def thisYear=params.year
     	def months=0..11
 
