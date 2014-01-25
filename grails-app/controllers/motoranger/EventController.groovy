@@ -10,7 +10,7 @@ import grails.plugin.springsecurity.annotation.Secured
 class EventController {
 
 	static layout="bootstrap"
-    def springSecurityService
+    def userService
     def tagQueryService
 
     def show() { 
@@ -149,7 +149,7 @@ class EventController {
 
         def currentUser = userService.currentUser()
 
-        if(userService.isOperator()){
+        if(userService.isOperator()|| userService.isManerger()){
             def store = currentUser.store
             redirect(action: "show", controller: "store", id: store.id)
         }else if(userService.isCustomer()){
@@ -171,6 +171,7 @@ class EventController {
     def update() {
 
         def event = Event.findByIdOrName(params.id, params.name)
+        println "update = "+ event
 
         
         if (!event) {
@@ -199,18 +200,22 @@ class EventController {
             
             def currentUser = userService.currentUser()
 
-            if(userService.isOperator()){
+            if(userService.isOperator() || userService.isManerger()){
                 def store = currentUser.store
                 redirect(action: "show", controller: "store", id: store.id)
+                return
             }else if(userService.isCustomer()){
                 redirect(action: "show", controller: "user", id: currentUser.id)
+                return
             }
         }
         else if(request.getHeader('referer').indexOf("event/pickPartAddDetail") != -1
             || request.getHeader('referer').indexOf("/store/") != -1){
              redirect(uri: request.getHeader('referer') )
+             return
         }else {
             redirect(action: "show", id:event.id)
+            return
         }
     }
 

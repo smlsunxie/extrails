@@ -11,36 +11,55 @@ class SecureFiltersService {
 
         def currentUser = userService.currentUser()
         def isCustomerAndPartOwner = (userService.isCustomer()
-            && currentUser.id == part?.user.id)
+            && currentUser.id == part?.user?.id)
         def isManergerAndPartOwner = (userService.isManerger()
-            && currentUser.store.id == part?.store.id)
+            && currentUser?.store?.id == part?.store?.id)
 
         model.userIsPartOwner = (isCustomerAndPartOwner 
             || isManergerAndPartOwner 
             || userService.isAdmin())
 
         if(!model.userIsPartOwner){
-            part.cost = null
+            part.cost = -1
         }  
 
     }
 
     private setModelProductNameExtraCondiction(product){
         def currentUser = userService.currentUser()
-        def isCustomerButNotProductOwner = (userService.isCustomer() && currentUser.id != product?.user.id)
+        def isCustomerButNotProductOwner = (userService.isCustomer() && currentUser.id != product?.user?.id)
         def isNotLoggedIn = !currentUser
 
 
         if( isNotLoggedIn || isCustomerButNotProductOwner){
             product.name = product.name.replace(product.name.substring(2,4),"**")
-            product.user = null
+            product.cost = -1
+
+            
         }
 
 
     }
+    private setModelUserExtraCondiction(user){
+        def currentUser = userService.currentUser()
+        def isCustomerButNotProductOwner = (userService.isCustomer() && currentUser.id != user.id)
+        def isNotLoggedIn = !currentUser
+
+
+        if( isNotLoggedIn || isCustomerButNotProductOwner){
+            user.username="****"
+            user.address="****"
+            user.email="****"
+            user.mobile="****"
+            user.title="****"
+        }
+
+
+    }    
     private setModelEventExtraCondiction(events, model, withDetail = false){
         def currentUser = userService.currentUser()
 
+        println events
         events.each(){ event ->
             def userStoreOwnEvent = (currentUser?.store && currentUser?.store == event?.store)
             def userOwnEvent = (currentUser && currentUser == event?.user)
@@ -58,6 +77,7 @@ class SecureFiltersService {
                 if(withDetail){
                     event.details.each(){ detail ->
                         model.eventDetailTotalPrice[detail.id] = "****"
+                        detail.cost= -1
                     }
                 }
             }

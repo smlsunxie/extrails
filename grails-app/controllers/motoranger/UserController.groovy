@@ -31,7 +31,7 @@ class UserController {
         }
 
 
-        if(userService.isLoggedIn() && userService.isOperator)
+        if(userService.isLoggedIn() && (userService.isOperator() || userService.isManerger()))
             user.enabled = false
         else user.enabled = true
 
@@ -42,8 +42,8 @@ class UserController {
     @Transactional
     def save() {
         def userInstance 
-        if(userService.isOperator)
-            userInstance = User.findByUsername(params.username);
+        if(userService.isOperator() || userService.isManerger())
+            userInstance = User.findByUsername(params.username)
         
         if(!userInstance) userInstance = new User(params)
 
@@ -90,7 +90,7 @@ class UserController {
             redirect(controller: "product", action: "show", id: params?.product?.id)
             return
         }else if(params?.store?.id){
-            if(SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER, ROLE_ADMIN")){
+            if(userService.isOperator() || userService.isManerger()){
                 redirect(action: "addToStore", id: userInstance.id, params:['store.id': params.store.id])
                 return
             }else {
@@ -237,7 +237,7 @@ class UserController {
                 return 
             }
 
-            if(userService.isOperator){
+            if(userService.isOperator() || userService.isManerger()){
                 def store = currentUser.store
                 redirect(action: "show", controller: "store", id: store.id)
             }else if(userService.isCustomer()){
@@ -253,8 +253,9 @@ class UserController {
     }
     @Secured(['ROLE_MANERGER', 'ROLE_ADMIN'])
     def addToStore(){
+        def currentUser = userService.currentUser()
         def user = User.get(params.id)
-        def store = Store.get(params.store.id)
+        def store = Store.get(currentUser.store.id)
 
         if(user?.store && user.store != store){
             flash.message = "此使用者已屬於「user.store」"
@@ -274,11 +275,8 @@ class UserController {
 
         store.addToUsers(user).save()
 
-        def cusRole = Role.findByAuthority('ROLE_CUSTOMER')
         def opRole = Role.findByAuthority('ROLE_OPERATOR')
 
-        if(!UserRole.get(user?.id, cusRole.id))
-            UserRole.create(user,cusRole,true)
 
         if(!UserRole.get(user?.id, opRole.id))
                 UserRole.create(user,opRole,true)

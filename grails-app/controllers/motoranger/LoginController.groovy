@@ -47,7 +47,7 @@ class LoginController {
 
 		def config = SpringSecurityUtils.securityConfig
 
-		if (userService.isLoggedIn()) {
+		if (springSecurityService.isLoggedIn()) {
 			redirect uri: config.successHandler.defaultTargetUrl
 			return
 		}
@@ -70,7 +70,7 @@ class LoginController {
 	 * Show denied page.
 	 */
 	def denied = {
-		if (userService.isLoggedIn() &&
+		if (springSecurityService.isLoggedIn() &&
 				authenticationTrustResolver.isRememberMe(SCH.context?.authentication)) {
 			// have cookie but the page is guarded with IS_AUTHENTICATED_FULLY
 			redirect action: 'full', params: params

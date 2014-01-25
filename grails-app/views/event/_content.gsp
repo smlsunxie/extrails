@@ -7,19 +7,20 @@
         <td class="bold">${event.mileage}</td>
     </tr> 
 
-    
-    <g:if test = "${currentUserIsEventOwner[event.id]}">
+    <sec:ifAnyGranted roles="ROLE_OPOERATOR, ROLE_MANERGER">
+      <g:if test = "${currentUserIsEventOwner[event.id]}">
 
-      <tr>
-          <td class="small">已收</td>
-          <td class="bold">${event?.receivedMoney.toString()}</td>
-      </tr> 
-      <tr>
-          <td class="small">未收</td>
-          <td class="bold">${event?.totalPrice-event?.receivedMoney}</td>
-      </tr> 
-      
-    </g:if>
+        <tr>
+            <td class="small">已收</td>
+            <td class="bold">${event?.receivedMoney.toString()}</td>
+        </tr> 
+        <tr>
+            <td class="small">未收</td>
+            <td class="bold">${event?.totalPrice-event?.receivedMoney}</td>
+        </tr> 
+        
+      </g:if>
+    </sec:ifAnyGranted>
 
 
     <g:if test="${currentUserIsEventOwner[event.id]}">
@@ -34,7 +35,7 @@
     <tr>
         <td class="small"><g:message code="event.store.label" /></td>
         <td class="bold">
-          <g:link controller="store" action="show" id="${event?.store.id}">${event?.store}</g:link>
+          <g:link controller="store" action="show" id="${event?.store?.id}">${event?.store}</g:link>
 
         </td>
     </tr>

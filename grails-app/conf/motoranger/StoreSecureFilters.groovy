@@ -29,31 +29,26 @@ class StoreSecureFilters {
             after = { Map model ->
                 def currentUser = userService.currentUser()
 
+                if(actionName == 'show'){
 
-                if(actionName == 'show' && (model?.unfinEvents || model?.endEvents)){
+                    model.currentUserIsStoreOwnerOrAdmin = 
+                        (currentUser?.store?.id == params?.id.toLong() || userService.isAdmin())                   
 
-                    model.currentUserIsEventOwner=[:]
-                    model.eventDetailTotalPrice=[:]  
+                    if(model?.unfinEvents || model?.endEvents){
 
-                    if(model?.unfinEvents){
-                        secureFiltersService.setModelEventExtraCondiction(model.unfinEvents, model)
+                        model.currentUserIsEventOwner=[:]
+                        model.eventDetailTotalPrice=[:]  
+
+                        if(model?.unfinEvents){
+                            secureFiltersService.setModelEventExtraCondiction(model.unfinEvents, model)
+                        }
+                        if(model?.endEvents){
+                            secureFiltersService.setModelEventExtraCondiction(model.endEvents, model)
+                        }
+     
                     }
-                    if(model?.endEvents){
-                        secureFiltersService.setModelEventExtraCondiction(model.endEvents, model)
-                    }
 
-                    
- 
                 }
-
-                if(params?.id && currentUser){
-
-                    model.currentUserBelongsStore = 
-                        (currentUser?.store?.id == params.id || userService.isAdmin())
-                
-                }
-
-
             }
 
         }

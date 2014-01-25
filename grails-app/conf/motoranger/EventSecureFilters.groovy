@@ -28,7 +28,7 @@ class EventSecureFilters {
                         return false 
 
                     }                        
-                }else if((userService.isOperator() || userService.isManerger) 
+                }else if((userService.isOperator() || userService.isManerger()) 
                      && (actionName == "edit" || actionName == "update" || actionName == "delete"  || actionName == "*")){
 
                     def event = Event.findById(params.id)
@@ -67,7 +67,7 @@ class EventSecureFilters {
                     model.eventDetailTotalPrice=[:]  
 
                     if(model?.event){
-                        secureFiltersService.setModelEventExtraCondiction([model.event], model)
+                        secureFiltersService.setModelEventExtraCondiction([model.event], model, true)
                     }
                 }
 

@@ -16,9 +16,11 @@ class HomeController {
         if(currentUser){
 
             if(store){
-                redirect uri: "/store/show/${store.id}"
+                redirect action: 'show', controller:'store', id: store.id
+                return 
             }else {
-                redirect uri: "/user/show/${currentUser.id}"
+                redirect action: 'show', controller:'user', id: currentUser.id
+                return
             }
         }else {
 

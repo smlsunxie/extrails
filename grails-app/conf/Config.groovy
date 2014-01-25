@@ -92,7 +92,7 @@ environments {
     }
     
     development {
-        grails.serverURL = "http://192.168.0.100:8080"
+        grails.serverURL = "http://localhost:8080"
         grails.indexPath = "/development/app.html"
         grails.logging.jul.usebridge = true
         grails.resources.debug=true
@@ -205,7 +205,7 @@ grails.plugin.springsecurity.userLookup.userDomainClassName = 'motoranger.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'motoranger.UserRole'
 grails.plugin.springsecurity.authority.className = 'motoranger.Role'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
-    '/j_spring_security_switch_user': ['ROLE_OPERATOR', 'ROLE_ADMIN'],
+    '/j_spring_security_switch_user': ['ROLE_OPERATOR', 'ROLE_MANERGER', 'ROLE_ADMIN'],
     '/':                              ['permitAll'],
     '/index':                         ['permitAll'],
     '/index.gsp':                     ['permitAll'],

@@ -26,7 +26,7 @@ class TagQueryService {
 
         }else if(params.group.toString() == motoranger.TagGroup.CUSTOMIZED.toString()){
 
-            if(userService.isOperator()){
+            if(userService.isOperator() || userService.isManerger()){
 
                 partIds = Part.findAllByStore(currentUser.store)*.id
 
@@ -73,7 +73,7 @@ class TagQueryService {
             parts = Part.findAllByTagWithCriteria(params.tag) {
 
                 if(params.group.toString() == motoranger.TagGroup.CUSTOMIZED.toString()){
-                    if(userService.isOperator()){
+                    if(userService.isOperator() || userService.isManerger()){
                         eq('store', currentUser.store)
                     }
                     else{
@@ -126,7 +126,7 @@ class TagQueryService {
         def currentUser = userService.currentUser()
         def recentEvents 
 
-        if(userService.isOperator()){
+        if(userService.isOperator() || userService.isManerger()){
             recentEvents =Event.findAllByStore(currentUser.store, params)
         }else {
             recentEvents =Event.findAllByUser(currentUser, params)

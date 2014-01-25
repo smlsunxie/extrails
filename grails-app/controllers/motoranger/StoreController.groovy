@@ -55,7 +55,7 @@ class StoreController {
         redirect(action: "show", id: storeInstance.id)
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_MANERGER', 'ROLE_ADMIN'])
     def edit(Long id) {
         def storeInstance = Store.get(id)
         if (!storeInstance) {
@@ -67,9 +67,8 @@ class StoreController {
         [storeInstance: storeInstance]
     }
 
-    @Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_MANERGER', 'ROLE_ADMIN'])
     def update(Long id, Long version) {
-        println params
         def storeInstance = Store.get(id)
         if (!storeInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'store.label', default: 'Store'), id])

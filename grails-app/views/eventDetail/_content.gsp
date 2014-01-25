@@ -25,7 +25,7 @@
 
   <tr>
     <td class="small"><g:message code="eventDetail.cost.label" /></td>
-    <td class="bold">${eventDetail.cost}</td>
+    <td class="bold">${(eventDetail.cost == -1 ?'****':eventDetail.cost)}</td>
   </tr>
     
 

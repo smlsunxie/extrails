@@ -3,6 +3,7 @@ package motoranger
 class EventDetailSecureFilters {
 
     def userService
+    def secureFiltersService
 
     def filters = {
 
@@ -57,13 +58,13 @@ class EventDetailSecureFilters {
 
         edit(controller:'eventDetail', action:'show') {
 
-            after = {
+            after = { Map model ->
 
                 if(model?.eventDetail){
                     model.currentUserIsEventOwner=[:]
                     model.eventDetailTotalPrice=[:] 
-                    setModelEventExtraCondiction([model.eventDetail.head], model)
-                    setModelPartCostExtraCondiction(model.eventDetail.part, model)
+                    secureFiltersService.setModelEventExtraCondiction([model.eventDetail.head], model, true)
+                    secureFiltersService.setModelPartCostExtraCondiction(model.eventDetail.part, model)
                 }
 
             }

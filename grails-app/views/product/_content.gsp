@@ -38,7 +38,7 @@
     </tr>
     <tr>
       <td class="small"><g:message code="product.cost.label" /></td>
-      <td class="bold">${product.cost}</td>
+      <td class="bold">${(product.cost == -1 ?'****':product.cost)}</td>
     </tr>
 
     <tr>

@@ -15,7 +15,7 @@
 
   <tr>
     <td class="small"><g:message code="part.cost.label" /></td>
-    <td class="bold">${part.cost}</td>
+    <td class="bold">${(part.cost == -1 ?'****':part.cost)}</td>
   </tr>
 
   <tr>

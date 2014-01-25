@@ -3,6 +3,7 @@ package motoranger
 class UserSecureFilters {
 
     def userService
+    def secureFiltersService
 
     def filters = {
         all(controller: 'user', action: "*") {
@@ -15,6 +16,7 @@ class UserSecureFilters {
                         if(params?.id != currentUser.id){
                             flash.message = "不可維護其他使用者的資料"
                             redirect(action: "show", controller: "user", id: currentUser.id)
+                            return false
 
 
                         }
@@ -38,6 +40,22 @@ class UserSecureFilters {
                         }
                     }
                 }
+
+            }
+
+            after = { model ->
+                if(actionName=="show"){
+                    if(model?.user)
+                        secureFiltersService.setModelUserExtraCondiction(model.user)
+                    if(model?.products){
+                        model.products.each(){ product ->
+                            secureFiltersService.setModelProductNameExtraCondiction(product)
+                        }
+                    }
+
+
+                }
+
 
             }
 

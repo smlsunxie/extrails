@@ -52,7 +52,7 @@
 
       <sec:ifAnyGranted roles="ROLE_MANERGER">
         <g:if test="${!user?.store}">
-          <g:link  class="btn btn-primary" controller="user" action="addToStore" params="['store.id': params?.currentUserStoreId]" id="${user.id}" >指定為作業員</g:link>
+          <g:link  class="btn btn-primary" controller="user" action="addToStore" id="${user.id}" >指定為作業員</g:link>
         </g:if>
       </sec:ifAnyGranted>
 

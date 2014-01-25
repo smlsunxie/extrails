@@ -3,6 +3,7 @@ package motoranger
 class PartSecureFilters {
 
     def userService
+    def secureFiltersService
 
     def filters = {
 
@@ -42,9 +43,9 @@ class PartSecureFilters {
                 }        
             }
 
-            after = {
+            after = { Map model ->
                 if(actionName == "show" && model?.part){
-                    setModelPartCostExtraCondiction(model.part, model)                   
+                    secureFiltersService.setModelPartCostExtraCondiction(model.part, model)                   
                 }
             }
 
