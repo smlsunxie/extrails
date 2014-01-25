@@ -7,7 +7,7 @@
         <td class="bold">${event.mileage}</td>
     </tr> 
 
-    <sec:ifAnyGranted roles="ROLE_OPOERATOR, ROLE_MANERGER">
+    <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">
       <g:if test = "${currentUserIsEventOwner[event.id]}">
 
         <tr>
