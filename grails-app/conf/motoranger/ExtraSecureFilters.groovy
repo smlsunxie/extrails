@@ -276,7 +276,7 @@ class ExtraSecureFilters {
 
         def currentUser = springSecurityService?.currentUser
         def isCustomerAndPartOwner = (userService.currentUserIsCustomer()
-            && currentUser.id == part?.user.id)
+            && currentUser.id == part?.user?.id)
         def isManergerAndPartOwner = (SpringSecurityUtils.ifAnyGranted("ROLE_MANERGER")
             && currentUser.store.id == part?.store.id)
 
@@ -295,6 +295,7 @@ class ExtraSecureFilters {
 
     private setModelProductNameExtraCondiction(product){
 
+        def currentUser = springSecurityService?.currentUser
         def isCustomerButNotProductOwner = (userService.currentUserIsCustomer() && currentUser.id != product?.user.id)
         def isNotLoggedIn = !springSecurityService.isLoggedIn() 
 
@@ -307,8 +308,8 @@ class ExtraSecureFilters {
 
     }
     private setModelEventExtraCondiction(events, model, withDetail = false){
+        
         def currentUser = springSecurityService?.currentUser
-
         events.each(){ event ->
             def userStoreOwnEvent = (currentUser?.store && currentUser?.store == event?.store)
             def userOwnEvent = (currentUser && currentUser == event?.user)

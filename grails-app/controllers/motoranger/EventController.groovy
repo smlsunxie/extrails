@@ -366,7 +366,7 @@ class EventController {
 
         params.max=12
         params.order="desc"
-        params.sort="date"
+        params.sort="lastUpdated"
 
 
         def store = Store.findById(params.store.id)
@@ -385,7 +385,7 @@ class EventController {
     def unfinListOfStore(){
 
         params.order="desc"
-        params.sort="date"
+        params.sort="lastUpdated"
 
 
         def store = Store.findById(params.store.id)

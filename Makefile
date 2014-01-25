@@ -24,7 +24,7 @@ remote-init:
 	&& sudo chgrp -R tomcat7 /usr/share/tomcat7 \
 	&& sudo chmod -R 770 /usr/share/tomcat7'
 
-deployConfig:
+deploy-Config:
 	scp ~/.grails/motoranger-config.groovy ${remote_user}@${remote_addr}:~/
 	ssh -t ${remote_user}@${remote_addr} \
 	'sudo cp motoranger-config.groovy /usr/share/tomcat7/.grails/ \
@@ -37,10 +37,16 @@ dbinit:
 
 
 done:
-	make clean war deployWar
-	
+	make clean war deploy
 
-deployWar:
+
+update:
+	git pull
+
+done-local:
+	make update clean war deploy-local
+
+deploy:
 	scp target/motoranger.war ${remote_user}@${remote_addr}:~/ROOT.war
 	ssh -t ${remote_user}@${remote_addr} \
 	'cd ~/ \
@@ -48,6 +54,12 @@ deployWar:
 	&& sudo cp ROOT.war /var/lib/tomcat7/webapps/ \
 	&& sudo cp motoranger-config.groovy /usr/share/tomcat7/.grails/ \
 	&& sudo service tomcat7 restart'
+
+deploy-local:
+	cp target/motoranger.war ~/ROOT.war
+	sudo rm -rf /var/lib/tomcat7/webapps/ROOT \
+	&& sudo cp ~/ROOT.war /var/lib/tomcat7/webapps/ \
+	&& sudo service tomcat7 restart
 
 log:
 	ssh -t ${remote_user}@${remote_addr} 'sudo tail -f /var/lib/tomcat7/logs/catalina.out'

@@ -13,8 +13,15 @@ class SearchController {
 
         if(params.q && params.q != ''){
             productSearchResult = Product.search(params.q+" OR *"+params.q+"*",params)
-        }
+            
+            if(productSearchResult?.results.size() == 0){
+                println "start reindex"
+                Product.reindex()
+                println "end reindex"
+                productSearchResult = Product.search(params.q+" OR *"+params.q+"*",params)
+            }
 
+        }
 
 
         if(productSearchResult?.results.size() == 1){
@@ -27,6 +34,17 @@ class SearchController {
 
 
     }
+
+    def doReindex(){
+        Product.reindex()
+        render "reindex 執行完成"
+    }
+
+    def doIndex(){
+        Product.index()
+        render "index 執行完成"
+    }
+
 
     def createOrLinkProductOwner(){
         println "params?.product?.id=" + params?.product?.id
