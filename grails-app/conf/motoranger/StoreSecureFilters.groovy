@@ -32,7 +32,7 @@ class StoreSecureFilters {
                 if(actionName == 'show'){
 
                     model.currentUserIsStoreOwnerOrAdmin = 
-                        (currentUser?.store?.id == params?.id.toLong() || userService.isAdmin())                   
+                        (currentUser?.store?.id == params.id.toLong() || userService.isAdmin())                   
 
                     if(model?.unfinEvents || model?.endEvents){
 

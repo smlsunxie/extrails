@@ -9,16 +9,15 @@ class UserSecureFilters {
         all(controller: 'user', action: "*") {
             before = {
 
+
                 if(actionName == "edit" || actionName == "update" || actionName == "delete"|| actionName == "*"){
                     def currentUser = userService.currentUser()
 
                     if(currentUser && userService.isCustomer()){
-                        if(params?.id != currentUser.id){
+                        if(params.id.toLong() != currentUser.id){
                             flash.message = "不可維護其他使用者的資料"
                             redirect(action: "show", controller: "user", id: currentUser.id)
                             return false
-
-
                         }
 
                     }else if(currentUser && (userService.isOperator() || userService.isManerger())){
