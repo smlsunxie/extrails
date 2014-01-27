@@ -82,7 +82,7 @@ class EventDetailSecureFiltersSpec extends Specification {
 			}
 		then: "將不允許進行維護，並且被 reditect 到所屬首頁，告知不可編輯"
 			assert flash.message == "沒有權限建立不屬於自己店家的維修事件之維修項目"
-			assert response.redirectedUrl == '/'
+			
 
 		when: "userA 想要進行 create 屬於相同 store 的 eventDetailA 經過 filters"
 			params["head.id"] = eventA.id.toString()
@@ -111,7 +111,7 @@ class EventDetailSecureFiltersSpec extends Specification {
 			}
 		then: "將不允許 edit"
 			assert flash.message == "只可維護自己或所屬店家的維修事件之維修項目"
-			assert response.redirectedUrl == '/'
+			
 
     }
 
@@ -136,7 +136,7 @@ class EventDetailSecureFiltersSpec extends Specification {
 			}
 		then: "將不允許進行維護，並且被 reditect 到所屬首頁，告知不可編輯"
 			assert flash.message == "沒有權限建立不屬於自己產品的維修事件之維修項目"
-			assert response.redirectedUrl == '/'
+			
 
 		when: "userA 想要進行 create 屬於相同 store 的 eventDetailA 經過 filters"
 			params["head.id"] = eventA.id.toString()

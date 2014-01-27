@@ -52,7 +52,7 @@ class UserSecureFiltersSpec extends Specification {
 			}
 		then: "不允許編輯"
 			assert flash.message == "不可維護其他使用者的資料"
-			assert response.redirectedUrl == "/user/show/${userA.id}"
+			
 
 	    when: "進行自己使用者"
 	    	params.id = userA.id.toString()

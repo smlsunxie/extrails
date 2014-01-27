@@ -56,7 +56,7 @@ class ProductSecureFiltersSpec extends Specification {
 			}
 		then: "將不允許進行維護，並且被 reditect 到所屬首頁，告知不可編輯"
 			assert flash.message == "已啟用使用者之產品不可維護"
-			assert response.redirectedUrl == '/store/show/'+userA.store.id
+			
 
 		when: "userA 想要進行 edit 自己擁有的 product，經過 filters"
 			params.id = userA.id.toString()
@@ -98,7 +98,7 @@ class ProductSecureFiltersSpec extends Specification {
 			}
 		then: "將不允許進行維護，並且被 reditect 到所屬首頁，告知不可編輯"
 			assert flash.message == "不屬於自己的摩托不可維護"
-			assert response.redirectedUrl == '/user/show/'+userA.store.id
+			
 
 		when: "userA 想要進行 edit 自己擁有的 product，經過 filters"
 			params.id = userA.id.toString()

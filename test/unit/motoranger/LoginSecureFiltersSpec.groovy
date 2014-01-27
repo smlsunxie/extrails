@@ -57,7 +57,7 @@ class LoginSecureFiltersSpec extends Specification {
 			}
 		then: "不允許切換"
 			flash.message == "無法切換到不屬於「${userA.store}」的使用者"
-			assert response.redirectedUrl == '/store/show/'+userA.store.id
+			
 
     	when: "進行切到所屬相同店家的使用者"
     		params.username = userC.username.toString()

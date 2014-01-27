@@ -238,7 +238,7 @@ class UserController {
                 return 
             }
 
-            redirect(action: "index", controller: "home")
+            redirect(action: "redirect", controller: "home")
 
             
         }

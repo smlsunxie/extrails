@@ -61,7 +61,7 @@ class StoreSecureFiltersSpec extends Specification {
 			}
 		then: "storeA 的 user 不可修改 storeB"
 			assert flash.message == "只可維護自己的店家"
-			assert response.redirectedUrl == '/store/show/'+userA.store.id
+			
 
     	when: "屬於 storeA 的 user 進行 delete storeB 時透過 filter 檢查"
     		response.reset()
@@ -70,7 +70,7 @@ class StoreSecureFiltersSpec extends Specification {
 			}
 		then: "storeA 的 user 不可刪除 storeB"
 			assert flash.message == "只可維護自己的店家"
-			assert response.redirectedUrl == '/store/show/'+userA.store.id			
+			
 
 
     	when: "屬於 storeA 的 user 更新 storeB 時透過 filter 檢查"
@@ -80,7 +80,7 @@ class StoreSecureFiltersSpec extends Specification {
 			}
 		then: "storeA 的 user 不可更新 storeB"
 			assert flash.message == "只可維護自己的店家"
-			assert response.redirectedUrl == '/store/show/'+userA.store.id	
+			
 
     }
 
@@ -116,7 +116,6 @@ class StoreSecureFiltersSpec extends Specification {
 			}
 		then: "storeA 的 user 可更新 storeA"
 			assert flash.message == 'default.updated.message'
-			assert response.redirectedUrl=="/store/show/"+userA.store.id
 
     }
 

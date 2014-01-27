@@ -67,7 +67,7 @@ class EventSecureFiltersSpec extends Specification {
 			}
 		then: "將不允許進行維護，並且被 reditect 到所屬首頁，告知不可編輯"
 			assert flash.message == "只可維護自己或所屬店家的維修事件"
-			assert response.redirectedUrl == '/store/show/'+userA.store.id
+			
 
 			
 
