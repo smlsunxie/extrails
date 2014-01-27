@@ -59,7 +59,7 @@ class EventSecureFilters {
                     model.eventDetailTotalPrice=[:]  
 
                     if(model?.events){
-                        secureFiltersService.setModelEventExtraCondiction(model.events, model)                   
+                        secureFiltersService.setModelEventExtraCondiction(model.events, model, true)                   
                     } 
                 }else if(actionName == "show" || actionName == "pickPartAddDetail" ){
 

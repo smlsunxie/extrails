@@ -56,7 +56,6 @@
           <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">         
             <g:if test="${currentUserIsStoreOwnerOrAdmin}">
               <sec:ifAnyGranted roles="ROLE_MANERGER">
-                <g:link  class="btn btn-primary" controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link>
                 <g:link  class="btn btn-primary" controller="user" action="create" params="['store.id': store.id]" >建立作業員</g:link>
               </sec:ifAnyGranted>
 

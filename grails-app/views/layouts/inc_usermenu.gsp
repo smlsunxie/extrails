@@ -51,12 +51,19 @@
 
     <ul class="dropdown-menu">
 
-      <sec:ifSwitched>
+      <g:userMenu />
+
+
+      <sec:ifAnyGranted roles="ROLE_ADMIN">
         <li>
-          <g:link controller="user" action="show">
-            <g:message code="user.show.label" />
+          <g:link controller="post" action="create" >
+            建立文章
           </g:link>
-        </li>      
+        </li>
+      </sec:ifAnyGranted>
+
+
+      <sec:ifSwitched>    
         <li>
           <g:link url='${request.contextPath}/j_spring_security_exit_user' >
               恢復原使用者
@@ -68,33 +75,11 @@
 
       <sec:ifNotSwitched>
         <li>
-          <g:link controller="user" action="show">
-            <g:message code="user.show.label" />
-          </g:link>
-        </li>
-        <li>
-          <g:link controller="user" action="edit">
-            <g:message code="user.edit.label" />
-          </g:link>
-        </li>
-
-
-        <sec:ifAnyGranted roles="ROLE_ADMIN">
-          <li>
-            <g:link controller="post" action="create" >
-              建立文章
-            </g:link>
-          </li>
-        </sec:ifAnyGranted>      
-
-        <li>
           <g:link uri="/j_spring_security_logout">
             <%--登出--%>
             <g:message code="default.logout.text" />
           </g:link>
         </li>
-
-
       </sec:ifNotSwitched>
 
     </ul>

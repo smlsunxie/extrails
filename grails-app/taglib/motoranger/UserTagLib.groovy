@@ -46,15 +46,15 @@ class UserTagLib {
     def switchUser={attrs, body ->
 
         def currentUser = userService.currentUser()
-        def isManager = false
+        def isManerger = false
         def isOperator = false
 
         if(currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_MANERGER')))
-            isManager = true
+            isManerger = true
         if(currentUser.getAuthorities().contains(motoranger.Role.findByAuthority('ROLE_OPERATOR')))
             isOperator = true
         def operators=[]
-        if(currentUser?.store && (isManager || isOperator)){
+        if(currentUser?.store && (isManerger || isOperator)){
 
             def users=User.findAllByStore(userService.currentUser()?.store)
 
@@ -165,6 +165,29 @@ class UserTagLib {
                   ${nowActive}
                 """
         }       
+
+    }
+    def userMenu={ attrs, body ->
+        def currentUser = userService.currentUser()
+        def userMenu = ""
+        if(userService.isManerger() || userService.isOperator()){
+            def userShowTitle = message(code:"user.show.label")
+            def userShowLink = link(controller: "user", action: "show", id: currentUser.id){userShowTitle}
+            userMenu += '<li>'+userShowLink+'</li>'
+                        
+        }
+
+        def userEditTitle = message(code:"user.edit.label")
+        def userEditLink = link(controller: "user", action: "edit", id: currentUser.id){userEditTitle}
+        userMenu += '<li>'+userEditLink+'</li>'
+
+        if(userService.isManerger()){
+            def storeEditTitle = message(code:"store.edit.label")
+            def storeEditLink = link(controller: "store", action: "edit", id: currentUser.store.id){storeEditTitle}
+            userMenu += '<li>'+storeEditLink+'</li>'
+        }
+
+        out << body() << userMenu
 
     }
 

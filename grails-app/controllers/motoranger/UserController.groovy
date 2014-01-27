@@ -277,10 +277,12 @@ class UserController {
         store.addToUsers(user).save()
 
         def opRole = Role.findByAuthority('ROLE_OPERATOR')
-
-
         if(!UserRole.get(user?.id, opRole.id))
                 UserRole.create(user,opRole,true)
+
+        def cusRole = Role.findByAuthority('ROLE_CUSTOMER')
+        if(UserRole.get(user?.id, cusRole.id))
+            UserRole.remove(user,cusRole)             
 
         user.enabled=true
 
