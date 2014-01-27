@@ -51,7 +51,7 @@ class StoreSecureFiltersSpec extends Specification {
 
 			def userA = User.findByUsername('userA')
 			def storeB = Store.findByName('storeB')
-			params.id = storeB.id
+			params.id = storeB.id.toString()
 
 
     	when: "屬於 storeA 的 user 進行 edit storeB 時透過 filter 檢查"
@@ -87,7 +87,7 @@ class StoreSecureFiltersSpec extends Specification {
     void "使用者為 ROLE_MANERGER 可以維護自己的店家"() {
     	setup: "取得相關 domain 實體，並且設定 params.id"
 			def userA = User.findByUsername('userA')
-			params.id = userA.store.id
+			params.id = userA.store.id.toString()
 
 
     	when: "屬於 storeA 的 user 修改 storeA 時透過 filter 檢查"
@@ -132,7 +132,7 @@ class StoreSecureFiltersSpec extends Specification {
 
     	setup: "取得相關 domain 實體，並且設定 params.id"     
 			def storeA = Store.findByName('storeA')
-			params.id = storeA.id
+			params.id = storeA.id.toString()
 
 		when: "userA 進行檢視 show storeA"
 		    response.reset()
@@ -156,7 +156,7 @@ class StoreSecureFiltersSpec extends Specification {
     	""" (){
     	setup: "取得相關 domain 實體，並且設定 params.id"      
 			def storeA = Store.findByName('storeA')
-			params.id = storeA.id
+			params.id = storeA.id.toString()
 
 		when: "userA 進行檢視 show storeA"
 		    response.reset()

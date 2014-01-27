@@ -70,8 +70,8 @@ class EventDetailSecureFiltersSpec extends Specification {
 
 
 		when: "userA 想要進行 create 屬於不同 store 的 eventDetailB 經過 filters"
-			params["head.id"] = eventB.id
-			params["part.id"] = partA.id
+			params["head.id"] = eventB.id.toString()
+			params["part.id"] = partA.id.toString()
 			response.reset()
 	    	withFilters(controller: "eventDetail", action: "*") {
 			    controller.create()
@@ -81,8 +81,8 @@ class EventDetailSecureFiltersSpec extends Specification {
 			assert response.redirectedUrl == '/store/show/'+userA.store.id
 
 		when: "userA 想要進行 create 屬於相同 store 的 eventDetailA 經過 filters"
-			params["head.id"] = eventA.id
-			params["part.id"] = partA.id
+			params["head.id"] = eventA.id.toString()
+			params["part.id"] = partA.id.toString()
 			response.reset()
 	    	withFilters(controller:"eventDetail",action:"*") {
 			    controller.create()
@@ -104,8 +104,8 @@ class EventDetailSecureFiltersSpec extends Specification {
 			def partB = Part.findByName('partB')
 			
 		when: "userA 想要進行 create 屬於不同 store 的 eventDetailB 經過 filters"
-			params["head.id"] = eventB.id
-			params["part.id"] = partA.id
+			params["head.id"] = eventB.id.toString()
+			params["part.id"] = partA.id.toString()
 			response.reset()
 	    	withFilters(controller:"eventDetail",action:"*") {
 			    controller.create()
@@ -115,8 +115,8 @@ class EventDetailSecureFiltersSpec extends Specification {
 			assert response.redirectedUrl == '/user/show/'+userA.store.id
 
 		when: "userA 想要進行 create 屬於相同 store 的 eventDetailA 經過 filters"
-			params["head.id"] = eventA.id
-			params["part.id"] = partA.id
+			params["head.id"] = eventA.id.toString()
+			params["part.id"] = partA.id.toString()
 			response.reset()
 	    	withFilters(controller:"eventDetail",action:"*") {
 			    controller.create()

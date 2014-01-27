@@ -49,7 +49,7 @@ class ProductSecureFiltersSpec extends Specification {
 			def userC = User.findByUsername('userC')
 			
 		when: "userA 想要進行 edit 已 enabled 的 userB 擁有的 product，經過 filters"
-			params.id = userB.id
+			params.id = userB.id.toString()
 			response.reset()
 	    	withFilters(controller:"product",action:"*") {
 			    controller.edit()
@@ -59,7 +59,7 @@ class ProductSecureFiltersSpec extends Specification {
 			assert response.redirectedUrl == '/store/show/'+userA.store.id
 
 		when: "userA 想要進行 edit 自己擁有的 product，經過 filters"
-			params.id = userA.id
+			params.id = userA.id.toString()
 			response.reset()
 	    	withFilters(controller:"product",action:"*") {
 			    controller.edit()
@@ -68,7 +68,7 @@ class ProductSecureFiltersSpec extends Specification {
 			assert model.product
 
 		when: "userA 想要進行 edit 未 enabled user 的 product，經過 filters"
-			params.id = userC.id
+			params.id = userC.id.toString()
 			response.reset()
 	    	withFilters(controller:"product",action:"*") {
 			    controller.edit()
@@ -82,40 +82,34 @@ class ProductSecureFiltersSpec extends Specification {
 		    UserService.metaClass.isCustomer = {
 	        	true
 	        }
-
+		    UserService.metaClass.isOperator = {
+	        	false
+	        }
 
     		def userA = User.findByUsername('userA')
 			def userB = User.findByUsername('userB')
 			def userC = User.findByUsername('userC')
 			
 		when: "userA 想要進行 edit 已 enabled 的 userB 擁有的 product，經過 filters"
-			params.id = userB.id
+			params.id = userB.id.toString()
 			response.reset()
 	    	withFilters(controller:"product",action:"*") {
 			    controller.edit()
 			}
 		then: "將不允許進行維護，並且被 reditect 到所屬首頁，告知不可編輯"
-			assert flash.message == "已啟用使用者之產品不可維護"
+			assert flash.message == "不屬於自己的摩托不可維護"
 			assert response.redirectedUrl == '/user/show/'+userA.store.id
 
 		when: "userA 想要進行 edit 自己擁有的 product，經過 filters"
-			params.id = userA.id
+			params.id = userA.id.toString()
 			response.reset()
 	    	withFilters(controller:"product",action:"*") {
 			    controller.edit()
 			}
-		then: "將不允許進行維護，並且被 reditect 到所屬首頁，告知不可編輯"
+		then: "允許進行維護"
 			assert model.product
 
-		when: "userA 想要進行 edit 未 enabled user 的 product，經過 filters"
-			params.id = userC.id
-			response.reset()
-	    	withFilters(controller:"product",action:"*") {
-			    controller.edit()
-			}
-		then: "將不允許編輯"
-			assert flash.message == "已啟用使用者之產品不可維護"
-			assert response.redirectedUrl == '/user/show/'+userA.store.id	
+	
 			
     }
 

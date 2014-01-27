@@ -6,7 +6,7 @@ class UserSecureFilters {
     def secureFiltersService
 
     def filters = {
-        all(controller: 'user', action: "*") {
+        all(controller: 'user', action: "edit") {
             before = {
 
 
@@ -41,23 +41,18 @@ class UserSecureFilters {
                 }
 
             }
-
+        }
+        all(controller: 'user', action: "show") {
             after = { model ->
-                if(actionName=="show"){
-                    if(model?.user)
-                        secureFiltersService.setModelUserExtraCondiction(model.user)
-                    if(model?.products){
-                        model.products.each(){ product ->
-                            secureFiltersService.setModelProductNameExtraCondiction(product)
-                        }
+                if(model?.user)
+                    secureFiltersService.setModelUserExtraCondiction(model.user)
+                if(model?.products){
+                    model.products.each(){ product ->
+                        secureFiltersService.setModelProductNameExtraCondiction(product)
                     }
-
-
                 }
-
-
             }
 
-        }
+        }        
     }
 }

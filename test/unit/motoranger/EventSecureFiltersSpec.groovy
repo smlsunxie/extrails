@@ -53,13 +53,14 @@ class EventSecureFiltersSpec extends Specification {
 
 
     void "使用者為 ROLE_OPERATOR 只可維護自己或所屬店家的事件"(){
-    	setup: "取得相關 domain 實體，並且設定 params.id"
+    	setup: "取得相關 domain 實體"
     		def userA = User.findByUsername('userA')
 			def eventB = Event.findByName('eventB')
-			params.id = eventB.id
+			
 
 
-		when: "userA 想要進行 edit userB 所屬 store 之 event 經過 filters"
+		when: "userA 想要進行 edit userB 所屬 store 之 event 經過 filters，並且設定 params.id"
+			params.id = eventB.id.toString()
 			response.reset()
 	    	withFilters(controller:"event",action:"*") {
 			    controller.edit()

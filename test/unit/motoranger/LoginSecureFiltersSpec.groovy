@@ -50,7 +50,7 @@ class LoginSecureFiltersSpec extends Specification {
     		def userC = User.findByUsername('userC')
     		
     	when: "進行切到所屬不同店家的使用者"
-    		params.username = userB.username
+    		params.username = userB.username.toString()
     		response.reset()
 	    	withFilters(controller:'login', action:'switchUser') {
 			    controller.switchUser()
@@ -60,7 +60,7 @@ class LoginSecureFiltersSpec extends Specification {
 			assert response.redirectedUrl == '/store/show/'+userA.store.id
 
     	when: "進行切到所屬相同店家的使用者"
-    		params.username = userC.username
+    		params.username = userC.username.toString()
     		response.reset()
 	    	withFilters(controller:'login', action:'switchUser') {
 			    controller.switchUser()

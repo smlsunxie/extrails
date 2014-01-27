@@ -52,7 +52,7 @@ class PartSecureFiltersSpec extends Specification {
 			def partC = Part.findByName('partC')
 			
 		when: "userA 想要進行 edit 與 userA 不屬於同個 store 的 userB 擁有的 Part，經過 filters"
-			params.id = partB.id
+			params.id = partB.id.toString()
 			response.reset()
 	    	withFilters(controller:"part",action:"*") {
 			    controller.edit()
@@ -63,7 +63,7 @@ class PartSecureFiltersSpec extends Specification {
 
 
 		when: "userA 想要進行 edit 自己擁有的 Part，經過 filters"
-			params.id = partA.id
+			params.id = partA.id.toString()
 			response.reset()
 	    	withFilters(controller:"part",action:"*") {
 			    controller.edit()
@@ -72,7 +72,7 @@ class PartSecureFiltersSpec extends Specification {
 			assert model.part
 
 		when: "userA 想要進行 edit 與 userA 屬於同一個 store 的 userC 擁有的 part 經過 filters"
-			params.id = partC.id
+			params.id = partC.id.toString()
 			response.reset()
 	    	withFilters(controller:"part",action:"*") {
 			    controller.edit()
@@ -93,7 +93,7 @@ class PartSecureFiltersSpec extends Specification {
 			def partC = Part.findByName('partC')
 			
 		when: "userA 想要進行 edit 與 userA 屬於同個 store 的 userC 擁有的 Part，經過 filters"
-			params.id = partC.id
+			params.id = partC.id.toString()
 			response.reset()
 	    	withFilters(controller:"part",action:"*") {
 			    controller.edit()
@@ -104,7 +104,7 @@ class PartSecureFiltersSpec extends Specification {
 
 
 		when: "userA 想要進行 edit 自己擁有的 Part，經過 filters"
-			params.id = partA.id
+			params.id = partA.id.toString()
 			response.reset()
 	    	withFilters(controller:"part",action:"*") {
 			    controller.edit()
