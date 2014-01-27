@@ -11,7 +11,10 @@ grails.project.source.level = 1.6
 grails.project.war.file = "target/${appName}.war"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
-
+grails.war.resources = { stagingDir, args ->
+  def webXML = new java.io.File("${stagingDir}/WEB-INF/web.xml")
+  webXML.text = webXML.text.replaceFirst("<session-timeout>30</session-timeout>", "<sesson-timeout>720</session-timeout>")
+}
 
 
 grails.project.fork = [
