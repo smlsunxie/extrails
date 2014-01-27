@@ -20,7 +20,7 @@ class ProductSecureFilters {
 
                         if(!product?.user || product.user.id !=  currentUser.id){
                             flash.message = "不屬於自己的摩托不可維護"
-                            redirect(action: "show", controller: "user", id: currentUser.id)
+                            redirect(action: "redirect", controller: "home")
                         }
 
                     }else if(currentUser && (userService.isOperator() || userService.isManerger())){
@@ -29,7 +29,7 @@ class ProductSecureFilters {
 
                         if(product?.user && product.user.enabled && product.user!=currentUser){
                             flash.message = "已啟用使用者之產品不可維護"
-                            redirect(action: "show", controller: "store", id: currentUser.store.id)
+                            redirect(action: "redirect", controller: "home")
                         }
 
                     }

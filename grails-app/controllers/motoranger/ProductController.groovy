@@ -127,25 +127,10 @@ class ProductController {
     def delete(){ 
         def product = Product.findById(params.id)
         
-        
         try{
-        
-
             product.delete(flush: true,failOnError:true)
-
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), product])
-
-            def currentUser = userService.currentUser()
-
-            if(userService.isCustomer()){
-                redirect(action: "show", controller: "user", id: currentUser.id)
-                return
-            }else {
-                def store = currentUser.store
-                redirect(action: "show", controller: "store", id: store.id)
-                return
-            }
-
+            redirect(action: "redirect", controller: "home")
         }catch (Exception e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), product])
             redirect(action: "show", id: product.id)

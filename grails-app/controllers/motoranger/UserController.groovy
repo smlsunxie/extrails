@@ -238,12 +238,7 @@ class UserController {
                 return 
             }
 
-            if(userService.isOperator() || userService.isManerger()){
-                def store = currentUser.store
-                redirect(action: "show", controller: "store", id: store.id)
-            }else if(userService.isCustomer()){
-                redirect(action: "show", controller: "user", id: currentUser.id)
-            }
+            redirect(action: "index", controller: "home")
 
             
         }
@@ -304,8 +299,6 @@ class UserController {
             storeList << userService.currentUser().store
         
         }
-
-        log.debug storeList
         return storeList
     }
 }

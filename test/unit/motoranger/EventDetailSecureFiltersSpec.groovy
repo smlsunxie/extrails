@@ -64,6 +64,10 @@ class EventDetailSecureFiltersSpec extends Specification {
     		def userA = User.findByUsername('userA')
 			def eventA = Event.findByName('eventA')
 			def eventB = Event.findByName('eventB')
+
+			def eventDetailA = EventDetail.findByName('eventDetailA')
+			def eventDetailB = EventDetail.findByName('eventDetailB')
+
 			def partA = Part.findByName('partA')
 			def partB = Part.findByName('partB')
 			
@@ -73,22 +77,42 @@ class EventDetailSecureFiltersSpec extends Specification {
 			params["head.id"] = eventB.id.toString()
 			params["part.id"] = partA.id.toString()
 			response.reset()
-	    	withFilters(controller: "eventDetail", action: "*") {
+	    	withFilters(controller: "eventDetail", action: "create") {
 			    controller.create()
 			}
 		then: "將不允許進行維護，並且被 reditect 到所屬首頁，告知不可編輯"
 			assert flash.message == "沒有權限建立不屬於自己店家的維修事件之維修項目"
-			assert response.redirectedUrl == '/store/show/'+userA.store.id
+			assert response.redirectedUrl == '/'
 
 		when: "userA 想要進行 create 屬於相同 store 的 eventDetailA 經過 filters"
 			params["head.id"] = eventA.id.toString()
 			params["part.id"] = partA.id.toString()
 			response.reset()
-	    	withFilters(controller:"eventDetail",action:"*") {
+	    	withFilters(controller:"eventDetail",action:"create") {
 			    controller.create()
 			}
-		then: "將允許修改"
-			assert model.eventDetail		
+		then: "將允許 create"
+			assert model.eventDetail
+
+		when: "userA 想要進行 edit 屬於相同 store 的 eventDetailA 經過 filters"
+			params.id = eventDetailA.id.toString()
+			response.reset()
+	    	withFilters(controller:"eventDetail",action:"edit") {
+			    controller.edit()
+			}
+		then: "將允許 edit"
+			assert model.eventDetail
+
+		when: "userA 想要進行 edit 屬於不相同 store 的 eventDetailB 經過 filters"
+			params.id = eventDetailB.id.toString()
+			response.reset()
+	    	withFilters(controller:"eventDetail",action:"edit") {
+			    controller.edit()
+			}
+		then: "將不允許 edit"
+			assert flash.message == "只可維護自己或所屬店家的維修事件之維修項目"
+			assert response.redirectedUrl == '/'
+
     }
 
     void "使用者為 ROLE_CUSTOMER 只可維護自己的維修項目"(){
@@ -107,18 +131,18 @@ class EventDetailSecureFiltersSpec extends Specification {
 			params["head.id"] = eventB.id.toString()
 			params["part.id"] = partA.id.toString()
 			response.reset()
-	    	withFilters(controller:"eventDetail",action:"*") {
+	    	withFilters(controller:"eventDetail",action:"create") {
 			    controller.create()
 			}
 		then: "將不允許進行維護，並且被 reditect 到所屬首頁，告知不可編輯"
 			assert flash.message == "沒有權限建立不屬於自己產品的維修事件之維修項目"
-			assert response.redirectedUrl == '/user/show/'+userA.store.id
+			assert response.redirectedUrl == '/'
 
 		when: "userA 想要進行 create 屬於相同 store 的 eventDetailA 經過 filters"
 			params["head.id"] = eventA.id.toString()
 			params["part.id"] = partA.id.toString()
 			response.reset()
-	    	withFilters(controller:"eventDetail",action:"*") {
+	    	withFilters(controller:"eventDetail",action:"create") {
 			    controller.create()
 			}
 		then: "將允許修改"

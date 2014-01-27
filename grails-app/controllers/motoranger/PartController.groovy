@@ -207,27 +207,16 @@ class PartController {
         
         
         try{
-            !part.delete()
-
-            def currentUser = userService.currentUser()
-            if(userService.isCustomer()){
-                redirect(action: "show", controller: "user", id: currentUser.id)
-                return
-            }else {
-                def store = currentUser.store
-                redirect(action: "show", controller: "store", id: store.id)
-                return
-            }
+            part.delete(flush: true,failOnError:true)
+            flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), part])
+            redirect(action: "index")
         }catch(Exception e){
             flash.message = "維修記錄使用到該維修項目：${part.title}，無法刪除。請修正標籤，例如：不使用"
             redirect(action: "show" ,id:part.id)
-            return
         }
 
 
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), part])
 
-        redirect(action: "portfolio")
     }
 
 }

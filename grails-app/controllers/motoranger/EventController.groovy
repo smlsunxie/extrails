@@ -149,12 +149,7 @@ class EventController {
 
         def currentUser = userService.currentUser()
 
-        if(userService.isOperator()|| userService.isManerger()){
-            def store = currentUser.store
-            redirect(action: "show", controller: "store", id: store.id)
-        }else if(userService.isCustomer()){
-            redirect(action: "show", controller: "user", id: currentUser.id)
-        }
+        redirect(action: "redirect", controller: "home")
 
 
 
@@ -200,14 +195,7 @@ class EventController {
             
             def currentUser = userService.currentUser()
 
-            if(userService.isOperator() || userService.isManerger()){
-                def store = currentUser.store
-                redirect(action: "show", controller: "store", id: store.id)
-                return
-            }else if(userService.isCustomer()){
-                redirect(action: "show", controller: "user", id: currentUser.id)
-                return
-            }
+            redirect(action: "redirect", controller: "home")
         }
         else if(request.getHeader('referer').indexOf("event/pickPartAddDetail") != -1
             || request.getHeader('referer').indexOf("/store/") != -1){

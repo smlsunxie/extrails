@@ -24,7 +24,7 @@ class EventSecureFilters {
 
                     if(!product?.user || product.user.id !=  currentUser.id){
                         flash.message = "沒有權限建立不屬於自己產品的維修事件"
-                        redirect(action: "user", controller: "store", id: currentUser.id)
+                        redirect(action: "redirect", controller: "home")
                         return false 
 
                     }                        
@@ -37,9 +37,7 @@ class EventSecureFilters {
                         return true
                     }else {
                         flash.message = "只可維護自己或所屬店家的維修事件"
-                        if(currentUser?.store)
-                            redirect(action: "show", controller: "store", id: currentUser.store.id)
-                        else redirect(action: "user", controller: "store", id: currentUser.id)
+                        redirect(action: "redirect", controller: "home")
 
                         return false                        
                     }
@@ -50,8 +48,6 @@ class EventSecureFilters {
 
             }
             after = { Map model ->
-                def currentUser = userService.currentUser()
-
 
                 if(actionName == "unfinListOfStore" || actionName == "endListOfStore" ){
 

@@ -144,7 +144,7 @@ class LoginController {
 
         session.tourStep=user.tourStep
 
-        redirect controller: "home", action: "index"
+        redirect controller: "home", action: "redirect"
 	}
 
 	@Secured(['ROLE_OPERATOR', 'ROLE_MANERGER', 'ROLE_ADMIN'])

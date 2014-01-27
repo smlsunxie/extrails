@@ -13,7 +13,7 @@ class HomeSecureFilters {
 
             after = { Map model ->
 
-                if(model){
+                if(model ){
                     model.currentUserIsEventOwner=[:]
                     model.eventDetailTotalPrice=[:]                 
                     
