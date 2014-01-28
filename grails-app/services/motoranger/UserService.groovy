@@ -10,6 +10,8 @@ class UserService {
         product.user=userInstance
         product.save(failOnError: true)
 
+        return product
+
     }
 
     def modifyUserRole(userInstance, params){

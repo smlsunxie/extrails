@@ -33,8 +33,8 @@ class UserSecureFilters {
         }
         all(controller: 'user', action: "show") {
             after = { model ->
-                if(model?.user)
-                    secureFiltersService.setModelUserExtraCondiction(model.user)
+                if(model?.userInstance)
+                    secureFiltersService.setModelUserExtraCondiction(model.userInstance)
                 if(model?.products){
                     model.products.each(){ product ->
                         secureFiltersService.setModelProductNameExtraCondiction(product)

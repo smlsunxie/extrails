@@ -39,14 +39,14 @@ class ProductSecureFilters {
 
             after = { Map model ->
 
-                if(actionName=="show" && model?.product){
+                if(actionName=="show" && model?.productInstance){
 
                     model.currentUserIsEventOwner=[:]
                     model.eventDetailTotalPrice=[:]                     
-                    secureFiltersService.setModelProductNameExtraCondiction(model.product)
-                    if(model.product?.user)
-                        secureFiltersService.setModelUserExtraCondiction(model.product.user)
-                    secureFiltersService.setModelEventExtraCondiction(model.product?.events, model, true)
+                    secureFiltersService.setModelProductNameExtraCondiction(model.productInstance)
+                    if(model.productInstance?.user)
+                        secureFiltersService.setModelUserExtraCondiction(model.productInstance.user)
+                    secureFiltersService.setModelEventExtraCondiction(model.productInstance?.events, model, true)
                 }
 
             }

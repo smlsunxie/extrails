@@ -4,6 +4,11 @@ import org.springframework.dao.DataIntegrityViolationException
 import grails.plugin.springsecurity.annotation.Secured
 import grails.plugin.springsecurity.SpringSecurityUtils
 import org.springframework.transaction.annotation.*
+
+import static org.springframework.http.HttpStatus.*
+import grails.transaction.Transactional
+
+@Transactional(readOnly = true)
 class UserController {
 
 
@@ -12,14 +17,17 @@ class UserController {
 
 
     @Secured(['ROLE_ADMIN'])
-    def list(Integer max) {
+    def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [userInstanceList: User.list(params), userInstanceTotal: User.count()]
+        respond User.list(params), model:[userInstanceCount: User.count()]
     }
 
-    def create() {
-        
 
+    // def list(Integer max) {
+    //     params.max = Math.min(max ?: 10, 100)
+    //     [userInstanceList: User.list(params), userInstanceTotal: User.count()]
+    // }
+    def create() {
         
         def user = new User(params)
         
@@ -36,29 +44,27 @@ class UserController {
         else user.enabled = true
 
 
-        [userInstance: user,roles: Role.list(),storeList:storeList()]
+        respond user, model:[roles: Role.list(),storeList:storeList()]
     }
 
     @Transactional
-    def save() {
-        def userInstance 
-        if(userService.isOperator() || userService.isManerger())
-            userInstance = User.findByUsername(params.username)
-        
-        if(!userInstance) userInstance = new User(params)
+    def save(User userInstance){
+   
+        if(userService.isOperator() || userService.isManerger()){
+            def existUser = User.findByUsername(params.username)
+            if(existUser)
+                userInstance = existUser
+        }
+    
 
-
-
-
-
-        if (!userInstance.validate()) {
-            render(view: "create", model: [userInstance: userInstance,roles: Role.list()])
+        if (userInstance.hasErrors()) {
+            respond userInstance.errors, view:'create', model: [roles: Role.list()]
             return
         }
 
         if(!userService.isLoggedIn() && !userInstance?.email ){
             flash.message = "請輸入 email"
-            render(view: "create", model: [userInstance: userInstance,roles: Role.list()])
+            respond userInstance, view:'create', model: [roles: Role.list()]
             return            
         }
 
@@ -70,15 +76,16 @@ class UserController {
         }
 
 
-        userInstance.save(flush: true)
+        userInstance.save flush: true
+
         // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
         if(userService.isAdmin()){
             userService.modifyUserRole(userInstance, params)
 
-        }else {
+        }else if(userInstance){
             def cusRole = Role.findByAuthority('ROLE_CUSTOMER')
 
-            if(!UserRole.get(userInstance?.id, cusRole.id))
+            if(!UserRole.get(userInstance.id, cusRole.id))
                 UserRole.create(userInstance,cusRole,true)
         }
 
@@ -87,10 +94,10 @@ class UserController {
 
 
         if(params?.product?.id){
-            userService.addProduct(userInstance, params)
-            redirect(controller: "product", action: "show", id: params?.product?.id)
+            def product = userService.addProduct(userInstance, params)
+            redirect product
             return
-        }else if(params?.store?.id){
+        }else if(params?.store?.id != "null"){
             if(userService.isAdmin() || userService.isManerger()){
                 redirect(action: "addToStore", id: userInstance.id, params:['store.id': params.store.id])
                 return
@@ -100,81 +107,52 @@ class UserController {
         }
 
         if(userService.isLoggedIn()){
-            redirect(action: "show", id: userInstance.id)
+            redirect userInstance 
         }else {
-            flash.message = flash.message + "可以開始登入使用！"
+            flash.message = flash.message + ":可以開始登入使用！"
             redirect(action: "auth", controller:"login")
         }
     }
     
-    def show() {
-        
+    def show(User userInstance){
+        if (userInstance == null) {
+            notFound()
+            return
+        }
+
         if(params?.tour){
             session.tourStep=TourStep.STEP1_START
         }
 
-        def user 
 
-        if(params.id)
-            user = User.get(params.id)
-        else user = userService.currentUser()
-
-
-        if (!user) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), user])
-            redirect(action: "list")
-            return
-        }
-
-        [user: user, products: Product.findAllByUser(user)]
+        respond userInstance, model: [products: Product.findAllByUser(userInstance)]
     }
 
-    def edit() {
-
-        def userInstance
-
-        if(params.id)
-            userInstance = User.get(params.id)
-        else userInstance = userService.currentUser()
-
-        if (!userInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), userInstance])
-            redirect(action: "list")
+    def edit(User userInstance){
+        if (userInstance == null) {
+            notFound()
             return
         }
-        
-        [userInstance: userInstance,roles: Role.list()
-        ,userRoles:UserRole.findAllByUser(userInstance)
-        ,storeList:storeList()]
+
+        respond userInstance, model: [roles: Role.list()
+                                    ,userRoles:UserRole.findAllByUser(userInstance)
+                                    ,storeList:storeList()]
     }
 
-    def update() {
-        def userInstance = User.get(params.id)
-        if (!userInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), userInstance])
-            redirect(action: "list")
+    @Transactional
+    def update(User userInstance) {
+        if (userInstance == null) {
+            notFound()
             return
         }
 
-        if (params.version != null) {
-            if (userInstance.version >params.version) {
-                userInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                          [message(code: 'user.label', default: 'User')] as Object[],
-                          "Another user has updated this User while you were editing")
-                render(view: "edit", model: [userInstance: userInstance])
-                return
-            }
-        }
 
-
-        userInstance.properties = params
-
-        if (!userInstance.validate()) {
-            render(view: "edit", model: [userInstance: userInstance])
+        if (userInstance.hasErrors()) {
+            respond userInstance.errors, view:'edit'
             return
         }
 
-        userInstance.save(flush: true)
+        userInstance.save flush: true
         // 登入使用者若屬於 ROLE_MANERGER 則進行  userRoles UserRole Update
         if(userService.isAdmin()){
             userService.modifyUserRole(userInstance, params)
@@ -182,72 +160,68 @@ class UserController {
         }
 
         if(params?.product?.id){
-            userService.addProduct(userInstance, params)
-            redirect(controller: "product", action: "show", id: params?.product?.id)
+            def product = userService.addProduct(userInstance, params)
+            redirect product
             return
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance])
-        redirect(action: "show", id: userInstance.id)
+        redirect userInstance
     }
 
 
 
     @Transactional
-    def delete(Long id) {
-        def userInstance = User.get(id)
-        if (!userInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), userInstance])
-            redirect(action: "list")
+    def delete(User userInstance) {
+        if (userInstance == null) {
+            notFound()
             return
         }
 
-        try {
-            def userRoleInstances=UserRole.findAllByUser(userInstance)
 
-            userRoleInstances?.each(){
-                it.delete()
-            }
+        def userRoleInstances=UserRole.findAllByUser(userInstance)
 
-            def products = Product.findAllByUser(userInstance)
-
-            products?.each(){ product ->
-                product.user = null
-                product.save()
-            }
-
-            def parts = Part.findAllByUser(userInstance)
-
-            parts.each(){ part ->
-                if(EventDetail.findByPart(part)){
-                    part.user = null
-                    part.save()
-                }else {
-                    part.delete(flush: true,failOnError:true)
-                }
-
-            }
-
-            userInstance.delete(flush: true,failOnError:true)
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), userInstance])
-            
-            def currentUser = userService.currentUser()
-
-            if(!currentUser){
-                redirect(url: '/j_spring_security_logout')
-                return 
-            }
-
-            redirect(action: "redirect", controller: "home")
-
-            
+        userRoleInstances?.each(){
+            it.delete()
         }
-        catch (DataIntegrityViolationException e) {
-            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), userInstance])
-            redirect(action: "show", id: id)
+
+        def products = Product.findAllByUser(userInstance)
+
+        products?.each(){ product ->
+            product.user = null
+            product.save()
         }
+
+        def parts = Part.findAllByUser(userInstance)
+
+        parts.each(){ part ->
+            if(EventDetail.findByPart(part)){
+                part.user = null
+                part.save()
+            }else {
+                part.delete(flush: true,failOnError:true)
+            }
+
+        }
+
+        userInstance.delete flush: true,failOnError:true
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), userInstance])
+        
+        def currentUser = userService.currentUser()
+
+        println currentUser
+
+        if(!currentUser){
+            redirect(url: '/j_spring_security_logout')
+            return 
+        }else {
+            redirect controller: "home", action: "redirect"
+        }
+            
+
     }
     @Secured(['ROLE_MANERGER', 'ROLE_ADMIN'])
+    @Transactional
     def addToStore(){
         def currentUser = userService.currentUser()
         def user = User.get(params.id)
@@ -255,7 +229,7 @@ class UserController {
 
         if(user?.store && user.store != store){
             flash.message = "此使用者已屬於「user.store」"
-            redirect(action: "show", id: params.id)
+            redirect user
             return
         }
 
@@ -265,7 +239,7 @@ class UserController {
 
         if(UserRole.get(user.id, admRole.id) || UserRole.get(user.id, mngRole.id)){
             flash.message = "不可指派「${admRole}」或「${mngRole}」為作業員"
-            redirect(action: "show", id: params.id)
+            redirect user
             return    
         }
 
@@ -285,8 +259,7 @@ class UserController {
 
         flash.message="${flash?.message ? flash.message: ''}:指定「${user}」為「${store}」作業員"
 
-        redirect action: "show", id: user.id
-
+        redirect user
     }
 
     private def storeList(){
@@ -301,4 +274,13 @@ class UserController {
         }
         return storeList
     }
+    protected void notFound() {
+        request.withFormat {
+            '*'{                 
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'productInstance.label', default: 'Product'), params.id])
+                redirect controller: "home", action: "redirect"
+            }
+        }        
+    }
+
 }

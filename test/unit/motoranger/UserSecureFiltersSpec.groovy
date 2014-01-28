@@ -48,7 +48,7 @@ class UserSecureFiltersSpec extends Specification {
 	    	params.id = userB.id.toString()
     		response.reset()
 	    	withFilters(controller:'user', action:'edit') {
-			    controller.edit()
+			    controller.edit(userB)
 			}
 		then: "不允許編輯"
 			assert flash.message == "不可維護其他使用者的資料"
@@ -58,7 +58,7 @@ class UserSecureFiltersSpec extends Specification {
 	    	params.id = userA.id.toString()
     		response.reset()
 	    	withFilters(controller:'user', action:'edit') {
-			    controller.edit()
+			    controller.edit(userA)
 			}
 		then: "允許編輯"
 			assert model.userInstance
