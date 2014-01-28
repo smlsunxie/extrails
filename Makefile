@@ -10,6 +10,9 @@ server:
 clean:
 	grails clean
 
+test-app:
+	grails test-app
+
 
 war:
 	grails war
@@ -37,14 +40,14 @@ dbinit:
 
 
 done:
-	make clean war deploy
+	make clean test-app war deploy
 
 
 update:
 	git pull
 
 done-local:
-	make update clean war deploy-local
+	make update clean test-app war deploy-local
 
 deploy:
 	scp target/motoranger.war ${remote_user}@${remote_addr}:~/ROOT.war
