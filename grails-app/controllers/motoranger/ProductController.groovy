@@ -82,6 +82,7 @@ class ProductController {
     }
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
+    @Transactional
     def update(Product productInstance) {
         if (productInstance == null) {
             notFound()
@@ -113,13 +114,19 @@ class ProductController {
             notFound()
             return
         }
-        productInstance.delete flush:true
 
-        request.withFormat {
-            '*' { 
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Product.label', default: 'Product'), productInstance])
-                redirect controller: "home", action: "redirect"
+        try{
+            productInstance.delete flush:true
+
+            request.withFormat {
+                '*' { 
+                    flash.message = message(code: 'default.deleted.message', args: [message(code: 'Product.label', default: 'Product'), productInstance])
+                    redirect controller: "home", action: "redirect"
+                }
             }
+        }catch(e){
+            flash.message = "無法刪除，請確認維修事件是否已刪除"
+            redirect productInstance
         }
 
         

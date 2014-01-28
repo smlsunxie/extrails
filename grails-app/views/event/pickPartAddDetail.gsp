@@ -3,7 +3,7 @@
 
 <html>
 <head>
-<title><g:message code="event.pickPartAddDetail.label" defualt="pickPartAddDetail" args="[event]"/></title>
+<title><g:message code="event.pickPartAddDetail.label" defualt="pickPartAddDetail" args="[eventInstance]"/></title>
 
 
 </head>
@@ -19,7 +19,7 @@
 
       <div class="col-sm-3 col-md-3">
         <div class="btn-group" id="actionbar">
-          <g:link  class="btn btn-primary" controller="part" action="create" params="['event.id': event.id]">新增並加入自定維修項目</g:link>
+          <g:link  class="btn btn-primary" controller="part" action="create" params="['event.id': eventInstance.id]">新增並加入自定維修項目</g:link>
         </div>
       </div>
 
@@ -28,15 +28,15 @@
 
     <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">
       <div class="col-sm-3 col-md-3">
-        <g:render template="/event/updateReceivedMoney" model="[event: event]" />
+        <g:render template="/event/updateReceivedMoney" />
       </div>
 
       <div class="col-sm-3 col-md-3">
-        <g:render template="/event/updateUnreceiveMoney" model="[event: event]" />
+        <g:render template="/event/updateUnreceiveMoney" />
       </div>
 
       <div class="col-sm-3 col-md-3">
-        <g:render template="/event/updateEventDate" model="[event: event]" /> 
+        <g:render template="/event/updateEventDate" /> 
       </div>
     </sec:ifAnyGranted>
 
@@ -45,9 +45,9 @@
 
 
 
-<g:render template="contentWithDetails"  model="[event: event]" />
+<g:render template="contentWithDetails"  model="[event: eventInstance]" />
 
-<g:render template="/part/portfolio" model="['event': event]" />
+<g:render template="/part/portfolio" model="['event': eventInstance]" />
                
   </body>
 </html>

@@ -18,6 +18,10 @@
       <td class="small"><g:message code="user.title.label" /></td>
       <td class="bold"><g:link action="show" controller="user" id="${productInstance?.user?.id}">${productInstance?.user?.title}</g:link></td>
     </tr>
+    <tr>
+      <td class="small"><g:message code="product.brand.label" /></td>
+      <td class="bold">${productInstance.brand}</td>
+    </tr>    
 
     <tr>
       <td class="small"><g:message code="product.cc.label" /></td>

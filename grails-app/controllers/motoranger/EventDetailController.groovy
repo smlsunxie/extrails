@@ -32,9 +32,6 @@ class EventDetailController {
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def save(EventDetail eventDetailInstance){
-
-        if(!eventDetailInstance?.name)
-            eventDetailInstance.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
         
 
         if(!eventDetailInstance?.qty)
@@ -43,15 +40,22 @@ class EventDetailController {
 
         def creator = userService.currentUser().username
         eventDetailInstance.creator = creator
+        def refererUrl = request.getHeader('referer')
 
 
        if (eventDetailInstance.hasErrors()) {
+            println eventDetailInstance.errors
             flash.message = "無法新增維修項目"
-            redirect(uri: request.getHeader('referer') )
+
+            if(refererUrl.indexOf("pickPartAddDetail")!=-1)
+                redirect(uri: request.getHeader('referer') )
+            else redirect eventDetailInstance.errors, view: "create"
+            
             return
         }
 
         if(eventDetailInstance.cost == 0){
+            println eventDetailInstance.part
             eventDetailInstance.cost = eventDetailInstance.part.cost 
         }
 
@@ -62,12 +66,13 @@ class EventDetailController {
         flash.message = message(code: 'default.created.message', 
             args: [message(code: 'eventDetail.label', default: 'eventDetail'), eventDetailInstance])
 
-        def refererUrl = request.getHeader('referer')
+        
 
         if(refererUrl && refererUrl.indexOf("part/create?event.id")!=-1){
             redirect(controller:"event", action:"pickPartAddDetail", id:eventDetailInstance.head.id)
-        }else 
-            redirect(uri: refererUrl )
+        }else if(refererUrl.indexOf("pickPartAddDetail")!=-1)
+            redirect(uri: request.getHeader('referer') )
+        else redirect eventDetailInstance
 
 
     }
@@ -124,9 +129,9 @@ class EventDetailController {
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'eventDetail.label', default: 'eventDetail'), eventDetailInstance])
 
         def refererUrl = request.getHeader('referer')
-        if(refererUrl && refererUrl.indexOf("/eventDetail/show") != -1)
-            respond event
-        else redirect(uri: request.getHeader('referer') )
+        if(refererUrl && refererUrl.indexOf("/eventDetail/show") != -1){
+            redirect event
+        }else redirect(uri: request.getHeader('referer') )
 
     }
     protected void notFound() {

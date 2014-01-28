@@ -24,7 +24,7 @@
 
 
                       
-  <g:render template="contentWithDetails" model="[product: productInstance]" />
+  <g:render template="contentWithDetails" />
 
   
   <br />

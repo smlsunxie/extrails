@@ -53,13 +53,20 @@ class EventDetailSecureFilters {
                 }
             }
         }
-        
+        save(controller:'eventDetail', action:'save') {
+            before = {
+                if(!params?.name)
+                    params.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
+            }
+        }
         delete(controller:'eventDetail', action:'delete') {
             before = {
-                def currentUser = userService.currentUser()
-                def event = EventDetail.findById(params.id).head
 
-                if(event?.user == currentUser || (event?.store && event.store == currentUser?.store)){
+                def currentUser = userService.currentUser()
+                def event = EventDetail.findById(params.id)?.head
+
+
+                if(!event || event?.user == currentUser || (event?.store && event.store == currentUser?.store)){
                     return true                        
                 }else {
                     flash.message = "只可維護自己或所屬店家的維修事件之維修項目"
@@ -72,11 +79,11 @@ class EventDetailSecureFilters {
 
             after = { Map model ->
 
-                if(model?.eventDetail){
+                if(model?.eventDetailInstance){
                     model.currentUserIsEventOwner=[:]
                     model.eventDetailTotalPrice=[:] 
-                    secureFiltersService.setModelEventExtraCondiction([model.eventDetail.head], model, true)
-                    secureFiltersService.setModelPartCostExtraCondiction(model.eventDetail.part, model)
+                    secureFiltersService.setModelEventExtraCondiction([model.eventDetailInstance.head], model, true)
+                    secureFiltersService.setModelPartCostExtraCondiction(model.eventDetailInstance.part, model)
                 }
 
             }
