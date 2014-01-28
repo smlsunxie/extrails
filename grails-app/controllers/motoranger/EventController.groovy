@@ -120,7 +120,7 @@ class EventController {
         [
             event: event,
             tags: tags, 
-            parts: parts
+            partInstanceList: parts
         ]
 
     }

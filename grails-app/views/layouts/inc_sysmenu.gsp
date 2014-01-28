@@ -52,8 +52,8 @@
     </g:link>
   </li>
 
-  <li class="${controllerName=='user' && actionName=='list' ? 'active':''} single">
-    <g:link controller="user" action="list">
+  <li class="${controllerName=='user' && actionName=='index' ? 'active':''} single">
+    <g:link controller="user" action="index">
       <g:message code="user.label" />
       <i>user</i>
     </g:link>

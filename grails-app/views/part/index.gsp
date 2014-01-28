@@ -16,7 +16,7 @@
 
 
     </div>
-	<g:render template="portfolio" model="[tag: tag]" />
+	<g:render template="portfolio" />
 
 </body>
 </html>

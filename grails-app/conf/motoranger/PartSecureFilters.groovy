@@ -47,12 +47,16 @@ class PartSecureFilters {
                 }        
             }
 
-            after = { Map model ->
-                if(actionName == "show" && model?.part){
-                    secureFiltersService.setModelPartCostExtraCondiction(model.part, model)                   
-                }
-            }
 
+
+        }
+
+        show(controller:'part', action:'show') {
+            after = { Map model ->
+                if(actionName == "show" && model?.partInstance){
+                    secureFiltersService.setModelPartCostExtraCondiction(model.partInstance, model)                   
+                }
+            }            
         }
     }
 }
