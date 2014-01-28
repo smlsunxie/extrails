@@ -44,14 +44,17 @@ class EventDetailController {
 
 
        if (eventDetailInstance.hasErrors()) {
-            println eventDetailInstance.errors
             flash.message = "無法新增維修項目"
 
-            if(refererUrl.indexOf("pickPartAddDetail")!=-1)
-                redirect(uri: request.getHeader('referer') )
-            else redirect eventDetailInstance.errors, view: "create"
+            if(refererUrl && refererUrl.indexOf("pickPartAddDetail")!=-1){
+                redirect(uri: refererUrl )
+                return
+            }
+            else {
+                respond eventDetailInstance.errors, view: "create"
+                return
+            }
             
-            return
         }
 
         if(eventDetailInstance.cost == 0){
@@ -70,7 +73,7 @@ class EventDetailController {
 
         if(refererUrl && refererUrl.indexOf("part/create?event.id")!=-1){
             redirect(controller:"event", action:"pickPartAddDetail", id:eventDetailInstance.head.id)
-        }else if(refererUrl.indexOf("pickPartAddDetail")!=-1)
+        }else if(refererUrl && refererUrl.indexOf("pickPartAddDetail")!=-1)
             redirect(uri: request.getHeader('referer') )
         else redirect eventDetailInstance
 

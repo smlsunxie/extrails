@@ -16,7 +16,7 @@
                     <span class="required-indicator">*</span>
                   </label>
                   <div class="col-sm-10">
-                    <g:textField name="name" readonly value="${post?.name}" class="form-control" />
+                    <g:textField name="name" value="${post?.name}" class="form-control" />
                   </div>
                 </div>
 
@@ -27,7 +27,7 @@
                     <span class="required-indicator">*</span>
                   </label>
                   <div class="col-sm-10">
-                    <g:textField name="title" readonly value="${post?.title}" class="form-control" />
+                    <g:textField name="title" value="${post?.title}" class="form-control" />
                   </div>
                 </div>
 
@@ -64,7 +64,7 @@
                     <span class="required-indicator">*</span>
                   </label>
                   <div class="col-sm-10">
-                    <g:textField name="description" readonly value="${post?.description}" class="form-control" />
+                    <g:textField name="description" value="${post?.description}" class="form-control" />
                   </div>
                 </div>
                 

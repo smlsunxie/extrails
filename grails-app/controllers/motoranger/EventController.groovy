@@ -184,7 +184,11 @@ class EventController {
             eventInstance.product.mileage=params.mileage.toLong()
         }
 
-        eventInstance.save flush: true
+        if(params?.status){
+            eventInstance.status = params.status
+        }
+
+        eventInstance.save flush: true, failOnError: true
 
 
 
@@ -195,9 +199,6 @@ class EventController {
             && (refererUrl.indexOf("pickPartAddDetail") != -1|| refererUrl.indexOf("/store/") != -1))
 
         if(params?.status == 'END'){
-            
-            def currentUser = userService.currentUser()
-
             redirect(action: "redirect", controller: "home")
         }
         else if(refererUrlMatch){
@@ -260,13 +261,6 @@ class EventController {
             if(!params.value)params.value=0
 
             def unreceiveMoney=params.value.toLong()
-
-            // if(event?.details)totalPrice=event?.details.price.sum()
-            println unreceiveMoney
-            println event.receivedMoney
-            println event.totalPrice
-
-            println event.totalPrice  -  event.discountMoney -event.receivedMoney
 
             if(unreceiveMoney<=event.totalPrice - event.receivedMoney){
 
@@ -345,8 +339,8 @@ class EventController {
         def results = query.list(params)
 
 
-        respond view:'index', model: [eventInstanceList:results
-                            , eventInstanceCount: results.count() 
+        render view:'index', model: [eventInstanceList:results
+                            , eventInstanceCount: 12
                             , title: "最近維修完成"]
     }
 
@@ -366,8 +360,8 @@ class EventController {
         def results = query.list(params)
 
 
-        respond view:'index', model: [eventInstanceList:results
-                            , eventInstanceCount: results.count()
+        render view:'index', model: [eventInstanceList:results
+                            , eventInstanceCount: results.size()
                             , title: "所有維修中"]
     }
     protected void notFound() {

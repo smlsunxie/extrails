@@ -59,10 +59,13 @@
 
     
           <g:if test="${currentUserIsStoreOwnerOrAdmin}">
+
+            <sec:ifAnyGranted roles="ROLE_ADMIN">
               <g:link  class="btn btn-primary"  action="edit" id="${storeInstance?.id}"><g:message code="default.button.edit.label" /></g:link>
 
 
               <g:link  class="btn btn-danger" action="delete" id="${storeInstance?.id}"><g:message code="default.button.delete.label" /></g:link>
+            </sec:ifAnyGranted>
 
             <sec:ifAnyGranted roles="ROLE_MANERGER">
               <g:link  class="btn btn-primary" controller="user" action="create" params="['store.id': storeInstance.id]" >建立作業員</g:link>

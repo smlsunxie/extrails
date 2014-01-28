@@ -17,13 +17,13 @@
 
   </div>
   <div class="row show-grid features-block mini-blocks">
-    <g:each in="${searchResult?.results}" var="product" status="i" >
+    <g:each in="${searchResult?.results}" var="productInstance" status="i" >
 
 
       <div class="contact-info col-sm-4 col-md-4 block2">
         <div class="mini-wrapper">
 
-        <g:render template="/product/content" model="[product: product]" />
+        <g:render template="/product/content" model="[productInstance: productInstance]" />
 
         </div>
       </div>
