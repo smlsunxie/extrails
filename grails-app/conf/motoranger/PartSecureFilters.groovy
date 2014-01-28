@@ -22,7 +22,7 @@ class PartSecureFilters {
 
                         }else {
                             flash.message = "沒有權限維護不屬於自己的維修項目"
-                            redirect(action: "show", controller: "user", id: currentUser.id)
+                            redirect(action: "redirect", controller: "home")
                             return false
 
                         }
@@ -36,7 +36,7 @@ class PartSecureFilters {
                         }else {
 
                             flash.message = "只可維護自己或所屬店家的維修項目"
-                            redirect(action: "show", controller: "store", id: currentUser.store.id)
+                            redirect(action: "redirect", controller: "home")
                             
                             return false                        
 
@@ -47,12 +47,16 @@ class PartSecureFilters {
                 }        
             }
 
-            after = { Map model ->
-                if(actionName == "show" && model?.part){
-                    secureFiltersService.setModelPartCostExtraCondiction(model.part, model)                   
-                }
-            }
 
+
+        }
+
+        show(controller:'part', action:'show') {
+            after = { Map model ->
+                if(actionName == "show" && model?.partInstance){
+                    secureFiltersService.setModelPartCostExtraCondiction(model.partInstance, model)                   
+                }
+            }            
         }
     }
 }

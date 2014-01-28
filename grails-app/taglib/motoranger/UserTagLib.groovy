@@ -123,7 +123,7 @@ class UserTagLib {
 
         if(!userService.isLoggedIn()){
             
-            def link = link(controller:'home'){
+            def link = link(controller:'home', action:"index"){
                 "首頁<i>index</i>"
             }
             def active = (controllerName=='home' && actionName=='index' ? 'active':'')
@@ -140,7 +140,7 @@ class UserTagLib {
             if(controllerName == "user" && actionName=="show")
                 nowActive = ""
 
-            def link = link(controller:'home'){"個人<i>index</i>"}
+            def link = link(controller:'user', action: "show", id: currentUser.id){"個人<i>index</i>"}
             def active = (controllerName=='user' && actionName=='show' ? 'active':'')                
             out << body() << """
                 <li class='${active} single'>
@@ -151,8 +151,8 @@ class UserTagLib {
 
             
         }
-        else if(store){
-            def link = link(controller:'home'){
+        else if(userService.isCustomer() || userService.isOperator()){
+            def link = link(controller:'store', action: "show", id: currentUser.store.id){
                 store.title+"<i>index</i>"
             }        
             def active = (controllerName=='store' && params?.id.toString() == store.id.toString() ? 'active':'')

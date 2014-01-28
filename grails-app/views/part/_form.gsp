@@ -1,12 +1,11 @@
-<g:hasErrors bean="${part}">
+<g:hasErrors bean="${partInstance}">
   <ul class="errors" role="alert">
-    <g:eachError bean="${part}" var="error">
+    <g:eachError bean="${partInstance}" var="error">
       <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
     </g:eachError>
   </ul>
 </g:hasErrors>
 
-<g:hiddenField name="id" value="${part?.id}" />
 <g:hiddenField name="event.id" value="${params['event.id']}" />
 
 
@@ -16,7 +15,7 @@
     <g:message code="part.name.label" /><span class="required-mark">*</span>
   </label>
   <div class="col-sm-10">
-    <g:textField name="name" readonly value="${part?.name}" class="form-control" />
+    <g:textField name="name" readonly value="${partInstance?.name}" class="form-control" />
   </div>
 
 </div>
@@ -27,7 +26,7 @@
     <g:message code="part.title.label" />
   </label>
   <div class="col-sm-10">
-    <g:textField name="title" value="${part?.title}" class="form-control" />
+    <g:textField name="title" value="${partInstance?.title}" class="form-control" />
   </div>
 
 </div>
@@ -39,7 +38,7 @@
   </label>
   <div class="col-sm-10">
     <ul name="tags" id='tag-field' >
-      <g:each in="${part.tags}">
+      <g:each in="${partInstance.tags}">
         <li>${it}</li>
       </g:each>
     </ul>
@@ -53,7 +52,7 @@
     <g:message code="default.description.label" />
   </label>
   <div class="col-sm-10">
-    <g:textField name="description" value="${part?.description}" class="form-control" />
+    <g:textField name="description" value="${partInstance?.description}" class="form-control" />
   </div>
 
 </div>
@@ -65,7 +64,7 @@
     <g:message code="part.price.label" />
   </label>
   <div class="col-sm-10">
-    <g:textField type="number" name="price" value="${part?.price}" class="form-control" />
+    <g:textField type="number" name="price" value="${partInstance?.price}" class="form-control" />
   </div>
 
 </div>
@@ -97,7 +96,7 @@
       <g:message code="part.cost.label" />
     </label>
     <div class="col-sm-10">
-      <g:textField type="number" name="cost" value="${part?.cost}" class="form-control" />
+      <g:textField type="number" name="cost" value="${partInstance?.cost}" class="form-control" />
     </div>
 
   </div>
@@ -128,7 +127,7 @@
     <g:message code="part.stockCount.label" />
   </label>
   <div class="col-sm-10">
-    <g:textField type="number" name="stockCount" value="${part?.stockCount}" class="form-control" />
+    <g:textField type="number" name="stockCount" value="${partInstance?.stockCount}" class="form-control" />
   </div>
 
 </div>
@@ -140,7 +139,7 @@
   </label>
   
   <div class="col-sm-10">
-    <g:select id="user" name="user.id" from="${motoranger.User.findById(part?.user?.id)}" optionKey="id" value="${part?.user?.id}" noSelection="['null': '']" class="form-control" />
+    <g:select id="user" name="user.id" from="${motoranger.User.findById(partInstance?.user?.id)}" optionKey="id" value="${partInstance?.user?.id}" noSelection="['null': '']" class="form-control" />
   </div>  
 
 </div> 
@@ -151,7 +150,7 @@
   </label>
 
   <div class="col-sm-10">
-    <g:select id="user" name="store.id" from="${motoranger.Store.findById(part?.store?.id)}" optionKey="id" value="${part?.store?.id}" noSelection="['null': '']" class="form-control" />
+    <g:select id="user" name="store.id" from="${motoranger.Store.findById(partInstance?.store?.id)}" optionKey="id" value="${partInstance?.store?.id}" noSelection="['null': '']" class="form-control" />
   </div>  
 
 
@@ -165,7 +164,7 @@
   <g:message code="default.imageUpload.label" />
   </label>
   <div class="col-sm-10">
-  <g:render template="/attachment/uploadBtn" model="[name:part.name ,mainImage: part?.mainImage]" />
+  <g:render template="/attachment/uploadBtn" model="[name: partInstance.name ,mainImage: partInstance?.mainImage]" />
   </div>
 
 </div>

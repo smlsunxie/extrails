@@ -1,13 +1,11 @@
 
-<g:hasErrors bean="${event}">
+<g:hasErrors bean="${eventInstance}">
   <ul class="errors" role="alert">
-    <g:eachError bean="${event}" var="error">
+    <g:eachError bean="${eventInstance}" var="error">
       <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
     </g:eachError>
   </ul>
 </g:hasErrors>
-
-<g:hiddenField name="id" value="${event?.id}" />
 
 <div class="form-group">
   
@@ -15,7 +13,7 @@
    <g:message code="event.name.label" />
   </label>
   <div class="col-sm-10">
-    <g:textField name="name" value="${event?.name}" readonly class="form-control" />
+    <g:textField name="name" value="${eventInstance?.name}" readonly class="form-control" />
   </div>
 
 </div>
@@ -26,7 +24,7 @@
    <g:message code="user.username.label" />
   </label>
   <div class="col-sm-10">
-    <g:select class="form-control" name="user.id" from="${event?.user ?: motoranger.UserRole.findAllByRole(motoranger.Role.findByAuthority('ROLE_OPERATOR'))*.user}" noSelection="${[null:'Select One...']}" optionKey="id" value="${event?.user?.id}" />
+    <g:select class="form-control" name="user.id" from="${eventInstance?.user ?: motoranger.UserRole.findAllByRole(motoranger.Role.findByAuthority('ROLE_OPERATOR'))*.user}" noSelection="${[null:'Select One...']}" optionKey="id" value="${eventInstance?.user?.id}" />
   </div>
 
 </div>
@@ -37,7 +35,7 @@
    <g:message code="event.product.label" />
   </label>
   <div class="col-sm-10">
-    <g:select class="form-control" name="product.id" from="${event?.product?:motoranger.Product.list()}" noSelection="${[null:'Select One...']}" optionKey="id" value="${event?.product?.id}" />
+    <g:select class="form-control" name="product.id" from="${eventInstance?.product?:motoranger.Product.list()}" noSelection="${[null:'Select One...']}" optionKey="id" value="${eventInstance?.product?.id}" />
   </div>
 
 </div>
@@ -49,7 +47,7 @@
    <g:message code="event.mileage.label" />
   </label>
   <div class="col-sm-10">
-    <g:textField type='number' name="mileage" value="${event.mileage}" class="form-control" />
+    <g:textField type='number' name="mileage" value="${eventInstance.mileage}" class="form-control" />
   </div>
 
 </div>
@@ -60,7 +58,7 @@
    <g:message code="event.date.label" />
   </label>
   <div class="col-sm-10">
-    <g:datePicker name="date" value="${event.date}"
+    <g:datePicker name="date" value="${eventInstance.date}"
       noSelection="['':'-Choose-']" precision="day" years="${(new Date().getAt(Calendar.YEAR)-1)..(new Date().getAt(Calendar.YEAR))}" />
   </div>
 
@@ -72,7 +70,7 @@
    <g:message code="default.description.label" />
   </label>
   <div class="col-sm-10">
-    <g:textField name="description" value="${event?.description}" class="form-control" />
+    <g:textField name="description" value="${eventInstance?.description}" class="form-control" />
   </div>
 
 </div>
@@ -84,7 +82,7 @@
    <g:message code="user.store.label" default="Store" />
   </label>
   <div class="col-sm-10">
-      <g:select class="form-control" id="store" name="store.id" from="${motoranger.Store.list()}" optionKey="id" value="${event?.store?.id}" noSelection="['null': '']"/>
+      <g:select class="form-control" id="store" name="store.id" from="${motoranger.Store.list()}" optionKey="id" value="${eventInstance?.store?.id}" noSelection="['null': '']"/>
   </div>
 
 </div>

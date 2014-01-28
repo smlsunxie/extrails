@@ -1,13 +1,13 @@
 package motoranger
 
-import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 
+import static org.springframework.http.HttpStatus.*
+import grails.transaction.Transactional
 
+@Transactional(readOnly = true)
 class ProductController {
 	static layout="bootstrap"
-    def s3Service
-    def imageModiService
     def userService
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
@@ -18,141 +18,127 @@ class ProductController {
         if(product?.name)
             product.title=product.name
 
-        [ product: product ]
-
+        respond product
     }
 
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def save(){
-        
-        def product = new Product(params);
+    @Transactional
+    def save(Product productInstance){
 
-        product.creator = userService.currentUser().username
+        productInstance.creator = userService.currentUser().username
 
         def user = User.findByUsername(params.name)
 
         if(user){
-            product.user = user
+            productInstance.user = user
         }
 
-        if (!product.validate()) {
-
-            render(view: "create", model: [product: product])
+        if (productInstance.hasErrors()) {
+            respond productInstance.errors, view:'create'
             return
         }
 
-        product.save(flush: true)
+        productInstance.save flush:true, failOnError: true
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'product.label', default: 'product'), product])   
-
-        redirect(action: "show", id:product.id)
+        request.withFormat {
+            '*' { 
+                flash.message = message(code: 'default.created.message', args: [message(code: 'product.label', default: 'Product'), productInstance])
+                redirect productInstance
+            }
+        }
     }
 
 
-    def show(){ 
-        def product = Product.findById(params.id)
+    def show(Product productInstance) {
+        if (productInstance == null) {
+            notFound()
+            return
+        }
 
-        def eventUnFin = Event.findByProductAndStatus(product, motoranger.ProductStatus.UNFIN)
+        def eventUnFin = Event.findByProductAndStatus(productInstance, motoranger.ProductStatus.UNFIN)
 
         def statusEnd = false
         if(!eventUnFin) statusEnd =true
-        
-        [
-            product: product,
-            statusEnd :statusEnd
-        ]
+
+        respond productInstance, model: [statusEnd :statusEnd]
     }
+
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def edit(){ 
-        
-        def product = Product.findById(params.id)
-
-
+    @Transactional
+    def edit(Product productInstance) {
+        if (productInstance == null) {
+            notFound()
+            return
+        }        
         if(params?.user?.id){
-            product?.user = User.findByUsername(params?.user?.id)
+            productInstance?.user = User.findByUsername(params?.user?.id)
         }
         
-        if(!product?.user){
-            product.user=User.findByUsername(product.name)
-        }
-
-        
-        [ 
-            product: product
-        ]
+        if(!productInstance?.user && productInstance?.name){
+            productInstance.user=User.findByUsername(productInstance.name)
+        }        
+        respond productInstance
     }
+
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def update(){ 
-
-        def product = Product.findById(params.id)
-
-
-
-        if(!params.mainImage)params.mainImage="";
-
-        
-        if (!product) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), product])
-            redirect(action: "list")
+    @Transactional
+    def update(Product productInstance) {
+        if (productInstance == null) {
+            notFound()
             return
         }
 
-        if (params.version != null) {  
+        if(!productInstance.mainImage)productInstance.mainImage="";
 
 
+        if (productInstance.hasErrors()) {
+            respond productInstance.errors, view:'edit'
+            return
+        }
 
-            if (product.version > (params.version as Long)) {
-                product.errors.rejectValue("version", "default.optimistic.locking.failure",
-                          [message(code: 'product.label', default: 'Product')] as Object[],
-                          "Another user has updated this User while you were editing")
+        productInstance.save flush:true
 
-                flash.message = message(code: "Another user has updated this User while you were editing")
-                render(view: "edit", model: [product: product])
-                return
+        request.withFormat {
+            '*' {
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'Product.label', default: 'Product'), productInstance.id])
+                redirect productInstance
             }
         }
+    }
 
-        product.properties = params
-
-        if (!product.validate() && !product.save()) {
-            render(view: "edit", model: [product: product])
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
+    @Transactional
+    def delete(Product productInstance) {
+        if (productInstance == null) {
+            notFound()
             return
         }
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'product.label', default: 'Product'), product])
-        redirect(action: "show", id: product.id)
-    }
-    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def delete(){ 
-        def product = Product.findById(params.id)
-        
-        
         try{
-        
+            productInstance.delete flush:true
 
-            product.delete(flush: true,failOnError:true)
-
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'product.label', default: 'product'), product])
-
-            def currentUser = userService.currentUser()
-
-            if(userService.isCustomer()){
-                redirect(action: "show", controller: "user", id: currentUser.id)
-                return
-            }else {
-                def store = currentUser.store
-                redirect(action: "show", controller: "store", id: store.id)
-                return
+            request.withFormat {
+                '*' { 
+                    flash.message = message(code: 'default.deleted.message', args: [message(code: 'Product.label', default: 'Product'), productInstance])
+                    redirect controller: "home", action: "redirect"
+                }
             }
-
-        }catch (Exception e) {
-            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), product])
-            redirect(action: "show", id: product.id)
+        }catch(e){
+            flash.message = "無法刪除，請確認維修事件是否已刪除"
+            redirect productInstance
         }
+
+        
     }
 
-
-
+    protected void notFound() {
+        request.withFormat {
+            '*'{                 
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'productInstance.label', default: 'Product'), params.id])
+                redirect controller: "home", action: "redirect"
+            }
+        }        
+    }
 
 }

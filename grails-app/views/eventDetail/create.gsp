@@ -8,7 +8,7 @@
   </head>
 
   <body>
-    <g:render template="/component/formCreate" model="[domainName: 'eventDetail']"/>
+    <g:render template="/component/formCreate" model="[domainName: 'eventDetail', domain: eventDetailInstance]"/>
   </body>
 
 </html>

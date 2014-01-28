@@ -5,126 +5,117 @@ import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.annotation.Secured
 import org.springframework.transaction.annotation.*
 
+import static org.springframework.http.HttpStatus.*
+import grails.transaction.Transactional
+
+@Transactional(readOnly = true)
 class StoreController {
 
     static layout = 'bootstrap'
-    def springSecurityService
-
     
-
-    def show() {
-
-        def store = Store.findById(params.id)
+    def show(Store storeInstance) {
+        if (storeInstance == null) {
+            notFound()
+            return
+        }
         
         def unfinEvents= Event.findAllByStatusAndStore(motoranger.ProductStatus.UNFIN
-            , store,[max:4, order:"desc", sort:"lastUpdated"])
+            , storeInstance,[max:4, order:"desc", sort:"lastUpdated"])
         def endEvents= Event.findAllByStatusAndStore(motoranger.ProductStatus.END
-            , store,[max:4, order:"desc", sort:"lastUpdated"])
+            , storeInstance,[max:4, order:"desc", sort:"lastUpdated"])
 
 
-        [
+        respond storeInstance, model:[
             unfinEvents: unfinEvents,
-            endEvents: endEvents,
-            store: store
+            endEvents: endEvents
         ]
 
 
     }
 
-    def list(Integer max) {
+    def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [storeInstanceList: Store.list(params), storeInstanceTotal: Store.count()]
+        respond Store.list(params), model: [storeInstanceCount: Store.count()]
     }
 
     @Secured(['ROLE_ADMIN'])
     def create() {
-        [storeInstance: new Store(params)]
+        respond new Store(params)
     }
 
     @Secured(['ROLE_ADMIN'])
-    def save() {
-        def storeInstance = new Store(params)
-        if (!storeInstance.validate()) {
-            render(view: "create", model: [storeInstance: storeInstance])
+    @Transactional
+    def save(Store storeInstance) {
+        if (storeInstance.hasErrors()) {
+            respond storeInstance.errors, view:'create'
             return
         }
         
         storeInstance.save(flush: true)
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'store.label', default: 'Store'), storeInstance])
-        redirect(action: "show", id: storeInstance.id)
+        redirect storeInstance
     }
 
     @Secured(['ROLE_MANERGER', 'ROLE_ADMIN'])
-    def edit(Long id) {
-        def storeInstance = Store.get(id)
-        if (!storeInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'store.label', default: 'Store'), id])
-            redirect(action: "list")
+    def edit(Store storeInstance) {
+        if (storeInstance == null) {
+            notFound()
             return
         }
 
-        [storeInstance: storeInstance]
+        respond storeInstance
     }
 
+    @Transactional
     @Secured(['ROLE_MANERGER', 'ROLE_ADMIN'])
-    def update(Long id, Long version) {
-        def storeInstance = Store.get(id)
-        if (!storeInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'store.label', default: 'Store'), id])
-            redirect(action: "list")
+    def update(Store storeInstance) {
+        if (storeInstance == null) {
+            notFound()
             return
         }
 
-        if (version != null) {
-            if (storeInstance.version > version) {
-                storeInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                          [message(code: 'store.label', default: 'Store')] as Object[],
-                          "Another user has updated this Store while you were editing")
-                render(view: "edit", model: [storeInstance: storeInstance])
-                return
-            }
-        }
-
-
-
-        storeInstance.properties = params
-
-        if (!storeInstance.validate() && !storeInstance.save()) {
-            render(view: "edit", model: [storeInstance: storeInstance])
+        if (storeInstance.hasErrors()) {
+            respond storeInstance.errors, view:'edit'
             return
         }
+
+        storeInstance.save flush: true
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'store.label', default: 'Store'), storeInstance])
-        redirect(action: "show", id: storeInstance.id)
+        redirect storeInstance
     }
 
 
     @Transactional
     @Secured(['ROLE_ADMIN'])
-    def delete() {
-        def storeInstance = Store.get(params.id)
-
-        if (!storeInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'store.label', default: 'Store'), storeInstance])
-            redirect(action: "show", id: storeInstance.id)
+    def delete(Store storeInstance) {
+        if (storeInstance == null) {
+            notFound()
             return
         }
 
 
         try {
-            storeInstance.delete(failOnError: true)
+            storeInstance.delete flush: true,failOnError:true
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'store.label', default: 'Store'), storeInstance])
-            redirect(action: "list")
+            redirect controller: "home", action: "redirect"
         }
         catch (Exception e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'store.label', default: 'Store'), storeInstance])
-            redirect(action: "show", id: params.id)
+            redirect storeInstance
         }
 
 
     }
-
+    protected void notFound() {
+        request.withFormat {
+            '*'{                 
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'productInstance.label', default: 'Product'), params.id])
+                redirect controller: "home", action: "redirect"
+            }
+        }        
+    }
 
 
 }

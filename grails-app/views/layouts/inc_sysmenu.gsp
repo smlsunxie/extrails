@@ -52,8 +52,8 @@
     </g:link>
   </li>
 
-  <li class="${controllerName=='user' && actionName=='list' ? 'active':''} single">
-    <g:link controller="user" action="list">
+  <li class="${controllerName=='user' && actionName=='index' ? 'active':''} single">
+    <g:link controller="user" action="index">
       <g:message code="user.label" />
       <i>user</i>
     </g:link>
@@ -63,8 +63,8 @@
 </sec:ifAnyGranted>
 
 
-<li class="${controllerName=='store' && actionName=='list' ? 'active':''} single">
-  <g:link controller="store" action="list">
+<li class="${controllerName=='store' && actionName=='index' ? 'active':''} single">
+  <g:link controller="store" action="index">
     車行清單
     <i>Stores</i>
   </g:link>

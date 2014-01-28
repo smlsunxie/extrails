@@ -6,8 +6,6 @@
   </ul>
 </g:hasErrors>
 
-<g:hiddenField name="id" value="${storeInstance?.id}" class="form-control" />
-
 <div class="form-group">
   
   <label for="inputEmail3" class="col-sm-2 control-label">

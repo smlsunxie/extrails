@@ -8,8 +8,6 @@
 </g:hasErrors>
 
 
-<g:hiddenField name="id" value="${userInstance?.id}" />
-
 <g:hiddenField name="product.id" value="${params?.product?.id}" />
 
 

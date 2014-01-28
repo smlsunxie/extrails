@@ -52,33 +52,32 @@ class PartSecureFiltersSpec extends Specification {
 			def partC = Part.findByName('partC')
 			
 		when: "userA 想要進行 edit 與 userA 不屬於同個 store 的 userB 擁有的 Part，經過 filters"
-			params.id = partB.id
+			params.id = partB.id.toString()
 			response.reset()
 	    	withFilters(controller:"part",action:"*") {
-			    controller.edit()
+			    controller.edit(partB)
 			}
 		then: "將不允許進行維護，並且被 reditect 到所屬首頁，告知不可編輯"
 			assert flash.message == "只可維護自己或所屬店家的維修項目"
-			assert response.redirectedUrl == '/store/show/'+userA.id
-
+			
 
 		when: "userA 想要進行 edit 自己擁有的 Part，經過 filters"
-			params.id = partA.id
+			params.id = partA.id.toString()
 			response.reset()
 	    	withFilters(controller:"part",action:"*") {
-			    controller.edit()
+			    controller.edit(partA)
 			}
 		then: "可以進行編輯"
-			assert model.part
+			assert model.partInstance
 
 		when: "userA 想要進行 edit 與 userA 屬於同一個 store 的 userC 擁有的 part 經過 filters"
-			params.id = partC.id
+			params.id = partC.id.toString()
 			response.reset()
 	    	withFilters(controller:"part",action:"*") {
-			    controller.edit()
+			    controller.edit(partC)
 			}
 		then: "可以進行編輯"
-			assert model.part			
+			assert model.partInstance			
 			
     }
     void "使用者為 ROLE_CUSTOMRE 只可維護自己的維修項目"(){
@@ -93,24 +92,23 @@ class PartSecureFiltersSpec extends Specification {
 			def partC = Part.findByName('partC')
 			
 		when: "userA 想要進行 edit 與 userA 屬於同個 store 的 userC 擁有的 Part，經過 filters"
-			params.id = partC.id
+			params.id = partC.id.toString()
 			response.reset()
 	    	withFilters(controller:"part",action:"*") {
-			    controller.edit()
+			    controller.edit(partC)
 			}
 		then: "將不允許進行維護，並且被 reditect 到所屬首頁，告知不可編輯"
 			assert flash.message == "沒有權限維護不屬於自己的維修項目"
-			assert response.redirectedUrl == '/user/show/'+userA.id
-
+			
 
 		when: "userA 想要進行 edit 自己擁有的 Part，經過 filters"
-			params.id = partA.id
+			params.id = partA.id.toString()
 			response.reset()
 	    	withFilters(controller:"part",action:"*") {
-			    controller.edit()
+			    controller.edit(partA)
 			}
 		then: "可以進行編輯"
-			assert model.part		
+			assert model.partInstance		
 			
     }
 

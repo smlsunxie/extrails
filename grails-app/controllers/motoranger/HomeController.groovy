@@ -10,40 +10,20 @@ class HomeController {
 
     def index= {
 
-        def currentUser = userService.currentUser()
-        def store = currentUser?.store
-        
-        if(currentUser){
 
-            if(store){
-                redirect action: 'show', controller:'store', id: store.id
-                return 
-            }else {
-                redirect action: 'show', controller:'user', id: currentUser.id
-                return
-            }
-        }else {
+        def recentPosts = Post.list(max: 4, sort: 'dateCreated', order: 'desc')
+
+        def unfinEvents= Event.findAllByStatus(motoranger.ProductStatus.UNFIN
+            ,[max:4, order:"desc", sort:"lastUpdated"])
+        def endEvents= Event.findAllByStatus(motoranger.ProductStatus.END
+            ,[max:4, order:"desc", sort:"lastUpdated"])
 
 
-            def recentPosts = Post.list(max: 4, sort: 'dateCreated', order: 'desc')
-
-            def unfinEvents= Event.findAllByStatus(motoranger.ProductStatus.UNFIN
-                ,[max:4, order:"desc", sort:"lastUpdated"])
-            def endEvents= Event.findAllByStatus(motoranger.ProductStatus.END
-                ,[max:4, order:"desc", sort:"lastUpdated"])
-
-
-            [ 
-                recentPosts:recentPosts,
-                unfinEvents:unfinEvents,
-                endEvents:endEvents
-            ]
-
-        }
-
-
-        
-
+        [ 
+            recentPosts:recentPosts,
+            unfinEvents:unfinEvents,
+            endEvents:endEvents
+        ]
 
 
     }
@@ -54,8 +34,27 @@ class HomeController {
     }
 
 
-    def selectIndex= {
+    def redirect= {
+        def currentUser = userService.currentUser()
+        
+        
+        if(currentUser){
+            
+            if(flash?.message){
+                flash.message = flash.message
+            }
 
+            if(userService.isManerger() || userService.isOperator()){
+                redirect action: 'show', controller:'store', id: currentUser.store.id
+                return 
+            }else {
+                redirect action: 'show', controller:'user', id: currentUser.id
+                return
+            }
+        }else {
+            redirect action: 'index'
+            return
+        }
     }
 
     

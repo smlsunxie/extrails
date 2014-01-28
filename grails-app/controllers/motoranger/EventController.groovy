@@ -7,25 +7,37 @@ import org.jsoup.nodes.*
 import org.jsoup.select.*
 import grails.plugin.springsecurity.annotation.Secured
 
+import static org.springframework.http.HttpStatus.*
+import grails.transaction.Transactional
+
+@Transactional(readOnly = true)
 class EventController {
 
 	static layout="bootstrap"
     def userService
     def tagQueryService
 
-    def show() { 
+    @Secured(['ROLE_ADMIN'])
+    def index(Integer max) {
+        params.max = Math.min(max ?: 10, 100)
+        respond Event.list(params), model:[eventInstanceCount: Event.count()]
+    }
 
-        def event=Event.findById(params.id)
 
-        [
-            event: event
-        ]
+    def show(Event eventInstance) { 
+        if (eventInstance == null) {
+            notFound()
+            return
+        }
+        respond eventInstance
     }
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def create() { 
 
         def unfinEvent
+
+        println "======"
 
         if(params?.product?.id){
             params.product=Product.findById(params.product.id)
@@ -39,7 +51,8 @@ class EventController {
             redirect(controller:"event", action:"pickPartAddDetail", id:unfinEvent.id)
         } 
 
-        def event = new Event(params);
+        def event = new Event(params)
+        println event
 
         def currentUser = userService.currentUser()
         
@@ -50,49 +63,38 @@ class EventController {
 
         event.name = "event-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
-    	[
-            event:event
-    	]
+
+    	respond event
 
     }
 
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def save() {
+    @Transactional
+    def save(Event eventInstance) {
         
-
-        def event = Event.findByName(params.name);
-
-        if(!event) 
-            event = new Event(params);
-        else event.properties = params
         
-        event.creator=userService.currentUser().username
+        eventInstance.creator=userService.currentUser().username
 
 
-
-
-        if (!event.validate()) {
-            if(event.hasErrors())
-            render(view: "create", model: [event: event])
+        if (eventInstance.hasErrors()) {
+            respond eventInstance.errors, view:'create'
             return
         }
 
-
-        if(event.product.mileage.toLong() < params.mileage.toLong()){
-            event.product.mileage=params.mileage.toLong()
+        if(eventInstance.product.mileage < eventInstance.mileage){
+            eventInstance.product.mileage=eventInstance.mileage
         }
 
-        event.product.status=motoranger.ProductStatus.UNFIN
-        event.save(flush: true)
-        // event=Event.findByName(params.name)
+        eventInstance.product.status=motoranger.ProductStatus.UNFIN
+        eventInstance.save(flush: true, failOnError: true)
 
         
         flash.message = message(code: 'default.created.message', 
-            args: [message(code: 'event.label', default: 'event'), event.id])
+            args: [message(code: 'event.label', default: 'event'), eventInstance])
 
 
-        redirect(controller:"event", action:"pickPartAddDetail", id:event.id)
+        redirect(action:"pickPartAddDetail", id:eventInstance.id)
 
 
     }
@@ -118,108 +120,98 @@ class EventController {
         def parts = tagQueryService.getCurrentUserPartsWithTag(params)
 
         [
-            event: event,
+            eventInstance: event,
             tags: tags, 
-            parts: parts
+            partInstanceList: parts
         ]
 
     }
 
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def delete() { 
-
-        def event=Event.findById(params.id)
-
-        if(event.status==motoranger.ProductStatus.UNFIN){
-            event.product.status=motoranger.ProductStatus.END
-            event.product.save(flush:true)
+    @Transactional
+    def delete(Event eventInstance) { 
+        if (eventInstance == null) {
+            notFound()
+            return
         }
 
-        def details=EventDetail.findAllByHead(event)
+        if(eventInstance.status==motoranger.ProductStatus.UNFIN){
+            eventInstance.product.status=motoranger.ProductStatus.END
+            eventInstance.product.save(flush:true)
+        }
 
-        event?.details?.each(){
+        def details=EventDetail.findAllByHead(eventInstance)
+
+        eventInstance?.details?.each(){
             it.delete()
         }
-        event.delete(flush:true)
+        eventInstance.delete(flush:true)
 
 
         flash.message = message(code: 'default.deleted.message'
-            , args: [message(code: 'event.label', default: 'event'), event])
+            , args: [message(code: 'event.label', default: 'event'), eventInstance])
 
-        def currentUser = userService.currentUser()
 
-        if(userService.isOperator()|| userService.isManerger()){
-            def store = currentUser.store
-            redirect(action: "show", controller: "store", id: store.id)
-        }else if(userService.isCustomer()){
-            redirect(action: "show", controller: "user", id: currentUser.id)
+        redirect(action: "redirect", controller: "home")
+
+    }
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
+    def edit(Event eventInstance) { 
+        if (eventInstance == null) {
+            notFound()
+            return
         }
 
-
+        respond eventInstance
 
     }
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def edit() { 
-        def event = Event.findByIdOrName(params.id, params.name)
-
-        [ 
-            event: event
-        ]
-    }
-    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def update() {
-
-        def event = Event.findByIdOrName(params.id, params.name)
-        println "update = "+ event
-
-        
-        if (!event) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'event.label', default: 'Event'), event])
-            redirect(action: "index", controller:"home")
+    @Transactional
+    def update(Event eventInstance) {
+        if (eventInstance == null) {
+            notFound()
+            return
+        }
+         
+        if (eventInstance.hasErrors()) {
+            respond eventInstance.errors, view:'edit'
             return
         }
 
 
-        event.properties = params
-
-        if(params.mileage && event.product.mileage.toLong() < params.mileage.toLong()){
-            event.product.mileage=params.mileage.toLong()
+        if(params.mileage && eventInstance.product.mileage.toLong() < params.mileage.toLong()){
+            eventInstance.product.mileage=params.mileage.toLong()
         }
 
-        if (!event.save(flush: true)) {
-            render(view: "edit", model: [event: event])
-            return
-        }
+        eventInstance.save flush: true
 
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'event'), event])
+
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'event.label', default: 'event'), eventInstance])
         
+        def refererUrl= request.getHeader('referer')
+        def refererUrlMatch = (refererUrl 
+            && (refererUrl.indexOf("pickPartAddDetail") != -1|| refererUrl.indexOf("/store/") != -1))
 
         if(params?.status == 'END'){
             
             def currentUser = userService.currentUser()
 
-            if(userService.isOperator() || userService.isManerger()){
-                def store = currentUser.store
-                redirect(action: "show", controller: "store", id: store.id)
-                return
-            }else if(userService.isCustomer()){
-                redirect(action: "show", controller: "user", id: currentUser.id)
-                return
-            }
+            redirect(action: "redirect", controller: "home")
         }
-        else if(request.getHeader('referer').indexOf("event/pickPartAddDetail") != -1
-            || request.getHeader('referer').indexOf("/store/") != -1){
-             redirect(uri: request.getHeader('referer') )
+        else if(refererUrlMatch){
+             redirect(uri: request.getHeader('referer')) 
              return
         }else {
-            redirect(action: "show", id:event.id)
+            redirect eventInstance
             return
         }
     }
 
+
     @Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
+    @Transactional
     def updateReceivedMoney() { 
 
         def event=Event.findById(params.id)
@@ -260,6 +252,7 @@ class EventController {
 
     }
     @Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
+    @Transactional
     def updateDiscountMoney() { 
 
         def event=Event.findById(params.id)
@@ -301,6 +294,7 @@ class EventController {
     }
 
     @Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
+    @Transactional
     def updateDate() { 
 
 
@@ -333,38 +327,6 @@ class EventController {
 
 
     }
-    def list() {
-
-        def events
-        def count=1
-
-        params.sort= 'lastUpdated'
-        params.order= 'desc'
-
-        def currentUser=userService.currentUser()
-        if(params?.product?.id){
-            if(!currentUser)params.max=1
-            events=Event.findAllByProduct(Product.findById(params.product.id),params)
-        }else{
-
-            // if(params.q && params.q != ''){
-            //     events= Event.search(params.q+"*").results
-            //     count=events.size()
-            // }else {
-            //     events= Event.list(params)
-            //     count=Event.count()
-            // }
-
-            events= Event.list(params)
-            count=Event.count()
-        }
-        
-
-        [
-            events: events,
-            count:count
-        ]
-    }
 
     def endListOfStore(){
 
@@ -383,7 +345,9 @@ class EventController {
         def results = query.list(params)
 
 
-        render view:'list', model: [events:results, title: "最近維修完成"]
+        respond view:'index', model: [eventInstanceList:results
+                            , eventInstanceCount: results.count() 
+                            , title: "最近維修完成"]
     }
 
     def unfinListOfStore(){
@@ -402,7 +366,17 @@ class EventController {
         def results = query.list(params)
 
 
-        render view:'list', model: [events:results, title: "所有維修中"]
+        respond view:'index', model: [eventInstanceList:results
+                            , eventInstanceCount: results.count()
+                            , title: "所有維修中"]
+    }
+    protected void notFound() {
+        request.withFormat {
+            '*'{                 
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'productInstance.label', default: 'Product'), params.id])
+                redirect controller: "home", action: "redirect"
+            }
+        }        
     }
 
 }
