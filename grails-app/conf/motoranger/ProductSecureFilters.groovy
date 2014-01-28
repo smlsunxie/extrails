@@ -20,7 +20,7 @@ class ProductSecureFilters {
 
                         if(!product?.user || product.user.id !=  currentUser.id){
                             flash.message = "不屬於自己的摩托不可維護"
-                            redirect(action: "show", controller: "user", id: currentUser.id)
+                            redirect(action: "redirect", controller: "home")
                         }
 
                     }else if(currentUser && (userService.isOperator() || userService.isManerger())){
@@ -29,7 +29,7 @@ class ProductSecureFilters {
 
                         if(product?.user && product.user.enabled && product.user!=currentUser){
                             flash.message = "已啟用使用者之產品不可維護"
-                            redirect(action: "show", controller: "store", id: currentUser.store.id)
+                            redirect(action: "redirect", controller: "home")
                         }
 
                     }
@@ -39,14 +39,14 @@ class ProductSecureFilters {
 
             after = { Map model ->
 
-                if(actionName=="show" && model?.product){
+                if(actionName=="show" && model?.productInstance){
 
                     model.currentUserIsEventOwner=[:]
                     model.eventDetailTotalPrice=[:]                     
-                    secureFiltersService.setModelProductNameExtraCondiction(model.product)
-                    if(model.product?.user)
-                        secureFiltersService.setModelUserExtraCondiction(model.product.user)
-                    secureFiltersService.setModelEventExtraCondiction(model.product?.events, model, true)
+                    secureFiltersService.setModelProductNameExtraCondiction(model.productInstance)
+                    if(model.productInstance?.user)
+                        secureFiltersService.setModelUserExtraCondiction(model.productInstance.user)
+                    secureFiltersService.setModelEventExtraCondiction(model.productInstance?.events, model, true)
                 }
 
             }

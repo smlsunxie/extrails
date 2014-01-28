@@ -11,10 +11,10 @@
 
       <div class="col-sm-12 col-md-12">           
 
-          <g:link  class="btn btn-primary"  action="edit" id="${product?.id}"><g:message code="default.button.edit.label" /></g:link>
+          <g:link  class="btn btn-primary"  action="edit" id="${productInstance?.id}"><g:message code="default.button.edit.label" /></g:link>
 
 
-          <g:link  class="btn btn-danger" action="delete" id="${product?.id}"><g:message code="default.button.delete.label" /></g:link>
+          <g:link  class="btn btn-danger" action="delete" id="${productInstance?.id}"><g:message code="default.button.delete.label" /></g:link>
 
       </div>
 
@@ -24,7 +24,7 @@
 
 
                       
-  <g:render template="contentWithDetails" model="[product: product]" />
+  <g:render template="contentWithDetails" />
 
   
   <br />
@@ -36,7 +36,7 @@
 
       <g:if test="${statusEnd}">
         <div id="actionbar" class="text-center">
-          <g:link  class="btn btn-primary" controller="event" action="create" params="['product.id':product?.id]">
+          <g:link  class="btn btn-primary" controller="event" action="create" params="['product.id':productInstance?.id]">
             新增維修記錄
           </g:link>
         </div>
@@ -44,7 +44,7 @@
 
     </sec:ifAnyGranted>
 
-    <g:render template="/event/contentWithDetails" collection="${product?.events}" var="event" />
+    <g:render template="/event/contentWithDetails" collection="${productInstance?.events}" var="eventInstance" />
   </div>
 
 

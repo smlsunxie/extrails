@@ -12,7 +12,7 @@ grails.project.war.file = "target/${appName}.war"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 
-// 設定 session timeout 12 小時候
+// 設定 session timeout 12 小時後
 grails.war.resources = { stagingDir, args ->
   def webXML = new java.io.File("${stagingDir}/WEB-INF/web.xml")
   webXML.text = webXML.text.replaceFirst("<session-timeout>30</session-timeout>", "<session-timeout>720</session-timeout>")

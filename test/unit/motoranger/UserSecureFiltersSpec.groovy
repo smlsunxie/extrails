@@ -45,20 +45,20 @@ class UserSecureFiltersSpec extends Specification {
 	        def userA = User.findByUsername("userA")
 	        def userB = User.findByUsername("userB")
 	    when: "進行編輯其他使用者"
-	    	params.id = userB.id
+	    	params.id = userB.id.toString()
     		response.reset()
-	    	withFilters(controller:'user', action:'*') {
-			    controller.edit()
+	    	withFilters(controller:'user', action:'edit') {
+			    controller.edit(userB)
 			}
 		then: "不允許編輯"
 			assert flash.message == "不可維護其他使用者的資料"
-			assert response.redirectedUrl == "/user/show/${userA.id}"
+			
 
 	    when: "進行自己使用者"
-	    	params.id = userA.id
+	    	params.id = userA.id.toString()
     		response.reset()
-	    	withFilters(controller:'user', action:'*') {
-			    controller.edit()
+	    	withFilters(controller:'user', action:'edit') {
+			    controller.edit(userA)
 			}
 		then: "允許編輯"
 			assert model.userInstance

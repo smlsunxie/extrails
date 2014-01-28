@@ -16,7 +16,7 @@ class LoginSecureFilters {
                 {
 
                     flash.message = "無法切換到不屬於「${currentUser.store}」的使用者"
-                    redirect(action: "show", controller: "store", id: currentUser.store.id)
+                    redirect(action: "redirect", controller: "home")
                     return false
 
                 }

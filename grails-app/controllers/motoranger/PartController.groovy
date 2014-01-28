@@ -5,16 +5,17 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.*
 import org.jsoup.select.*
 
+import static org.springframework.http.HttpStatus.*
+import grails.transaction.Transactional
+
+@Transactional(readOnly = true)
 class PartController {
 	static layout="bootstrap"
-    def s3Service
-    def imageModiService
-    def messageSource
     def tagQueryService
     def userService
 
     def index(){
-        if(!params?.group)params.group = motoranger.TagGroup.RECENT
+        if(!params?.group)params.group = motoranger.TagGroup.CUSTOMIZED
 
 
         if(params.group == motoranger.TagGroup.RECENT && !session?.recentPartIds ){
@@ -26,32 +27,31 @@ class PartController {
         def tags = tagQueryService.getUniTag(params)
         def parts = tagQueryService.getCurrentUserPartsWithTag(params)
 
-        [
-            tags: tags, 
-            parts: parts
-        ]
+ 
+        [partInstanceList: parts, tags: tags]
         
 
     }
 
 	@Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def create(){
-
     	def part = new Part(params)
-        boolean isCusRole = false
         def currentUser = userService.currentUser()
+
 
         if(currentUser?.store){
             part.store=currentUser.store
             part.user=null
-        }else if(!part.user){
+        }else if(!part?.user){
             part.user = currentUser
         }
 
-        if(!params.name)
+        if(!params?.name)
     	   part.name = "part-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
-        [ part: part ]
+
+
+        respond part
 
     }
     @Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
@@ -59,7 +59,7 @@ class PartController {
 
         def part = Part.findByName(params.name)
         if(part){
-            redirect(action:'show', id:part.id)
+            redirect part
         }else {
             redirect(action:'create', params:params)
         }
@@ -81,153 +81,121 @@ class PartController {
     }
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def save(){
-
-        if(!params?.price)params.price=0
-        if(!params?.cost)params.cost=0
-
-        def part = Part.findByName(params.name);
-        if(!part) 
-            part = new Part(params);
-        else part.properties = params
+    @Transactional
+    def save(Part partInstance){
 
         //set current user as creator
-        part.creator = userService.currentUser().username
+        partInstance.creator = userService.currentUser().username
 
-        if (!part.validate()) {
-            render(view: "create", model: [part: part])
+
+        if (partInstance.hasErrors()) {
+            respond partInstance.errors, view:'create'
             return
         }
 
 
-
         
-        part.save(flush: true)
+        partInstance.save(flush: true, failOnError: true)
 
         if(params.tags instanceof String)
-            part.tags=[params.tags];
+            partInstance.tags=[params.tags];
         else if(params?.tags)
-            part.tags = params.tags
-        else part.tags=["未分類"]
+            partInstance.tags = params.tags
+        else partInstance.tags=["未分類"]
 
         if(params?.event?.id){
             def newParams=[:]
             newParams.qty=1
-            newParams.price = part.price
-            newParams.cost = part.cost
-            newParams["part.id"] = part.id
+            newParams.price = partInstance.price
+            newParams.cost = partInstance.cost
+            newParams["part.id"] = partInstance.id
             newParams["head.id"] = params.event.id
             redirect(controller:"eventDetail", action: "save", params: newParams)
             return 
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'part.label', default: 'part'), part])
-        redirect(action: "show", id:part.id)
+        flash.message = message(code: 'default.created.message'
+            , args: [message(code: 'part.label', default: 'part'), partInstance])
+        redirect partInstance
     }
 
 
-    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def list(){
-        [
-            parts: Part.list()
-        ]
-    } 
-    def show(){ 
-        def part = Part.findById(params.id)
-
-        [
-            part: part
-        ]
+    def show(Part partInstance){ 
+        if (partInstance == null) {
+            notFound()
+            return
+        }        
+        respond partInstance
     }
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def edit(){ 
-        def part = Part.findById(params.id)
+    def edit(Part partInstance){ 
+        if (partInstance == null) {
+            notFound()
+            return
+        } 
+        def eventDetails= EventDetail.findAllByPart(partInstance)
 
-        def eventDetails= EventDetail.findAllByPart(part)
-
-        [ 
-            part: part,
+        respond partInstance, model:[ 
             historyCost: eventDetails*.cost.unique().sort(),
             historyPrice: eventDetails*.price.unique().sort()
         ]
     }
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def update(){
-
-        def part = Part.findByIdOrName(params.id,params.name)
-
-        if(!params?.price)params.price=0
-        if(!params?.cost)params.cost=0
-
-
+    @Transactional
+    def update(Part partInstance){
+        if (partInstance == null) {
+            notFound()
+            return
+        }
         if(params.tags instanceof String)
-            part.tags=[params.tags];
-        else part.tags = params.tags
+            partInstance.tags=[params.tags];
+        else partInstance.tags = params.tags
 
 
 
         if(!params.mainImage)params.mainImage="";
 
-        
-        if (!part) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'post.label', default: 'Post'), id])
-            redirect(action: "list")
+        if (partInstance.hasErrors()) {
+            respond partInstance.errors, view:'edit'
             return
         }
 
-        if (params.version != null) {  
+        partInstance.save flush: true
 
-            if (part.version > (params.version as Long)) {
-                part.errors.rejectValue("version", "default.optimistic.locking.failure",
-                          [message(code: 'part.label', default: 'Part')] as Object[],
-                          "Another user has updated this User while you were editing")
-
-                flash.message = message(code: "Another user has updated this User while you were editing")
-                render(view: "edit", model: [part: part])
-                return
-            }
-        }
-
-        part.properties = params
-
-
-
-        if (!part.save()) {
-            render(view: "edit", model: [part: part])
-            return
-        }
-
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'part.label', default: 'Part'), part])
-        redirect(action: "show", id: part.id)
+        flash.message = message(code: 'default.updated.message'
+            , args: [message(code: 'user.label', default: 'User'), partInstance])
+        redirect partInstance
     }
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def delete(){ 
-        def part = Part.findById(params.id)
-        
+    @Transactional
+    def delete(Part partInstance){ 
+        if (partInstance == null) {
+            notFound()
+            return
+        }
         
         try{
-            !part.delete()
-
-            def currentUser = userService.currentUser()
-            if(userService.isCustomer()){
-                redirect(action: "show", controller: "user", id: currentUser.id)
-                return
-            }else {
-                def store = currentUser.store
-                redirect(action: "show", controller: "store", id: store.id)
-                return
-            }
+            partInstance.delete flush: true, failOnError:true
+            flash.message = message(code: 'default.deleted.message'
+                , args: [message(code: 'part.label', default: 'part'), partInstance])
+            redirect(action: "index")
         }catch(Exception e){
-            flash.message = "維修記錄使用到該維修項目：${part.title}，無法刪除。請修正標籤，例如：不使用"
-            redirect(action: "show" ,id:part.id)
-            return
+            flash.message = "維修記錄使用到該維修項目：${partInstance.title}，無法刪除。請修正標籤，例如：不使用"
+            redirect partInstance
         }
 
 
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), part])
 
-        redirect(action: "portfolio")
+    }
+
+    protected void notFound() {
+        request.withFormat {
+            '*'{                 
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'part.label', default: 'Part'), params.id])
+                redirect controller: "home", action: "redirect"
+            }
+        }        
     }
 
 }

@@ -13,8 +13,14 @@
 
   <div class="contact-info" >
     <h2>${title}</h2>
-    <g:render template="/event/contentWithDetails" collection="${events}" var="event" />
+    <g:render template="/event/contentWithDetails" collection="${eventInstanceList}" var="eventInstance" />
   </div>
+
+	<div class="row text-center">
+	  <ul class="pagination">
+	    <g:paginate total="${eventInstanceCount}" />
+	  <ul>   
+	</div>
 
 </body>
 </html>

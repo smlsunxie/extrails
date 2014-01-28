@@ -11,7 +11,7 @@
 
         <g:if test="${params.group.toString() != group.toString()}">
           <li >
-            <g:link action="${actionName}" id="${event?.id}" params="[group: group]" ><g:message code="TagGroup.${group}" /></g:link>
+            <g:link action="${actionName}" id="${eventInstance?.id}" params="[group: group]" ><g:message code="TagGroup.${group}" /></g:link>
           </li>
           </g:if>
       </g:each>
@@ -28,7 +28,7 @@
         <g:if test="${params.tag != tag}">
 
           <li>
-            <g:link action="${actionName}" id="${event?.id}" params="[tag: tag, group: params.group]" >${tag}</g:link>
+            <g:link action="${actionName}" id="${eventInstance?.id}" params="[tag: tag, group: params.group]" >${tag}</g:link>
           </li>
 
         </g:if>
@@ -46,7 +46,7 @@
       <g:each var="group" in="${motoranger.TagGroup.values()}">
 
         <li class="${ params.group.toString() == group.toString() ? 'active' : '' }">
-          <g:link action="${actionName}" id="${event?.id}" params="[group: group]" ><g:message code="TagGroup.${group}" /></g:link>
+          <g:link action="${actionName}" id="${eventInstance?.id}" params="[group: group]" ><g:message code="TagGroup.${group}" /></g:link>
         </li>
       </g:each>        
 
@@ -59,7 +59,7 @@
       <g:each var="tag" in="${tags}">
 
         <li class="${ params.tag == tag.toString() ? 'active' : '' }">
-          <g:link action="${actionName}" id="${event?.id}" params="[tag: tag, group: params.group]" >${tag}</g:link>
+          <g:link action="${actionName}" id="${eventInstance?.id}" params="[tag: tag, group: params.group]" >${tag}</g:link>
         </li>
       </g:each>
     </ul>
@@ -70,26 +70,26 @@
 <div class="portfolio-grid-1 main-block row">
   <ul id="gallery" class="thumbnails">
          
-    <g:each var="part" in="${parts}">
-      <li class="col-md-3 col-sm-3 small hp-wrapper ${part.tags.join(' ')}">  
+    <g:each var="partInstance" in="${partInstanceList}">
+      <li class="col-md-3 col-sm-3 small hp-wrapper ${partInstance.tags.join(' ')}">  
    
-        <div id="${part.name}" class="thumbnail">
-%{--                           <g:img alt="" uri="/attachment/show?name=${part.name}&file=${part.mainImage}" style='height:100px' />  --}%
+        <div id="${partInstance.name}" class="thumbnail">
+%{--                           <g:img alt="" uri="/attachment/show?name=${partInstance.name}&file=${partInstance.mainImage}" style='height:100px' />  --}%
 
             <div class="caption">
 
-              <h3><g:link controller="part" action="show" id="${part.id}">${part.title}</g:link></h3>
-              <p>${part.description}</p>
+              <h3><g:link controller="part" action="show" id="${partInstance.id}">${partInstance.title}</g:link></h3>
+              <p>${partInstance.description}</p>
 
-              <g:if test="${event}">
+              <g:if test="${eventInstance}">
 
-                <g:form action="save" controller="eventDetail" class="form-thumbnail" params="['part.id':part.id, 'part.name':part.name, 'head.id':event.id]"> 
+                <g:form action="save" controller="eventDetail" class="form-thumbnail" params="['part.id':partInstance.id, 'part.name':partInstance.name, 'head.id':event.id]"> 
                   <p>
 
 
                     <div class="input-group">
                       <span class="input-group-addon">售價</span>
-                      <g:textField value="${part.price}" name="price" class="form-control" />
+                      <g:textField value="${partInstance.price}" name="price" class="form-control" />
                     </div>
 
                     <div class="input-group">
@@ -102,7 +102,7 @@
 
                       <g:submitButton controller="eventDetail" action="create"class="btn btn-primary" name="快速新增" />
 
-                      <g:link controller="eventDetail" action="create" params="['part.id':part.id, 'head.id':event.id]" class="btn btn-primary">照相新增</g:link> 
+                      <g:link controller="eventDetail" action="create" params="['part.id':partInstance.id, 'head.id':event.id]" class="btn btn-primary">照相新增</g:link> 
                     
 
                   </p>
@@ -110,8 +110,8 @@
               </g:if>
 
               <g:else>
-                <p>售價：${part.price}</p>
-                <g:link controller="part" action="show" id="${part.id}" class="btn">檢視項目</g:link>
+                <p>售價：${partInstance.price}</p>
+                <g:link controller="part" action="show" id="${partInstance.id}" class="btn">檢視項目</g:link>
               </g:else>
             </div>
 

@@ -9,6 +9,19 @@
   </head>
   <body>
 
+  <div class="row" id="actionbar">
+
+    <div class="col-sm-12 col-md-12">           
+
+
+        <g:link  class="btn btn-primary" controller="store" action="create" >新增車行</g:link>
+
+
+    </div>
+
+  </div>
+
+
     <div class="row">
 
       <table  class="table" id="no-more-tables">
@@ -46,7 +59,7 @@
         </tbody>
       </table>
       <div class="pagination">
-        <g:paginate total="${storeInstanceTotal}" />
+        <g:paginate total="${storeInstanceCount}" />
       </div>
     </div>
   </body>

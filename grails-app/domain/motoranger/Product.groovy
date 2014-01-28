@@ -1,7 +1,5 @@
 package motoranger
 
-import org.grails.taggable.Taggable
-
 public enum ProductStatus {
     UNFIN,
     END;

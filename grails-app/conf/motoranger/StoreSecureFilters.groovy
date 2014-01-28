@@ -18,7 +18,7 @@ class StoreSecureFilters {
                     if(params.id.toLong() != currentUser.store.id){
 
                         flash.message = "只可維護自己的店家"
-                        redirect(action: "show", controller: "store", id: currentUser.store.id)
+                        redirect(action: "redirect", controller: "home")
                         return false
 
                     }

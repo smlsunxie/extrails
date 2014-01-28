@@ -9,141 +9,142 @@ class EventDetailController {
 
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def create(){
+    def create(EventDetail eventDetailInstance){
 
-    	def eventDetail=new EventDetail(params)
 
-        eventDetail.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
+        eventDetailInstance.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
 
-        eventDetail.price=eventDetail.part.price
-        
-        params.qty=1
-        [
-        	eventDetail:eventDetail
-        ]
+        eventDetailInstance.price=eventDetailInstance.part.price
+
+        respond eventDetailInstance
+
 
     }
 
-    def show(){
-
-        def eventDetail = EventDetail.findById(params.id);
-
-        [
-            eventDetail:eventDetail
-        ]
+    def show(EventDetail eventDetailInstance){
+        if (eventDetailInstance == null) {
+            notFound()
+            return
+        }
+        respond eventDetailInstance
 
     }
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def save(){
-
-        println params
-        if(!params?.name)
-            params.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
+    def save(EventDetail eventDetailInstance){
         
 
-        if(!params?.qty)
-            params?.qty=1
-
-
-        def eventDetail = EventDetail.findByName(params.name);
-
-        if(!eventDetail) 
-            eventDetail = new EventDetail(params);
-        else 
-            eventDetail.properties = params
+        if(!eventDetailInstance?.qty)
+            eventDetailInstance?.qty=1
 
 
         def creator = userService.currentUser().username
-        eventDetail.creator = creator
+        eventDetailInstance.creator = creator
+        def refererUrl = request.getHeader('referer')
 
-        if (!eventDetail.validate()) {
-            redirect(uri: request.getHeader('referer') )
-            return
+
+       if (eventDetailInstance.hasErrors()) {
+            flash.message = "無法新增維修項目"
+
+            if(refererUrl && refererUrl.indexOf("pickPartAddDetail")!=-1){
+                redirect(uri: refererUrl )
+                return
+            }
+            else {
+                respond eventDetailInstance.errors, view: "create"
+                return
+            }
+            
         }
 
-        if(eventDetail.cost == 0){
-            eventDetail.cost = eventDetail.part.cost 
+        if(eventDetailInstance.cost == 0){
+            println eventDetailInstance.part
+            eventDetailInstance.cost = eventDetailInstance.part.cost 
         }
 
-        eventDetail.save(flush: true)
+        eventDetailInstance.save(flush: true, failOnError: true)
 
 
         
         flash.message = message(code: 'default.created.message', 
-            args: [message(code: 'event.label', default: 'event'), eventDetail])
-
-
-        if(request.getHeader('referer').indexOf("part/create?event.id")!=-1){
-            redirect(controller:"event", action:"pickPartAddDetail", id:params.head.id)
-        }else 
-            redirect(uri: request.getHeader('referer') )
-
-
-    }
-
-    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def edit(){ 
-        def eventDetail = EventDetail.findByIdOrName(params.id, params.name)
-
-        [ 
-            eventDetail: eventDetail
-        ]
-    }
-    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def update(){
-
-        def eventDetail = EventDetail.get(params.id)
+            args: [message(code: 'eventDetail.label', default: 'eventDetail'), eventDetailInstance])
 
         
-        if (!eventDetail) {
-            flash.message = message(code: 'default.not.found.message',
-                args: [message(code: 'part.label', default: 'part'), eventDetail])
-            redirect(action: "list", controller:"product")
+
+        if(refererUrl && refererUrl.indexOf("part/create?event.id")!=-1){
+            redirect(controller:"event", action:"pickPartAddDetail", id:eventDetailInstance.head.id)
+        }else if(refererUrl && refererUrl.indexOf("pickPartAddDetail")!=-1)
+            redirect(uri: request.getHeader('referer') )
+        else redirect eventDetailInstance
+
+
+    }
+
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
+    def edit(EventDetail eventDetailInstance){ 
+        if (eventDetailInstance == null) {
+            notFound()
+            return
+        }        
+        respond eventDetailInstance
+    }
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
+    def update(EventDetail eventDetailInstance){
+        if (eventDetailInstance == null) {
+            notFound()
+            return
+        }
+
+        if (eventDetailInstance.hasErrors()) {
+            respond eventDetailInstance.errors, view:'edit'
             return
         }
 
 
-        eventDetail.properties = params
+
+        eventDetailInstance.save flush: true
 
 
 
 
-
-        if (!eventDetail.save(flush: true)) {
-            render(view: "edit", model: [eventDetail: eventDetail])
-            return
-        }
-
-
-
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'eventDetail.label', default: 'EventDetail'), eventDetail])
-        redirect(action: "show", controller:"event", id: eventDetail.head.id)
+        flash.message = message(code: 'default.updated.message'
+            , args: [message(code: 'eventDetail.label', default: 'EventDetail'), eventDetailInstance])
+        redirect eventDetailInstance
 
 
     }
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
-    def delete(){ 
+    def delete(EventDetail eventDetailInstance){ 
+        if (eventDetailInstance == null) {
+            notFound()
+            return
+        }
 
-        def eventDetail = EventDetail.findById(params.id)
-        def headId=eventDetail.head.id
+        def headId=eventDetailInstance.head.id
 
         def event = Event.findById(headId)
-        event.totalPrice -=  eventDetail.price * eventDetail.qty
-        event.save()
+        event.totalPrice -=  eventDetailInstance.price * eventDetailInstance.qty
+        event.save(flush:true, failOnError: true)
 
-        eventDetail.delete(flush:true)
-
-
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'part.label', default: 'part'), eventDetail])
+        eventDetailInstance.delete(flush:true, failOnError: true)
 
 
-        if(request.getHeader('referer').indexOf("/eventDetail/show") != -1)
-            redirect(action: "show", controller:"event", id:headId)
-        else redirect(uri: request.getHeader('referer') )
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'eventDetail.label', default: 'eventDetail'), eventDetailInstance])
+
+        def refererUrl = request.getHeader('referer')
+        if(refererUrl && refererUrl.indexOf("/eventDetail/show") != -1){
+            redirect event
+        }else redirect(uri: request.getHeader('referer') )
 
     }
-
+    protected void notFound() {
+        request.withFormat {
+            '*'{                 
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'productInstance.label', default: 'Product'), params.id])
+                redirect controller: "home", action: "redirect"
+            }
+        }        
+    }
 
 
 }

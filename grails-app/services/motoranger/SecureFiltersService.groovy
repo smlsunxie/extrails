@@ -52,6 +52,7 @@ class SecureFiltersService {
             user.address="****"
             user.email="****"
             user.mobile="****"
+            user.telphone="****"
             user.title="****"
         }
 
