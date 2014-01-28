@@ -61,7 +61,9 @@ class ProductController {
         def statusEnd = false
         if(!eventUnFin) statusEnd =true
 
-        respond productInstance, model: [statusEnd :statusEnd]
+        def similarProduct = searchSimilarProduct(productInstance)
+
+        respond productInstance, model: [statusEnd :statusEnd, similarProduct: similarProduct]
     }
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
@@ -139,6 +141,17 @@ class ProductController {
                 redirect controller: "home", action: "redirect"
             }
         }        
+    }
+
+    private searchSimilarProduct(productInstance){
+        def results = []
+
+        Product.search(productInstance.name).results.each(){ Product product ->
+            if(product.id != productInstance.id)
+                results << product
+        }
+
+        return results
     }
 
 }

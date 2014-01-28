@@ -12,7 +12,10 @@ class ProductControllerSpec extends Specification {
     def setup(){
         UserService.metaClass.currentUser = {
             new User(username: "user")
-        }        
+        }
+        ProductController.metaClass.searchSimilarProduct = { productInstance ->
+            []
+        }
 
     }
 
@@ -67,7 +70,6 @@ class ProductControllerSpec extends Specification {
             response.redirectedUrl == '/product/show/1'
             controller.flash.message != null
             Product.count() == 1
-
     }
 
     void "Test that the show action returns the correct model"() {

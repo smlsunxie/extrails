@@ -26,7 +26,12 @@
                       
   <g:render template="contentWithDetails" />
 
-  
+
+  <div class="contact-info" >
+      <h2>重覆車號</h2>
+      <g:render template="content" collection="${psimilarProduct}" var="productInstance" />
+  </div>
+
   <br />
 
   <div class="contact-info" >
