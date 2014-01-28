@@ -44,7 +44,7 @@
 
     </sec:ifAnyGranted>
 
-    <g:render template="/event/contentWithDetails" collection="${productInstance?.events}" var="event" />
+    <g:render template="/event/contentWithDetails" collection="${productInstance?.events}" var="eventInstance" />
   </div>
 
 

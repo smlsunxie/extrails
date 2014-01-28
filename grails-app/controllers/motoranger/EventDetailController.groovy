@@ -19,7 +19,7 @@ class EventDetailController {
         
         params.qty=1
         [
-        	eventDetail:eventDetail
+        	eventDetailInstance:eventDetail
         ]
 
     }
@@ -29,7 +29,7 @@ class EventDetailController {
         def eventDetail = EventDetail.findById(params.id);
 
         [
-            eventDetail:eventDetail
+            eventDetailInstance:eventDetail
         ]
 
     }
@@ -87,7 +87,7 @@ class EventDetailController {
         def eventDetail = EventDetail.findByIdOrName(params.id, params.name)
 
         [ 
-            eventDetail: eventDetail
+            eventDetailInstance: eventDetail
         ]
     }
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])

@@ -93,7 +93,7 @@
               <div class="row show-grid">
                 
                 <g:render template="/event/stickWithImage" model="['stickName':'alert']"
-                  collection="${unfinEvents}" var="event"  />
+                  collection="${unfinEvents}" var="eventInstance"  />
               
               </div>
             </div>
@@ -109,7 +109,7 @@
         <div class="col-sm-12 col-md-12">
           <div class="row show-grid">
             <g:render template="/event/stickWithImage" model="['stickName':'success']"
-              collection="${endEvents}" var="event"  />
+              collection="${endEvents}" var="eventInstance"  />
         </div>
       </div>
     </div>

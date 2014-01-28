@@ -88,14 +88,14 @@
       <h2>擁有機車</h2>
     </div>
 
-    <g:each in="${products}" var="product" status="i" >
+    <g:each in="${productInstanceList}" var="productInstance" status="i" >
 
 
 
       <div class="contact-info col-sm-4 col-md-4 block2">
         <div class="mini-wrapper">
 
-          <g:render template="/product/content" model="[product: product]" />
+          <g:render template="/product/content" model="[productInstance: productInstance]" />
 
         </div>
       </div>

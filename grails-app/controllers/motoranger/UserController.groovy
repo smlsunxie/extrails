@@ -22,11 +22,6 @@ class UserController {
         respond User.list(params), model:[userInstanceCount: User.count()]
     }
 
-
-    // def list(Integer max) {
-    //     params.max = Math.min(max ?: 10, 100)
-    //     [userInstanceList: User.list(params), userInstanceTotal: User.count()]
-    // }
     def create() {
         
         def user = new User(params)
@@ -125,7 +120,7 @@ class UserController {
         }
 
 
-        respond userInstance, model: [products: Product.findAllByUser(userInstance)]
+        respond userInstance, model: [productInstanceList: Product.findAllByUser(userInstance)]
     }
 
     def edit(User userInstance){

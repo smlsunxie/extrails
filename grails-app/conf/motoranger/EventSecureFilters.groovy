@@ -54,16 +54,16 @@ class EventSecureFilters {
                     model.currentUserIsEventOwner=[:]
                     model.eventDetailTotalPrice=[:]  
 
-                    if(model?.events){
-                        secureFiltersService.setModelEventExtraCondiction(model.events, model, true)                   
+                    if(model?.eventInstanceList){
+                        secureFiltersService.setModelEventExtraCondiction(model.eventInstanceList, model, true)                   
                     } 
                 }else if(actionName == "show" || actionName == "pickPartAddDetail" ){
 
                     model.currentUserIsEventOwner=[:]
                     model.eventDetailTotalPrice=[:]  
 
-                    if(model?.event){
-                        secureFiltersService.setModelEventExtraCondiction([model.event], model, true)
+                    if(model?.eventInstance){
+                        secureFiltersService.setModelEventExtraCondiction([model.eventInstance], model, true)
                     }
                 }
 

@@ -11,7 +11,7 @@
 
         <g:if test="${params.group.toString() != group.toString()}">
           <li >
-            <g:link action="${actionName}" id="${event?.id}" params="[group: group]" ><g:message code="TagGroup.${group}" /></g:link>
+            <g:link action="${actionName}" id="${eventInstance?.id}" params="[group: group]" ><g:message code="TagGroup.${group}" /></g:link>
           </li>
           </g:if>
       </g:each>
@@ -28,7 +28,7 @@
         <g:if test="${params.tag != tag}">
 
           <li>
-            <g:link action="${actionName}" id="${event?.id}" params="[tag: tag, group: params.group]" >${tag}</g:link>
+            <g:link action="${actionName}" id="${eventInstance?.id}" params="[tag: tag, group: params.group]" >${tag}</g:link>
           </li>
 
         </g:if>
@@ -46,7 +46,7 @@
       <g:each var="group" in="${motoranger.TagGroup.values()}">
 
         <li class="${ params.group.toString() == group.toString() ? 'active' : '' }">
-          <g:link action="${actionName}" id="${event?.id}" params="[group: group]" ><g:message code="TagGroup.${group}" /></g:link>
+          <g:link action="${actionName}" id="${eventInstance?.id}" params="[group: group]" ><g:message code="TagGroup.${group}" /></g:link>
         </li>
       </g:each>        
 
@@ -59,7 +59,7 @@
       <g:each var="tag" in="${tags}">
 
         <li class="${ params.tag == tag.toString() ? 'active' : '' }">
-          <g:link action="${actionName}" id="${event?.id}" params="[tag: tag, group: params.group]" >${tag}</g:link>
+          <g:link action="${actionName}" id="${eventInstance?.id}" params="[tag: tag, group: params.group]" >${tag}</g:link>
         </li>
       </g:each>
     </ul>
@@ -81,7 +81,7 @@
               <h3><g:link controller="part" action="show" id="${partInstance.id}">${partInstance.title}</g:link></h3>
               <p>${partInstance.description}</p>
 
-              <g:if test="${event}">
+              <g:if test="${eventInstance}">
 
                 <g:form action="save" controller="eventDetail" class="form-thumbnail" params="['part.id':partInstance.id, 'part.name':partInstance.name, 'head.id':event.id]"> 
                   <p>

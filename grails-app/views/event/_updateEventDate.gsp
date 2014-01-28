@@ -1,6 +1,6 @@
 <div class="input-group">
   <span class="input-group-addon">維修日期</span>
-  <input  type="text" value="${event?.date.format('yyyy-MM-dd')}" data-date="${event?.date.format('yyyy-MM-dd')}" data-date-format="yyyy-mm-dd" name="date" class="form-control"/>
+  <input  type="text" value="${eventInstance?.date.format('yyyy-MM-dd')}" data-date="${eventInstance?.date.format('yyyy-MM-dd')}" data-date-format="yyyy-mm-dd" name="date" class="form-control"/>
 </div> 
 
 <r:script>
@@ -13,7 +13,7 @@
       $.ajax({
         type:'POST',
         data:'date=' + ev.date.valueOf(), 
-        url:'/event/updateDate/${event?.id}',
+        url:'/event/updateDate/${eventInstance?.id}',
         success:function(data,textStatus){
           onDateSuccessFun(data);
         },
