@@ -25,10 +25,7 @@ class ProductController {
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     @Transactional
     def save(Product productInstance){
-        if (productInstance == null) {
-            notFound()
-            return
-        }
+
         productInstance.creator = userService.currentUser().username
 
         def user = User.findByUsername(params.name)
@@ -42,14 +39,13 @@ class ProductController {
             return
         }
 
-        productInstance.save flush:true
+        productInstance.save flush:true, failOnError: true
 
         request.withFormat {
-            form {
+            '*' { 
                 flash.message = message(code: 'default.created.message', args: [message(code: 'product.label', default: 'Product'), productInstance])
                 redirect productInstance
             }
-            '*' { respond productInstance, [status: CREATED] }
         }
     }
 
@@ -71,11 +67,15 @@ class ProductController {
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     @Transactional
     def edit(Product productInstance) {
+        if (productInstance == null) {
+            notFound()
+            return
+        }        
         if(params?.user?.id){
             productInstance?.user = User.findByUsername(params?.user?.id)
         }
         
-        if(!productInstance?.user){
+        if(!productInstance?.user && productInstance?.name){
             productInstance.user=User.findByUsername(productInstance.name)
         }        
         respond productInstance
@@ -99,11 +99,10 @@ class ProductController {
         productInstance.save flush:true
 
         request.withFormat {
-            form {
+            '*' {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'Product.label', default: 'Product'), productInstance.id])
                 redirect productInstance
             }
-            '*'{ respond productInstance, [status: OK] }
         }
     }
 
@@ -116,13 +115,23 @@ class ProductController {
         }
         productInstance.delete flush:true
 
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'Product.label', default: 'Product'), productInstance])
-        redirect controller: "home", action: "redirect"
+        request.withFormat {
+            '*' { 
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Product.label', default: 'Product'), productInstance])
+                redirect controller: "home", action: "redirect"
+            }
+        }
+
+        
     }
 
     protected void notFound() {
-        flash.message = message(code: 'default.not.found.message', args: [message(code: 'productInstance.label', default: 'Product'), params.id])
-        redirect controller: "home", action: "redirect"
+        request.withFormat {
+            '*'{                 
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'productInstance.label', default: 'Product'), params.id])
+                redirect controller: "home", action: "redirect"
+            }
+        }        
     }
 
 }

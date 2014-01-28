@@ -1,73 +1,58 @@
-package motoranger
-
-
+<%=packageName ? "package ${packageName}\n\n" : ''%>
 
 import grails.test.mixin.*
 import spock.lang.*
 
-@TestFor(ProductController)
-@Mock([Product, User, Event, UserService])
-class ProductControllerSpec extends Specification {
-
-    def setup(){
-        UserService.metaClass.currentUser = {
-            new User(username: "user")
-        }        
-
-    }
+@TestFor(${className}Controller)
+@Mock(${className})
+class ${className}ControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        params["name"] = 'QQQ123'
-        params["title"] = 'QQQ123'
+        //params["name"] = 'someValidName'
+    }
 
+    void "Test the index action returns the correct model"() {
+
+        when:"The index action is executed"
+            controller.index()
+
+        then:"The model is correct"
+            !model.${modelName}List
+            model.${modelName}Count == 0
     }
 
     void "Test the create action returns the correct model"() {
-    	setup: "建立 model 變數"
-        
         when:"The create action is executed"
             controller.create()
+
         then:"The model is correctly created"
-            assert model.productInstance
-
-
-        when:"建立 product 設定 name"
-        	params.name = "prdouct"
-            controller.create()
-
-        then:"product 的 title 要跟 name 一樣"
-            assert model.productInstance.title == params.name
-            println model.productInstance
+            model.${modelName}!= null
     }
 
-
     void "Test the save action correctly persists an instance"() {
-    	// setup: "建立 model 變數"
-    	// 	def model
 
         when:"The save action is executed with an invalid instance"
-            def product = new Product(name: "product")
-            product.validate()
-            controller.save(product)
+            def ${propertyName} = new ${className}()
+            ${propertyName}.validate()
+            controller.save(${propertyName})
 
         then:"The create view is rendered again with the correct model"
-            model.productInstance!= null
+            model.${modelName}!= null
             view == 'create'
 
         when:"The save action is executed with a valid instance"
             response.reset()
             populateValidParams(params)
-            product = new Product(params)
+            ${propertyName} = new ${className}(params)
 
-            controller.save(product)
+            controller.save(${propertyName})
 
         then:"A redirect is issued to the show action"
-            response.redirectedUrl == '/product/show/1'
+            response.redirectedUrl == '/${propertyName}/show/1'
             controller.flash.message != null
-            Product.count() == 1
-
+            ${className}.count() == 1
     }
 
     void "Test that the show action returns the correct model"() {
@@ -80,11 +65,11 @@ class ProductControllerSpec extends Specification {
 
         when:"A domain instance is passed to the show action"
             populateValidParams(params)
-            def product = new Product(params)
-            controller.show(product)
+            def ${propertyName} = new ${className}(params)
+            controller.show(${propertyName})
 
         then:"A model is populated containing the domain instance"
-            model.productInstance == product
+            model.${modelName} == ${propertyName}
     }
 
     void "Test that the edit action returns the correct model"() {
@@ -97,11 +82,11 @@ class ProductControllerSpec extends Specification {
 
         when:"A domain instance is passed to the edit action"
             populateValidParams(params)
-            def product = new Product(params)
-            controller.edit(product)
+            def ${propertyName} = new ${className}(params)
+            controller.edit(${propertyName})
 
         then:"A model is populated containing the domain instance"
-            model.productInstance == product
+            model.${modelName} == ${propertyName}
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
@@ -115,22 +100,22 @@ class ProductControllerSpec extends Specification {
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            def product = new Product()
-            product.validate()
-            controller.update(product)
+            def ${propertyName} = new ${className}()
+            ${propertyName}.validate()
+            controller.update(${propertyName})
 
         then:"The edit view is rendered again with the invalid instance"
             view == 'edit'
-            model.productInstance == product
+            model.${modelName} == ${propertyName}
 
         when:"A valid domain instance is passed to the update action"
             response.reset()
             populateValidParams(params)
-            product = new Product(params).save(flush: true)
-            controller.update(product)
+            ${propertyName} = new ${className}(params).save(flush: true)
+            controller.update(${propertyName})
 
         then:"A redirect is issues to the show action"
-            response.redirectedUrl == "/product/show/$product.id"
+            response.redirectedUrl == "/${propertyName}/show/\$${propertyName}.id"
             flash.message != null
     }
 
@@ -145,16 +130,16 @@ class ProductControllerSpec extends Specification {
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def product = new Product(params).save(flush: true)
+            def ${propertyName} = new ${className}(params).save(flush: true)
 
         then:"It exists"
-            Product.count() == 1
+            ${className}.count() == 1
 
         when:"The domain instance is passed to the delete action"
-            controller.delete(product)
+            controller.delete(${propertyName})
 
         then:"The instance is deleted"
-            Product.count() == 0
+            ${className}.count() == 0
             response.redirectedUrl == '/home/redirect'
             flash.message != null
     }
