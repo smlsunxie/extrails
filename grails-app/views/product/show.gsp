@@ -26,10 +26,16 @@
                       
   <g:render template="contentWithDetails" />
 
-
   <div class="contact-info" >
-      <h2>重覆車號</h2>
-      <g:render template="content" collection="${psimilarProduct}" var="productInstance" />
+    <h2>類似產品</h2>
+
+    <g:each in="${similarProduct}" var="productInstance" >
+      <div class="col-sm-4 col-md-4">
+        
+        <g:render template="content" model="[productInstance: productInstance]"  />
+
+      </div>
+    </g:each>    
   </div>
 
   <br />

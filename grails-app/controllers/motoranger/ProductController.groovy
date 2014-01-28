@@ -63,6 +63,8 @@ class ProductController {
 
         def similarProduct = searchSimilarProduct(productInstance)
 
+        println "similarProduct = ${similarProduct}"
+
         respond productInstance, model: [statusEnd :statusEnd, similarProduct: similarProduct]
     }
 
