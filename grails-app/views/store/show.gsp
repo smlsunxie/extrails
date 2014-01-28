@@ -6,10 +6,11 @@
   </head>
   <body>
     <div class="title-wrapper">
-        <h1><i class="icon-home"></i> ${store.title}</h1>
+        <h1><i class="icon-home"></i> ${storeInstance.title}</h1>
     </div>
 
     <!-- 手機畫面 action button -->
+
 
 
     <div class="visible-xs">
@@ -23,11 +24,11 @@
                   
             <ul class="dropdown-menu">
 
-              <li><g:link controller="store" action="edit" id="${store.id}" ><g:message code="store.edit.label"/></g:link></li>
+              <li><g:link controller="store" action="edit" id="${storeInstance.id}" ><g:message code="store.edit.label"/></g:link></li>
 
-              <li><g:link controller="part" action="create" params="['store.id': store.id]"><g:message code="part.create.label"/></g:link></li>
+              <li><g:link controller="part" action="create" params="['store.id': storeInstance.id]"><g:message code="part.create.label"/></g:link></li>
 
-              <li><g:link controller="product" action="create" params="['store.id': store.id]"><g:message code="product.create.label"/></g:link></li>
+              <li><g:link controller="product" action="create" params="['store.id': storeInstance.id]"><g:message code="product.create.label"/></g:link></li>
 
             </ul>
           </div>
@@ -42,8 +43,8 @@
 
         <ul class="dropdown-menu">
 
-          <li><g:link controller="event" action="unfinListOfStore" params="['store.id': store.id]" >所有維修中</g:link></li>
-          <li><g:link controller="event" action="endListOfStore" params="['store.id': store.id]" >最近維修完成</g:link></li>
+          <li><g:link controller="event" action="unfinListOfStore" params="['store.id': storeInstance.id]" >所有維修中</g:link></li>
+          <li><g:link controller="event" action="endListOfStore" params="['store.id': storeInstance.id]" >最近維修完成</g:link></li>
 
         </ul>
 
@@ -52,22 +53,30 @@
 
     <div class="hidden-xs">
 
-         <div class="btn-group" id="actionbar">
-          <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">         
-            <g:if test="${currentUserIsStoreOwnerOrAdmin}">
-              <sec:ifAnyGranted roles="ROLE_MANERGER">
-                <g:link  class="btn btn-primary" controller="user" action="create" params="['store.id': store.id]" >建立作業員</g:link>
-              </sec:ifAnyGranted>
 
-              <g:link  class="btn btn-primary" controller="product" action="create" params="['store.id': store.id]"><g:message code="product.create.label"/></g:link>
 
-              <g:link  class="btn btn-primary" controller="part" action="create" params="['store.id': store.id]"><g:message code="part.create.label"/></g:link>
-            </g:if>
-          </sec:ifAnyGranted>
+        <div class="btn-group" id="actionbar">
 
-          <g:link  class="btn btn-primary" controller="event" action="unfinListOfStore" params="['store.id': store.id]" >所有維修中</g:link>
+    
+          <g:if test="${currentUserIsStoreOwnerOrAdmin}">
+              <g:link  class="btn btn-primary"  action="edit" id="${storeInstance?.id}"><g:message code="default.button.edit.label" /></g:link>
 
-          <g:link  class="btn btn-primary" controller="event" action="endListOfStore" params="['store.id': store.id]" >最近維修完成</g:link>
+
+              <g:link  class="btn btn-danger" action="delete" id="${storeInstance?.id}"><g:message code="default.button.delete.label" /></g:link>
+
+            <sec:ifAnyGranted roles="ROLE_MANERGER">
+              <g:link  class="btn btn-primary" controller="user" action="create" params="['store.id': storeInstance.id]" >建立作業員</g:link>
+            </sec:ifAnyGranted>
+
+            <g:link  class="btn btn-primary" controller="product" action="create" params="['store.id': storeInstance.id]"><g:message code="product.create.label"/></g:link>
+
+            <g:link  class="btn btn-primary" controller="part" action="create" params="['store.id': storeInstance.id]"><g:message code="part.create.label"/></g:link>
+          </g:if>
+
+
+          <g:link  class="btn btn-primary" controller="event" action="unfinListOfStore" params="['store.id': storeInstance.id]" >所有維修中</g:link>
+
+          <g:link  class="btn btn-primary" controller="event" action="endListOfStore" params="['store.id': storeInstance.id]" >最近維修完成</g:link>
 
 
         </div>

@@ -97,9 +97,9 @@ class UserController {
             def product = userService.addProduct(userInstance, params)
             redirect product
             return
-        }else if(params?.store?.id != "null"){
+        }else if(userInstance?.store){
             if(userService.isAdmin() || userService.isManerger()){
-                redirect(action: "addToStore", id: userInstance.id, params:['store.id': params.store.id])
+                redirect(action: "addToStore", id: userInstance.id, params:['store.id': userInstance.store.id])
                 return
             }else {
                 flash.message+= "：沒有權限將使用者加入店家"

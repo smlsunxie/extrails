@@ -57,7 +57,7 @@ class StoreSecureFiltersSpec extends Specification {
     	when: "屬於 storeA 的 user 進行 edit storeB 時透過 filter 檢查"
     		response.reset()
 	    	withFilters(controller:"store",action:"*") {
-			    controller.edit()
+			    controller.edit(storeB)
 			}
 		then: "storeA 的 user 不可修改 storeB"
 			assert flash.message == "只可維護自己的店家"
@@ -66,7 +66,7 @@ class StoreSecureFiltersSpec extends Specification {
     	when: "屬於 storeA 的 user 進行 delete storeB 時透過 filter 檢查"
     		response.reset()
 	    	withFilters(controller:"store",action:"*") {
-			    controller.delete()
+			    controller.delete(storeB)
 			}
 		then: "storeA 的 user 不可刪除 storeB"
 			assert flash.message == "只可維護自己的店家"
@@ -76,7 +76,7 @@ class StoreSecureFiltersSpec extends Specification {
     	when: "屬於 storeA 的 user 更新 storeB 時透過 filter 檢查"
     		response.reset()
 	    	withFilters(controller:"store",action:"*") {
-			    controller.update()
+			    controller.update(storeB)
 			}
 		then: "storeA 的 user 不可更新 storeB"
 			assert flash.message == "只可維護自己的店家"
@@ -87,13 +87,14 @@ class StoreSecureFiltersSpec extends Specification {
     void "使用者為 ROLE_MANERGER 可以維護自己的店家"() {
     	setup: "取得相關 domain 實體，並且設定 params.id"
 			def userA = User.findByUsername('userA')
-			params.id = userA.store.id.toString()
+			def storeA = userA.store
+			params.id = storeA.id.toString()
 
 
     	when: "屬於 storeA 的 user 修改 storeA 時透過 filter 檢查"
     		response.reset()
 	    	withFilters(controller:"store",action:"*") {
-			    controller.edit()
+			    controller.edit(storeA)
 			}
 		then: "storeA 的 user 可修改 storeA"
 			assert !response.redirectedUrl
@@ -102,17 +103,17 @@ class StoreSecureFiltersSpec extends Specification {
     	when: "屬於 storeA 的 user 刪除 storeA 時透過 filter 檢查"
     		response.reset()
 	    	withFilters(controller:"store",action:"*") {
-			    controller.delete()
+			    controller.delete(storeA)
 			}
 		then: "storeA 的 user 可刪除 storeA"
 			assert flash.message == 'default.deleted.message'
-			assert response.redirectedUrl=="/store/list"
+			assert response.redirectedUrl=="/home/redirect"
 
 
     	when: "屬於 storeA 的 user 更新 storeA 時透過 filter 檢查"
     		response.reset()
 	    	withFilters(controller:"store",action:"*") {
-			    controller.update()
+			    controller.update(storeA)
 			}
 		then: "storeA 的 user 可更新 storeA"
 			assert flash.message == 'default.updated.message'
@@ -136,7 +137,7 @@ class StoreSecureFiltersSpec extends Specification {
 		when: "userA 進行檢視 show storeA"
 		    response.reset()
 	    	withFilters(controller: "store",action: "*") {
-			    controller.show()
+			    controller.show(storeA)
 			}
 		then: """model unfinEvents, endEvents 各有一個 event, 
 			並且 filter 加入另外兩個 model 分別為 currentUserIsEventOwner 以及 eventDetailTotalPrice
@@ -160,7 +161,7 @@ class StoreSecureFiltersSpec extends Specification {
 		when: "userA 進行檢視 show storeA"
 		    response.reset()
 	    	withFilters(controller: "store",action: "*") {
-			    controller.show()
+			    controller.show(storeA)
 			}
 		then: """
 			model unfinEvents, endEvents 各有一個 event, 

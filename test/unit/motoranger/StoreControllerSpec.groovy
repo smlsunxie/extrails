@@ -6,49 +6,45 @@ import grails.test.mixin.*
 import spock.lang.*
 import grails.transaction.Transactional
 
-@TestFor(UserController)
-@Mock([User, Role, UserRole, Product, Part, UserService])
-class UserControllerSpec extends Specification {
 
-	@Transactional
-	def setup() {
-		User.metaClass.encodePassword = {
-			password = 'password'
-		}        
+@TestFor(StoreController)
+@Mock([Store, User, Event, UserService])
+class StoreControllerSpec extends Specification {
+
+    @Transactional
+    def setup() {
+        User.metaClass.encodePassword = {
+            password = 'password'
+        }
 
 
-
-        def ruleAdmain = Role.findOrSaveByAuthority('ROLE_ADMIN')
-        def ruleManager = Role.findOrSaveByAuthority('ROLE_MANERGER')
-        def ruleOper = Role.findOrSaveByAuthority('ROLE_OPERATOR')
-        def ruleCus = Role.findOrSaveByAuthority('ROLE_CUSTOMER')		
-
-	    UserService.metaClass.currentUser = {
-        	new User(username: 'userA', title: 'userA', password:'pass'
-			, enabled: true)
+        UserService.metaClass.currentUser = {
+            new User(username: 'userA', title: 'userA', password:'pass'
+            , enabled: true)
         }
 
         UserService.metaClass.isLoggedIn = {
-        	true
+            true
         }
         UserService.metaClass.isOperator = {
-        	true
+            true
         }        
         UserService.metaClass.isAdmin = {
-        	false
+            false
         }
         UserService.metaClass.isManerger = {
-        	false
+            false
         }             
-	}
+    }
+
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        params["username"] = 'newUser'
-        params["title"] = 'newUser'
-        params["password"] = 'newUser'
+        params["name"] = 'newStore'
+        params["title"] = 'newStore'
 
     }
+
 
     void "Test the index action returns the correct model"() {
 
@@ -56,8 +52,8 @@ class UserControllerSpec extends Specification {
             controller.index()
 
         then:"The model is correct"
-            !model.userInstanceList
-            model.userInstanceCount == 0
+            !model.storeInstanceList
+            model.storeInstanceCount == 0
     }
 
     void "Test the create action returns the correct model"() {
@@ -65,31 +61,31 @@ class UserControllerSpec extends Specification {
             controller.create()
 
         then:"The model is correctly created"
-            model.userInstance!= null
+            model.storeInstance!= null
     }
 
     void "Test the save action correctly persists an instance"() {
 
         when:"The save action is executed with an invalid instance"
-            def user = new User()
-            user.validate()
-            controller.save(user)
+            def store = new Store()
+            store.validate()
+            controller.save(store)
 
         then:"The create view is rendered again with the correct model"
-            model.userInstance!= null
+            model.storeInstance!= null
             view == 'create'
 
         when:"The save action is executed with a valid instance"
             response.reset()
             populateValidParams(params)
-            user = new User(params)
+            store = new Store(params)
 
-            controller.save(user)
+            controller.save(store)
 
         then:"A redirect is issued to the show action"
-            response.redirectedUrl == '/user/show/1'
+            response.redirectedUrl == '/store/show/1'
             controller.flash.message != null
-            User.count() == 1
+            Store.count() == 1
     }
 
     void "Test that the show action returns the correct model"() {
@@ -102,11 +98,11 @@ class UserControllerSpec extends Specification {
 
         when:"A domain instance is passed to the show action"
             populateValidParams(params)
-            def user = new User(params)
-            controller.show(user)
+            def store = new Store(params)
+            controller.show(store)
 
         then:"A model is populated containing the domain instance"
-            model.userInstance == user
+            model.storeInstance == store
     }
 
     void "Test that the edit action returns the correct model"() {
@@ -119,11 +115,11 @@ class UserControllerSpec extends Specification {
 
         when:"A domain instance is passed to the edit action"
             populateValidParams(params)
-            def user = new User(params)
-            controller.edit(user)
+            def store = new Store(params)
+            controller.edit(store)
 
         then:"A model is populated containing the domain instance"
-            model.userInstance == user
+            model.storeInstance == store
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
@@ -137,22 +133,22 @@ class UserControllerSpec extends Specification {
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            def user = new User()
-            user.validate()
-            controller.update(user)
+            def store = new Store()
+            store.validate()
+            controller.update(store)
 
         then:"The edit view is rendered again with the invalid instance"
             view == 'edit'
-            model.userInstance == user
+            model.storeInstance == store
 
         when:"A valid domain instance is passed to the update action"
             response.reset()
             populateValidParams(params)
-            user = new User(params).save(flush: true)
-            controller.update(user)
+            store = new Store(params).save(flush: true)
+            controller.update(store)
 
         then:"A redirect is issues to the show action"
-            response.redirectedUrl == "/user/show/$user.id"
+            response.redirectedUrl == "/store/show/$store.id"
             flash.message != null
     }
 
@@ -167,16 +163,16 @@ class UserControllerSpec extends Specification {
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def user = new User(params).save(flush: true)
+            def store = new Store(params).save(flush: true)
 
         then:"It exists"
-            User.count() == 1
+            Store.count() == 1
 
         when:"The domain instance is passed to the delete action"
-            controller.delete(user)
+            controller.delete(store)
 
         then:"The instance is deleted"
-            User.count() == 0
+            Store.count() == 0
             response.redirectedUrl == '/home/redirect'
             flash.message != null
     }

@@ -87,7 +87,7 @@
 
     <div class="row text-center">
       <ul class="pagination">
-        <g:paginate total="${userInstanceTotal}" />
+        <g:paginate total="${userInstanceCount}" />
       <ul>   
     </div>
 
