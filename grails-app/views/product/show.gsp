@@ -26,17 +26,26 @@
                       
   <g:render template="contentWithDetails" />
 
-  <div class="contact-info" >
-    <h2>類似產品</h2>
+  <g:if test="${similarProductIntanceList}">
+    <div class="contact-info" >
+      <h2>類似產品</h2>
 
-    <g:each in="${similarProduct}" var="productInstance" >
-      <div class="col-sm-4 col-md-4">
-        
-        <g:render template="content" model="[productInstance: productInstance]"  />
+      <g:each in="${similarProductIntanceList}" var="similarProductIntance" >
+        <div class="col-sm-4 col-md-4">
 
-      </div>
-    </g:each>    
-  </div>
+          <sec:ifAnyGranted roles="ROLE_OPERATOR, ROLE_MANERGER">
+            <div id="actionbar" class="text-center">
+              <g:link  class="btn btn-primary" action="moveEvent" params="['fromProduct.id': similarProductIntance.id, 'toProduct.id': productInstance.id]">搬移維修事件</g:link>
+            </div>
+          </sec:ifAnyGranted>
+          
+          <g:render template="content" model="[productInstance: similarProductIntance]"  />
+
+        </div>
+      </g:each>    
+    </div>
+
+  </g:if>
 
   <br />
 

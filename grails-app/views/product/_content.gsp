@@ -16,7 +16,7 @@
 
     <tr>
       <td class="small"><g:message code="user.title.label" /></td>
-      <td class="bold"><g:link action="show" controller="user" id="${productInstance?.user?.id}">${productInstance?.user?.title}</g:link></td>
+      <td class="bold"><g:link action="show" controller="user" id="${productInstance?.user?.id}">${productInstance?.user?.title}</g:link> ${productInstance?.user?.enabled ? "(已啟用)" : ""}</td>
     </tr>
     <tr>
       <td class="small"><g:message code="product.brand.label" /></td>
@@ -33,16 +33,7 @@
     </tr>
     <tr>
       <td class="small"><g:message code="product.years.label" /></td>
-      <td class="bold">${productInstance.years}</td>
-    </tr>
-
-    <tr>
-      <td class="small"><g:message code="product.price.label" /></td>
-      <td class="bold">${productInstance.price}</td>
-    </tr>
-    <tr>
-      <td class="small"><g:message code="product.cost.label" /></td>
-      <td class="bold">${(productInstance.cost == -1 ?'****':productInstance.cost)}</td>
+      <td class="bold"><g:formatDate format="yyyy" date="${productInstance.years}"/></td>
     </tr>
 
     <tr>

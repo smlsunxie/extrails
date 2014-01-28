@@ -46,8 +46,9 @@
 
       <g:link  class="btn btn-primary"  action="edit" id="${userInstance.id}"><g:message code="default.button.edit.label" /></g:link>
 
-      <sec:ifAnyGranted roles="ROLE_ADMIN">  
-        <g:link  class="btn btn-primary" controller="store" action="create" params="['user.id': userInstance.id]">新增店家</g:link>
+      <sec:ifAnyGranted roles="ROLE_ADMIN">
+        <g:link class="btn btn-primary" controller="login" action="switchUser" params="[username: userInstance.username]" >切換使用者</g:link>
+        <g:link class="btn btn-primary" controller="store" action="create" params="['user.id': userInstance.id]">新增店家</g:link>
       </sec:ifAnyGranted>
 
       <sec:ifAnyGranted roles="ROLE_MANERGER">

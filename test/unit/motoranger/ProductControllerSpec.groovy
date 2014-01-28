@@ -160,4 +160,32 @@ class ProductControllerSpec extends Specification {
             response.redirectedUrl == '/home/redirect'
             flash.message != null
     }
+    void "move event form Product to another"(){
+        setup: "建立 product 以及對定的事件"
+            def fromProduct = new Product(name: "product", title: "product").save(flush: true)
+            def event = new Event(name: "event", user: new User(username: "user"), product: fromProduct, date: new Date()).save(flush: true)       
+            def toProduct = new Product(name: "PRODUCT", title: "PRODUCT").save(flush: true)
+
+        when: "呼叫 controller 之 moveEvent，搬移沒有維修事件的 product"
+            params["fromProduct.id"] = toProduct.id
+            params["toProduct.id"] = fromProduct.id
+            controller.moveEvent()
+
+        then: "toProduct 要有原本屬於 fromProduct 的 event"
+            response.redirectedUrl == '/product/show/'+ fromProduct.id
+            flash.message != null
+
+        when: "呼叫 controller 之 moveEvent"
+            response.reset()
+            params["fromProduct.id"] = fromProduct.id
+            params["toProduct.id"] = toProduct.id
+            controller.moveEvent()
+            
+        then: "toProduct 要有原本屬於 fromProduct 的 event"
+            toProduct.events[0] == event
+            response.redirectedUrl == '/product/show/'+ toProduct.id
+            flash.message != null
+
+
+    }
 }

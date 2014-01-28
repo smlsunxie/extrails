@@ -22,11 +22,17 @@
 	<tr>
 		<td class="small"><g:message code="user.mobile.label" /></td>
 		<td class="bold">${userInstance.mobile}</td>
-	</tr>      
+	</tr>
+    <tr>
+      <td class="small"><g:message code="user.enable.label" /></td>
+      <td class="bold">${productInstance?.user?.enabled ? "是" : "否"}</td>
+    </tr>	    
 	<tr>
 		<td class="small"><g:message code="user.description.label" /></td>
 		<td class="bold">${userInstance.description}</td>
 	</tr>
+
+
 
   </tbody>
 

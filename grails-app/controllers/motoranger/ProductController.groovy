@@ -54,7 +54,7 @@ class ProductController {
         if (productInstance == null) {
             notFound()
             return
-        }
+    }
 
         def eventUnFin = Event.findByProductAndStatus(productInstance, motoranger.ProductStatus.UNFIN)
 
@@ -63,9 +63,8 @@ class ProductController {
 
         def similarProduct = searchSimilarProduct(productInstance)
 
-        println "similarProduct = ${similarProduct}"
 
-        respond productInstance, model: [statusEnd :statusEnd, similarProduct: similarProduct]
+        respond productInstance, model: [statusEnd :statusEnd, similarProductIntanceList: similarProduct]
     }
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
@@ -154,6 +153,31 @@ class ProductController {
         }
 
         return results
+    }
+    @Secured(['ROLE_OPERATOR', 'ROLE_MANERGER'])
+    @Transactional
+    def moveEvent(){
+        def fromProduct = Product.get(params.fromProduct.id)
+        def toProduct = Product.get(params.toProduct.id)
+
+        if (fromProduct == null || toProduct == null) {
+            notFound()
+            return
+        }
+
+        if(!fromProduct.events){
+            flash.message = "${fromProduct} 沒有可以搬移的維修事件"
+            redirect toProduct
+            return 
+        }
+
+        fromProduct.events.each(){ event ->
+            event.product = toProduct
+            event.save flush: true
+        }
+
+        flash.message = "${fromProduct} 擁有的維修事件已搬移至 ${toProduct}"
+        redirect toProduct
     }
 
 }

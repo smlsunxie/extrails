@@ -61,7 +61,6 @@ class SecureFiltersService {
     private setModelEventExtraCondiction(events, model, withDetail = false){
         def currentUser = userService.currentUser()
 
-        println events
         events.each(){ event ->
             def userStoreOwnEvent = (currentUser?.store && currentUser?.store == event?.store)
             def userOwnEvent = (currentUser && currentUser == event?.user)
