@@ -13,7 +13,7 @@ class BootStrap {
             def ruleOper = Role.findOrSaveByAuthority('ROLE_OPERATOR')
             def ruleCus = Role.findOrSaveByAuthority('ROLE_CUSTOMER')
 
-            def userAdmin = User.findByUsername('admin')
+            def admin = User.findByUsername('admin')
 
 
             // 動態定義 securityConfig by map in db 
@@ -21,13 +21,10 @@ class BootStrap {
             //    configAttribute: 'ROLE_ADMIN').save(failOnError: true, flush: true)
 
 
-            if (!userAdmin) {
-                userAdmin = new User(username: 'admin', password: 'admin', title:'系統管理員',mobile:'0911111111', enabled: true, works: true).save(failOnError: true, flush: true)
+            if (!admin) {
+                admin = new User(username: 'admin', password: 'admin', title:'系統管理員',mobile:'0911111111', enabled: true, works: true).save(failOnError: true, flush: true)
                 //join roles
-                UserRole.create(userAdmin, ruleAdmain)
-                UserRole.create(userAdmin, ruleManager)
-                UserRole.create(userAdmin, ruleOper)
-                UserRole.create(userAdmin, ruleCus)
+                UserRole.create(admin, ruleAdmain)
 
             }
 
@@ -36,12 +33,41 @@ class BootStrap {
             }
             
             development {
-                // setUpTestData()
+                createTestUser()
             }
+
+            test {
+                createTestUser()
+            }
+
         }
     }
 
     def destroy = {
+    }
+
+    private createTestUser(){
+        def customer = User.findByUsername('customer')
+        def operator = User.findByUsername('operator')
+        def manerger = User.findByUsername('manerger')
+
+        def ruleManager = Role.findByAuthority('ROLE_MANERGER')
+        def ruleOper = Role.findByAuthority('ROLE_OPERATOR')
+        def ruleCus = Role.findByAuthority('ROLE_CUSTOMER')        
+
+        if(!customer){
+            customer = new User(username: 'customer', password: 'customer', title:'customer', enabled: true).save(failOnError: true, flush: true)
+            UserRole.create(customer, ruleCus)
+        }
+        if(!operator){
+            operator = new User(username: 'operator', password: 'operator', title:'operator', enabled: true).save(failOnError: true, flush: true)
+            UserRole.create(operator, ruleOper)
+        }
+        if(!manerger){
+            manerger = new User(username: 'manerger', password: 'manerger', title:'manerger', enabled: true).save(failOnError: true, flush: true)
+            UserRole.create(manerger, ruleManager)
+            UserRole.create(manerger, ruleOper)
+        }        
     }
 
     private setUpTestData(){

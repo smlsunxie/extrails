@@ -3,29 +3,18 @@ package motoranger
 import com.grailsrocks.functionaltest.*
 
 class CustomerFunctionalTests extends BrowserTestCase {
-    void testLogin() {
+    void testOverallFlow() {
         // Here call get(uri) or post(uri) to start the session
         // and then use the custom assertXXXX calls etc to check the response
         //
         redirectEnabled = false
         javaScriptEnabled = false
 
-		get('/user/create')
-
-		form('user-save') {
-			username = 'test'
-			title = 'test'
-			password = 'test'
-			email = 'test@test.com'
-			click "create"
-	    }
-	    followRedirect()
-
-	    // assertRedirectUrlContains "/login/auth"
+		get('/login/auth')
 
 		form('login-check') {
-			j_username = "test"
-			j_password = "test"
+			j_username = "customer"
+			j_password = "customer"
 			click "submit"
 	    }
 
@@ -141,12 +130,6 @@ class CustomerFunctionalTests extends BrowserTestCase {
 		// assertRedirectUrlContains "/part/index"
 
 		click 'user-show'
-
-		click "user-delete"
-
-		followRedirect()
-
-		// assertRedirectUrlContains "/"
   
     } 
 

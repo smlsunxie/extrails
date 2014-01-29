@@ -165,7 +165,7 @@ class EventControllerSpec extends Specification {
 
         then:"The instance is deleted"
             Event.count() == 0
-            response.redirectedUrl == '/home/redirect'
+            response.redirectedUrl == '/product/show/1'
             flash.message != null
     }
 }
