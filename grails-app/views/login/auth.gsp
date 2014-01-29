@@ -53,7 +53,7 @@
 
 
 
-  <form class="form-signin" role="form" action='${postUrl}' method='POST' id='loginForm' autocomplete='off'>
+  <form class="form-signin" role="form" action='${postUrl}' method='POST' id='login-check' autocomplete='off'>
     <h2 class="form-signin-heading"><g:message code="springSecurity.login.header" /></h2>
     <input name="j_username" type="text" class="form-control" placeholder='<g:message code="springSecurity.login.username.label" />' required autofocus />
     <input name="j_password" type="password" class="form-control" placeholder='<g:message code="springSecurity.login.password.label" />' required />

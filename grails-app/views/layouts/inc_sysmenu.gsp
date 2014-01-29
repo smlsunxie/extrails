@@ -6,7 +6,7 @@
   
 
   <li class="${controllerName=='part' ? 'active':''} single">
-    <g:link controller="part" action="index">
+    <g:link elementId="part-index" controller="part" action="index">
       <g:message code="part.label" />
       <i>store</i>
     </g:link>

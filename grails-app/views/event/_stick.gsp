@@ -3,7 +3,7 @@
 <div class="${stickName}-stick stick event">
 
   <p>
-    <g:link controller="event" action="show" id="${eventInstance?.id}">
+    <g:link elementId="event-show-${eventInstance.name}" controller="event" action="show" id="${eventInstance?.id}">
     ${eventInstance?.name}
   </g:link> 
   </p>

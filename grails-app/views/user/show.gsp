@@ -28,9 +28,9 @@
         </sec:ifAnyGranted>
 
         <sec:ifAnyGranted roles="ROLE_CUSTOMER">  
-          <li><g:link controller="product" action="create" params="['user.id': userInstance.id]">新增產品</g:link></li>
+          <li><g:link elementId="product-create" controller="product" action="create" params="['user.id': userInstance.id]">新增產品</g:link></li>
          
-          <li><g:link controller="part" action="create" params="['user.id': userInstance.id]">新維修項目</g:link></li>
+          <li><g:link elementId="part-create" controller="part" action="create" params="['user.id': userInstance.id]">新維修項目</g:link></li>
         </sec:ifAnyGranted>
 
       </ul>
@@ -58,16 +58,16 @@
       </sec:ifAnyGranted>
 
       <sec:ifAnyGranted roles="ROLE_CUSTOMER, ROLE_OPERATOR, ROLE_MANERGER">  
-        <g:link  class="btn btn-primary" controller="product" action="create" params="['user.id': userInstance.id]">新增產品</g:link>
+        <g:link elementId="product-create" class="btn btn-primary" controller="product" action="create" params="['user.id': userInstance.id]">新增產品</g:link>
       </sec:ifAnyGranted>
 
 
       <sec:ifAnyGranted roles="ROLE_CUSTOMER">          
-        <g:link  class="btn btn-primary" controller="part" action="create" params="['user.id': userInstance.id]">新增維修項目</g:link>
+        <g:link elementId="part-create" class="btn btn-primary" controller="part" action="create" params="['user.id': userInstance.id]">新增維修項目</g:link>
       </sec:ifAnyGranted>
 
 
-      <g:link  class="btn btn-danger" action="delete" id="${userInstance.id}"><g:message code="default.button.delete.label" /></g:link>
+      <g:link elementId="user-delete" class="btn btn-danger" action="delete" id="${userInstance.id}"><g:message code="default.button.delete.label" /></g:link>
 
 
     </div>

@@ -58,7 +58,6 @@ class EventDetailController {
         }
 
         if(eventDetailInstance.cost == 0){
-            println eventDetailInstance.part
             eventDetailInstance.cost = eventDetailInstance.part.cost 
         }
 

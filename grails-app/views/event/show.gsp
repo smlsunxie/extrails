@@ -24,7 +24,7 @@
 
 
 
-            <g:link class="btn btn-danger"
+            <g:link elementId="event-delete" class="btn btn-danger"
               action="delete" controller="event" id="${eventInstance.id}" >
               <g:message code="default.button.delete.label" />
             </g:link> 

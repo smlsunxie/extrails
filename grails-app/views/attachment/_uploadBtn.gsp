@@ -45,8 +45,8 @@
   <hr/>
 
   <div id="webcamViewDiv" class="row hidden-xs hidden-sm" >
-    <video class="col-sm-6 col-md-6 thumbnail" autoplay></video>
-    <canvas class="col-sm-6 col-md-6 thumbnail" height = '225'></canvas>    
+    <video id='video' class="col-sm-6 col-md-6 thumbnail" autoplay></video>
+    <canvas id='canvas' class="col-sm-6 col-md-6 thumbnail" height = '225'></canvas>    
   </div>
 
 
@@ -60,12 +60,13 @@
 
     <r:script>
 
-      var video = document.querySelector('video');
-      var canvas = document.querySelector('canvas');
-      var ctx = canvas.getContext('2d');
+      var video = document.getElementById('video');
+      var canvas = document.getElementById('canvas');
+      
       var localMediaStream = null;
 
       function snapshot() {
+        var ctx = canvas.getContext('2d');
         if (localMediaStream) {
           console.log(canvas.width);
 

@@ -68,7 +68,10 @@ grails.project.dependency.resolution = {
         compile 'org.imgscalr:imgscalr-lib:4.2'
         runtime 'net.java.dev.jets3t:jets3t:0.9.0'
         runtime 'org.jsoup:jsoup:0.2.2'
-        compile 'org.compass-project:compass:2.2.0' 
+        compile 'org.compass-project:compass:2.2.0'
+
+        compile 'org.apache.httpcomponents:httpclient:4.3.1'
+        compile 'org.apache.httpcomponents:httpcore:4.3.1'
 
     }
 
@@ -107,6 +110,7 @@ grails.project.dependency.resolution = {
         compile ":disqus:0.1"
 
         compile ":searchable:0.6.6"
+        compile ":functional-test:2.0.M2"
 
 
 

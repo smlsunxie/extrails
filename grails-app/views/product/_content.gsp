@@ -3,7 +3,7 @@
     <tr>
       <td class="small"><g:message code="product.name.label" /></td>
 
-      <td class="bold"><g:link action="show" controller="product" id="${productInstance.id}">
+      <td class="bold"><g:link elementId="product-show-${productInstance.name}" action="show" controller="product" id="${productInstance.id}">
         ${productInstance.name}
       </g:link></td>
 

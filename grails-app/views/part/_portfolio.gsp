@@ -24,11 +24,11 @@
       ${params.tag ? params.tag : '選擇標籤'}<span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-      <g:each var="tag" in="${tags}">
+      <g:each var="tag" in="${tags}" status="i">
         <g:if test="${params.tag != tag}">
 
           <li>
-            <g:link action="${actionName}" id="${eventInstance?.id}" params="[tag: tag, group: params.group]" >${tag}</g:link>
+            <g:link elementId="tag-show-${i}" action="${actionName}" id="${eventInstance?.id}" params="[tag: tag, group: params.group]" >${tag}</g:link>
           </li>
 
         </g:if>
@@ -56,10 +56,10 @@
   <div class="portfolio-nav">
                 
     <ul data-option-key="filter" class="nav nav-pills nav-pills-portfolio">
-      <g:each var="tag" in="${tags}">
+      <g:each var="tag" in="${tags}" status="i">
 
         <li class="${ params.tag == tag.toString() ? 'active' : '' }">
-          <g:link action="${actionName}" id="${eventInstance?.id}" params="[tag: tag, group: params.group]" >${tag}</g:link>
+          <g:link elementId="tag-show-${i}" action="${actionName}" id="${eventInstance?.id}" params="[tag: tag, group: params.group]" >${tag}</g:link>
         </li>
       </g:each>
     </ul>
@@ -70,7 +70,7 @@
 <div class="portfolio-grid-1 main-block row">
   <ul id="gallery" class="thumbnails">
          
-    <g:each var="partInstance" in="${partInstanceList}">
+    <g:each var="partInstance" in="${partInstanceList}" >
       <li class="col-md-3 col-sm-3 small hp-wrapper ${partInstance.tags.join(' ')}">  
    
         <div id="${partInstance.name}" class="thumbnail">
@@ -78,12 +78,12 @@
 
             <div class="caption">
 
-              <h3><g:link controller="part" action="show" id="${partInstance.id}">${partInstance.title}</g:link></h3>
+              <h3><g:link elementId="part-show-${partInstance.name}" controller="part" action="show" id="${partInstance.id}">${partInstance.title}</g:link></h3>
               <p>${partInstance.description}</p>
 
               <g:if test="${eventInstance}">
 
-                <g:form action="save" controller="eventDetail" class="form-thumbnail" params="['part.id':partInstance.id, 'part.name':partInstance.name, 'head.id':event.id]"> 
+                <g:form name="eventDetail-save-${partInstance.name}" action="save" controller="eventDetail" class="form-thumbnail" params="['part.id':partInstance.id, 'part.name':partInstance.name, 'head.id':event.id]"> 
                   <p>
 
 
@@ -95,12 +95,13 @@
                     <div class="input-group">
                       <span class="input-group-addon">數量</span>
                       <g:textField value="1"  name="qty" class="form-control" />
+                      <g:textField hidden value=""  name="name" />
                     </div>                          
                   </p>
 
                   <p>
 
-                      <g:submitButton controller="eventDetail" action="create"class="btn btn-primary" name="快速新增" />
+                      <g:submitButton controller="eventDetail" action="create" class="btn btn-primary" value="快速新增" name="create" />
 
                       <g:link controller="eventDetail" action="create" params="['part.id':partInstance.id, 'head.id':event.id]" class="btn btn-primary">照相新增</g:link> 
                     

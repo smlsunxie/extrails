@@ -1,5 +1,5 @@
 
-  <g:form url="[resource: domain, action:'save']" class="form-horizontal">
+  <g:form name="${domainName}-save" url="[resource: domain, action:'save']" class="form-horizontal">
 
     <div id="actionbar" class="btn-group">
       <g:submitButton name="create" class="btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}" />

@@ -11,10 +11,10 @@
 
       <div class="col-sm-12 col-md-12">           
 
-          <g:link  class="btn btn-primary"  action="edit" id="${productInstance?.id}"><g:message code="default.button.edit.label" /></g:link>
+          <g:link class="btn btn-primary" action="edit" id="${productInstance?.id}"><g:message code="default.button.edit.label" /></g:link>
 
 
-          <g:link  class="btn btn-danger" action="delete" id="${productInstance?.id}"><g:message code="default.button.delete.label" /></g:link>
+          <g:link elementId="product-delete" class="btn btn-danger" action="delete" id="${productInstance?.id}"><g:message code="default.button.delete.label" /></g:link>
 
       </div>
 
@@ -56,7 +56,7 @@
 
       <g:if test="${statusEnd}">
         <div id="actionbar" class="text-center">
-          <g:link  class="btn btn-primary" controller="event" action="create" params="['product.id':productInstance?.id]">
+          <g:link elementId="event-create" class="btn btn-primary" controller="event" action="create" params="['product.id':productInstance?.id]">
             新增維修記錄
           </g:link>
         </div>

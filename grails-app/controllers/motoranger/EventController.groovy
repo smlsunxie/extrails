@@ -153,7 +153,7 @@ class EventController {
             , args: [message(code: 'event.label', default: 'event'), eventInstance])
 
 
-        redirect(action: "redirect", controller: "home")
+        redirect eventInstance.product
 
     }
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])

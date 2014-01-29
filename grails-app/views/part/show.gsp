@@ -11,9 +11,9 @@
 
       <div class="col-sm-12 col-md-12">           
 
-          <g:link  class="btn btn-primary"  action="edit" id="${partInstance.id}"><g:message code="default.button.edit.label" /></g:link>
+          <g:link class="btn btn-primary"  action="edit" id="${partInstance.id}"><g:message code="default.button.edit.label" /></g:link>
 
-          <g:link  class="btn btn-danger" action="delete" id="${partInstance.id}"><g:message code="default.button.delete.label" /></g:link>
+          <g:link elementId="part-delete" class="btn btn-danger" action="delete" id="${partInstance.id}"><g:message code="default.button.delete.label" /></g:link>
 
       </div>
 
