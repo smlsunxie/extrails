@@ -70,8 +70,7 @@ grails.project.dependency.resolution = {
         runtime 'org.jsoup:jsoup:0.2.2'
         compile 'org.compass-project:compass:2.2.0'
 
-        compile 'org.apache.httpcomponents:httpclient:4.3.1'
-        compile 'org.apache.httpcomponents:httpcore:4.3.1'
+        compile 'org.apache.httpcomponents:httpcore:4.2.3'
 
     }
 

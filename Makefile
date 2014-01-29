@@ -42,6 +42,9 @@ dbinit:
 done:
 	make clean test-app war deploy
 
+done-quick:
+	make clean war deploy
+
 
 update:
 	git pull
