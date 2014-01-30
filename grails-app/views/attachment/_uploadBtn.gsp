@@ -68,8 +68,6 @@
       function snapshot() {
         var ctx = canvas.getContext('2d');
         if (localMediaStream) {
-          console.log(canvas.width);
-
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         }
 

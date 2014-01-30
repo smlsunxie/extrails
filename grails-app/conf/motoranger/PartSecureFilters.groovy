@@ -53,7 +53,7 @@ class PartSecureFilters {
 
         show(controller:'part', action:'show') {
             after = { Map model ->
-                if(actionName == "show" && model?.partInstance){
+                if(model?.partInstance){
                     secureFiltersService.setModelPartCostExtraCondiction(model.partInstance, model)                   
                 }
             }            
