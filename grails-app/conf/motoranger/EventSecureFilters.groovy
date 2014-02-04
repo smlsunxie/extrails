@@ -55,7 +55,12 @@ class EventSecureFilters {
                     model.eventDetailTotalPrice=[:]  
 
                     if(model?.eventInstanceList){
-                        secureFiltersService.setModelEventExtraCondiction(model.eventInstanceList, model, true)                   
+                        secureFiltersService.setModelEventExtraCondiction(model.eventInstanceList, model, true)  
+
+                        model.eventInstanceList.each(){ event ->
+                            event.discard()
+
+                        }                 
                     } 
                 }else if(actionName == "show" || actionName == "pickPartAddDetail" ){
 
@@ -64,6 +69,7 @@ class EventSecureFilters {
 
                     if(model?.eventInstance){
                         secureFiltersService.setModelEventExtraCondiction([model.eventInstance], model, true)
+                        model.eventInstance.discard()
                     }
                 }
 

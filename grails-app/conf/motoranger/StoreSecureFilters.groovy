@@ -41,11 +41,18 @@ class StoreSecureFilters {
 
                         if(model?.unfinEvents){
                             secureFiltersService.setModelEventExtraCondiction(model.unfinEvents, model)
+                            model.unfinEvents.each(){ event ->
+                                event.discard()
+
+                            }  
                         }
                         if(model?.endEvents){
                             secureFiltersService.setModelEventExtraCondiction(model.endEvents, model)
+                            model.endEvents.each(){ event ->
+                                event.discard()
+
+                            } 
                         }
-     
                     }
 
                 }

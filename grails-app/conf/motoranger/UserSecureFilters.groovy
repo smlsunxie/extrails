@@ -33,11 +33,15 @@ class UserSecureFilters {
         }
         all(controller: 'user', action: "show") {
             after = { model ->
-                if(model?.userInstance)
+                if(model?.userInstance){
                     secureFiltersService.setModelUserExtraCondiction(model.userInstance)
+                    model.userInstance.discard()
+                }
                 if(model?.products){
                     model.products.each(){ product ->
                         secureFiltersService.setModelProductNameExtraCondiction(product)
+                        product.discard()
+
                     }
                 }
             }
