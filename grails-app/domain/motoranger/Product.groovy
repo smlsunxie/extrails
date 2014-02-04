@@ -42,6 +42,10 @@ class Product {
         
         years nullable: true
         brand nullable: true
+        cost min: 0L
+        price min: 0L
+        mileage min: 0L
+        cc min: 0
 
     }
     static mapping = {

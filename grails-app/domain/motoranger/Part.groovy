@@ -30,6 +30,10 @@ class Part implements Taggable {
       mainImage nullable: true, empty: true
       store nullable: true
       user nullable: true
+      cost min: 0L
+      price min: 0L
+      stockCount min: 0
+
     }
 
     String toString(){

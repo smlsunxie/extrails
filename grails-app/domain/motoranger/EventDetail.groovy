@@ -25,6 +25,8 @@ class EventDetail {
 		part nullable:true
 		mainImage nullable:true
 		description nullable:true
+		price min: 0L
+		cost min: 0L
 	}
 
 	def beforeInsert() {
