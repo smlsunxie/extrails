@@ -2,7 +2,7 @@ package motoranger
 
 import grails.transaction.Transactional
 
-@Transactional
+@Transactional(readOnly = true)
 class SecureFiltersService {
 
 	def userService
