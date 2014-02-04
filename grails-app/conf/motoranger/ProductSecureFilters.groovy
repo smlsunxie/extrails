@@ -47,6 +47,8 @@ class ProductSecureFilters {
                     if(model.productInstance?.user)
                         secureFiltersService.setModelUserExtraCondiction(model.productInstance.user)
                     secureFiltersService.setModelEventExtraCondiction(model.productInstance?.events, model, true)
+
+                    model.productInstance.discard()
                 }
 
             }

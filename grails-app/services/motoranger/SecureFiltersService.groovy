@@ -22,7 +22,6 @@ class SecureFiltersService {
 
         if(!model.userIsPartOwner){
             part.cost = -1
-            part.discard()
         }  
 
     }
@@ -38,7 +37,8 @@ class SecureFiltersService {
             product.cost = -1
         }
 
-        setModelUserExtraCondiction(product.user)
+        if(product?.user)
+            setModelUserExtraCondiction(product.user)
 
 
     }
@@ -55,7 +55,6 @@ class SecureFiltersService {
             user.mobile="****"
             user.telphone="****"
             user.title="****"
-            user.discard()
         }
 
 
@@ -81,14 +80,11 @@ class SecureFiltersService {
                     event.details.each(){ detail ->
                         model.eventDetailTotalPrice[detail.id] = "****"
                         detail.cost= -1
-                        detail.discard()
-
                     }
                 }
             }
 
             setModelProductNameExtraCondiction(event.product)
-
         }
     }
 }

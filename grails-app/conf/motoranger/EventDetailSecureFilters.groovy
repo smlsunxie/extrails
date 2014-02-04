@@ -85,6 +85,8 @@ class EventDetailSecureFilters {
                     model.eventDetailTotalPrice=[:] 
                     secureFiltersService.setModelEventExtraCondiction([model.eventDetailInstance.head], model, true)
                     secureFiltersService.setModelPartCostExtraCondiction(model.eventDetailInstance.part, model)
+
+                    model.eventDetailInstance.discard()
                 }
 
             }
