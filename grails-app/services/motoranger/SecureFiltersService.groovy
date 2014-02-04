@@ -22,6 +22,7 @@ class SecureFiltersService {
 
         if(!model.userIsPartOwner){
             part.cost = -1
+            part.discard()
         }  
 
     }
@@ -35,9 +36,9 @@ class SecureFiltersService {
         if( isNotLoggedIn || isCustomerButNotProductOwner){
             product.name = product.name.replace(product.name.substring(2,4),"**")
             product.cost = -1
-
-            
         }
+
+        setModelUserExtraCondiction(product.user)
 
 
     }
@@ -54,6 +55,7 @@ class SecureFiltersService {
             user.mobile="****"
             user.telphone="****"
             user.title="****"
+            user.discard()
         }
 
 
@@ -79,11 +81,14 @@ class SecureFiltersService {
                     event.details.each(){ detail ->
                         model.eventDetailTotalPrice[detail.id] = "****"
                         detail.cost= -1
+                        detail.discard()
+
                     }
                 }
             }
 
             setModelProductNameExtraCondiction(event.product)
+
         }
     }
 }
