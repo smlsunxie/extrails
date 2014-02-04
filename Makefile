@@ -52,6 +52,9 @@ update:
 done-local:
 	make update clean test-app war deploy-local
 
+done-local-quick:
+	make update clean war deploy-local
+
 deploy:
 	scp target/motoranger.war ${remote_user}@${remote_addr}:~/ROOT.war
 	ssh -t ${remote_user}@${remote_addr} \
