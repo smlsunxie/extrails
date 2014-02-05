@@ -39,6 +39,13 @@ class RegisterFunctionalTests extends BrowserTestCase {
 
 	    // assertRedirectUrlContains "/user/show"
 
+	    click "user-edit"
+		form('user-update') {
+			click "update"
+	    }
+		followRedirect()
+
+	    // assertRedirectUrlContains "/user/show"	    
 
 		click "user-delete"
 

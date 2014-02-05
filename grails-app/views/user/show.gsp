@@ -44,7 +44,7 @@
     <div class="btn-group" id="actionbar">
            
 
-      <g:link  class="btn btn-primary"  action="edit" id="${userInstance.id}"><g:message code="default.button.edit.label" /></g:link>
+      <g:link elementId="user-edit" class="btn btn-primary"  action="edit" id="${userInstance.id}"><g:message code="default.button.edit.label" /></g:link>
 
       <sec:ifAnyGranted roles="ROLE_ADMIN">
         <g:link class="btn btn-primary" controller="login" action="switchUser" params="[username: userInstance.username]" >切換使用者</g:link>
