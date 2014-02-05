@@ -11,7 +11,7 @@
 
       <div class="col-sm-12 col-md-12">           
 
-          <g:link class="btn btn-primary" action="edit" id="${productInstance?.id}"><g:message code="default.button.edit.label" /></g:link>
+          <g:link elementId="product-edit" class="btn btn-primary" action="edit" id="${productInstance?.id}"><g:message code="default.button.edit.label" /></g:link>
 
 
           <g:link elementId="product-delete" class="btn btn-danger" action="delete" id="${productInstance?.id}"><g:message code="default.button.delete.label" /></g:link>

@@ -41,7 +41,10 @@ class CustomerFunctionalTests extends BrowserTestCase {
 
 	    followRedirect()
 
-	    // assertRedirectUrlContains "/user/show"
+
+	    // assertRedirectUrlContains "/part/show"
+
+
 
 	    click 'user-show'
 
@@ -56,6 +59,16 @@ class CustomerFunctionalTests extends BrowserTestCase {
 	    followRedirect()
 
 	    // assertRedirectUrlContains "/product/show"
+
+	    click 'product-edit'
+	    form('product-update') {
+			click "update"
+	    }	    
+
+	    followRedirect()
+
+	    // assertRedirectUrlContains "/prdouct/show"
+
 
 	    click "event-create"
 
@@ -94,7 +107,23 @@ class CustomerFunctionalTests extends BrowserTestCase {
 	    click 'event-show-testEvent'
 
 
-	    click 'eventDetail-delete-testEventDetail'
+	    click "event-edit"
+
+	    form('event-update') {
+			click "update"
+	    }
+	    followRedirect()
+
+
+	    click "eventDetail-edit-testEventDetail"
+
+	    form('eventDetail-update') {
+			click "update"
+	    }
+	    followRedirect()
+
+
+	    click 'eventDetail-delete'
 
 	    followRedirect()
 
@@ -107,6 +136,16 @@ class CustomerFunctionalTests extends BrowserTestCase {
 	    // assertRedirectUrlContains "/product/show"
 
 	    //回到 product show，刪除產品
+
+
+	    click "product-edit"
+
+	    form('product-update') {
+			click "update"
+	    }
+	    followRedirect()
+
+
 	    click "product-delete"
 
 	    followRedirect()

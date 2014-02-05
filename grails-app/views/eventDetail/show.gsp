@@ -17,13 +17,13 @@
 
         <div class="col-sm-4 col-md-4">
 
-          <g:link class="btn btn-primary btn-large "
+          <g:link elementId="eventDetail-edit" class="btn btn-primary btn-large "
             action="edit" controller="eventDetail" id="${eventDetailInstance.id}" >
           <g:message code="default.button.edit.label" />
           </g:link>
 
 
-          <g:link class="btn btn-danger"
+          <g:link elementId="eventDetail-delete" class="btn btn-danger"
             action="delete" controller="eventDetail" id="${eventDetailInstance.id}" >
             <g:message code="default.button.delete.label" />
           </g:link> 

@@ -26,7 +26,7 @@
         
         <td>
           <g:if test="${currentUserIsEventOwner[eventInstance.id]}">
-              <g:link  class="btn btn-primary btn-xs" controller="eventDetail" action="edit" id="${eventDetailInstance.id}"><g:message code="default.button.edit.label" /></g:link>
+              <g:link elementId="eventDetail-edit-${eventDetailInstance.name}" class="btn btn-primary btn-xs" controller="eventDetail" action="edit" id="${eventDetailInstance.id}"><g:message code="default.button.edit.label" /></g:link>
               <g:link elementId="eventDetail-delete-${eventDetailInstance.name}" class="btn btn-danger btn-xs" controller="eventDetail" action="delete" id="${eventDetailInstance.id}"><g:message code="default.button.delete.label" /></g:link>
           </g:if>
           &nbsp;

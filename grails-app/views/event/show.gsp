@@ -17,7 +17,7 @@
       <g:if test="${currentUserIsEventOwner[eventInstance.id]}">
         <sec:ifAnyGranted roles="ROLE_CUSTOMER, ROLE_OPERATOR, ROLE_MANERGER">
           <div class="col-sm-3 col-md-3">
-            <g:link class="btn btn-primary btn-large "
+            <g:link elementId="event-edit" class="btn btn-primary btn-large "
               action="edit" controller="event" id="${eventInstance.id}" >
             <g:message code="default.button.edit.label" />
             </g:link>  
