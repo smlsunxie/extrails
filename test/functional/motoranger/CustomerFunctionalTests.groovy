@@ -123,7 +123,7 @@ class CustomerFunctionalTests extends BrowserTestCase {
 	    followRedirect()
 
 
-	    click 'eventDetail-delete'
+	    click 'eventDetail-delete-testEventDetail'
 
 	    followRedirect()
 

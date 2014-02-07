@@ -1,8 +1,8 @@
         <table class="table" id="no-more-tables">
           <thead>
             <tr>
-              <th width="10%"><g:message code="attachment.mainImage.label" /></th>
-              <th width="20%"><g:message code="attachment.file.name" /></th>
+              <th ><g:message code="attachment.mainImage.label" /></th>
+              <th ><g:message code="attachment.file.name" /></th>
               <g:if test="${params.domainName == 'post'}">
                 <th ><g:message code="attachment.file.link" /></th>
               </g:if>
@@ -16,7 +16,7 @@
               <tr>
 
                   <td data-title="${message(code: 'attachment.mainImage.label', default: 'mainImage')}">
-                    <g:radio name="mainImage" value="${file.name}" checked="${mainImage==file.name||(mainImage=='' && i==0) ?'true':''}" />
+                    <g:radio name="mainImage" value="${file.name}" checked="${mainImage==file.name  ?'true':''}" />
                   </td>
 
                   <td data-title="${message(code: 'ttachment.file.name"', default: 'name')}">
@@ -32,7 +32,7 @@
                   </g:if>
 
                   <td>
-                    <g:remoteLink onSuccess="displayList()" action="delete" params="[name:name, file:file.path]" update="success" class="btn">${message(code: 'default.button.delete.label', default: '刪除')}</g:remoteLink>
+                    <g:remoteLink onSuccess="displayList()" action="delete" params="[name:name, file:file.path]" update="success" class="btn btn-danger btn-xs">${message(code: 'default.button.delete.label', default: '刪除')}</g:remoteLink>
                   </td>
 
               </tr>

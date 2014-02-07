@@ -108,7 +108,7 @@ class EventDetailController {
 
         flash.message = message(code: 'default.updated.message'
             , args: [message(code: 'eventDetail.label', default: 'EventDetail'), eventDetailInstance])
-        redirect eventDetailInstance
+        redirect eventDetailInstance.head
 
 
     }

@@ -117,7 +117,23 @@
         // console.log("displayList function");
         // console.log("isMobile = "+ isMobile());
 
-        <g:remoteFunction controller='attachment' action="list" params="[name:name, mainImage: mainImage, domainName: domainName]" update="images" />
+        <g:remoteFunction controller='attachment' action="list" params="[name:name, mainImage: mainImage, domainName: domainName]" onSuccess="checkDefaultRadioSelected()" update="images" />
+      }
+
+
+      var checkDefaultRadioSelected=function(){
+        var hasChecked=false;
+        $("#mainImage").each(function() {
+          console.log($(this).val());
+          if ($(this).is(':checked')) {
+            hasChecked = true;
+          }
+        });
+        if(!hasChecked && $("#mainImage").size() > 0){
+          $("#mainImage")[0].checked = true;
+        }
+
+        console.log("hasChecked ="+ hasChecked);
       }
 
       $(function() {
