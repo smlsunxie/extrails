@@ -148,7 +148,7 @@ class EventDetailControllerSpec extends Specification {
             controller.update(eventDetail)
 
         then:"A redirect is issues to the show action"
-            response.redirectedUrl == "/eventDetail/show/"+eventDetail.id
+            response.redirectedUrl == "/event/show/"+eventDetail.head.id
             flash.message != null
     }
 
