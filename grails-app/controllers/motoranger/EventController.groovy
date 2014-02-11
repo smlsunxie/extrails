@@ -37,7 +37,6 @@ class EventController {
 
         def unfinEvent
 
-        println "======"
 
         if(params?.product?.id){
             params.product=Product.findById(params.product.id)
@@ -52,7 +51,6 @@ class EventController {
         } 
 
         def event = new Event(params)
-        println event
 
         def currentUser = userService.currentUser()
         
@@ -136,8 +134,8 @@ class EventController {
             return
         }
 
-        if(eventInstance.status==motoranger.ProductStatus.UNFIN){
-            eventInstance.product.status=motoranger.ProductStatus.END
+        if(eventInstance.status == motoranger.ProductStatus.UNFIN){
+            eventInstance.product.status = motoranger.ProductStatus.END
             eventInstance.product.save(flush:true)
         }
 

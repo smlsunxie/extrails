@@ -34,8 +34,6 @@ class StoreSecureFilters {
                     model.currentUserIsStoreOwnerOrAdmin = 
                         (currentUser?.store?.id == params.id.toLong() || userService.isAdmin())
 
-                    println "model.currentUserIsStoreOwnerOrAdmin = $model.currentUserIsStoreOwnerOrAdmin"
-
                     if(model?.unfinEvents || model?.endEvents){
 
                         model.currentUserIsEventOwner=[:]

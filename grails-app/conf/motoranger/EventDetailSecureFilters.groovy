@@ -55,7 +55,6 @@ class EventDetailSecureFilters {
         }
         save(controller:'eventDetail', action:'save') {
             before = {
-                println "params?.name = "+ params?.name
                 if(!params?.name)
                     params.name = "eventDetail-${new Date().format('yyyy')}-${new Date().format('MMddHHmmss')}"
             }

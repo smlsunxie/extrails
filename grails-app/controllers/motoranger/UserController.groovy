@@ -204,8 +204,6 @@ class UserController {
         
         def currentUser = userService.currentUser()
 
-        println currentUser
-
         if(!currentUser){
             redirect(url: '/j_spring_security_logout')
             return 

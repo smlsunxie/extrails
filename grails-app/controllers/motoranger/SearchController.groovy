@@ -48,7 +48,6 @@ class SearchController {
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER'])
     def createOrLinkProductOwner(){
-        println "params?.product?.id=" + params?.product?.id
 
         def product = Product.findById(params?.product?.id)
         def user = User.findByUsername(product?.name)

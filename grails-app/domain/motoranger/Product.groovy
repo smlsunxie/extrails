@@ -1,9 +1,5 @@
 package motoranger
 
-public enum ProductStatus {
-    UNFIN,
-    END;
-}
 
 class Product {
     static searchable =  {
