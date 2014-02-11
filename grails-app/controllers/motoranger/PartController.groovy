@@ -15,12 +15,13 @@ class PartController {
     def userService
 
     def index(){
+
         if(!params?.group)params.group = motoranger.TagGroup.CUSTOMIZED
+        
+        if(params?.group.toString() == motoranger.TagGroup.RECENT.toString() && !params?.tag){
 
-
-        if(params.group == motoranger.TagGroup.RECENT && !session?.recentPartIds ){
             session.recentPartIds = tagQueryService.getRecentPartIds()
-        }
+        } 
 
         params.recentPartIds = session.recentPartIds
 

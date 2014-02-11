@@ -15,7 +15,9 @@
     <g:message code="product.name.label" /><span class="required-mark">*</span>
   </label>
   <div class="col-sm-10">
-    <g:textField name="name" value="${productInstance?.name}" class="form-control" placeholder="請輸入你的車牌號嗎(不需要 '-' 符號)" maxlength="10" pattern="${productInstance.constraints.name.matches}" />
+%{--     <g:textField name="name" value="${productInstance?.name}" class="form-control" placeholder="請輸入你的車牌號嗎(不需要 '-' 符號)" maxlength="10" pattern="${productInstance.constraints.name.matches}" /> --}%
+
+    <g:remoteField action="checkNameExist" update="alert_placeholder" name="name" value="${productInstance?.name}" class="form-control" placeholder="請輸入你的車牌號嗎(不需要 '-' 符號)" maxlength="10" pattern="${productInstance.constraints.name.matches}" />    
   </div>
 
 </div>

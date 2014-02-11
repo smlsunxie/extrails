@@ -1,7 +1,6 @@
 package motoranger
 
 import grails.plugin.springsecurity.annotation.Secured
-
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -178,6 +177,27 @@ class ProductController {
 
         flash.message = "${fromProduct} 擁有的維修事件已搬移至 ${toProduct}"
         redirect toProduct
+    }
+
+    def checkNameExist(){
+
+
+
+
+        def product = Product.findByName(params.value)
+
+        if(product){
+
+            render "產品編號已存在 <a style='color: red;' href='/product/show/$product.id'>${product.name}</a>"
+            return 
+
+        }else {
+            render ""
+            return 
+
+        }
+
+
     }
 
 }

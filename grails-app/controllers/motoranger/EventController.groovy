@@ -104,7 +104,7 @@ class EventController {
         def event
         
         if(params?.id){
-            event=Event.findById(params.id,[sort: 'dateCreated', order: 'desc'])
+            event=Event.findById(params.id)
         }
 
         if(!params?.group)params.group = motoranger.TagGroup.CUSTOMIZED

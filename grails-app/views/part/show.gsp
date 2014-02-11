@@ -6,7 +6,7 @@
 <title>${partInstance.title}</title>
 </head>
 <body>
-  <g:if test="${userIsPartOwner}">
+  <g:if test="${currentUserIsPartOwner}">
     <div class="row" id="actionbar">
 
       <div class="col-sm-12 col-md-12">           

@@ -53,33 +53,41 @@
 
     <div class="hidden-xs">
 
-
-
-        <div class="btn-group" id="actionbar">
-
-    
-          <g:if test="${currentUserIsStoreOwnerOrAdmin}">
-
+        <g:if test="${currentUserIsStoreOwnerOrAdmin}">
+          <div class="btn-group" id="actionbar">
             <sec:ifAnyGranted roles="ROLE_ADMIN">
               <g:link  class="btn btn-primary"  action="edit" id="${storeInstance?.id}"><g:message code="default.button.edit.label" /></g:link>
 
 
               <g:link  class="btn btn-danger" action="delete" id="${storeInstance?.id}"><g:message code="default.button.delete.label" /></g:link>
             </sec:ifAnyGranted>
+          </div>
+        </g:if>
 
-            <sec:ifAnyGranted roles="ROLE_MANERGER">
-              <g:link  class="btn btn-primary" controller="user" action="create" params="['store.id': storeInstance.id]" >建立作業員</g:link>
-            </sec:ifAnyGranted>
+        <g:if test="${currentUserIsStoreOwnerOrAdmin}">
 
-            <g:link  class="btn btn-primary" controller="product" action="create" params="['store.id': storeInstance.id]"><g:message code="product.create.label"/></g:link>
+          <div class="btn-group" id="actionbar">
 
-            <g:link  class="btn btn-primary" controller="part" action="create" params="['store.id': storeInstance.id]"><g:message code="part.create.label"/></g:link>
-          </g:if>
+              <sec:ifAnyGranted roles="ROLE_MANERGER">
+                <g:link  class="btn btn-primary" controller="user" action="create" params="['store.id': storeInstance.id]" >建立作業員</g:link>
+              </sec:ifAnyGranted>
 
+              <sec:ifAnyGranted roles="ROLE_MANERGER, ROLE_OPERATOR">
+                <g:link  class="btn btn-primary" controller="product" action="create" params="['store.id': storeInstance.id]"><g:message code="product.create.label"/></g:link>
 
-          <g:link  class="btn btn-primary" controller="event" action="unfinListOfStore" params="['store.id': storeInstance.id]" >所有維修中</g:link>
+                <g:link  class="btn btn-primary" controller="part" action="create" params="['store.id': storeInstance.id]"><g:message code="part.create.label"/></g:link>
+              </sec:ifAnyGranted>
 
-          <g:link  class="btn btn-primary" controller="event" action="endListOfStore" params="['store.id': storeInstance.id]" >最近維修完成</g:link>
+            
+          </div>
+        </g:if>
+
+        <div class="btn-group" id="actionbar">
+
+    
+          <g:link  class="btn btn-danger" controller="event" action="unfinListOfStore" params="['store.id': storeInstance.id]" >所有維修中</g:link>
+
+          <g:link  class="btn btn-success" controller="event" action="endListOfStore" params="['store.id': storeInstance.id]" >最近維修完成</g:link>
 
 
         </div>

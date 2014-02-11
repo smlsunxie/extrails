@@ -16,11 +16,11 @@ class SecureFiltersService {
             ((userService.isManerger()|| userService.isOperator())
                 && currentUser?.store?.id == part?.store?.id)
 
-        model.userIsPartOwner = (isCustomerAndPartOwner 
+        model.currentUserIsPartOwner = (isCustomerAndPartOwner 
             || isManergerOrIsOperatorAndPartOwner 
             || userService.isAdmin())
 
-        if(!model.userIsPartOwner){
+        if(!model.currentUserIsPartOwner){
             part.cost = -1
         }  
 
