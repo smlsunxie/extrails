@@ -71,6 +71,7 @@ grails.project.dependency.resolution = {
         compile 'org.compass-project:compass:2.2.0'
 
         compile 'org.apache.httpcomponents:httpcore:4.2.3'
+        compile 'com.itextpdf:itext-asian:5.2.0'
 
     }
 
@@ -110,6 +111,8 @@ grails.project.dependency.resolution = {
 
         compile ":searchable:0.6.6"
         compile ":functional-test:2.0.M2"
+
+        compile ":jasper:1.7.0"
 
 
 

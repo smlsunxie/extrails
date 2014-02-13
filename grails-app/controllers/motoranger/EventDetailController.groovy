@@ -136,6 +136,9 @@ class EventDetailController {
         }else redirect(uri: request.getHeader('referer') )
 
     }
+
+
+
     protected void notFound() {
         request.withFormat {
             '*'{                 
