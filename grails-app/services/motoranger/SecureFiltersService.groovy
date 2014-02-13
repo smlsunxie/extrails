@@ -33,7 +33,6 @@ class SecureFiltersService {
 
 
         if( isNotLoggedIn || isCustomerButNotProductOwner){
-            product.name = product.name.replace(product.name.substring(2,4),"**")
             product.cost = -1
         }
 
