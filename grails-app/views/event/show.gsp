@@ -19,7 +19,7 @@
           <div class="col-sm-3 col-md-3">
 
             <div class="pull-right">
-              <g:jasperReport jasper="event" format="PDF" name="列印"  delimiter=" ">
+              <g:jasperReport jasper="event" format="HTML" name="列印"  delimiter=" ">
                 <input type="hidden" name="event_id" value="${eventInstance.id}" />
               </g:jasperReport>              
             </div>

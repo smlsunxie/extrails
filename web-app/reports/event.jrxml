@@ -7,94 +7,314 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select * from event where id=$P{event_id}]]>
+		<![CDATA[select
+
+user.username,
+user.title as user_title,
+user.telphone,
+user.mobile,
+
+product.name as product_name,
+product.title as product_title,
+product.mileage,
+
+event.date,
+event.total_price,
+
+
+event_detail.price,
+event_detail.qty,
+
+part.title as part_title
+
+
+from event
+inner join product on event.product_id = product.id
+inner join user on product.user_id = user.id
+inner join event_detail on event.id = event_detail.head_id
+inner join part on part.id = event_detail.part_id
+
+where event.id=$P{event_id}]]>
 	</queryString>
-	<field name="id" class="java.lang.Long">
+	<field name="username" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="version" class="java.lang.Long">
+	<field name="user_title" class="java.lang.String"/>
+	<field name="telphone" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="creator" class="java.lang.String">
+	<field name="mobile" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="product_name" class="java.lang.String"/>
+	<field name="product_title" class="java.lang.String"/>
+	<field name="mileage" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="date" class="java.sql.Timestamp">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="date_created" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="description" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="discount_money" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="last_updated" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="mileage" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="name" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="product_id" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="received_money" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="status" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="store_id" class="java.lang.Long">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
 	<field name="total_price" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="user_id" class="java.lang.Long">
+	<field name="price" class="java.lang.Long">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="qty" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="part_title" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
+		<band height="80" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="138" height="37" uuid="4f7f7957-c74f-424e-a8d8-875f45101442"/>
-				<textElement>
-					<font fontName="KaiShu" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				<reportElement x="199" y="0" width="157" height="30" uuid="2ca7740c-1f20-4e90-b884-2906549967ed"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
 				</textElement>
-				<text><![CDATA[估價單]]></text>
+				<text><![CDATA[估價單
+]]></text>
 			</staticText>
+			<textField pattern="yyyy/MM/dd">
+				<reportElement x="76" y="44" width="167" height="20" uuid="f12857eb-1ad1-4f13-ad67-8399aee3a828"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="44" width="164" height="20" uuid="9c2bf86c-3bc0-46c0-8be1-327eac28fb7d"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_price}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="17" y="44" width="59" height="20" uuid="5dc7029a-a105-4a87-94ad-c764aceba6a5"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[維修日期]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="44" width="59" height="20" uuid="59a6f630-08b7-4527-bad9-877c70824e33"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[維修總價]]></text>
+			</staticText>
+			<line>
+				<reportElement x="17" y="69" width="520" height="1" uuid="dda68391-0d8b-4b11-94ed-116604e83690"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
 		</band>
 	</title>
 	<pageHeader>
-		<band splitType="Stretch"/>
+		<band height="217" splitType="Stretch">
+			<textField>
+				<reportElement x="76" y="39" width="167" height="20" uuid="1bb31ae3-ccc8-4016-a94e-ffff86916bdb"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="63" width="167" height="20" uuid="330047ea-c0c4-46c6-a340-0d7e3f0707b8"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{user_title}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="39" width="164" height="20" uuid="bce32a76-6171-44b2-a8c4-35350a7eefee"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telphone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="63" width="164" height="20" uuid="638e5242-ccc2-4990-acbe-11b231e21134"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mobile}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="131" width="167" height="20" uuid="7090cff0-61d7-4e1b-9699-86414061aa8b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="131" width="164" height="20" uuid="46b975d7-6f88-419e-8f9d-1545755d85d9"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{product_title}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="151" width="167" height="20" uuid="1e163a66-74f7-4bb1-8b01-7aa3ea74a04d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mileage}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="17" y="39" width="59" height="20" uuid="12f050d1-1564-46b0-9652-7e2b7b145145"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[客戶編號]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="63" width="59" height="20" uuid="f5dd9c4d-a97b-46cd-a670-a87698d1b534"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[客戶名稱]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="131" width="59" height="20" uuid="d8b11d1c-ae6c-4710-a641-e8e443507e81"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[車牌]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="151" width="59" height="20" uuid="20a77a2a-a728-4ff0-88e3-aa8e2bc2beeb"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[里程]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="314" y="131" width="59" height="20" uuid="e56bb6d5-4e67-4fb6-9a38-c41bb2c6134a"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[車名]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="314" y="39" width="59" height="20" uuid="beaeb2a1-a3f9-47ca-b85f-9fcd73a7df00"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[電話]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="314" y="63" width="59" height="20" uuid="5d9b7d22-f5bd-4035-a7f8-6ba3ddf7de8a"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[手機]]></text>
+			</staticText>
+			<line>
+				<reportElement x="17" y="34" width="520" height="1" uuid="fde1aeb3-c2ff-4330-8c82-ec18a7929d17"/>
+				<graphicElement>
+					<pen lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="17" y="8" width="231" height="24" uuid="cd13ca5e-fd37-4321-90cd-d77b70616abc"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[顧客資訊]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="96" width="226" height="24" uuid="af5d1628-49e0-4b9e-a8c2-4b9974499382"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[產品資訊]]></text>
+			</staticText>
+			<line>
+				<reportElement x="17" y="123" width="520" height="1" uuid="cfad0716-e8cc-437d-8757-3ad71bed0718"/>
+			</line>
+			<staticText>
+				<reportElement x="17" y="183" width="226" height="24" uuid="f8bee008-4c4e-4701-a0f5-b1144314a930"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[維修項目]]></text>
+			</staticText>
+			<line>
+				<reportElement x="17" y="210" width="520" height="1" uuid="76ec6f33-e58d-48d1-9046-81481089e1b4"/>
+			</line>
+		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch">
+		<band height="35" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="100" height="20" uuid="dd731ebd-61e8-411c-811a-a16c723b3afc"/>
-				<text><![CDATA[id]]></text>
+				<reportElement x="17" y="2" width="242" height="20" uuid="c1af2994-b2bc-4c21-a273-e017bdec5fc9"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[名稱]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="273" y="2" width="100" height="20" uuid="008b305f-266b-4f21-b69c-50ecdb97704d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[數量]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="384" y="2" width="153" height="20" uuid="8656c44a-c6fc-48bb-899d-19de8195c827"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[價錢]]></text>
+			</staticText>
+			<line>
+				<reportElement x="17" y="25" width="520" height="1" uuid="a7fcf3f1-7d78-49ad-a598-4e6d0b965dba"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="33" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="100" height="20" uuid="2aef4746-45bc-49a7-a835-4e1ae3842c6d"/>
-				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+				<reportElement x="17" y="6" width="242" height="20" uuid="536fa45e-7f1c-40a4-b9bd-6ed63fdeb55d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{part_title}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="273" y="6" width="100" height="20" uuid="3f4fced6-f765-48d7-8d09-91494c95ddb4"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="384" y="6" width="153" height="20" uuid="cc7d5af9-40cd-40a2-9b63-5cb7b43f0994"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="17" y="28" width="520" height="1" uuid="5a99a24b-7ef7-4ce8-87c8-1a7c63307796"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
 		</band>
 	</detail>
 	<columnFooter>
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band splitType="Stretch"/>
