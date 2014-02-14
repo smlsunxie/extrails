@@ -30,8 +30,8 @@ part.title as part_title
 
 from event
 inner join product on event.product_id = product.id
-inner join user on product.user_id = user.id
-inner join event_detail on event.id = event_detail.head_id
+left join user on product.user_id = user.id
+left join event_detail on event.id = event_detail.head_id
 inner join part on part.id = event_detail.part_id
 
 where event.id=$P{event_id}]]>
@@ -115,49 +115,49 @@ where event.id=$P{event_id}]]>
 	</title>
 	<pageHeader>
 		<band height="217" splitType="Stretch">
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="76" y="39" width="167" height="20" uuid="1bb31ae3-ccc8-4016-a94e-ffff86916bdb"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="76" y="63" width="167" height="20" uuid="330047ea-c0c4-46c6-a340-0d7e3f0707b8"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{user_title}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="373" y="39" width="164" height="20" uuid="bce32a76-6171-44b2-a8c4-35350a7eefee"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{telphone}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="373" y="63" width="164" height="20" uuid="638e5242-ccc2-4990-acbe-11b231e21134"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{mobile}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="76" y="131" width="167" height="20" uuid="7090cff0-61d7-4e1b-9699-86414061aa8b"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="373" y="131" width="164" height="20" uuid="46b975d7-6f88-419e-8f9d-1545755d85d9"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{product_title}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="76" y="151" width="167" height="20" uuid="1e163a66-74f7-4bb1-8b01-7aa3ea74a04d"/>
 				<textElement>
 					<font size="14"/>
