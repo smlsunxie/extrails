@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="event" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" scriptletClass="motoranger.QRCodeScriptlet" uuid="9637a67f-82f0-46a8-a6a3-018ff713150d">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="133"/>
 	<parameter name="event_id" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -96,8 +96,7 @@ where event.id=$P{event_id}]]>
 				<textElement textAlignment="Center">
 					<font size="24" isBold="true"/>
 				</textElement>
-				<text><![CDATA[估價單
-]]></text>
+				<text><![CDATA[維修總表]]></text>
 			</staticText>
 			<textField pattern="yyyy/MM/dd">
 				<reportElement x="443" y="33" width="94" height="20" uuid="f12857eb-1ad1-4f13-ad67-8399aee3a828"/>

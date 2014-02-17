@@ -110,7 +110,7 @@ grails.project.dependency.resolution = {
         compile ":disqus:0.1"
 
         compile ":searchable:0.6.6"
-        compile ":functional-test:2.0.M2"
+        test ":functional-test:2.0.M2"
 
         compile ":jasper:1.7.0"
 
