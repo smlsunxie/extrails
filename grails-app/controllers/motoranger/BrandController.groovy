@@ -1,6 +1,7 @@
 package motoranger
 
 import org.springframework.dao.DataIntegrityViolationException
+import grails.plugin.springsecurity.annotation.Secured
 
 class BrandController {
 
@@ -15,10 +16,11 @@ class BrandController {
         [brandInstanceList: Brand.list(params), brandInstanceTotal: Brand.count()]
     }
 
+    @Secured(['ROLE_ADMIN'])
     def create() {
         [brandInstance: new Brand(params)]
     }
-
+    @Secured(['ROLE_ADMIN'])
     def save() {
         def brandInstance = new Brand(params)
         if (!brandInstance.save(flush: true)) {
@@ -51,7 +53,7 @@ class BrandController {
 
         [brandInstance: brandInstance]
     }
-
+    @Secured(['ROLE_ADMIN'])
     def update(Long id, Long version) {
         def brandInstance = Brand.get(id)
         if (!brandInstance) {
@@ -80,7 +82,7 @@ class BrandController {
         flash.message = message(code: 'default.updated.message', args: [message(code: 'brand.label', default: 'Brand'), brandInstance.id])
         redirect(action: "show", id: brandInstance.id)
     }
-
+    @Secured(['ROLE_ADMIN'])
     def delete(Long id) {
         def brandInstance = Brand.get(id)
         if (!brandInstance) {

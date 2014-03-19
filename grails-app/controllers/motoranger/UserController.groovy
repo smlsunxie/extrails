@@ -41,7 +41,7 @@ class UserController {
 
         respond user, model:[roles: Role.list(),storeList:storeList()]
     }
-
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER', 'ROLE_ADMIN'])
     @Transactional
     def save(User userInstance){
    
@@ -123,6 +123,7 @@ class UserController {
         respond userInstance, model: [productInstanceList: Product.findAllByUser(userInstance)]
     }
 
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER', 'ROLE_ADMIN'])
     def edit(User userInstance){
         if (userInstance == null) {
             notFound()
@@ -133,7 +134,7 @@ class UserController {
                                     ,userRoles:UserRole.findAllByUser(userInstance)
                                     ,storeList:storeList()]
     }
-
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER', 'ROLE_ADMIN'])
     @Transactional
     def update(User userInstance) {
         if (userInstance == null) {
@@ -165,7 +166,7 @@ class UserController {
     }
 
 
-
+    @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER', 'ROLE_ADMIN'])
     @Transactional
     def delete(User userInstance) {
         if (userInstance == null) {

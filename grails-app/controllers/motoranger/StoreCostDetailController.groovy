@@ -1,6 +1,7 @@
 package motoranger
 
 import org.springframework.dao.DataIntegrityViolationException
+import grails.plugin.springsecurity.annotation.Secured
 
 class StoreCostDetailController {
 
@@ -15,10 +16,12 @@ class StoreCostDetailController {
         [storeCostDetailInstanceList: StoreCostDetail.list(params), storeCostDetailInstanceTotal: StoreCostDetail.count()]
     }
 
+    @Secured(['ROLE_ADMIN'])
     def create() {
         [storeCostDetailInstance: new StoreCostDetail(params)]
     }
 
+    @Secured(['ROLE_ADMIN'])
     def save() {
         def storeCostDetailInstance = new StoreCostDetail(params)
         if (!storeCostDetailInstance.save(flush: true)) {
@@ -52,6 +55,7 @@ class StoreCostDetailController {
         [storeCostDetailInstance: storeCostDetailInstance]
     }
 
+    @Secured(['ROLE_ADMIN'])
     def update(Long id, Long version) {
         def storeCostDetailInstance = StoreCostDetail.get(id)
         if (!storeCostDetailInstance) {
@@ -81,6 +85,7 @@ class StoreCostDetailController {
         redirect(action: "show", id: storeCostDetailInstance.id)
     }
 
+    @Secured(['ROLE_ADMIN'])
     def delete(Long id) {
         def storeCostDetailInstance = StoreCostDetail.get(id)
         if (!storeCostDetailInstance) {
@@ -100,6 +105,7 @@ class StoreCostDetailController {
         }
     }
 
+    @Secured(['ROLE_ADMIN'])
     def copyPreviousMonthCostDetail(){
         def nowDate = new Date()
         params.year = nowDate.year+1900

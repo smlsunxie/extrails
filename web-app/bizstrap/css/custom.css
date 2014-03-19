@@ -22,7 +22,7 @@
 	width:128px;
 	height:26px;
 	margin:-13px 0 0 -64px;
-	background:url('../img/299.GIF') 0 0 no-repeat;
+	background:url('/bizstrap/img/299.GIF') 0 0 no-repeat;
 }
 
 .tweets-slide .slides li p{ color: #fff; padding: 0; margin: 0;}
@@ -251,19 +251,19 @@
         display: block;
     }
     .attention-sidestick {
-        background: url("../img/sticker_sidebar_yellow.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_sidebar_yellow.png") no-repeat scroll 0 0 transparent;
     }
     .white-sidestick {
-        background: url("../img/sticker_sidebar_white.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_sidebar_white.png") no-repeat scroll 0 0 transparent;
     }
     .alert-sidestick {
-        background: url("../img/sticker_sidebar_red.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_sidebar_red.png") no-repeat scroll 0 0 transparent;
     }
     .success-sidestick {
-        background: url("../img/sticker_sidebar_green.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_sidebar_green.png") no-repeat scroll 0 0 transparent;
     }
     .note-sidestick {
-        background: url("../img/sticker_sidebar_blue.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_sidebar_blue.png") no-repeat scroll 0 0 transparent;
     }
     .sidebar-stick {
         height: 187px;
@@ -561,7 +561,7 @@
     }
     #responsive-menu-button {
         display: block;
-        background: url("../img/selectnav.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/selectnav.png") no-repeat scroll 0 0 transparent;
         color: #000000;
         cursor: pointer;
         font-family: Arial;
@@ -596,19 +596,19 @@
         display: block;
     }
     .attention-sidestick {
-        background: url("../img/sticker_small_yellow.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_small_yellow.png") no-repeat scroll 0 0 transparent;
     }
     .white-sidestick {
-        background: url("../img/sticker_small_white.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_small_white.png") no-repeat scroll 0 0 transparent;
     }
     .alert-sidestick {
-        background: url("../img/sticker_small_red.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_small_red.png") no-repeat scroll 0 0 transparent;
     }
     .success-sidestick {
-        background: url("../img/sticker_small_green.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_small_green.png") no-repeat scroll 0 0 transparent;
     }
     .note-sidestick {
-        background: url("../img/sticker_small_blue.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_small_blue.png") no-repeat scroll 0 0 transparent;
     }
     .sidebar-stick {
         height: 154px;
@@ -870,7 +870,7 @@
     }
     #responsive-menu-button {
         display: block;
-        background: url("../img/selectnav.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/selectnav.png") no-repeat scroll 0 0 transparent;
         color: #000000;
         cursor: pointer;
         font-family: Arial;
@@ -901,19 +901,19 @@
         display: block;
     }
     .attention-sidestick {
-        background: url("../img/sticker_sidebar_yellow.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_sidebar_yellow.png") no-repeat scroll 0 0 transparent;
     }
     .white-sidestick {
-        background: url("../img/sticker_sidebar_white.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_sidebar_white.png") no-repeat scroll 0 0 transparent;
     }
     .alert-sidestick {
-        background: url("../img/sticker_sidebar_red.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_sidebar_red.png") no-repeat scroll 0 0 transparent;
     }
     .success-sidestick {
-        background: url("../img/sticker_sidebar_green.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_sidebar_green.png") no-repeat scroll 0 0 transparent;
     }
     .note-sidestick {
-        background: url("../img/sticker_sidebar_blue.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_sidebar_blue.png") no-repeat scroll 0 0 transparent;
     }
     .sidebar-stick {
         height: 187px;
@@ -1138,7 +1138,7 @@
     }
     #responsive-menu-button {
         display: block;
-        background: url("../img/selectnav.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/selectnav.png") no-repeat scroll 0 0 transparent;
         color: #000000;
         cursor: pointer;
         font-family: Arial;
@@ -1169,19 +1169,19 @@
         display: none;
     }
     .attention-sidestick {
-        background: url("../img/sticker_small_yellow.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_small_yellow.png") no-repeat scroll 0 0 transparent;
     }
     .white-sidestick {
-        background: url("../img/sticker_small_white.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_small_white.png") no-repeat scroll 0 0 transparent;
     }
     .alert-sidestick {
-        background: url("../img/sticker_small_red.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_small_red.png") no-repeat scroll 0 0 transparent;
     }
     .success-sidestick {
-        background: url("../img/sticker_small_green.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_small_green.png") no-repeat scroll 0 0 transparent;
     }
     .note-sidestick {
-        background: url("../img/sticker_small_blue.png") no-repeat scroll 0 0 transparent;
+        background: url("/bizstrap/img/sticker_small_blue.png") no-repeat scroll 0 0 transparent;
     }
     .sidebar-stick {
         height: 154px;
@@ -1349,7 +1349,7 @@ ul, ol {
     list-style: none;
 }
 blockquote {
-    background: url("../img/quotes.png") no-repeat scroll 5px -2px #FBFBFB;
+    background: url("/bizstrap/img/quotes.png") no-repeat scroll 5px -2px #FBFBFB;
     border-color: #F5F5F5 #ECECEC #DFDFDF;
     border-radius: 5px 5px 5px 5px;
     border-style: solid;
@@ -1391,7 +1391,7 @@ blockquote .autor {
     color: #666666;
 }
 .large-quote {
-    background: url("../img/testimonials_block_bg.gif") repeat scroll left top transparent;
+    background: url("/bizstrap/img/testimonials_block_bg.gif") repeat scroll left top transparent;
     border-radius: 0 0 0 0;
     box-shadow: none;
     min-height: 137px;
@@ -1400,7 +1400,7 @@ blockquote .autor {
     text-align: center;
 }
 .large-quote .figure-left {
-    background: transparent url("../img/figures.png") top left no-repeat;
+    background: transparent url("/bizstrap/img/figures.png") top left no-repeat;
     position: absolute;
     width: 40px;
     height: 147px;
@@ -1408,7 +1408,7 @@ blockquote .autor {
     left: 10px;
 }
 .large-quote .figure-right {
-    background: transparent url("../img/figures.png") scroll -41px 0 no-repeat;
+    background: transparent url("/bizstrap/img/figures.png") scroll -41px 0 no-repeat;
     position: absolute;
     width: 40px;
     height: 147px;
@@ -1449,52 +1449,52 @@ ul.socials li {
     height: 24px;
 }
 .socials .flickr {
-    background: transparent url('../img/socials_icons.png') top left no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') top left no-repeat;
 }
 .socials .twitter {
-    background: transparent url('../img/socials_icons.png') scroll -30px 0 no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -30px 0 no-repeat;
 }
 .socials .facebook {
-    background: transparent url('../img/socials_icons.png') scroll -60px 0 no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -60px 0 no-repeat;
 }
 .socials .youtube {
-    background: transparent url('../img/socials_icons.png') scroll -90px 0 no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -90px 0 no-repeat;
 }
 .socials .dribbble {
-    background: transparent url('../img/socials_icons.png') scroll -120px 0 no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -120px 0 no-repeat;
 }
 .socials .pinterest {
-    background: transparent url('../img/socials_icons.png') scroll -150px 0 no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -150px 0 no-repeat;
 }
 .socials .flickr:hover {
-    background: transparent url('../img/socials_icons.png') scroll 0 -24px no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll 0 -24px no-repeat;
 }
 .socials .twitter:hover {
-    background: transparent url('../img/socials_icons.png') scroll -30px -24px no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -30px -24px no-repeat;
 }
 .socials .facebook:hover {
-    background: transparent url('../img/socials_icons.png') scroll -60px -24px no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -60px -24px no-repeat;
 }
 .socials .youtube:hover {
-    background: transparent url('../img/socials_icons.png') scroll -90px -24px no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -90px -24px no-repeat;
 }
 .socials .dribbble:hover {
-    background: transparent url('../img/socials_icons.png') scroll -120px -24px no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -120px -24px no-repeat;
 }
 .socials .pinterest:hover {
-    background: transparent url('../img/socials_icons.png') scroll -150px -24px no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -150px -24px no-repeat;
 }
 .socials .linkedin {
-    background: transparent url('../img/socials_icons.png') scroll -180px 0 no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -180px 0 no-repeat;
 }
 .socials .linkedin:hover {
-    background: transparent url('../img/socials_icons.png') scroll -180px -24px no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -180px -24px no-repeat;
 }
 .socials .google_plus {
-    background: transparent url('../img/socials_icons.png') scroll -210px 0 no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -210px 0 no-repeat;
 }
 .socials .google_plus:hover {
-    background: transparent url('../img/socials_icons.png') scroll -210px -24px no-repeat;
+    background: transparent url('/bizstrap/img/socials_icons.png') scroll -210px -24px no-repeat;
 }
 ul.icons {
     list-style: none;
@@ -1633,7 +1633,7 @@ ul.icons {
     font-size: 12px;
     font-weight: normal;
     height: 27px;
-    background: #ffffff url('../img/menu_icons.png') scroll center 23px no-repeat;
+    background: #ffffff url('/bizstrap/img/menu_icons.png') scroll center 23px no-repeat;
 }
 .navbar .nav > li.single a i {
     background: none;
@@ -1795,7 +1795,7 @@ input.btn {
     padding: 0;
 }
 .carousel-caption {
-    background: transparent url("../img/slide_info_bg.png") top left repeat;
+    background: transparent url("/bizstrap/img/slide_info_bg.png") top left repeat;
     padding: 15px;
 }
 .carousel-caption h2 {
@@ -1830,7 +1830,7 @@ input.btn {
     overflow: hidden;
 }
 .portfolio-grid-1 .hp-wrapper .bottom-block {
-    background: url("../img/bottom_block_bg.png") repeat scroll left top transparent;
+    background: url("/bizstrap/img/bottom_block_bg.png") repeat scroll left top transparent;
     bottom: 0;
     height: 38px;
     left: 0;
@@ -1886,13 +1886,13 @@ input.btn {
     margin-bottom: 35px;
 }
 .testimonials-block {
-    background: transparent url("../img/testimonials_block_bg.gif") top left repeat;
+    background: transparent url("/bizstrap/img/testimonials_block_bg.gif") top left repeat;
     position: relative;
     padding: 30px 20px 10px;
     margin-bottom: 25px;
 }
 .testimonials-block .quote {
-    background: transparent url("../img/quote.png") top left no-repeat;
+    background: transparent url("/bizstrap/img/quote.png") top left no-repeat;
     position: absolute;
     width: 91px;
     height: 61px;
@@ -1993,7 +1993,7 @@ input.btn {
     padding: 12px 0 8px 10px;
 }
 #breadcrumb ul li {
-    background: url("../img/breadcrumb_icon.png") no-repeat scroll left 7px transparent;
+    background: url("/bizstrap/img/breadcrumb_icon.png") no-repeat scroll left 7px transparent;
     float: left;
     margin-left: 8px;
     padding-left: 10px;
@@ -2036,7 +2036,7 @@ input.btn {
     padding: 0 0 0 69px;
 }
 .side-nav ul li a {
-    background: url("../img/left_nav_bullets.png") no-repeat scroll 0 8px transparent;
+    background: url("/bizstrap/img/left_nav_bullets.png") no-repeat scroll 0 8px transparent;
     padding-left: 9px;
     display: block;
     font-size: 13px;
@@ -2171,7 +2171,7 @@ input.btn {
     position: relative;
 }
 .comment-table .baloon {
-    background: url("../img/baloon.gif") no-repeat scroll 7px 22px transparent;
+    background: url("/bizstrap/img/baloon.gif") no-repeat scroll 7px 22px transparent;
     border: medium none;
     width: 15px;
 }
@@ -2262,7 +2262,7 @@ div.alert {
     background-color: #ceefbe;
 }
 .alert h2 {
-    background: transparent url("../img/warning-icons.png") top left no-repeat;
+    background: transparent url("/bizstrap/img/warning-icons.png") top left no-repeat;
     padding: 3px 0 5px 35px;
     margin-bottom: 0;
 }
@@ -2352,31 +2352,31 @@ div.alert {
     margin-bottom: 0;
 }
 .note-stick {
-    background: transparent url("../img/note_stick_bg.png") top left no-repeat;
+    background: transparent url("/bizstrap/img/note_stick_bg.png") top left no-repeat;
 }
 .note-stick h2, .note-stick p {
     color: #666666;
 }
 .alert-stick {
-    background: transparent url("../img/alert_stick_bg.png") top left no-repeat;
+    background: transparent url("/bizstrap/img/alert_stick_bg.png") top left no-repeat;
 }
 .alert-stick h2, .alert-stick p {
     color: #580a0a;
 }
 .success-stick {
-    background: transparent url("../img/success_stick_bg.png") top left no-repeat;
+    background: transparent url("/bizstrap/img/success_stick_bg.png") top left no-repeat;
 }
 .success-stick h2, .success-stick p {
     color: #406230;
 }
 .info-stick {
-    background: transparent url("../img/info_stick_bg.png") top left no-repeat;
+    background: transparent url("/bizstrap/img/info_stick_bg.png") top left no-repeat;
 }
 .info-stick h2, .info-stick p {
     color: #255a6c;
 }
 .attention-stick {
-    background: transparent url("../img/attention_stick_bg.png") top left no-repeat;
+    background: transparent url("/bizstrap/img/attention_stick_bg.png") top left no-repeat;
 }
 .attention-stick h2, .attention-stick p {
     color: #96570d;
@@ -2430,7 +2430,7 @@ div.alert {
     border: none;
 }
 .accordion .accordion-toggle, .toggle-box a {
-    background: url("../img/collapse_btn.png") no-repeat scroll left 10px transparent;
+    background: url("/bizstrap/img/collapse_btn.png") no-repeat scroll left 10px transparent;
     color: #666666;
     display: block;
     font-size: 18px;
@@ -2438,7 +2438,7 @@ div.alert {
     padding: 10px 20px 10px 40px;
 }
 .accordion a.collapsed, .toggle-box .collapsed {
-    background: url("../img/collapse_btn.png") no-repeat scroll left -58px transparent;
+    background: url("/bizstrap/img/collapse_btn.png") no-repeat scroll left -58px transparent;
 }
 .accordion-heading, .tbox-heading {
     padding-left: 20px;
@@ -2552,7 +2552,7 @@ div.alert {
     color: #333333;
 }
 .flexslider .slide4 .carousel-caption {
-    background: transparent url("../img/slide4_info_bg.png") top left repeat;
+    background: transparent url("/bizstrap/img/slide4_info_bg.png") top left repeat;
 }
 .flexslider .portfolio-grid-1 .thumbnails {
     margin-bottom: 0;
@@ -2654,7 +2654,7 @@ div.alert {
     margin-bottom: 20px;
 }
 .back-to-portfolio {
-    background: url("../img/arrow_left.gif") no-repeat scroll 13px 12px #F5F5F5;
+    background: url("/bizstrap/img/arrow_left.gif") no-repeat scroll 13px 12px #F5F5F5;
     border-radius: 3px 3px 3px 3px;
     color: #666666;
     display: block;
@@ -2727,7 +2727,7 @@ div.alert {
     width: 11px;
 }
 #nav_t .flex-prev {
-    background: url("../img/tw_arrow_up.png") no-repeat scroll 0 0 transparent;
+    background: url("/bizstrap/img/tw_arrow_up.png") no-repeat scroll 0 0 transparent;
     display: block;
     height: 6px;
     left: 0;
@@ -2735,7 +2735,7 @@ div.alert {
     width: 11px;
 }
 #nav_t .flex-next {
-    background: url("../img/tw_arrow_down.png") no-repeat scroll 0 0 transparent;
+    background: url("/bizstrap/img/tw_arrow_down.png") no-repeat scroll 0 0 transparent;
     display: block;
     height: 6px;
     left: 0;
@@ -2961,7 +2961,7 @@ Inherited from li
     left:0;
     width:100%;
     height:100%;
-    background: url("../img/date_img_mask.png") 0 0 no-repeat;
+    background: url("/bizstrap/img/date_img_mask.png") 0 0 no-repeat;
     content:'';
 }
 .soft-updates .date-img * {
@@ -3096,7 +3096,7 @@ blockquote:before {
     margin-bottom: 70px;
 }
 .line_title {
-    background: url("../img/line_title_bg.gif") repeat-x scroll 0 13px transparent;
+    background: url("/bizstrap/img/line_title_bg.gif") repeat-x scroll 0 13px transparent;
     float: left;
     margin-bottom: 5px;
     text-align: center;
@@ -3237,7 +3237,7 @@ p#note {
     margin-right: 10px;
 }
 .footer-socials li .fb {
-    background: url("../img/socials.png") no-repeat scroll 0 0 transparent;
+    background: url("/bizstrap/img/socials.png") no-repeat scroll 0 0 transparent;
 }
 .coming-soon-footer .col-md-12 {
     text-align: center;
@@ -3249,19 +3249,19 @@ p#note {
     height: 32px;
 }
 .footer-socials li .tw {
-    background: url("../img/socials.png") no-repeat scroll -43px 0 transparent;
+    background: url("/bizstrap/img/socials.png") no-repeat scroll -43px 0 transparent;
 }
 .footer-socials li .in {
-    background: url("../img/socials.png") no-repeat scroll -87px 0 transparent;
+    background: url("/bizstrap/img/socials.png") no-repeat scroll -87px 0 transparent;
 }
 .footer-socials li .wf {
-    background: url("../img/socials.png") no-repeat scroll -130px 0 transparent;
+    background: url("/bizstrap/img/socials.png") no-repeat scroll -130px 0 transparent;
 }
 .footer-socials li .fl {
-    background: url("../img/socials.png") no-repeat scroll -173px 0 transparent;
+    background: url("/bizstrap/img/socials.png") no-repeat scroll -173px 0 transparent;
 }
 .footer-socials li .b {
-    background: url("../img/socials.png") no-repeat scroll -217px 0 transparent;
+    background: url("/bizstrap/img/socials.png") no-repeat scroll -217px 0 transparent;
 }
 .top_cs_line {
     background-color: #000000;

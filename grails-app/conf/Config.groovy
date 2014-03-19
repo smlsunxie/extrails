@@ -162,11 +162,10 @@ environments {
     production {
         grails.logging.jul.usebridge = false
         grails.serverURL = "http://motoranger.net"
-        //grails.serverURL = "http://dev.codecanaan.com:8080"
 
         // Using baseurl feature to enable CDN deployment
-        grails.resources.mappers.baseurl.enabled = true
-        grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
+        // grails.resources.mappers.baseurl.enabled = true
+        // grails.resources.mappers.baseurl.default = "http://cdn.motoranger.net/static"
 
         grails.aws.root = 'attachment'
         google.analytics.enabled = true
@@ -225,3 +224,4 @@ grails.plugin.springsecurity.rememberMe.persistent = true
 grails.plugin.springsecurity.rememberMe.persistentToken.domainClassName = 'motoranger.PersistentLogin'
 grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/login/success'
 
+grails.resources.rewrite.css = false
