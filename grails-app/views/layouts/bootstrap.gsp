@@ -3,8 +3,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title><g:layoutTitle default="motoranger"/> - 線上 Moto 維修記錄</title>
+<title><g:layoutTitle default="motoranger"/> - 摩托 機車 線上維修記錄</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="線上機車維修記錄，不再忘記何時加機油！自定維修項目，打造屬於你的線上維修車庫">
+
 <link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon" />
 <link rel="apple-touch-icon" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}" />
 <link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}" />

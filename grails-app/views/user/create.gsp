@@ -4,7 +4,7 @@
   <head>
     <meta name="layout" content="bootstrap">
     <g:set var="entityName" value="${message(code: 'user.label', default: 'user')}" />
-    <title><g:message code="default.create.label" args="[entityName]" /></title>
+    <title>註冊</title>
   </head>
 
   <body>

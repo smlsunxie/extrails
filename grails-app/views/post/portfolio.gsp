@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title><g:message code="post.edit.title" defualt="修改文章"/></title>
+    <title>所有文章</title>
 
 
   </head>
