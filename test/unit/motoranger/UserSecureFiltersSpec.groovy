@@ -25,8 +25,8 @@ class UserSecureFiltersSpec extends Specification {
 
 
 		UserService.metaClass.currentUser = {
-        	userA
-        }
+	        userA
+	    } 
 
     }
 
@@ -34,7 +34,34 @@ class UserSecureFiltersSpec extends Specification {
     }
 
     void "使用者權限為客戶，不可維護其他使用者"() {
+    	setup: "設定使用者未登入"
+			UserService.metaClass.currentUser = {
+		        null
+		    }
+
+		    UserService.metaClass.isCustomer = {
+	        	false
+	        }    
+		    UserService.metaClass.isAdmin = {
+	        	false
+	        } 
+
+		    def userA = User.findByUsername("userA")
+
+	    when: "進行編輯其他使用者"
+    		response.reset()
+	    	withFilters(controller:'user', action:'edit') {
+			    controller.edit(userA)
+			}
+		then: "不允許編輯"
+			assert flash.message == "未登入不允許維護使用者資料"
+
+
+
+    }
+	void "使用未登入，不允許維護使用者資料"() {
     	setup: "取得權限為客戶的使用者"
+   	
 		    UserService.metaClass.isCustomer = {
 	        	true
 	        }    
@@ -62,8 +89,6 @@ class UserSecureFiltersSpec extends Specification {
 			}
 		then: "允許編輯"
 			assert model.userInstance
-
-
-
     }
+
 }

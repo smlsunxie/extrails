@@ -11,7 +11,12 @@ class UserSecureFilters {
                 if(actionName == "edit" || actionName == "update" || actionName == "delete"|| actionName == "*"){
                     def currentUser = userService.currentUser()
 
-                    if(currentUser && userService.isCustomer()){
+                    if(!currentUser){
+                        flash.message = "未登入不允許維護使用者資料"
+                        redirect(action: "redirect", controller: "home")
+                        return false                        
+
+                    }else if(currentUser && userService.isCustomer()){
                         if(params.id.toLong() != currentUser.id){
                             flash.message = "不可維護其他使用者的資料"
                             redirect(action: "redirect", controller: "home")
