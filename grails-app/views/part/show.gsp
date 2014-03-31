@@ -24,7 +24,7 @@
     <div class="contact-info col-sm-4 col-md-4">
       <h2>外觀</h2>
 
-      <g:img uri="/attachment/show?name=${partInstance.name}&file=${partInstance.mainImage}"  class="img-thumbnail" />
+      <g:img uri="https://s3.amazonaws.com/upload.motoranger.net/attachment/${partInstance.name}/${partInstance.mainImage}" onerror="this.src='/images/notFind.jpg'" class="img-thumbnail" />      
     
     </div>
     <div class="contact-info col-sm-8 col-md-8">

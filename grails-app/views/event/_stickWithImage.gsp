@@ -2,7 +2,7 @@
 
   <a class="block-stick-img">
 
-      <g:img uri="/attachment/show?name=${eventInstance.product.name}&file=${eventInstance.product.mainImage}"  class="img-thumbnail" />
+    <g:img uri="https://s3.amazonaws.com/upload.motoranger.net/attachment/${eventInstance.product.name}/${eventInstance.product.mainImage}" onerror="this.src='/images/notFind.jpg'" class="img-thumbnail" />      
 
   </a>
 

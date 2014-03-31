@@ -3,7 +3,9 @@
 
   <div class="contact-info col-sm-4 col-md-4">
     <h2>外觀</h2>
-    <g:img uri="/attachment/show?name=${productInstance.name}&file=${productInstance.mainImage}"  class="img-thumbnail" />
+
+    <g:img uri="https://s3.amazonaws.com/upload.motoranger.net/attachment/${productInstance.name}/${productInstance.mainImage}" onerror="this.src='/images/notFind.jpg'" class="img-thumbnail" />
+
   </div>
   <div class="contact-info col-sm-4 col-md-4">
     <h2>產品資料</h2>
