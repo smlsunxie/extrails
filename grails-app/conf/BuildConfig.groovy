@@ -114,6 +114,8 @@ grails.project.dependency.resolution = {
 
         compile ":jasper:1.7.0"
 
+        compile ":cache-headers:1.1.6"
+
 
 
     }
