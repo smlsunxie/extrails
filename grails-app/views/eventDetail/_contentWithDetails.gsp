@@ -17,7 +17,7 @@
           <g:link controller="eventDetail" action="show" id="${eventDetailInstance?.id}">${eventDetailInstance?.id}</g:link>
         </td>
         <td data-title='<g:message code="part.label" />'>
-          <g:link controller="part" action="show" id="${eventDetailInstance?.part.id}">${eventDetailInstance?.part?.title}&nbsp;</g:link>
+          <g:link controller="part" action="show" id="${eventDetailInstance?.part?.id}">${eventDetailInstance?.part?.title}&nbsp;</g:link>
         </td>
           
         <td data-title='<g:message code="part.price.label" />'>

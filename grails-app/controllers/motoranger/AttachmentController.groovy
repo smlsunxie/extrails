@@ -91,13 +91,25 @@ class AttachmentController {
         // 將已編碼 URL 還原
         file = URLDecoder.decode(file)
 
-        try {
-
+        try{
             // File object = new File("${fileLocation}/${post.name}/${file}")
 
             def object = s3Service.getObject("${grailsApplication.config.grails.aws.root}/${params.name}/${file}")
-            response.contentType = "image/jpeg"
-            response.outputStream << object.dataInputStream
+
+            withCacheHeaders {
+                def image = object
+                delegate.lastModified {
+                    image.getLastModifiedDate()
+                }
+                etag {
+                    image.getKey()  
+                 }
+                generate {
+                    response.contentType = "image/jpeg"
+                    response.outputStream << image.dataInputStream
+                }
+            }
+
         }
         catch (e) {
             
@@ -106,6 +118,8 @@ class AttachmentController {
             response.outputStream << notFindImg
             // response.sendError 404
         }
+
+
     }
 
     @Secured(['ROLE_CUSTOMER', 'ROLE_OPERATOR', 'ROLE_MANERGER', 'ROLE_ADMIN'])
