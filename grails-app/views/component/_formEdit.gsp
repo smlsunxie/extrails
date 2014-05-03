@@ -1,5 +1,5 @@
 
-  <g:form name="${domainName}-update" url="[resource: domain, action:'update']" class="form-horizontal">
+  <g:form name="${domainName}-update" url="[resource: domain, action:'update']" class="form-horizontal" onsubmit="disableSubmitBtn();">
 
     <div id="actionbar" class="btn-group">
       <g:submitButton name="update" class="btn btn-primary" value="${message(code: 'default.button.update.label', default: 'update')}" />
@@ -14,10 +14,19 @@
 
 
     <div id="actionbar" class="btn-group">
-      <g:submitButton name="create" class="btn btn-primary" value="${message(code: 'default.button.update.label', default: 'update')}" />
+      <g:submitButton name="update" class="btn btn-primary" value="${message(code: 'default.button.update.label', default: 'update')}" />
 
       <g:link action='show' id="${domainId}" class="btn btn-default">${message(code: 'default.button.cancel.label', default: 'Cancel')}</g:link>
     </div>
 
   </g:form>
 
+  <r:script>
+    function disableSubmitBtn(){
+      document.getElementsByName('update')[0].disabled = 1;
+      document.getElementsByName('update')[1].disabled = 1;
+
+    }
+
+
+  </r:script>

@@ -98,8 +98,8 @@ loglink:
 
 #dbCreate = "create" 必須使用實體 db ex:mysql
 db-changelog-init:
-	grails -Dgrails.env=dbdiff dbm-generate-gorm-changelog changelog.groovy 
-	
+	grails -Dgrails.env=dbdiff dbm-generate-gorm-changelog changelog.groovy
+
 
 #remove dbCreate = "create"
 db-changelog-sync:
@@ -125,3 +125,6 @@ db-done:
 
 db-done-remote:
 	grails -Dgrails.env=motorangerDbUpdate dbm-update
+
+run:
+	ls
