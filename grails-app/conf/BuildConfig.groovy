@@ -78,7 +78,7 @@ grails.project.dependency.resolution = {
     plugins {
         // plugins for the build system only
         build ':tomcat:7.0.52.1'
-        
+
 
         // plugins for the compile step
         compile ":scaffolding:2.0.2"
@@ -94,7 +94,7 @@ grails.project.dependency.resolution = {
 
         // add plugin
         // compile ':spring-security-core:1.2.7.3'
-        compile ":spring-security-core:2.0-RC2"
+        compile ":spring-security-core:2.0-RC4"
 
         runtime ':jquery-ui:1.8.24'
 
